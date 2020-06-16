@@ -7,19 +7,23 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\HasLifecycleCallbacks()
+ * @package App\Entity
+ */
 trait TimestampTrait
 {
     /**
      * @var DateTime the date when this element was modified the last time
-     * @ORM\Column(type="datetime", name="last_modified", options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
-    protected $lastModified;
+    protected $last_modified;
 
     /**
      * @var DateTime the date when this element was created
-     * @ORM\Column(type="datetime", name="datetime_added", options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * Helper for updating the timestamp. It is automatically called by doctrine before persisting.
@@ -29,9 +33,9 @@ trait TimestampTrait
      */
     public function updateTimestamps(): void
     {
-        $this->lastModified = new DateTime('now');
-        if (null === $this->creationDate) {
-            $this->creationDate = new DateTime('now');
+        $this->last_modified = new DateTime('now');
+        if (null === $this->creation_date) {
+            $this->creation_date = new DateTime('now');
         }
     }
 
@@ -41,15 +45,15 @@ trait TimestampTrait
      */
     public function getCreationDate(): ?\DateTime
     {
-        return $this->creationDate;
+        return $this->creation_date;
     }
 
     /**
      * Returns the datetime this element was last time modified. Returns null, if it was not persisted yet.
      * @return \DateTime|null
      */
-    public function getLastModifiedDate(): ?\DateTime
+    public function getLastModified(): ?\DateTime
     {
-        return $this->lastModified;
+        return $this->last_modified;
     }
 }

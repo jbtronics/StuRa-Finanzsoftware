@@ -36,15 +36,21 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     /**
      * @ORM\Column(type="string")
      * @Assert\Choice(choices=Department::ALLOWED_TYPES)
-     * @var string
+     * @var string|null
      */
     private $type;
+
+    /**
+     * @var bool If an FSR is blocked it can not submit new payment orders
+     * @ORM\Column(type="boolean")
+     */
+    private $blocked = false;
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -63,24 +69,19 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * Checks if this department is blocked. If it is blocked it can not create new PaymentOrders...
      * @return bool
      */
-    public function isIsBlocked(): bool
+    public function isBlocked(): bool
     {
-        return $this->is_blocked;
+        return $this->blocked;
     }
 
     /**
      * @param  bool  $is_blocked
      */
-    public function setIsBlocked(bool $is_blocked): self
+    public function setBlocked(bool $is_blocked): self
     {
-        $this->is_blocked = $is_blocked;
+        $this->blocked = $is_blocked;
         return $this;
     }
-
-    /**
-     * @var bool If an FSR is blocked it can not submit new payment orders
-     */
-    private $is_blocked = false;
 
     public function getId(): ?int
     {

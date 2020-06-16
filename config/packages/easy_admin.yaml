@@ -1,0 +1,49 @@
+easy_admin:
+
+    site_name: "StuRa Finanzen"
+
+    entities:
+        Department:
+            class: App\Entity\Department
+            label: 'department.label'
+            help: 'department.help'
+            list:
+                fields:
+                    - property: 'id'
+                      label: 'department.id.label'
+                    - property: 'name'
+                      label: 'department.name.label'
+                    - property: 'type'
+                      label: 'department.type.label'
+                      template: 'admin/department/field_choice.html.twig'
+                    - property: 'blocked'
+                      label: 'department.blocked.label'
+                    - property: 'last_modified'
+
+            form:
+                fields:
+                    - property: 'name'
+                      label: 'department.name.label'
+                    - property: 'type'
+                      label: 'department.type.label'
+                      type: 'choice'
+                      type_options:
+                        choices:
+                            'department.type.fsr': 'fsr'
+                            'department.type.section': 'section'
+                            'department.type.misc': 'misc'
+                    - property: 'blocked'
+                      label: 'department.blocked.label'
+                      help: 'department.blocked.help'
+                    - property: 'last_modified'
+                      type_options:
+                        disabled: true
+                    - property: 'creation_date'
+                      type_options:
+                        disabled: true
+
+
+
+#        # List the entity class name you want to manage
+#        - App\Entity\Product
+#        - App\Entity\User

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
+  <file id="messages.de">
+    <unit id="E2ncJ4t" name="department.type.fsr">
+      <segment>
+        <source>department.type.fsr</source>
+        <target>FSR</target>
+      </segment>
+    </unit>
+    <unit id="YiUUE7z" name="department.type.section">
+      <segment>
+        <source>department.type.section</source>
+        <target>Referat</target>
+      </segment>
+    </unit>
+    <unit id="nsmevWx" name="department.type.misc">
+      <segment>
+        <source>department.type.misc</source>
+        <target>Sonstiges</target>
+      </segment>
+    </unit>
+    <unit id="icN11_8" name="department.name.label">
+      <segment>
+        <source>department.name.label</source>
+        <target>Name</target>
+      </segment>
+    </unit>
+    <unit id="cth0tHM" name="department.type.label">
+      <segment>
+        <source>department.type.label</source>
+        <target>Typ</target>
+      </segment>
+    </unit>
+    <unit id="3VFuvCg" name="department.blocked.label">
+      <segment>
+        <source>department.blocked.label</source>
+        <target>Blockiert</target>
+      </segment>
+    </unit>
+    <unit id="l6BhnYm" name="department.blocked.help">
+      <segment>
+        <source>department.blocked.help</source>
+        <target>Blockierte FSRe können keine Zahlungsaufträge einreichen und erhalten einen Hinweis den FSB zu kontaktieren.</target>
+      </segment>
+    </unit>
+    <unit id="UzElk4s" name="department.label">
+      <segment>
+        <source>department.label</source>
+        <target>Organisation</target>
+      </segment>
+    </unit>
+    <unit id="irZlgo9" name="department.help">
+      <segment>
+        <source>department.help</source>
+        <target>Organisationen repräsentieren die verschiedenen Strukturen innerhalb der Studierendenschaft (z.B. FSRe oder die verschiedenen Referate).</target>
+      </segment>
+    </unit>
+    <unit id="CxOlLnk" name="department.id.label">
+      <segment>
+        <source>department.id.label</source>
+        <target>ID</target>
+      </segment>
+    </unit>
+    <unit id="D_EFj_u" name="Last modified">
+      <segment>
+        <source>Last modified</source>
+        <target>Zuletzt bearbeitet</target>
+      </segment>
+    </unit>
+    <unit id="bk0LHGc" name="Creation date">
+      <segment>
+        <source>Creation date</source>
+        <target>Erstellungsdatum</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

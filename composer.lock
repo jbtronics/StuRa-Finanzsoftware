@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb239b9b013ba364b59dc34e1a1ea134",
+    "content-hash": "73a49771b90f3ee2342ce34f847b9755",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1216,6 +1216,91 @@
             "time": "2020-05-29T18:32:49+00:00"
         },
         {
+            "name": "easycorp/easyadmin-bundle",
+            "version": "v2.3.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
+                "reference": "054efdb6d3f073508be657586406b0eed2a08a41"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/054efdb6d3f073508be657586406b0eed2a08a41",
+                "reference": "054efdb6d3f073508be657586406b0eed2a08a41",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.8",
+                "doctrine/doctrine-bundle": "^1.8|^2.0",
+                "doctrine/orm": "^2.6.3",
+                "doctrine/persistence": "^1.3.4",
+                "pagerfanta/pagerfanta": "^1.0.1|^2.0",
+                "php": "^7.1.3",
+                "symfony/asset": "^4.2|^5.0",
+                "symfony/cache": "^4.2|^5.0",
+                "symfony/config": "^4.2|^5.0",
+                "symfony/dependency-injection": "^4.2|^5.0",
+                "symfony/doctrine-bridge": "^4.2|^5.0",
+                "symfony/error-handler": "^4.4|^5.0",
+                "symfony/event-dispatcher": "^4.2|^5.0",
+                "symfony/expression-language": "^4.2|^5.0",
+                "symfony/finder": "^4.2|^5.0",
+                "symfony/form": "^4.2|^5.0",
+                "symfony/framework-bundle": "^4.2|^5.0",
+                "symfony/http-foundation": "^4.2|^5.0",
+                "symfony/http-kernel": "^4.3.7|^5.0",
+                "symfony/polyfill-mbstring": "^1.7",
+                "symfony/property-access": "^4.2|^5.0",
+                "symfony/security-bundle": "^4.2|^5.0",
+                "symfony/translation": "^4.2|^5.0",
+                "symfony/twig-bridge": "^4.2|^5.0",
+                "symfony/twig-bundle": "^4.2|^5.0",
+                "symfony/validator": "^4.2|^5.0",
+                "twig/twig": "^2.11.3|^3.0"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "^1.3",
+                "doctrine/doctrine-fixtures-bundle": "^3.0",
+                "psr/log": "~1.0",
+                "symfony/browser-kit": "^4.2|^5.0",
+                "symfony/console": "^4.2|^5.0",
+                "symfony/css-selector": "^4.2|^5.0",
+                "symfony/dom-crawler": "^4.2|^5.0",
+                "symfony/phpunit-bridge": "^4.3.5|^5.0",
+                "symfony/var-dumper": "^4.2|^5.0",
+                "symfony/yaml": "^4.2|^5.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EasyCorp\\Bundle\\EasyAdminBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Project Contributors",
+                    "homepage": "https://github.com/EasyCorp/EasyAdminBundle/blob/master/CONTRIBUTORS.md"
+                }
+            ],
+            "description": "Admin generator for Symfony applications",
+            "homepage": "https://github.com/EasyCorp/EasyAdminBundle",
+            "keywords": [
+                "admin",
+                "backend",
+                "generator"
+            ],
+            "time": "2020-06-14T17:11:08+00:00"
+        },
+        {
             "name": "egulias/email-validator",
             "version": "2.1.17",
             "source": {
@@ -1355,6 +1440,105 @@
             "time": "2020-05-22T08:12:19+00:00"
         },
         {
+            "name": "nikic/php-parser",
+            "version": "v4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/53c2753d756f5adb586dca79c2ec0e2654dd9463",
+                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "0.0.5",
+                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2020-06-03T07:24:19+00:00"
+        },
+        {
+            "name": "nyholm/nsa",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/NSA.git",
+                "reference": "2606ebf15fb24e15a8ca8d02977ad77082d391ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/NSA/zipball/2606ebf15fb24e15a8ca8d02977ad77082d391ef",
+                "reference": "2606ebf15fb24e15a8ca8d02977ad77082d391ef",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "webmozart/assert": "^1.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "description": "See everything and do whatever you want. No privacy rule will stop us. Used in tests, debugging and fixtures to access properties and methods.",
+            "homepage": "http://tnyholm.se",
+            "keywords": [
+                "Fixture",
+                "debug",
+                "reflection",
+                "test"
+            ],
+            "time": "2020-06-05T07:41:45+00:00"
+        },
+        {
             "name": "ocramius/package-versions",
             "version": "1.4.2",
             "source": {
@@ -1473,6 +1657,289 @@
                 "service proxies"
             ],
             "time": "2019-08-10T08:37:15+00:00"
+        },
+        {
+            "name": "pagerfanta/pagerfanta",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BabDev/Pagerfanta.git",
+                "reference": "fd00eb74632fecc0265327e9fe0eddc08c72b238"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/fd00eb74632fecc0265327e9fe0eddc08c72b238",
+                "reference": "fd00eb74632fecc0265327e9fe0eddc08c72b238",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2",
+                "symfony/deprecation-contracts": "^2.1"
+            },
+            "require-dev": {
+                "doctrine/collections": "^1.4",
+                "doctrine/dbal": "^2.5",
+                "doctrine/orm": "^2.5",
+                "doctrine/phpcr-odm": "^1.3",
+                "friendsofphp/php-cs-fixer": "^2.16.3",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "mandango/mandango": "^1.0@dev",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "propel/propel": "^2.0@dev",
+                "propel/propel1": "^1.7",
+                "ruflin/elastica": "^1.3 || ^2.0 || ^3.0 || ^5.0 || ^6.0",
+                "solarium/solarium": "^2.3 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "suggest": {
+                "doctrine/collections": "To use the Doctrine Collection and Selectable adapter.",
+                "doctrine/dbal": "To use the Doctrine DBAL adapters.",
+                "doctrine/mongodb-odm": "To use the Doctrine MongoDB ODM Adapter.",
+                "doctrine/orm": "To use the Doctrine ORM Adapter.",
+                "doctrine/phpcr-odm": "To use the Doctrine PHPCR ODM Adapter.",
+                "solarium/solarium": "To use the SolariumAdapter."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pagerfanta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Pagination for PHP",
+            "keywords": [
+                "page",
+                "pagination",
+                "paginator",
+                "paging"
+            ],
+            "time": "2020-06-09T15:25:12+00:00"
+        },
+        {
+            "name": "php-translation/common",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-translation/common.git",
+                "reference": "b786f49d7f222ca345b0e4c32d4a205a845b0e27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-translation/common/zipball/b786f49d7f222ca345b0e4c32d4a205a845b0e27",
+                "reference": "b786f49d7f222ca345b0e4c32d4a205a845b0e27",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2",
+                "symfony/translation": " ^3.4 || ^4.3 || ^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.4",
+                "symfony/phpunit-bridge": "^4.3 || ^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Translation\\Common\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "description": "Common translation stuff",
+            "time": "2020-01-18T09:48:23+00:00"
+        },
+        {
+            "name": "php-translation/extractor",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-translation/extractor.git",
+                "reference": "e2703aea3a35361bd9e3130253c8a82c14119f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-translation/extractor/zipball/e2703aea3a35361bd9e3130253c8a82c14119f10",
+                "reference": "e2703aea3a35361bd9e3130253c8a82c14119f10",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "^1.2",
+                "nikic/php-parser": "^3.0 || ^4.0",
+                "php": "^7.2",
+                "symfony/finder": "^3.4 || ^4.3 || ^5.0",
+                "twig/twig": "^2.0 || ^3.0"
+            },
+            "require-dev": {
+                "knplabs/knp-menu": "^3.1",
+                "phpunit/phpunit": "^8.4",
+                "symfony/phpunit-bridge": "^5.0",
+                "symfony/translation": "^3.4 || ^4.3 || ^5.0",
+                "symfony/twig-bridge": "^3.4 || ^4.3 || ^5.0",
+                "symfony/validator": "^3.4 || ^4.3 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Translation\\Extractor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "description": "Extract translations form the source code",
+            "time": "2020-06-10T08:44:05+00:00"
+        },
+        {
+            "name": "php-translation/symfony-bundle",
+            "version": "0.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-translation/symfony-bundle.git",
+                "reference": "7fbc991062d6cf7d862122d07428adfa972fce78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-translation/symfony-bundle/zipball/7fbc991062d6cf7d862122d07428adfa972fce78",
+                "reference": "7fbc991062d6cf7d862122d07428adfa972fce78",
+                "shasum": ""
+            },
+            "require": {
+                "nyholm/nsa": "^1.1",
+                "php": "^7.1",
+                "php-translation/extractor": "^2.0",
+                "php-translation/symfony-storage": "^2.1",
+                "symfony/finder": "^3.4 || ^4.3 || ^5.0",
+                "symfony/framework-bundle": "^3.4 || ^4.3 || ^5.0",
+                "symfony/intl": "^3.4 || ^4.3 || ^5.0",
+                "symfony/translation": "^3.4 || ^4.3 || ^5.0",
+                "symfony/twig-bundle": "^3.4 || ^4.3 || ^5.0",
+                "symfony/validator": "^3.4 || ^4.3 || ^5.0",
+                "twig/twig": "^2.11 || ^3.0"
+            },
+            "conflict": {
+                "symfony/config": "<3.4.31"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-config-test": "^4.1",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+                "nyholm/psr7": "^1.1",
+                "nyholm/symfony-bundle-test": "^1.6.1",
+                "php-http/curl-client": "^1.7",
+                "php-http/message": "^1.6",
+                "php-http/message-factory": "^1.0.2",
+                "php-translation/translator": "^1.0",
+                "phpunit/phpunit": "^8.4",
+                "symfony/asset": "^3.4 || ^4.3 || ^5.0",
+                "symfony/console": "^3.4 || ^4.3 || ^5.0",
+                "symfony/dependency-injection": "^3.4 || ^4.3 || ^5.0",
+                "symfony/phpunit-bridge": "^4.4 || ^5.0",
+                "symfony/twig-bridge": "^3.4 || ^4.3 || ^5.0",
+                "symfony/web-profiler-bundle": "^3.4 || ^4.3 || ^5.0"
+            },
+            "suggest": {
+                "php-http/httplug-bundle": "To easier configure your httplug clients."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Translation\\Bundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "time": "2020-02-25T16:44:05+00:00"
+        },
+        {
+            "name": "php-translation/symfony-storage",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-translation/symfony-storage.git",
+                "reference": "9d6e34d6ed662a6438365bc891768b701fdd6c24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-translation/symfony-storage/zipball/9d6e34d6ed662a6438365bc891768b701fdd6c24",
+                "reference": "9d6e34d6ed662a6438365bc891768b701fdd6c24",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2",
+                "php-translation/common": "^3.0",
+                "symfony/translation": "^3.4 || ^4.2 || ^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.4",
+                "symfony/framework-bundle": " ^3.4 || ^4.2 || ^5.0",
+                "symfony/phpunit-bridge": "^4.2 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Translation\\SymfonyStorage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "description": "A translation file storage using Symfony translation component.",
+            "time": "2020-02-11T12:49:11+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -6311,58 +6778,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "nikic/php-parser",
-            "version": "v4.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/53c2753d756f5adb586dca79c2ec0e2654dd9463",
-                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "0.0.5",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "time": "2020-06-03T07:24:19+00:00"
-        },
         {
             "name": "symfony/browser-kit",
             "version": "v5.1.2",

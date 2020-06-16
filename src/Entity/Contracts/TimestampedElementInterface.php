@@ -16,5 +16,5 @@ interface TimestampedElementInterface
      * Returns the datetime this element was last time modified. Returns null, if it was not persisted yet.
      * @return \DateTime|null
      */
-    public function getLastModifiedDate(): ?\DateTime;
+    public function getLastModified(): ?\DateTime;
 }
