@@ -64,12 +64,12 @@ class BankAccountInfo
      * @var string
      * @ORM\Column("string")
      */
-    private $reference;
+    private $reference = "";
 
     /**
      * @return string
      */
-    public function getAccountOwner(): string
+    public function getAccountOwner(): ?string
     {
         return $this->account_owner;
     }
@@ -87,7 +87,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getStreet(): string
+    public function getStreet(): ?string
     {
         return $this->street;
     }
@@ -105,7 +105,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getZipCode(): string
+    public function getZipCode(): ?string
     {
         return $this->zip_code;
     }
@@ -123,7 +123,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -141,7 +141,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getIban(): string
+    public function getIban(): ?string
     {
         return $this->iban;
     }
@@ -159,7 +159,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getBic(): string
+    public function getBic(): ?string
     {
         return $this->bic;
     }
@@ -177,7 +177,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getBankName(): string
+    public function getBankName(): ?string
     {
         return $this->bank_name;
     }
@@ -195,7 +195,7 @@ class BankAccountInfo
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }

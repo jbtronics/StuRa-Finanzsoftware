@@ -3,6 +3,128 @@ easy_admin:
     site_name: "StuRa Finanzen"
 
     entities:
+
+        PaymentOrder:
+            class: App\Entity\PaymentOrder
+            label: 'payment_order.label'
+
+            list:
+              fields:
+                - property: 'id'
+                  label: 'payment_order.id.label'
+                - property: 'project_name'
+                  label: 'payment_order.project_name.label'
+                - property: 'department.name'
+                  label: 'payment_order.department.label'
+                - property: 'amount'
+                  label: 'payment_order.amount.label'
+
+                - property: 'mathematically_correct'
+                  label: 'payment_order.mathematically_correct.label'
+                  help: 'payment_order.mathematically_correct.help'
+
+                - property: 'factually_correct'
+                  label: 'payment_order.factually_correct.label'
+                  help: 'payment_order.factually_correct.help'
+
+
+            form:
+              fields:
+                - { type: 'tab' , label: 'payment_order.tab.basic' }
+
+                - property: 'first_name'
+                  label: 'payment_order.first_name.label'
+                  type_options:
+                    attr:
+                      placeholder: 'payment_order.first_name.placeholder'
+
+                - property: 'last_name'
+                  label: 'payment_order.last_name.label'
+                  type_options:
+                    attr:
+                     placeholder: 'payment_order.last_name.placeholder'
+
+                - property: 'department'
+                  label: 'payment_order.department.label'
+                  type: 'entity'
+                  type_options:
+                    attr:
+                     placeholder: 'select.choose_value'
+
+                - property: 'amount'
+                  label: 'payment_order.amount.label'
+                  type: 'money'
+                  type_options:
+                    divisor: 100
+                    currency: 'EUR'
+                    attr:
+                      placeholder: 'payment_order.amount.placeholder'
+
+                - property: 'project_name'
+                  label: 'payment_order.project_name.label'
+                  type_options:
+                    attr:
+                      placeholder: 'payment_order.project_name.placeholder'
+
+                - property: 'mathematically_correct'
+                  label: 'payment_order.mathematically_correct.label'
+                  help: 'payment_order.mathematically_correct.help'
+
+                - property: 'factually_correct'
+                  label: 'payment_order.factually_correct.label'
+                  help: 'payment_order.factually_correct.help'
+
+                - { type: 'tab' , label: 'payment_order.tab.bank_account' }
+
+                - property: 'bank_info.account_owner'
+                  label: 'bank_info.account_owner.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.account_owner.placeholder'
+
+                - property: 'bank_info.street'
+                  label: 'bank_info.street.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.street.placeholder'
+
+                - property: 'bank_info.zip_code'
+                  label: 'bank_info.zip_code.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.zip_code.placeholder'
+
+                - property: 'bank_info.city'
+                  label: 'bank_info.city.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.city.placeholder'
+
+                - property: 'bank_info.iban'
+                  label: 'bank_info.iban.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.iban.placeholder'
+
+                - property: 'bank_info.bic'
+                  label: 'bank_info.bic.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.bic.placeholder'
+
+                - property: 'bank_info.bank_name'
+                  label: 'bank_info.bank_name.label'
+                  type_options:
+                    attr:
+                      placeholder: 'bank_info.bank_name.placeholder'
+
+                - property: 'bank_info.reference'
+                  label: 'bank_info.reference.label'
+                  type_options:
+                    required: false
+                    attr:
+                      placeholder: 'bank_info.reference.placeholder'
+
         Department:
             class: App\Entity\Department
             label: 'department.label'

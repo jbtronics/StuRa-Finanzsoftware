@@ -73,5 +73,209 @@
         <target>Erstellungsdatum</target>
       </segment>
     </unit>
+    <unit id="SX4qX8Q" name="payment_order.amount.label">
+      <segment>
+        <source>payment_order.amount.label</source>
+        <target>Betrag</target>
+      </segment>
+    </unit>
+    <unit id="vJEF49c" name="payment_order.label">
+      <segment>
+        <source>payment_order.label</source>
+        <target>Zahlungsauftrag</target>
+      </segment>
+    </unit>
+    <unit id="jDgAkFp" name="payment_order.department.label">
+      <segment>
+        <source>payment_order.department.label</source>
+        <target>Struktur / Organisation</target>
+      </segment>
+    </unit>
+    <unit id="1QzYM50" name="select.choose_value">
+      <segment>
+        <source>select.choose_value</source>
+        <target>Bitte wählen Sie ein Element aus</target>
+      </segment>
+    </unit>
+    <unit id="fpNoBgB" name="payment_order.tab.basic">
+      <segment>
+        <source>payment_order.tab.basic</source>
+        <target>Allgemeine Informationen</target>
+      </segment>
+    </unit>
+    <unit id="slBrlP3" name="payment_order.tab.bank_account">
+      <segment>
+        <source>payment_order.tab.bank_account</source>
+        <target>Kontodaten</target>
+      </segment>
+    </unit>
+    <unit id="Y3IVpQ4" name="payment_order.first_name.label">
+      <segment>
+        <source>payment_order.first_name.label</source>
+        <target>Vorname</target>
+      </segment>
+    </unit>
+    <unit id="Ykc_Dks" name="payment_order.last_name.label">
+      <segment>
+        <source>payment_order.last_name.label</source>
+        <target>Nachname</target>
+      </segment>
+    </unit>
+    <unit id="czR285_" name="payment_order.project_name.label">
+      <segment>
+        <source>payment_order.project_name.label</source>
+        <target>Projektbezeichnung</target>
+      </segment>
+    </unit>
+    <unit id="7MzlP5Q" name="payment_order.mathematically_correct.label">
+      <segment>
+        <source>payment_order.mathematically_correct.label</source>
+        <target>Rechnerisch richtig</target>
+      </segment>
+    </unit>
+    <unit id="SkKFOJa" name="payment_order.mathematically_correct.help">
+      <segment>
+        <source>payment_order.mathematically_correct.help</source>
+        <target>Vom Kassenverantwortlichen auszufüllen</target>
+      </segment>
+    </unit>
+    <unit id="bJmAsPw" name="payment_order.factually_correct.label">
+      <segment>
+        <source>payment_order.factually_correct.label</source>
+        <target>Sachlich richtig</target>
+      </segment>
+    </unit>
+    <unit id="CHPgi0H" name="payment_order.factually_correct.help">
+      <segment>
+        <source>payment_order.factually_correct.help</source>
+        <target>Vom Haushaltsverantwortlichem auszufüllen</target>
+      </segment>
+    </unit>
+    <unit id="h1gnEkF" name="bank_info.account_owner.label">
+      <segment>
+        <source>bank_info.account_owner.label</source>
+        <target>Kontoinhaber*in</target>
+      </segment>
+    </unit>
+    <unit id="60RXclF" name="bank_info.street.label">
+      <segment>
+        <source>bank_info.street.label</source>
+        <target>Straße/Nr.</target>
+      </segment>
+    </unit>
+    <unit id="onfTzQS" name="bank_info.zip_code.label">
+      <segment>
+        <source>bank_info.zip_code.label</source>
+        <target>PLZ</target>
+      </segment>
+    </unit>
+    <unit id="OEDC6l7" name="bank_info.city.label">
+      <segment>
+        <source>bank_info.city.label</source>
+        <target>Stadt</target>
+      </segment>
+    </unit>
+    <unit id="fX4n4mK" name="bank_info.iban.label">
+      <segment>
+        <source>bank_info.iban.label</source>
+        <target>IBAN</target>
+      </segment>
+    </unit>
+    <unit id="eusURAT" name="bank_info.bank_name.label">
+      <segment>
+        <source>bank_info.bank_name.label</source>
+        <target>Bank</target>
+      </segment>
+    </unit>
+    <unit id="6riBiSg" name="bank_info.reference.label">
+      <segment>
+        <source>bank_info.reference.label</source>
+        <target>Verwendungszweck</target>
+      </segment>
+    </unit>
+    <unit id="mFnw95z" name="bank_info.bic.label">
+      <segment>
+        <source>bank_info.bic.label</source>
+        <target>BIC</target>
+      </segment>
+    </unit>
+    <unit id="DsIXCSB" name="payment_order.first_name.placeholder">
+      <segment>
+        <source>payment_order.first_name.placeholder</source>
+        <target>Max</target>
+      </segment>
+    </unit>
+    <unit id="4o8ji0f" name="payment_order.last_name.placeholder">
+      <segment>
+        <source>payment_order.last_name.placeholder</source>
+        <target>Musterfrau</target>
+      </segment>
+    </unit>
+    <unit id="SeEEXRc" name="payment_order.amount.placeholder">
+      <segment>
+        <source>payment_order.amount.placeholder</source>
+        <target>123,40</target>
+      </segment>
+    </unit>
+    <unit id="wl74CxY" name="payment_order.project_name.placeholder">
+      <segment>
+        <source>payment_order.project_name.placeholder</source>
+        <target>Ersti-Party</target>
+      </segment>
+    </unit>
+    <unit id="afbmWOm" name="bank_info.account_owner.placeholder">
+      <segment>
+        <source>bank_info.account_owner.placeholder</source>
+        <target>Erika Mustermann</target>
+      </segment>
+    </unit>
+    <unit id="rp8Ufr4" name="bank_info.street.placeholder">
+      <segment>
+        <source>bank_info.street.placeholder</source>
+        <target>Musterstraße 3b</target>
+      </segment>
+    </unit>
+    <unit id="Q1hZbAH" name="bank_info.zip_code.placeholder">
+      <segment>
+        <source>bank_info.zip_code.placeholder</source>
+        <target>07747</target>
+      </segment>
+    </unit>
+    <unit id="cjeN9X3" name="bank_info.city.placeholder">
+      <segment>
+        <source>bank_info.city.placeholder</source>
+        <target>Jena</target>
+      </segment>
+    </unit>
+    <unit id="6Sv4Ptz" name="bank_info.iban.placeholder">
+      <segment>
+        <source>bank_info.iban.placeholder</source>
+        <target>DE12 0000 0000 0000 1234 00</target>
+      </segment>
+    </unit>
+    <unit id="m1iUAKu" name="bank_info.bic.placeholder">
+      <segment>
+        <source>bank_info.bic.placeholder</source>
+        <target>MARKDEF1820</target>
+      </segment>
+    </unit>
+    <unit id="qXiphLD" name="bank_info.bank_name.placeholder">
+      <segment>
+        <source>bank_info.bank_name.placeholder</source>
+        <target>Musterbank Jena</target>
+      </segment>
+    </unit>
+    <unit id="sdGlPuZ" name="bank_info.reference.placeholder">
+      <segment>
+        <source>bank_info.reference.placeholder</source>
+        <target>Rückzahlung Erst-Party</target>
+      </segment>
+    </unit>
+    <unit id="sVK1lZ3" name="payment_order.id.label">
+      <segment>
+        <source>payment_order.id.label</source>
+        <target>ID</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

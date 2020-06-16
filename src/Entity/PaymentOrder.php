@@ -29,6 +29,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @var BankAccountInfo
      * @ORM\Embedded(class="App\Entity\Embeddable\BankAccountInfo")
+     * @Assert\Valid()
      */
     private $bank_info;
 
@@ -37,46 +38,48 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
-    private $first_name;
+    private $first_name = "";
 
     /**
      * @var string "Nachname"
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
-    private $last_name;
+    private $last_name = "";
 
     /**
      * @var Department "Struktur/Organisation"
      * @ORM\ManyToOne(targetEntity="App\Entity\Department")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $department;
 
     /**
      * @var string "Projektbezeichnung"
+     * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $project_name;
+    private $project_name = "";
 
     /**
      * @var int "Betrag"
      * @ORM\Column(type="integer")
      * @Assert\Positive()
      */
-    private $amount;
+    private $amount = null;
 
     /**
      * @var bool "mathematisch richtig"
      * @ORM\Column(type="boolean")
      */
-    private $mathematically_correct;
+    private $mathematically_correct = false;
 
     /**
      * @var bool "sachlich richtig"
      * @ORM\Column(type="boolean")
      */
-    private $factually_correct;
+    private $factually_correct = false;
 
     public function __construct()
     {
@@ -104,6 +107,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     {
         $this->bank_info = $bank_info;
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
@@ -145,7 +153,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @return Department
      */
-    public function getDepartment(): Department
+    public function getDepartment(): ?Department
     {
         return $this->department;
     }
@@ -182,7 +190,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * Returns the requested amount of money in cents.
      * @return int
      */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
