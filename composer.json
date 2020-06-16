@@ -17,6 +17,7 @@
         "symfony/intl": "5.1.*",
         "symfony/mailer": "5.1.*",
         "symfony/mime": "5.1.*",
+        "doctrine/doctrine-migrations-bundle": "^2.1.2",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.1.*",
         "symfony/orm-pack": "*",
