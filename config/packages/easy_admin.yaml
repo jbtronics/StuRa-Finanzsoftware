@@ -18,6 +18,7 @@ easy_admin:
                   label: 'payment_order.department.label'
                 - property: 'amount'
                   label: 'payment_order.amount.label'
+                  template: 'admin/payment_order/field_money.html.twig'
 
                 - property: 'mathematically_correct'
                   label: 'payment_order.mathematically_correct.label'
