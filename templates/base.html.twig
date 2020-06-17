@@ -22,13 +22,14 @@
     </header>
 
     <main>
-        <div class="container" style="margin-top: 15px;">
+        <div class="container" style="margin-top: 80px;">
             {% block content %}
 
             {% endblock %}
         </div>
     </main>
 
+    {% include "_footer.html.twig" %}
 
 {% endblock %}
 {% block javascripts %}

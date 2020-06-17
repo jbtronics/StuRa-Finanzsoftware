@@ -373,5 +373,17 @@
         <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
       </segment>
     </unit>
+    <unit id="_eaBSeV" name="footer.impress">
+      <segment>
+        <source>footer.impress</source>
+        <target>Impressum</target>
+      </segment>
+    </unit>
+    <unit id="m6d6qSk" name="footer.privacy">
+      <segment>
+        <source>footer.privacy</source>
+        <target>Datenschutz</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
