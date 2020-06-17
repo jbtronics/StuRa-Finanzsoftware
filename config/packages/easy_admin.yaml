@@ -32,6 +32,7 @@ easy_admin:
               fields:
                 - { type: 'tab' , label: 'payment_order.tab.basic' }
 
+                - { type: 'group', columns: 8, label: 'payment_order.group.info' }
                 - property: 'first_name'
                   label: 'payment_order.first_name.label'
                   type_options:
@@ -66,6 +67,7 @@ easy_admin:
                     attr:
                       placeholder: 'payment_order.project_name.placeholder'
 
+                - { type: 'group', columns: 4, label: 'payment_order.group.status' }
                 - property: 'mathematically_correct'
                   label: 'payment_order.mathematically_correct.label'
                   help: 'payment_order.mathematically_correct.help'
@@ -76,6 +78,7 @@ easy_admin:
 
                 - { type: 'tab' , label: 'payment_order.tab.bank_account' }
 
+                - { type: 'group', columns: 6, label: 'payment_order.group.receiver' }
                 - property: 'bank_info.account_owner'
                   label: 'bank_info.account_owner.label'
                   type_options:
@@ -100,6 +103,7 @@ easy_admin:
                     attr:
                       placeholder: 'bank_info.city.placeholder'
 
+                - { type: 'group', columns: 6, label: 'payment_order.group.bank_info' }
                 - property: 'bank_info.iban'
                   label: 'bank_info.iban.label'
                   type_options:

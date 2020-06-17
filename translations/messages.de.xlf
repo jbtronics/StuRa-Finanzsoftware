@@ -277,5 +277,29 @@
         <target>ID</target>
       </segment>
     </unit>
+    <unit id="V.M67Ij" name="payment_order.group.info">
+      <segment>
+        <source>payment_order.group.info</source>
+        <target>Info</target>
+      </segment>
+    </unit>
+    <unit id="9CxJfWP" name="payment_order.group.status">
+      <segment>
+        <source>payment_order.group.status</source>
+        <target>Status</target>
+      </segment>
+    </unit>
+    <unit id="wAPmlBL" name="payment_order.group.receiver">
+      <segment>
+        <source>payment_order.group.receiver</source>
+        <target>Empfängerinformationen</target>
+      </segment>
+    </unit>
+    <unit id="LjThHWX" name="payment_order.group.bank_info">
+      <segment>
+        <source>payment_order.group.bank_info</source>
+        <target>Empfängerkonto</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
