@@ -1,0 +1,54 @@
+{% extends "main_card.html.twig" %}
+
+{% block card_title %}{% trans %}payment_order.new{% endtrans %}{% endblock %}
+
+{% block card_content %}
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>{% trans %}payment_order.new.general{% endtrans %}</legend>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_row(form.first_name) }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_row(form.last_name) }}
+                    </div>
+                </div>
+
+                {{ form_row(form.department) }}
+                {{ form_row(form.project_name) }}
+                {{ form_row(form.amount) }}
+            </fieldset>
+        </div>
+
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>{% trans %}payment_order.new.account_info{% endtrans %}</legend>
+                {{ form_row(form.bank_info.account_owner) }}
+                {{ form_row(form.bank_info.street) }}
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_row(form.bank_info.zip_code) }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_row(form.bank_info.city) }}
+                    </div>
+                </div>
+                {{ form_row(form.bank_info.iban) }}
+                {{ form_row(form.bank_info.bic) }}
+                {{ form_row(form.bank_info.bank_name) }}
+                {{ form_row(form.bank_info.reference) }}
+            </fieldset>
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

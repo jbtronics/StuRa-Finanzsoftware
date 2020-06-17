@@ -1,0 +1,46 @@
+/********************************
+* Toasts
+ ********************************/
+.toast-container {
+    position: fixed;
+    top: auto;
+    z-index: 3000; /* Over darkmode layer for correct colors! */
+    right: 25px;
+}
+
+:root {
+    --border-radius: 4px;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #e3e7ee;
+}
+
+fieldset {
+    background: var(--fieldset-bg);
+    border: var(--border-width) var(--border-style) var(--border-color);
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    padding: 10px 20px 15px;
+}
+
+fieldset>legend {
+    border: 0;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 0 5px -5px;
+    padding: 0 5px;
+    width: auto;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
+    line-height: inherit;
+    color: inherit;
+    white-space: normal;
+}

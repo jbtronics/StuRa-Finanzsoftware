@@ -301,5 +301,53 @@
         <target>Empfängerkonto</target>
       </segment>
     </unit>
+    <unit id="oXzZAN1" name="navbar.new_request">
+      <segment>
+        <source>navbar.new_request</source>
+        <target>Neuer Antrag</target>
+      </segment>
+    </unit>
+    <unit id="AVtQRcv" name="payment_order.new">
+      <segment>
+        <source>payment_order.new</source>
+        <target>Neuer Zahlungsauftrag</target>
+      </segment>
+    </unit>
+    <unit id="NehzWgk" name="flash.error">
+      <segment>
+        <source>flash.error</source>
+        <target>Fehler</target>
+      </segment>
+    </unit>
+    <unit id="GaY3q3t" name="flash.error.check_input">
+      <segment>
+        <source>flash.error.check_input</source>
+        <target>Überprüfen Sie ihre Eingaben!</target>
+      </segment>
+    </unit>
+    <unit id="IidAUjY" name="payment_order.new.account_info">
+      <segment>
+        <source>payment_order.new.account_info</source>
+        <target>Kontodaten</target>
+      </segment>
+    </unit>
+    <unit id="OxCscUL" name="payment_order.new.general">
+      <segment>
+        <source>payment_order.new.general</source>
+        <target>Allgemein</target>
+      </segment>
+    </unit>
+    <unit id="g4ahva6" name="flash.success">
+      <segment>
+        <source>flash.success</source>
+        <target>Erfolg</target>
+      </segment>
+    </unit>
+    <unit id="ry4m8Eq" name="flash.saved_successfully">
+      <segment>
+        <source>flash.saved_successfully</source>
+        <target>Zahlungsauftrag wurde erfolgreich übermittelt.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

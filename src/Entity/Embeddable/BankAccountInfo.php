@@ -204,7 +204,7 @@ class BankAccountInfo
      * @param  string  $reference
      * @return BankAccountInfo
      */
-    public function setReference(string $reference): BankAccountInfo
+    public function setReference(?string $reference): BankAccountInfo
     {
         $this->reference = $reference;
         return $this;
