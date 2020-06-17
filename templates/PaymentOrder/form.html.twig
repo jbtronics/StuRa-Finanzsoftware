@@ -3,12 +3,16 @@
 {% block card_title %}{% trans %}payment_order.new{% endtrans %}{% endblock %}
 
 {% block card_content %}
+    <p class="text-muted">
+        {% trans %}payment_order.new.hint{% endtrans %}<br>
+        {% trans %}payment_order.new.contact_info{% endtrans %}
+    </p>
+
     {{ form_start(form) }}
 
     {{ form_errors(form) }}
 
     <div class="row">
-
         <div class="col-sm-6">
             <fieldset>
                 <legend>{% trans %}payment_order.new.general{% endtrans %}</legend>

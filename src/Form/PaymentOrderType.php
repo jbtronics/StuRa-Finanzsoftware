@@ -58,8 +58,12 @@ class PaymentOrderType extends AbstractType
             'label' => false
         ]);
 
-        $builder->add('submit', SubmitType::class);
-        $builder->add('reset', ResetType::class);
+        $builder->add('submit', SubmitType::class, [
+            'label' => 'payment_order.submit'
+        ]);
+        $builder->add('reset', ResetType::class, [
+            'label' => 'payment_order.discard'
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

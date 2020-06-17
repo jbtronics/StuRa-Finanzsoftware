@@ -349,5 +349,29 @@
         <target>Zahlungsauftrag wurde erfolgreich übermittelt.</target>
       </segment>
     </unit>
+    <unit id="vLpI6E_" name="payment_order.submit">
+      <segment>
+        <source>payment_order.submit</source>
+        <target>Auftrag absenden</target>
+      </segment>
+    </unit>
+    <unit id="u1b2Nmk" name="payment_order.discard">
+      <segment>
+        <source>payment_order.discard</source>
+        <target>Eingaben verwerfen</target>
+      </segment>
+    </unit>
+    <unit id="99uSrvT" name="payment_order.new.hint">
+      <segment>
+        <source>payment_order.new.hint</source>
+        <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan des unterschriebenen <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege.pdf">Formulars</a> und aller Belege beigefügt werden!]]></target>
+      </segment>
+    </unit>
+    <unit id="f8NZm.9" name="payment_order.new.contact_info">
+      <segment>
+        <source>payment_order.new.contact_info</source>
+        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>
