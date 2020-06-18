@@ -81,6 +81,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      */
     private $factually_correct = false;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $comment = "";
+
     public function __construct()
     {
         $this->bank_info = new BankAccountInfo();
@@ -240,4 +245,24 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->factually_correct = $factually_correct;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param  string  $comment
+     * @return PaymentOrder
+     */
+    public function setComment(?string $comment): PaymentOrder
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+
+
 }

@@ -47,6 +47,11 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $blocked = false;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $comment = "";
+
+    /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * @return string
      */
@@ -104,4 +109,24 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     {
         return $this->getName();
     }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param  string  $comment
+     * @return Department
+     */
+    public function setComment(string $comment): Department
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+
+
 }

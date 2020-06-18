@@ -475,5 +475,17 @@
         <target>Benutzer</target>
       </segment>
     </unit>
+    <unit id="Jn5fIJg" name="payment_order.comment.label">
+      <segment>
+        <source>payment_order.comment.label</source>
+        <target>Kommentar</target>
+      </segment>
+    </unit>
+    <unit id="gkS4VmA" name="payment_order.comment.help">
+      <segment>
+        <source>payment_order.comment.help</source>
+        <target>Dieses Feld ist nur für die Finanzer sichtbar.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

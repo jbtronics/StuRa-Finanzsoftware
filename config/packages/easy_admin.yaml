@@ -7,7 +7,7 @@ easy_admin:
         - { entity: 'PaymentOrder', icon: 'bank', label: 'payment_order.labelp' }
         - { entity: 'Department', icon: 'sitemap', label: 'department.labelp' }
         - { entity: 'User', icon: 'user', label: 'user.labelp' }
-        
+
         - { label: '%app.version_string%' }
 
     entities:
@@ -130,6 +130,14 @@ easy_admin:
                     attr:
                       placeholder: 'payment_order.project_name.placeholder'
 
+                - property: 'comment'
+                  type: 'text_editor'
+                  label: 'payment_order.comment.label'
+                  help: 'payment_order.comment.help'
+                  type_options:
+                    required: false
+                    empty_data: ""
+
                 - { type: 'group', columns: 4, label: 'payment_order.group.status' }
                 - property: 'mathematically_correct'
                   label: 'payment_order.mathematically_correct.label'
@@ -230,6 +238,11 @@ easy_admin:
                     - property: 'creation_date'
                       type_options:
                         disabled: true
+                    - property: 'comment'
+                      type: 'text_editor'
+                      type_options:
+                        empty_data: ""
+                        required: false
 
 
 
