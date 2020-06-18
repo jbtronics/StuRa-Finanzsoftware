@@ -457,5 +457,23 @@
         <target>Name</target>
       </segment>
     </unit>
+    <unit id="K2JB8dO" name="payment_order.labelp">
+      <segment>
+        <source>payment_order.labelp</source>
+        <target>Zahlungsaufträge</target>
+      </segment>
+    </unit>
+    <unit id="wUA9m3p" name="department.labelp">
+      <segment>
+        <source>department.labelp</source>
+        <target>Organisationen</target>
+      </segment>
+    </unit>
+    <unit id="UFjTALq" name="user.labelp">
+      <segment>
+        <source>user.labelp</source>
+        <target>Benutzer</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

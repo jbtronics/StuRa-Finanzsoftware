@@ -2,6 +2,12 @@ easy_admin:
 
     site_name: "StuRa Finanzen"
 
+    design:
+      menu:
+        - { entity: 'PaymentOrder', icon: 'bank', label: 'payment_order.labelp' }
+        - { entity: 'Department', icon: 'sitemap', label: 'department.labelp' }
+        - { entity: 'User', icon: 'user', label: 'user.labelp' }
+
     entities:
 
         User:
@@ -81,6 +87,7 @@ easy_admin:
                   label: 'payment_order.factually_correct.label'
                   help: 'payment_order.factually_correct.help'
 
+                - property: 'creation_date'
 
             form:
               fields:
