@@ -385,5 +385,77 @@
         <target>Datenschutz</target>
       </segment>
     </unit>
+    <unit id="89cKxJI" name="password.new">
+      <segment>
+        <source>password.new</source>
+        <target>Neues Passwort</target>
+      </segment>
+    </unit>
+    <unit id="swIf4he" name="password.repeat">
+      <segment>
+        <source>password.repeat</source>
+        <target>Wiederholen</target>
+      </segment>
+    </unit>
+    <unit id="S4Z.EZY" name="user.label">
+      <segment>
+        <source>user.label</source>
+        <target>Benutzer</target>
+      </segment>
+    </unit>
+    <unit id="oX4P2rM" name="user.username.label">
+      <segment>
+        <source>user.username.label</source>
+        <target>Benutzername</target>
+      </segment>
+    </unit>
+    <unit id="Mwvv8H." name="user.first_name.label">
+      <segment>
+        <source>user.first_name.label</source>
+        <target>Vorname</target>
+      </segment>
+    </unit>
+    <unit id="HM4xASr" name="user.last_name.label">
+      <segment>
+        <source>user.last_name.label</source>
+        <target>Nachname</target>
+      </segment>
+    </unit>
+    <unit id="cDu6Rok" name="user.email.label">
+      <segment>
+        <source>user.email.label</source>
+        <target>Email</target>
+      </segment>
+    </unit>
+    <unit id="zydvDNX" name="user.role_description.label">
+      <segment>
+        <source>user.role_description.label</source>
+        <target>Funktion</target>
+      </segment>
+    </unit>
+    <unit id="QsSMNif" name="user.section.password">
+      <segment>
+        <source>user.section.password</source>
+        <target>Passwort</target>
+      </segment>
+    </unit>
+    <unit id="4PeZU9c" name="user.section.password.help">
+      <segment>
+        <source>user.section.password.help</source>
+        <target>Fülle die unteren Felder aus um ein neues Passwort zu setzen. Wenn die Felder leer gelassen werden, wird das Password nicht geändert.</target>
+      </segment>
+    </unit>
+    <unit id="yFBylec" name="user.id.label">
+      <segment>
+        <source>user.id.label</source>
+        <target>ID</target>
+      </segment>
+    </unit>
+    <unit id="zyG2Utf" name="user.fullName.label">
+      <segment>
+        <source>user.fullName.label</source>
+        <target>Name</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

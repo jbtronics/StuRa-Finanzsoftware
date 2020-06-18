@@ -4,6 +4,59 @@ easy_admin:
 
     entities:
 
+        User:
+          class: App\Entity\User
+          label: 'user.label'
+          controller: App\Controller\UserAdminController
+
+          list:
+            fields:
+              - property: 'id'
+                label: 'user.id.label'
+              - property: 'username'
+                label: 'user.username.label'
+              - property: 'fullName'
+                label: 'user.fullName.label'
+              - property: 'role_description'
+                label: 'user.role_description.label'
+              - property: 'email'
+                type: 'email'
+                label: 'user.email.label'
+
+          form:
+            fields:
+              - property: 'username'
+                label: 'user.username.label'
+              - property: 'first_name'
+                label: 'user.first_name.label'
+                type_options:
+                  required: false
+                  empty_data: ''
+              - property: 'last_name'
+                label: 'user.last_name.label'
+                type_options:
+                  required: false
+                  empty_data: ''
+              - property: 'email'
+                label: 'user.email.label'
+                type_options:
+                  required: false
+                  empty_data: ''
+              - property: 'role_description'
+                label: 'user.role_description.label'
+                type_options:
+                  required: false
+                  empty_data: ''
+
+              - { type: 'section', label: 'user.section.password', help: 'user.section.password.help' }
+              - property: 'plain_password'
+                type: 'repeated'
+                type_options:
+                  type: 'Symfony\Component\Form\Extension\Core\Type\PasswordType'
+                  required: false
+                  first_options: { label: 'password.new' }
+                  second_options: { label: 'password.repeat' }
+
         PaymentOrder:
             class: App\Entity\PaymentOrder
             label: 'payment_order.label'
