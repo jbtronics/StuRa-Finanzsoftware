@@ -8,7 +8,7 @@ easy_admin:
         - { entity: 'Department', icon: 'sitemap', label: 'department.labelp' }
         - { entity: 'User', icon: 'user', label: 'user.labelp' }
 
-        - { label: '%app.version_string%' }
+        - { label: '' }
 
     entities:
 

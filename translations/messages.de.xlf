@@ -487,5 +487,29 @@
         <target>Dieses Feld ist nur für die Finanzer sichtbar.</target>
       </segment>
     </unit>
+    <unit id="dGdv64A" name="creation_date">
+      <segment>
+        <source>creation_date</source>
+        <target>Erstellt</target>
+      </segment>
+    </unit>
+    <unit id="jKxgewM" name="department.comment.label">
+      <segment>
+        <source>department.comment.label</source>
+        <target>Kommentar</target>
+      </segment>
+    </unit>
+    <unit id="ebGPTqc" name="dashboard.menu.homepage">
+      <segment>
+        <source>dashboard.menu.homepage</source>
+        <target>Homepage</target>
+      </segment>
+    </unit>
+    <unit id="g0cEPJ_" name="dashboard.menu.stura">
+      <segment>
+        <source>dashboard.menu.stura</source>
+        <target>StuRa Website</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
