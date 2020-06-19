@@ -60,3 +60,13 @@ legend {
     line-height: 60px;
     background-color: #f5f5f5;
 }
+
+.form-group .col-form-label.required:after, .form-group label.required:after {
+    bottom: 4px;
+    color: var(--color-danger);
+    content: "\2022";
+    filter: opacity(75%);
+    position: relative;
+    right: -2px;
+    z-index: var(--zindex-700);
+}
