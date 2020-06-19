@@ -511,5 +511,29 @@
         <target>StuRa Website</target>
       </segment>
     </unit>
+    <unit id="tj.43TE" name="dashboard.welcome">
+      <segment>
+        <source>dashboard.welcome</source>
+        <target>Willkommen im Administrationsbereich</target>
+      </segment>
+    </unit>
+    <unit id="fl0NRjN" name="dashboard.explanation">
+      <segment>
+        <source>dashboard.explanation</source>
+        <target>Hier kannst du abhängig von deinen Berechtigungen, Anträge bearbeiten, neue Nutzer und Organisationen anlegen und anderes. Die Links findest du in der Sidebar links.</target>
+      </segment>
+    </unit>
+    <unit id="0ep_czU" name="dashboard.contact_info">
+      <segment>
+        <source>dashboard.contact_info</source>
+        <target><![CDATA[Bei Fragen oder Problemen kontaktiere: <a href="mailto:%email%">%email%</a>]]></target>
+      </segment>
+    </unit>
+    <unit id="3bqLM8Q" name="dashboard.title">
+      <segment>
+        <source>dashboard.title</source>
+        <target>Start</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
