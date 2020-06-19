@@ -7,12 +7,14 @@ use App\Entity\Contracts\NamedElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  * @ORM\Table("departments")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"name"})
  */
 class Department implements DBElementInterface, NamedElementInterface, TimestampedElementInterface
 {
