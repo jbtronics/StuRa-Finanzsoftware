@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
+  <file id="validators.de">
+    <unit id="4mFm6ey" name="validator.fsr_blocked">
+      <segment>
+        <source>validator.fsr_blocked</source>
+        <target>Dieser FSR ist gesperrt und kann keine Zahlungsaufträge einreichen. Kontaktiere den FSB ({{ email }}) für weitere Informationen.</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

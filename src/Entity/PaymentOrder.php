@@ -6,6 +6,7 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Entity\Embeddable\BankAccountInfo;
 use App\Repository\PaymentOrderRepository;
+use App\Validator\FSRNotBlocked;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,6 +53,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Department")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull()
+     * @FSRNotBlocked()
      */
     private $department;
 
