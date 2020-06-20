@@ -47,12 +47,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    private $first_name;
+    private $first_name = "";
 
     /**
      * @ORM\Column(type="string")
      */
-    private $last_name;
+    private $last_name = "";
 
     /**
      * @var string The hashed password
