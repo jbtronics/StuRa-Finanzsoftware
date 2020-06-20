@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -50,14 +51,16 @@ class UserCrudController extends AbstractCrudController
         $roles = TextField::new('roles');
         $fullName = TextField::new('fullName', 'user.fullName.label');
 
+        $password_panel = FormField::addPanel('user.section.password')->setHelp('user.section.password.help');
+
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $username, $fullName, $roleDescription, $email];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $username, $roleDescription, $email, $roles, $firstName, $lastName];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $plainPassword];
+            return [$username, $firstName, $lastName, $email, $roleDescription, $password_panel, $plainPassword];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $plainPassword];
+            return [$username, $firstName, $lastName, $email, $roleDescription, $password_panel, $plainPassword];
         }
     }
 
