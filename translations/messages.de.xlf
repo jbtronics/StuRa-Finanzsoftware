@@ -535,5 +535,11 @@
         <target>Start</target>
       </segment>
     </unit>
+    <unit id="O91DX8B" name="last_modified">
+      <segment>
+        <source>last_modified</source>
+        <target>Zuletzt bearbeitet</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

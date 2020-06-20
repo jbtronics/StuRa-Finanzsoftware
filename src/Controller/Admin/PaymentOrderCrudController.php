@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PaymentOrder;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -30,6 +32,11 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('payment_order.label')
             ->setEntityLabelInPlural('payment_order.labelp')
             ->setSearchFields(['id', 'first_name', 'last_name', 'project_name', 'amount', 'comment', 'bank_info.account_owner', 'bank_info.street', 'bank_info.zip_code', 'bank_info.city', 'bank_info.iban', 'bank_info.bic', 'bank_info.bank_name', 'bank_info.reference']);
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 
     public function configureFields(string $pageName): iterable
@@ -62,7 +69,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $firstName, $lastName, $projectName, $amount, $mathematicallyCorrect, $factuallyCorrect, $comment, $lastModified, $creationDate, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $department];
+            return [$id, $firstName, $lastName, $projectName, $amount, $mathematicallyCorrect, $factuallyCorrect, $comment, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $department, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$panel1, $firstName, $lastName, $department, $amount, $projectName, $comment, $panel2, $mathematicallyCorrect, $factuallyCorrect, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {
