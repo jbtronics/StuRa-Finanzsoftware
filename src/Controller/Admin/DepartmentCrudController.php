@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\Department;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -15,6 +17,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
 class DepartmentCrudController extends AbstractCrudController
 {
@@ -34,6 +39,14 @@ class DepartmentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(BooleanFilter::new('blocked', 'department.blocked.label'))
+            ->add(DateTimeFilter::new('creation_date', 'creation_date'))
+            ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
 
     public function configureFields(string $pageName): iterable

@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -17,6 +19,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Form\EventListener\EasyAdminTabSubscriber;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -33,6 +38,17 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('payment_order.label')
             ->setEntityLabelInPlural('payment_order.labelp')
             ->setSearchFields(['id', 'first_name', 'last_name', 'project_name', 'amount', 'comment', 'bank_info.account_owner', 'bank_info.street', 'bank_info.zip_code', 'bank_info.city', 'bank_info.iban', 'bank_info.bic', 'bank_info.bank_name', 'bank_info.reference']);
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(EntityFilter::new('department', 'payment_order.department.label'))
+            ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
+            ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
+            ->add(DateTimeFilter::new('creation_date', 'creation_date'))
+            ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
 
     public function configureActions(Actions $actions): Actions
