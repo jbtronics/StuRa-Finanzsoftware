@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
-  <file id="messages.de">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="en">
+  <file id="messages.en">
     <unit id="E2ncJ4t" name="department.type.fsr">
       <segment>
         <source>department.type.fsr</source>
@@ -10,13 +10,13 @@
     <unit id="YiUUE7z" name="department.type.section">
       <segment>
         <source>department.type.section</source>
-        <target>Referat</target>
+        <target>Section</target>
       </segment>
     </unit>
     <unit id="nsmevWx" name="department.type.misc">
       <segment>
         <source>department.type.misc</source>
-        <target>Sonstiges</target>
+        <target>Miscellaneous</target>
       </segment>
     </unit>
     <unit id="icN11_8" name="department.name.label">
@@ -28,31 +28,31 @@
     <unit id="cth0tHM" name="department.type.label">
       <segment>
         <source>department.type.label</source>
-        <target>Typ</target>
+        <target>Type</target>
       </segment>
     </unit>
     <unit id="3VFuvCg" name="department.blocked.label">
       <segment>
         <source>department.blocked.label</source>
-        <target>Blockiert</target>
+        <target>Blocked</target>
       </segment>
     </unit>
     <unit id="l6BhnYm" name="department.blocked.help">
       <segment>
         <source>department.blocked.help</source>
-        <target>Blockierte FSRe können keine Zahlungsaufträge einreichen und erhalten einen Hinweis den FSB zu kontaktieren.</target>
+        <target>Blocked FSR are not allowed to submit payment orders and will get an message to contact the FSB.</target>
       </segment>
     </unit>
     <unit id="UzElk4s" name="department.label">
       <segment>
         <source>department.label</source>
-        <target>Organisation</target>
+        <target>Organisations</target>
       </segment>
     </unit>
     <unit id="irZlgo9" name="department.help">
       <segment>
         <source>department.help</source>
-        <target>Organisationen repräsentieren die verschiedenen Strukturen innerhalb der Studierendenschaft (z.B. FSRe oder die verschiedenen Referate).</target>
+        <target>Organisations represent the different structures within the student body (e.g. FSRe or the various departments).</target>
       </segment>
     </unit>
     <unit id="CxOlLnk" name="department.id.label">
@@ -64,115 +64,115 @@
     <unit id="D_EFj_u" name="Last modified">
       <segment>
         <source>Last modified</source>
-        <target>Zuletzt bearbeitet</target>
+        <target>Last modified</target>
       </segment>
     </unit>
     <unit id="bk0LHGc" name="Creation date">
       <segment>
         <source>Creation date</source>
-        <target>Erstellungsdatum</target>
+        <target>Creation date</target>
       </segment>
     </unit>
     <unit id="SX4qX8Q" name="payment_order.amount.label">
       <segment>
         <source>payment_order.amount.label</source>
-        <target>Betrag</target>
+        <target>Amount</target>
       </segment>
     </unit>
     <unit id="vJEF49c" name="payment_order.label">
       <segment>
         <source>payment_order.label</source>
-        <target>Zahlungsauftrag</target>
+        <target>Payment order</target>
       </segment>
     </unit>
     <unit id="jDgAkFp" name="payment_order.department.label">
       <segment>
         <source>payment_order.department.label</source>
-        <target>Struktur / Organisation</target>
+        <target>Structure / Organization</target>
       </segment>
     </unit>
     <unit id="1QzYM50" name="select.choose_value">
       <segment>
         <source>select.choose_value</source>
-        <target>Bitte wählen Sie ein Element aus</target>
+        <target>Please choose an element</target>
       </segment>
     </unit>
     <unit id="fpNoBgB" name="payment_order.tab.basic">
       <segment>
         <source>payment_order.tab.basic</source>
-        <target>Allgemeine Informationen</target>
+        <target>General Information</target>
       </segment>
     </unit>
     <unit id="slBrlP3" name="payment_order.tab.bank_account">
       <segment>
         <source>payment_order.tab.bank_account</source>
-        <target>Kontodaten</target>
+        <target>Bank account</target>
       </segment>
     </unit>
     <unit id="Y3IVpQ4" name="payment_order.first_name.label">
       <segment>
         <source>payment_order.first_name.label</source>
-        <target>Vorname</target>
+        <target>First name</target>
       </segment>
     </unit>
     <unit id="Ykc_Dks" name="payment_order.last_name.label">
       <segment>
         <source>payment_order.last_name.label</source>
-        <target>Nachname</target>
+        <target>Last name</target>
       </segment>
     </unit>
     <unit id="czR285_" name="payment_order.project_name.label">
       <segment>
         <source>payment_order.project_name.label</source>
-        <target>Projektbezeichnung</target>
+        <target>Project name</target>
       </segment>
     </unit>
     <unit id="7MzlP5Q" name="payment_order.mathematically_correct.label">
       <segment>
         <source>payment_order.mathematically_correct.label</source>
-        <target>Rechnerisch richtig</target>
+        <target>Mathematically correct</target>
       </segment>
     </unit>
     <unit id="SkKFOJa" name="payment_order.mathematically_correct.help">
       <segment>
         <source>payment_order.mathematically_correct.help</source>
-        <target>Vom Kassenverantwortlichen auszufüllen</target>
+        <target>To be filled in by the person responsible for the cash desk</target>
       </segment>
     </unit>
     <unit id="bJmAsPw" name="payment_order.factually_correct.label">
       <segment>
         <source>payment_order.factually_correct.label</source>
-        <target>Sachlich richtig</target>
+        <target>Factually correct</target>
       </segment>
     </unit>
     <unit id="CHPgi0H" name="payment_order.factually_correct.help">
       <segment>
         <source>payment_order.factually_correct.help</source>
-        <target>Vom Haushaltsverantwortlichem auszufüllen</target>
+        <target>To be completed by the person responsible for the budget</target>
       </segment>
     </unit>
     <unit id="h1gnEkF" name="bank_info.account_owner.label">
       <segment>
         <source>bank_info.account_owner.label</source>
-        <target>Kontoinhaber*in</target>
+        <target>Account holder</target>
       </segment>
     </unit>
     <unit id="60RXclF" name="bank_info.street.label">
       <segment>
         <source>bank_info.street.label</source>
-        <target>Straße/Nr.</target>
+        <target>Street/no.</target>
       </segment>
     </unit>
     <unit id="onfTzQS" name="bank_info.zip_code.label">
       <segment>
         <source>bank_info.zip_code.label</source>
-        <target>PLZ</target>
+        <target>ZIP code</target>
       </segment>
     </unit>
     <unit id="OEDC6l7" name="bank_info.city.label">
       <segment>
         <source>bank_info.city.label</source>
-        <target>Stadt</target>
+        <target>City</target>
       </segment>
     </unit>
     <unit id="fX4n4mK" name="bank_info.iban.label">
@@ -184,13 +184,13 @@
     <unit id="eusURAT" name="bank_info.bank_name.label">
       <segment>
         <source>bank_info.bank_name.label</source>
-        <target>Bank</target>
+        <target>Bank name</target>
       </segment>
     </unit>
     <unit id="6riBiSg" name="bank_info.reference.label">
       <segment>
         <source>bank_info.reference.label</source>
-        <target>Verwendungszweck</target>
+        <target>Reference</target>
       </segment>
     </unit>
     <unit id="mFnw95z" name="bank_info.bic.label">
@@ -202,37 +202,37 @@
     <unit id="DsIXCSB" name="payment_order.first_name.placeholder">
       <segment>
         <source>payment_order.first_name.placeholder</source>
-        <target>Max</target>
+        <target>Jane</target>
       </segment>
     </unit>
     <unit id="4o8ji0f" name="payment_order.last_name.placeholder">
       <segment>
         <source>payment_order.last_name.placeholder</source>
-        <target>Musterfrau</target>
+        <target>Doe</target>
       </segment>
     </unit>
     <unit id="SeEEXRc" name="payment_order.amount.placeholder">
       <segment>
         <source>payment_order.amount.placeholder</source>
-        <target>123,40</target>
+        <target>123.40</target>
       </segment>
     </unit>
     <unit id="wl74CxY" name="payment_order.project_name.placeholder">
       <segment>
         <source>payment_order.project_name.placeholder</source>
-        <target>Ersti-Party</target>
+        <target>Party</target>
       </segment>
     </unit>
     <unit id="afbmWOm" name="bank_info.account_owner.placeholder">
       <segment>
         <source>bank_info.account_owner.placeholder</source>
-        <target>Erika Mustermann</target>
+        <target>John Doe</target>
       </segment>
     </unit>
     <unit id="rp8Ufr4" name="bank_info.street.placeholder">
       <segment>
         <source>bank_info.street.placeholder</source>
-        <target>Musterstraße 3b</target>
+        <target>Examplestreet 3b</target>
       </segment>
     </unit>
     <unit id="Q1hZbAH" name="bank_info.zip_code.placeholder">
@@ -262,13 +262,13 @@
     <unit id="qXiphLD" name="bank_info.bank_name.placeholder">
       <segment>
         <source>bank_info.bank_name.placeholder</source>
-        <target>Musterbank Jena</target>
+        <target>Examplebank Jena</target>
       </segment>
     </unit>
     <unit id="sdGlPuZ" name="bank_info.reference.placeholder">
       <segment>
         <source>bank_info.reference.placeholder</source>
-        <target>Rückzahlung Erst-Party</target>
+        <target>Repayment party</target>
       </segment>
     </unit>
     <unit id="sVK1lZ3" name="payment_order.id.label">
@@ -292,133 +292,133 @@
     <unit id="wAPmlBL" name="payment_order.group.receiver">
       <segment>
         <source>payment_order.group.receiver</source>
-        <target>Empfängerinformationen</target>
+        <target>Recipient information</target>
       </segment>
     </unit>
     <unit id="LjThHWX" name="payment_order.group.bank_info">
       <segment>
         <source>payment_order.group.bank_info</source>
-        <target>Empfängerkonto</target>
+        <target>Recipient account</target>
       </segment>
     </unit>
     <unit id="oXzZAN1" name="navbar.new_request">
       <segment>
         <source>navbar.new_request</source>
-        <target>Neuer Antrag</target>
+        <target>New request</target>
       </segment>
     </unit>
     <unit id="AVtQRcv" name="payment_order.new">
       <segment>
         <source>payment_order.new</source>
-        <target>Neuer Zahlungsauftrag</target>
+        <target>New payment order</target>
       </segment>
     </unit>
     <unit id="NehzWgk" name="flash.error">
       <segment>
         <source>flash.error</source>
-        <target>Fehler</target>
+        <target>Error</target>
       </segment>
     </unit>
     <unit id="GaY3q3t" name="flash.error.check_input">
       <segment>
         <source>flash.error.check_input</source>
-        <target>Überprüfen Sie ihre Eingaben!</target>
+        <target>Please check your input!</target>
       </segment>
     </unit>
     <unit id="IidAUjY" name="payment_order.new.account_info">
       <segment>
         <source>payment_order.new.account_info</source>
-        <target>Kontodaten</target>
+        <target>Account informations</target>
       </segment>
     </unit>
     <unit id="OxCscUL" name="payment_order.new.general">
       <segment>
         <source>payment_order.new.general</source>
-        <target>Allgemein</target>
+        <target>General</target>
       </segment>
     </unit>
     <unit id="g4ahva6" name="flash.success">
       <segment>
         <source>flash.success</source>
-        <target>Erfolg</target>
+        <target>Success</target>
       </segment>
     </unit>
     <unit id="ry4m8Eq" name="flash.saved_successfully">
       <segment>
         <source>flash.saved_successfully</source>
-        <target>Zahlungsauftrag wurde erfolgreich übermittelt.</target>
+        <target>Payment order submitted successfully.</target>
       </segment>
     </unit>
     <unit id="vLpI6E_" name="payment_order.submit">
       <segment>
         <source>payment_order.submit</source>
-        <target>Auftrag absenden</target>
+        <target>Submit payment order</target>
       </segment>
     </unit>
     <unit id="u1b2Nmk" name="payment_order.discard">
       <segment>
         <source>payment_order.discard</source>
-        <target>Eingaben verwerfen</target>
+        <target>Discard input</target>
       </segment>
     </unit>
     <unit id="99uSrvT" name="payment_order.new.hint">
       <segment>
         <source>payment_order.new.hint</source>
-        <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan des unterschriebenen <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege.pdf">Formulars</a> und aller Belege beigefügt werden!]]></target>
+        <target><![CDATA[The online payment order <i>must</i> be accompanied by a scan of the signed <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege.pdf">form</a> and all receipts!]]></target>
       </segment>
     </unit>
     <unit id="f8NZm.9" name="payment_order.new.contact_info">
       <segment>
         <source>payment_order.new.contact_info</source>
-        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
+        <target><![CDATA[If you have any questions about filling out this form, please contact the StuRas financial officers: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
       </segment>
     </unit>
     <unit id="_eaBSeV" name="footer.impress">
       <segment>
         <source>footer.impress</source>
-        <target>Impressum</target>
+        <target>Imprint</target>
       </segment>
     </unit>
     <unit id="m6d6qSk" name="footer.privacy">
       <segment>
         <source>footer.privacy</source>
-        <target>Datenschutz</target>
+        <target>Privacy policy</target>
       </segment>
     </unit>
     <unit id="89cKxJI" name="password.new">
       <segment>
         <source>password.new</source>
-        <target>Neues Passwort</target>
+        <target>New password</target>
       </segment>
     </unit>
     <unit id="swIf4he" name="password.repeat">
       <segment>
         <source>password.repeat</source>
-        <target>Wiederholen</target>
+        <target>Repeat</target>
       </segment>
     </unit>
     <unit id="S4Z.EZY" name="user.label">
       <segment>
         <source>user.label</source>
-        <target>Benutzer</target>
+        <target>User</target>
       </segment>
     </unit>
     <unit id="oX4P2rM" name="user.username.label">
       <segment>
         <source>user.username.label</source>
-        <target>Benutzername</target>
+        <target>User name</target>
       </segment>
     </unit>
     <unit id="Mwvv8H." name="user.first_name.label">
       <segment>
         <source>user.first_name.label</source>
-        <target>Vorname</target>
+        <target>First name</target>
       </segment>
     </unit>
     <unit id="HM4xASr" name="user.last_name.label">
       <segment>
         <source>user.last_name.label</source>
-        <target>Nachname</target>
+        <target>Last name</target>
       </segment>
     </unit>
     <unit id="cDu6Rok" name="user.email.label">
@@ -430,19 +430,19 @@
     <unit id="zydvDNX" name="user.role_description.label">
       <segment>
         <source>user.role_description.label</source>
-        <target>Funktion</target>
+        <target>Function</target>
       </segment>
     </unit>
     <unit id="QsSMNif" name="user.section.password">
       <segment>
         <source>user.section.password</source>
-        <target>Passwort</target>
+        <target>Password</target>
       </segment>
     </unit>
     <unit id="4PeZU9c" name="user.section.password.help">
       <segment>
         <source>user.section.password.help</source>
-        <target>Fülle die unteren Felder aus um ein neues Passwort zu setzen. Wenn die Felder leer gelassen werden, wird das Password nicht geändert.</target>
+        <target>Fill out the fields below to set a new password. If the fields are left blank, the password will not be changed.</target>
       </segment>
     </unit>
     <unit id="yFBylec" name="user.id.label">
@@ -460,43 +460,43 @@
     <unit id="K2JB8dO" name="payment_order.labelp">
       <segment>
         <source>payment_order.labelp</source>
-        <target>Zahlungsaufträge</target>
+        <target>Payment orders</target>
       </segment>
     </unit>
     <unit id="wUA9m3p" name="department.labelp">
       <segment>
         <source>department.labelp</source>
-        <target>Organisationen</target>
+        <target>Organisations</target>
       </segment>
     </unit>
     <unit id="UFjTALq" name="user.labelp">
       <segment>
         <source>user.labelp</source>
-        <target>Benutzer</target>
+        <target>Users</target>
       </segment>
     </unit>
     <unit id="Jn5fIJg" name="payment_order.comment.label">
       <segment>
         <source>payment_order.comment.label</source>
-        <target>Kommentar</target>
+        <target>Comment</target>
       </segment>
     </unit>
     <unit id="gkS4VmA" name="payment_order.comment.help">
       <segment>
         <source>payment_order.comment.help</source>
-        <target>Dieses Feld ist nur für die Finanzer sichtbar.</target>
+        <target>This field is only visible for the financiers</target>
       </segment>
     </unit>
     <unit id="dGdv64A" name="creation_date">
       <segment>
         <source>creation_date</source>
-        <target>Erstellt</target>
+        <target>Creation date</target>
       </segment>
     </unit>
     <unit id="jKxgewM" name="department.comment.label">
       <segment>
         <source>department.comment.label</source>
-        <target>Kommentar</target>
+        <target>Comment</target>
       </segment>
     </unit>
     <unit id="ebGPTqc" name="dashboard.menu.homepage">
@@ -508,25 +508,25 @@
     <unit id="g0cEPJ_" name="dashboard.menu.stura">
       <segment>
         <source>dashboard.menu.stura</source>
-        <target>StuRa Website</target>
+        <target>StuRa Webpage</target>
       </segment>
     </unit>
     <unit id="tj.43TE" name="dashboard.welcome">
       <segment>
         <source>dashboard.welcome</source>
-        <target>Willkommen im Administrationsbereich</target>
+        <target>Welcome to the administration area</target>
       </segment>
     </unit>
     <unit id="fl0NRjN" name="dashboard.explanation">
       <segment>
         <source>dashboard.explanation</source>
-        <target>Hier kannst du abhängig von deinen Berechtigungen, Anträge bearbeiten, neue Nutzer und Organisationen anlegen und anderes. Die Links findest du in der Sidebar links.</target>
+        <target>Here you can, depending on your permissions, edit requests, create new users and organizations and more. You can find the links in the sidebar on the left side.</target>
       </segment>
     </unit>
     <unit id="0ep_czU" name="dashboard.contact_info">
       <segment>
         <source>dashboard.contact_info</source>
-        <target><![CDATA[Bei Fragen oder Problemen kontaktiere: <a href="mailto:%email%">%email%</a>]]></target>
+        <target><![CDATA[For questions or problems contact: <a href="mailto:%email%">%email%</a>]]></target>
       </segment>
     </unit>
     <unit id="3bqLM8Q" name="dashboard.title">
@@ -538,19 +538,19 @@
     <unit id="O91DX8B" name="last_modified">
       <segment>
         <source>last_modified</source>
-        <target>Zuletzt bearbeitet</target>
+        <target>Last modified</target>
       </segment>
     </unit>
     <unit id="RfpKaIp" name="navbar.choose_language">
       <segment>
         <source>navbar.choose_language</source>
-        <target>Sprache wählen</target>
+        <target>Choose language</target>
       </segment>
     </unit>
     <unit id="DI1GAwT" name="navbar.admin_login">
       <segment>
         <source>navbar.admin_login</source>
-        <target>Adminbereich</target>
+        <target>Admin area</target>
       </segment>
     </unit>
   </file>

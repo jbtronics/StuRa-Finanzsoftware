@@ -3,3 +3,4 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig', 'extended_form_styles.html.twig']
     globals:
         support_email: '%app.support_email%'
+        locale_menu: ['de', 'en']

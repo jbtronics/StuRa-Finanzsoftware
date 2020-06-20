@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\MenuFactory;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -26,12 +27,14 @@ class DashboardController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()
+        $dashboard = Dashboard::new()
             ->setTitle('StuRa Finanzen');
+
+        return $dashboard;
     }
 
     /**
-     * @Route("/admin")
+     * @Route("/admin", name="admin_dashboard", )
      * @return Response
      */
     public function index(): Response
@@ -61,6 +64,10 @@ class DashboardController extends AbstractDashboardController
 
         return parent::configureUserMenu($user)
             ->setName((string) $user)
-            ->displayUserName(true);
+            ->displayUserName(true)
+            ->addMenuItems([
+                               MenuItem::linktoRoute(Languages::getName('de', 'de') . ' (DE)', '', 'admin_dashboard.de'),
+                               MenuItem::linktoRoute(Languages::getName('en', 'en') . ' (EN)', '', 'admin_dashboard.en')
+                           ]);
     }
 }

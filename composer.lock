@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ea2076d1de32e819c3340f36a056295",
+    "content-hash": "4bed583b64c834bac90e459808ff1ee6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1217,16 +1217,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v3.0.0",
+            "version": "dev-locale_prefix_fix",
             "source": {
                 "type": "git",
-                "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "1cec5e83f9457f192c0f859313189457ed04c718"
+                "url": "https://github.com/jbtronics/EasyAdminBundle.git",
+                "reference": "dfce1e8ac3861c250aee9fd5fd28e026db43554e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/1cec5e83f9457f192c0f859313189457ed04c718",
-                "reference": "1cec5e83f9457f192c0f859313189457ed04c718",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/dfce1e8ac3861c250aee9fd5fd28e026db43554e",
+                "reference": "dfce1e8ac3861c250aee9fd5fd28e026db43554e",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,12 @@
                     "EasyCorp\\Bundle\\EasyAdminBundle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "AppTestBundle\\": "tests/Fixtures/AppTestBundle/",
+                    "EasyCorp\\Bundle\\EasyAdminBundle\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -1294,7 +1299,10 @@
                 "backend",
                 "generator"
             ],
-            "time": "2020-06-19T06:27:58+00:00"
+            "support": {
+                "source": "https://github.com/jbtronics/EasyAdminBundle/tree/locale_prefix_fix"
+            },
+            "time": "2020-06-20T19:38:24+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -7310,7 +7318,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "easycorp/easyadmin-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
