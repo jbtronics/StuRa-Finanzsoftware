@@ -58,6 +58,7 @@ class BankAccountInfoType extends AbstractType
 
         $builder->add('bank_name', TextType::class, [
             'label' => 'bank_info.bank_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.bank_name.placeholder'
             ]

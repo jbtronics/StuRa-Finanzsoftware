@@ -62,7 +62,7 @@ class BankAccountInfo
 
     /**
      * @var string
-     * @ORM\Column("string")
+     * @ORM\Column(type="string")
      */
     private $reference = "";
 
