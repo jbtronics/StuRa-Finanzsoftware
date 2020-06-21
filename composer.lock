@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bed583b64c834bac90e459808ff1ee6",
+    "content-hash": "e1c6966d34ab16c4d24d3076d832b6a1",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1217,16 +1217,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "dev-locale_prefix_fix",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "dfce1e8ac3861c250aee9fd5fd28e026db43554e"
+                "reference": "60690044c873693833b451ba243765c54389ad59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/dfce1e8ac3861c250aee9fd5fd28e026db43554e",
-                "reference": "dfce1e8ac3861c250aee9fd5fd28e026db43554e",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/60690044c873693833b451ba243765c54389ad59",
+                "reference": "60690044c873693833b451ba243765c54389ad59",
                 "shasum": ""
             },
             "require": {
@@ -1300,9 +1300,9 @@
                 "generator"
             ],
             "support": {
-                "source": "https://github.com/jbtronics/EasyAdminBundle/tree/locale_prefix_fix"
+                "source": "https://github.com/jbtronics/EasyAdminBundle/tree/master"
             },
-            "time": "2020-06-20T19:38:24+00:00"
+            "time": "2020-06-21T12:17:12+00:00"
         },
         {
             "name": "egulias/email-validator",

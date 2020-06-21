@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-migrations-bundle": "^2.1.2",
-        "easycorp/easyadmin-bundle": "dev-locale_prefix_fix",
+        "easycorp/easyadmin-bundle": "dev-master",
         "php-translation/symfony-bundle": "^0.12.1",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
