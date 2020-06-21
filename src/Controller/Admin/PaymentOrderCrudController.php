@@ -61,7 +61,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $panel1 = FormField::addPanel('payment_order.group.info');
         $firstName = TextField::new('first_name', 'payment_order.first_name.label');
         $lastName = TextField::new('last_name', 'payment_order.last_name.label');
-        $department = AssociationField::new('department', 'payment_order.department.label')->autocomplete();
+        $department = AssociationField::new('department', 'payment_order.department.label')->setFormTypeOption('attr', ['data-widget' => "select2"]);
         $amount = MoneyField::new('amount', 'payment_order.amount.label')->setCurrency('EUR')->setStoredAsCents(true);
         $projectName = TextField::new('project_name', 'payment_order.project_name.label');
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')->setRequired(false);
