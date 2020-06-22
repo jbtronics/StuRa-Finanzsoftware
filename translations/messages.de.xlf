@@ -583,5 +583,53 @@
         <target>Passwort erfolgreich geändert!</target>
       </segment>
     </unit>
+    <unit id="vLfg6nz" name="user.roles.label">
+      <segment>
+        <source>user.roles.label</source>
+        <target>Berechtigungen</target>
+      </segment>
+    </unit>
+    <unit id="TYDprKl" name="user.role.access_admin">
+      <segment>
+        <source>user.role.access_admin</source>
+        <target>Auf Adminbereich zugreifen</target>
+      </segment>
+    </unit>
+    <unit id="STYojTt" name="user.role.edit_user">
+      <segment>
+        <source>user.role.edit_user</source>
+        <target>Benutzer bearbeiten/anlegen</target>
+      </segment>
+    </unit>
+    <unit id="xi95zJW" name="user.role.edit_organisations">
+      <segment>
+        <source>user.role.edit_organisations</source>
+        <target>Organisationen bearbeiten/anlegen</target>
+      </segment>
+    </unit>
+    <unit id="vJXzLDQ" name="user.role.show_payment_orders">
+      <segment>
+        <source>user.role.show_payment_orders</source>
+        <target>Zahlungsaufträge anzeigen</target>
+      </segment>
+    </unit>
+    <unit id="rSz9n89" name="user.role.edit_payment_orders">
+      <segment>
+        <source>user.role.edit_payment_orders</source>
+        <target>Zahlungsaufträge bearbeiten</target>
+      </segment>
+    </unit>
+    <unit id="QD__4os" name="user.role.edit_po_factually">
+      <segment>
+        <source>user.role.edit_po_factually</source>
+        <target>"Sachlich richtig" bearbeiten</target>
+      </segment>
+    </unit>
+    <unit id="uBXjFSy" name="user.role.edit_po_mathematically">
+      <segment>
+        <source>user.role.edit_po_mathematically</source>
+        <target>"Rechnerisch richtig" bearbeiten</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

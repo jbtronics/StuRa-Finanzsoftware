@@ -49,7 +49,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('payment_order.labelp', 'fas fa-file-invoice-dollar', PaymentOrder::class);
+        yield MenuItem::linkToCrud('payment_order.labelp', 'fas fa-file-invoice-dollar', PaymentOrder::class)->setPermission('ROLE_SHOW_PAYMENT_ORDERS');
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class);
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class);
 

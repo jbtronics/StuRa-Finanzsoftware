@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\DisablableBooleanField;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -10,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -53,6 +55,14 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $actions->setPermissions([
+                                     Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
+                                     Action::DETAIL => 'ROLE_SHOW_PAYMENT_ORDERS',
+                                     Action::EDIT => 'ROLE_EDIT_PAYMENT_ORDERS',
+                                     Action::DELETE => 'ROLE_EDIT_PAYMENT_ORDERS',
+                                     Action::NEW => 'ROLE_EDIT_PAYMENT_ORDERS',
+                                 ]);
+
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 
@@ -66,8 +76,8 @@ class PaymentOrderCrudController extends AbstractCrudController
         $projectName = TextField::new('project_name', 'payment_order.project_name.label');
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')->setRequired(false);
         $panel2 = FormField::addPanel('payment_order.group.status');
-        $mathematicallyCorrect = Field::new('mathematically_correct', 'payment_order.mathematically_correct.label')->setHelp('payment_order.mathematically_correct.help');
-        $factuallyCorrect = Field::new('factually_correct', 'payment_order.factually_correct.label')->setHelp('payment_order.factually_correct.help');
+        $mathematicallyCorrect = BooleanField::new('mathematically_correct', 'payment_order.mathematically_correct.label')->setHelp('payment_order.mathematically_correct.help');
+        $factuallyCorrect = BooleanField::new('factually_correct', 'payment_order.factually_correct.label')->setHelp('payment_order.factually_correct.help');
         $panel3 = FormField::addPanel('payment_order.group.receiver');
         $bankInfoAccountOwner = TextField::new('bank_info.account_owner', 'bank_info.account_owner.label');
         $bankInfoStreet = TextField::new('bank_info.street', 'bank_info.street.label');
@@ -82,6 +92,15 @@ class PaymentOrderCrudController extends AbstractCrudController
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
         $departmentName = TextareaField::new('department.name', 'payment_order.department.label');
+
+
+        //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
+        //factually and mathematically correct status
+        $mathematicallyCorrect->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_MATHEMATICALLY'));
+        $mathematicallyCorrect->renderAsSwitch($this->isGranted('ROLE_PO_MATHEMATICALLY'));
+
+        $factuallyCorrect->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'));
+        $factuallyCorrect->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
