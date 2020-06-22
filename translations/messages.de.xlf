@@ -553,5 +553,35 @@
         <target>Adminbereich</target>
       </segment>
     </unit>
+    <unit id="Zq_tDey" name="user.settings.title">
+      <segment>
+        <source>user.settings.title</source>
+        <target>Benutzereinstellungen</target>
+      </segment>
+    </unit>
+    <unit id="E9DlrbB" name="password.change_pw.title">
+      <segment>
+        <source>password.change_pw.title</source>
+        <target>Passwort ändern</target>
+      </segment>
+    </unit>
+    <unit id="y3Ds7Ka" name="password.old">
+      <segment>
+        <source>password.old</source>
+        <target>Bisheriges Passwort</target>
+      </segment>
+    </unit>
+    <unit id="dUkL17k" name="submit">
+      <segment>
+        <source>submit</source>
+        <target>Absenden</target>
+      </segment>
+    </unit>
+    <unit id="wgjsxq3" name="password.changed_successful">
+      <segment>
+        <source>password.changed_successful</source>
+        <target>Passwort erfolgreich geändert!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -66,8 +66,9 @@ class DashboardController extends AbstractDashboardController
             ->setName((string) $user)
             ->displayUserName(true)
             ->addMenuItems([
+                               MenuItem::linktoRoute('user.settings.title', 'fas fa-user-cog', 'user_settings'),
                                MenuItem::linktoRoute(Languages::getName('de', 'de') . ' (DE)', '', 'admin_dashboard.de'),
-                               MenuItem::linktoRoute(Languages::getName('en', 'en') . ' (EN)', '', 'admin_dashboard.en')
+                               MenuItem::linktoRoute(Languages::getName('en', 'en') . ' (EN)', '', 'admin_dashboard.en'),
                            ]);
     }
 }
