@@ -50,6 +50,9 @@ class UserCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('user.label')
             ->setEntityLabelInPlural('user.labelp')
+            ->setFormOptions([
+                                 'validation_groups' => ['Default', 'perm_edit'],
+                             ])
             ->setSearchFields(['id', 'username', 'role_description', 'email', 'roles', 'first_name', 'last_name']);
     }
 
