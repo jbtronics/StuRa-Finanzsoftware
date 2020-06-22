@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserNewCommand extends Command
@@ -57,6 +56,17 @@ class UserNewCommand extends Command
 
         $encoded = $this->passwordEncoder->encodePassword($user, $password);
         $user->setPassword($encoded);
+
+        //Give user all roles
+        $user->setRoles([
+                            'ROLE_ADMIN',
+                            'ROLE_EDIT_USER',
+                            'ROLE_EDIT_ORGANISATIONS',
+                            'ROLE_SHOW_PAYMENT_ORDERS',
+                            'ROLE_EDIT_PAYMENT_ORDERS',
+                            'ROLE_PO_FACTUALLY',
+                            'ROLE_PO_MATHEMATICALLY',
+                        ]);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
