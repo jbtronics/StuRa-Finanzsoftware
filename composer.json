@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-migrations-bundle": "^2.1.2",
-        "easycorp/easyadmin-bundle": "dev-master",
+        "easycorp/easyadmin-bundle": "^3.0.1",
         "php-translation/symfony-bundle": "^0.12.1",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
@@ -36,6 +36,7 @@
         "twig/intl-extra": "^3.0"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
@@ -85,12 +86,6 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jbtronics/EasyAdminBundle.git"
-        }
-    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,
