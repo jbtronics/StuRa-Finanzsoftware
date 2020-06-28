@@ -869,7 +869,7 @@
     <unit id="wPnvtWt" name="tfa_google.enable">
       <segment>
         <source>tfa_google.enable</source>
-        <target>Authenticator deaktivieren</target>
+        <target>Authenticator aktivieren</target>
       </segment>
     </unit>
     <unit id="lj4_PUd" name="tfa_google.code">

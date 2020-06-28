@@ -97,5 +97,5 @@
     <input type="hidden" name="_token" value="{{ csrf_token('devices_reset' ~ user.id) }}">
     <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
 
-    <button class="btn btn-danger" type="submit">{% trans %}tfa_trustedDevices.invalidate.btn{% endtrans %}</button>
+    <button class="btn btn-danger offset-sm-3" type="submit">{% trans %}tfa_trustedDevices.invalidate.btn{% endtrans %}</button>
 </form>

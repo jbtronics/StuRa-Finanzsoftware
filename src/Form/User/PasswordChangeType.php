@@ -34,7 +34,10 @@ class PasswordChangeType extends AbstractType
         ]);
 
         $builder->add('submit', SubmitType::class, [
-            'label' => 'submit'
+            'label' => 'submit',
+            'attr' => [
+                'class' => 'offset-sm-3 btn-primary'
+            ]
         ]);
     }
 }

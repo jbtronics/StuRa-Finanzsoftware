@@ -57,12 +57,15 @@ class TFAGoogleSettingsType extends AbstractType
 
                 $form->add('submit', SubmitType::class, [
                     'label' => 'tfa_google.enable',
+                    'attr' => [
+                        'class' => 'btn-danger offset-sm-3',
+                    ]
                 ]);
             } else {
                 $form->add('submit', SubmitType::class, [
                     'label' => 'tfa_google.disable',
                     'attr' => [
-                        'class' => 'btn-danger',
+                        'class' => 'btn-danger offset-sm-3',
                     ],
                 ]);
             }
