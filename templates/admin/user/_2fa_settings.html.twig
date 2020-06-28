@@ -1,0 +1,48 @@
+{% form_theme google_form "@EasyAdmin/crud/form_theme.html.twig" %}
+
+<h5>{% trans %}tfa.settings.title{% endtrans %}</h5>
+
+{{ form_start(google_form) }}
+{% if not tfa_google.enabled %}
+    <div class="offset-sm-3">
+        <h6>{% trans %}tfa_google.disabled_message{% endtrans %}</h6>
+    </div>
+
+    <div class="offset-sm-3 row">
+        <div class="col-sm-3">
+            <img width="100%" class="img-fluid" alt="{{ tfa_google.qrContent }}" src="{{ tfa_google.qrImageDataUri }}">
+        </div>
+        <div class="col-sm-9 my-auto">
+            <ol class="">
+                <li>{% trans %}tfa_google.step.download{% endtrans %}</li>
+                <li>{% trans %}tfa_google.step.scan{% endtrans %}</li>
+                <li>{% trans %}tfa_google.step.input_code{% endtrans %}</li>
+                <li>{% trans %}tfa_google.step.download_backup{% endtrans %}</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="offset-sm-3">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#manualSetupCollapse" aria-expanded="false" aria-controls="manualSetupCollapse">
+            {% trans %}tfa_google.manual_setup{% endtrans %}
+        </button>
+        <div class="collapse" id="manualSetupCollapse">
+            <div class="card card-body mb-2">
+                <p><b>{% trans %}tfa_google.manual_setup.type{% endtrans %}</b>: TOTP</p>
+                <p><b>{% trans %}tfa_google.manual_setup.username{% endtrans %}</b>: {{ tfa_google.username }}</p>
+                <p><b>{% trans %}tfa_google.manual_setup.secret{% endtrans %}</b>: {{ tfa_google.secret }}</p>
+                <p><b>{% trans %}tfa_google.manual_setup.digit_count{% endtrans %}</b>: 6</p>
+
+            </div>
+        </div>
+    </div>
+
+    {{ form_row(google_form.google_confirmation) }}
+{% else %}
+    <div class="offset-sm-3">
+        <h6>{% trans %}tfa_google.enabled_message{% endtrans %}</h6>
+    </div>
+{% endif %}
+                {{ form_row(google_form.submit) }}
+{{ form_end(google_form) }}
+

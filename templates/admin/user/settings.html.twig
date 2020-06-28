@@ -8,4 +8,7 @@
     <h5>{% trans %}password.change_pw.title{% endtrans %}</h5>
     {{ form_start(pw_form) }}
     {{ form_end(pw_form) }}
+
+    <br>
+    {% include('admin/user/_2fa_settings.html.twig') %}
 {% endblock %}

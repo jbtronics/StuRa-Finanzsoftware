@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -83,10 +84,12 @@ class UserCrudController extends AbstractCrudController
 
         $password_panel = FormField::addPanel('user.section.password')->setHelp('user.section.password.help');
 
+        $tfa_enabled = BooleanField::new('tfa_enabled', 'user.tfa_enabled.label')->setHelp('user.tfa_enabled.help')->renderAsSwitch(false)->hideOnForm();
+
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $username, $fullName, $roleDescription, $email];
+            return [$id, $username, $fullName, $roleDescription, $email, $tfa_enabled];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $username, $roleDescription, $email, $roles, $firstName, $lastName, $roles];
+            return [$id, $username, $roleDescription, $email, $roles, $firstName, $lastName, $roles, $tfa_enabled];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword];
         } elseif (Crud::PAGE_EDIT === $pageName) {

@@ -631,5 +631,252 @@
         <target>"Rechnerisch richtig" bearbeiten</target>
       </segment>
     </unit>
+    <unit id="_Fh8M7G" name="user.tfa_enabled.label">
+      <segment>
+        <source>user.tfa_enabled.label</source>
+        <target>2FA</target>
+      </segment>
+    </unit>
+    <unit id="Wcwc592" name="user.tfa_enabled.help">
+      <segment>
+        <source>user.tfa_enabled.help</source>
+        <target>Gibt an ob der Benutzer eine Zwei-Faktor-Authentifizierung (2FA) eingerichtet hat.</target>
+      </segment>
+    </unit>
+    <unit id="6O05gNK" name="tfa.settings.title">
+      <segment>
+        <source>tfa.settings.title</source>
+        <target>Zwei-Faktor-Authentifizierung</target>
+      </segment>
+    </unit>
+    <unit id="AYt4Z2k" name="tfa_google.disable.confirm_title">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+      </notes>
+      <segment>
+        <source>tfa_google.disable.confirm_title</source>
+        <target>Möchten Sie die Authenticator App wirklich deaktivieren?</target>
+      </segment>
+    </unit>
+    <unit id="lTwm.J0" name="tfa_google.disable.confirm_message">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+      </notes>
+      <segment>
+        <source>tfa_google.disable.confirm_message</source>
+        <target><![CDATA[Wenn Sie die Authenticator App deaktivieren, werden alle Backupcodes gelöscht, daher sie müssen sie evtl. neu ausdrucken.<br>
+          Beachten Sie außerdem, dass ihr Account ohne Zwei-Faktor-Authentifizierung nicht mehr so gut gegen Angreifer geschützt ist!]]></target>
+      </segment>
+    </unit>
+    <unit id="VYOAO2c" name="tfa_google.disabled_message">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
+      </notes>
+      <segment>
+        <source>tfa_google.disabled_message</source>
+        <target>Authenticator App deaktiviert</target>
+      </segment>
+    </unit>
+    <unit id="cW3GnIC" name="tfa_google.step.download">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
+      </notes>
+      <segment>
+        <source>tfa_google.step.download</source>
+        <target><![CDATA[Laden Sie eine Authenticator App herunter (z.B. <a class="link-external" target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a> oder <a class="link-external" target="_blank" href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp">FreeOTP Authenticator</a>)]]></target>
+      </segment>
+    </unit>
+    <unit id="TXv.pXw" name="tfa_google.step.scan">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
+      </notes>
+      <segment>
+        <source>tfa_google.step.scan</source>
+        <target>Scannen Sie den nebenstehenden QR-Code mit der App oder geben Sie die Daten manuell ein</target>
+      </segment>
+    </unit>
+    <unit id="A9Ex8CO" name="tfa_google.step.input_code">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
+      </notes>
+      <segment>
+        <source>tfa_google.step.input_code</source>
+        <target>Geben Sie den erzeugten Code in das untere Feld ein und bestätigen Sie</target>
+      </segment>
+    </unit>
+    <unit id="RqoGsnx" name="tfa_google.step.download_backup">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
+      </notes>
+      <segment>
+        <source>tfa_google.step.download_backup</source>
+        <target>Drucken Sie ihre Backupcodes aus und lagern sie an einem sicherem Ort</target>
+      </segment>
+    </unit>
+    <unit id="EygadTb" name="tfa_google.manual_setup">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
+      </notes>
+      <segment>
+        <source>tfa_google.manual_setup</source>
+        <target>Manuelle Einrichtung</target>
+      </segment>
+    </unit>
+    <unit id="4jE4fvm" name="tfa_google.manual_setup.type">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
+      </notes>
+      <segment>
+        <source>tfa_google.manual_setup.type</source>
+        <target>Typ</target>
+      </segment>
+    </unit>
+    <unit id="NqQTgh6" name="tfa_google.manual_setup.username">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
+      </notes>
+      <segment>
+        <source>tfa_google.manual_setup.username</source>
+        <target>Benutzername</target>
+      </segment>
+    </unit>
+    <unit id="pkupOqy" name="tfa_google.manual_setup.secret">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
+      </notes>
+      <segment>
+        <source>tfa_google.manual_setup.secret</source>
+        <target>Secret</target>
+      </segment>
+    </unit>
+    <unit id="zabzs3X" name="tfa_google.manual_setup.digit_count">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
+      </notes>
+      <segment>
+        <source>tfa_google.manual_setup.digit_count</source>
+        <target>Anzahl Stellen</target>
+      </segment>
+    </unit>
+    <unit id="FvB0dIm" name="tfa_google.enabled_message">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
+      </notes>
+      <segment>
+        <source>tfa_google.enabled_message</source>
+        <target>Authenticator App aktiv</target>
+      </segment>
+    </unit>
+    <unit id="3WtQFdr" name="tfa.check.title">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
+      </notes>
+      <segment>
+        <source>tfa.check.title</source>
+        <target>Zwei-Faktor-Authentifizierung benötigt</target>
+      </segment>
+    </unit>
+    <unit id="FPvJfPr" name="tfa.code.trusted_pc">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
+      </notes>
+      <segment>
+        <source>tfa.code.trusted_pc</source>
+        <target>Dies ist ein vertrauenswürdiger Computer (wenn dies aktiviert ist, werden auf diesem Computer keine weiteren Zwei-Faktor-Abfragen durchgeführt)</target>
+      </segment>
+    </unit>
+    <unit id="XtrGxkd" name="login.btn">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
+        <note category="file-source" priority="1">Part-DB1\templates\security\login.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
+        <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
+      </notes>
+      <segment>
+        <source>login.btn</source>
+        <target>Login</target>
+      </segment>
+    </unit>
+    <unit id="okzpfQC" name="user.logout">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
+        <note category="file-source" priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
+        <note category="file-source" priority="1">Part-DB1\templates\_navbar.html.twig:42</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
+        <note priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
+        <note priority="1">Part-DB1\templates\_navbar.html.twig:40</note>
+      </notes>
+      <segment>
+        <source>user.logout</source>
+        <target>Ausloggen</target>
+      </segment>
+    </unit>
+    <unit id="INlwXoR" name="tfa.check.code.label">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
+      </notes>
+      <segment>
+        <source>tfa.check.code.label</source>
+        <target>Authenticator App Code</target>
+      </segment>
+    </unit>
+    <unit id="TUbr0_A" name="tfa.check.code.help">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
+      </notes>
+      <segment>
+        <source>tfa.check.code.help</source>
+        <target>Geben Sie hier den 6-stelligen Code aus ihrer Authenticator App ein oder einen ihrer Backupcodes, wenn der Authenticator nicht verfügbar ist.</target>
+      </segment>
+    </unit>
+    <unit id="XTe6pUU" name="tfa.provider.google">
+      <segment>
+        <source>tfa.provider.google</source>
+        <target>Authenticator App</target>
+      </segment>
+    </unit>
+    <unit id="g7Bwb96" name="tfa_google.disable">
+      <segment>
+        <source>tfa_google.disable</source>
+        <target>Authentikator App deaktivieren</target>
+      </segment>
+    </unit>
+    <unit id="xy.2mkA" name="user.settings.2fa.google.activated">
+      <segment>
+        <source>user.settings.2fa.google.activated</source>
+        <target>Zwei-Faktor-Authentifizierung aktiviert</target>
+      </segment>
+    </unit>
+    <unit id="wPnvtWt" name="tfa_google.enable">
+      <segment>
+        <source>tfa_google.enable</source>
+        <target>Authenticator deaktivieren</target>
+      </segment>
+    </unit>
+    <unit id="lj4_PUd" name="tfa_google.code">
+      <segment>
+        <source>tfa_google.code</source>
+        <target>Code</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

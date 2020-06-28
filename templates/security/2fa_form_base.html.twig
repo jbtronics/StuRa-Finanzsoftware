@@ -1,0 +1,17 @@
+{% extends "@EasyAdmin/page/login_minimal.html.twig" %}
+
+{% block page_title %}
+    {% trans %}tfa.check.title{% endtrans %}
+{% endblock %}
+
+{% block wrapper_wrapper %}
+    <div class="container pt-2">
+        <section id="main">
+            <div class="content-panel">
+                <div class="content-panel-body without-header">
+                    {% block page_content %}{% endblock %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

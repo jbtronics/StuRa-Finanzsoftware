@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use App\Validator\NoLockout;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"})
  * @NoLockout(groups={"perm_edit"})
  */
-class User implements UserInterface
+class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface
 {
     /**
      * @ORM\Id()
@@ -67,6 +70,26 @@ class User implements UserInterface
      * @Assert\Length(min=6)
      */
     private $plain_password;
+
+    /**
+     * @ORM\Column(name="googleAuthenticatorSecret", type="string", nullable=true)
+     */
+    private $googleAuthenticatorSecret;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $trustedVersion = 0;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $backupCodes = null;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $backupCodesDate;
 
     public function getId(): ?int
     {
@@ -244,7 +267,110 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * Returns true if this user has any Two-Factor method enabled
+     * @return bool
+     */
+    public function isTFAEnabled(): bool
+    {
+        return $this->isGoogleAuthenticatorEnabled();
+    }
 
+    public function isGoogleAuthenticatorEnabled(): bool
+    {
+        return $this->googleAuthenticatorSecret ? true : false;
+    }
+
+    public function getGoogleAuthenticatorUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getGoogleAuthenticatorSecret(): ?string
+    {
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): self
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+        return $this;
+    }
+
+    public function getTrustedTokenVersion(): int
+    {
+        return $this->trustedVersion;
+    }
+
+    /**
+     * Invalidate all trusted devices used by this user
+     * @return $this
+     */
+    public function invalidateTrustedDevices(): self
+    {
+        $this->googleAuthenticatorSecret++;
+        return $this;
+    }
+
+    /**
+     * Check if it is a valid backup code.
+     *
+     * @param string $code
+     *
+     * @return bool
+     */
+    public function isBackupCode(string $code): bool
+    {
+        //Don't check if no backup codes are defined.
+        if (empty($this->backupCodes)) {
+            return false;
+        }
+
+        return in_array($code, $this->backupCodes, true);
+    }
+
+    /**
+     * Invalidate a backup code
+     *
+     * @param string $code
+     */
+    public function invalidateBackupCode(string $code): void
+    {
+        $key = array_search($code, $this->backupCodes);
+        if ($key !== false){
+            unset($this->backupCodes[$key]);
+        }
+    }
+
+    /**
+     * Set all backup codes of this user. BackupCodeDate will be updated
+     * @param  array  $codes
+     * @return $this
+     */
+    public function setBackupCodes(array $codes): self
+    {
+        $this->backupCodes = $codes;
+        $this->backupCodesDate = new \DateTime();
+        return $this;
+    }
+
+    /**
+     * Returns the date when the backup codes where generated.
+     * @return \DateTime
+     */
+    public function getBackupCodesDate(): \DateTime
+    {
+        return $this->backupCodesDate;
+    }
+
+    /**
+     * Returns all backup codes of this user
+     * @return array
+     */
+    public function getBackupCodes(): array
+    {
+        return $this->backupCodes;
+    }
 
     public function __toString(): string
     {
