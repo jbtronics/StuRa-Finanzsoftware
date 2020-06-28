@@ -24,3 +24,8 @@ nelmio_security:
         policies:
             - 'no-referrer'
             - 'strict-origin-when-cross-origin'
+
+    # prevents redirections outside the website's domain
+    external_redirects:
+        abort: true
+        log: true
