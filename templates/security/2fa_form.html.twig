@@ -28,8 +28,7 @@
                 <label for="_auth_code" class="">{% trans %}tfa.check.code.label{% endtrans %}</label>
                 <div class="">
                     <input id="_auth_code" class="form-control" type="text" autocomplete="one-time-code"
-                           autofocus name="{{ authCodeParameterName }}" inputmode="numeric"
-                           pattern="[0-9]*" />
+                           autofocus name="{{ authCodeParameterName }}"/>
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         {% trans %}tfa.check.code.help{% endtrans %}
                     </small>

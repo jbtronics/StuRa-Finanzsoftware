@@ -47,6 +47,48 @@
 {{ form_end(google_form) }}
 
 
+{#
+        Backup codes
+ #}
+
+<h5>{% trans %}tfa.settings.backup.tab{% endtrans %}</h5>
+
+{% if user.backupCodes is empty %}
+    <div class="offset-sm-3">
+        <h6>{% trans %}tfa_backup.disabled{% endtrans %}</h6>
+        <span>{% trans %}tfa_backup.explanation{% endtrans %}</span>
+    </div>
+{% else %}
+    <div class="offset-sm-3">
+        <h6>{% trans %}tfa_backup.enabled{% endtrans %}</h6>
+        <span>{% trans %}tfa_backup.explanation{% endtrans %}</span>
+    </div>
+    <div class="offset-sm-3 mt-2">
+        <p class="mb-0"><b>{% trans %}tfa_backup.remaining_tokens{% endtrans %}:</b> {{ user.backupCodes | length }}</p>
+        <p><b>{% trans %}tfa_backup.generation_date{% endtrans %}:</b> {{ user.backupCodesDate | format_datetime }}</p>
+    </div>
+    <div class="offset-sm-3">
+        <a href="{{ url('show_backup_codes') }}" target="_blank" data-no-ajax class="btn btn-primary">{% trans %}tfa_backup.show_codes{% endtrans %}</a>
+    </div>
+
+    <div class="offset-sm-3 mt-2">
+        <form action="{{ url('tfa_regenerate_backup_codes') }}" method="post""
+              data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('regenerate_backup_codes' ~ user.id) }}">
+            <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
+
+            <button class="btn btn-danger" type="submit">{% trans %}tfa_backup.regenerate_codes{% endtrans %}</button>
+        </form>
+    </div>
+
+{% endif %}
+
+
+{#
+        Trusted devices
+ #}
+
 <h5>{% trans %}tfa.settings.trustedDevices.tab{% endtrans %}</h5>
 <p>{% trans %}tfa_trustedDevices.explanation{% endtrans %}</p>
 <form action="{{ url('tfa_trustedDevices_invalidate') }}" method="post" data-delete-form data-title="{% trans %}tfa_trustedDevices.invalidate.confirm_title{% endtrans %}"

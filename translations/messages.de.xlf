@@ -878,46 +878,152 @@
         <target>Code</target>
       </segment>
     </unit>
-
     <unit id="6nafcsi" name="tfa.settings.trustedDevices.tab">
-      <segment state="translated">
+      <segment>
         <source>tfa.settings.trustedDevices.tab</source>
         <target>Vertrauenswürdige Geräte</target>
       </segment>
     </unit>
-
     <unit id="h.BcrtU" name="tfa_trustedDevice.invalidate.success">
-      <segment state="translated">
+      <segment>
         <source>tfa_trustedDevice.invalidate.success</source>
         <target>Vertrauenswürdige Geräte erfolgreich zurückgesetzt.</target>
       </segment>
     </unit>
-
     <unit id="JNqROE2" name="tfa_trustedDevices.explanation">
-      <segment state="translated">
+      <segment>
         <source>tfa_trustedDevices.explanation</source>
-        <target>Bei der Überprüfung des zweiten Faktors, kann der aktuelle Computer als vertrauenswürdig gekennzeichnet werden, daher es werden keine Zwei-Faktor-Überprüfungen mehr an diesem Computer benötigt.
-          Wenn Sie dies fehlerhafterweise gemacht haben oder ein Computer nicht mehr vertrauenswürdig ist, können Sie hier den Status &lt;i&gt;aller &lt;/i&gt;Computer zurücksetzen.</target>
+        <target><![CDATA[Bei der Überprüfung des zweiten Faktors, kann der aktuelle Computer als vertrauenswürdig gekennzeichnet werden, daher es werden keine Zwei-Faktor-Überprüfungen mehr an diesem Computer benötigt.
+          Wenn Sie dies fehlerhafterweise gemacht haben oder ein Computer nicht mehr vertrauenswürdig ist, können Sie hier den Status <i>aller </i>Computer zurücksetzen.]]></target>
       </segment>
     </unit>
     <unit id="xRB9q2I" name="tfa_trustedDevices.invalidate.confirm_title">
-      <segment state="translated">
+      <segment>
         <source>tfa_trustedDevices.invalidate.confirm_title</source>
         <target>Wirklich alle vertrauenswürdigen Computer entfernen?</target>
       </segment>
     </unit>
     <unit id="r7Z3.L4" name="tfa_trustedDevices.invalidate.confirm_message">
-      <segment state="translated">
+      <segment>
         <source>tfa_trustedDevices.invalidate.confirm_message</source>
         <target>Sie werden auf allen Rechnern erneut eine Zwei-Faktor-Authentifizierung durchführen müssen. Achten Sie darauf, dass Sie ihr Zwei-Faktor-Gerät zur Hand haben.</target>
       </segment>
     </unit>
     <unit id="jiNvzqA" name="tfa_trustedDevices.invalidate.btn">
-      <segment state="translated">
+      <segment>
         <source>tfa_trustedDevices.invalidate.btn</source>
         <target>Alle vertrauenswürdigen Geräte entfernen</target>
       </segment>
     </unit>
-
+    <unit id="_OcjXRe" name="tfa_backup.no_codes_enabled">
+      <notes>
+        <note category="file-source" priority="1">Part-DB1\src\Controller\UserSettingsController.php:101</note>
+        <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:92</note>
+      </notes>
+      <segment>
+        <source>tfa_backup.no_codes_enabled</source>
+        <target>Es sind keine Backupcodes aktiviert!</target>
+      </segment>
+    </unit>
+    <unit id="n13qerD" name="tfa_backup.regenerate_codes">
+      <notes>
+        <note priority="1">obsolete</note>
+        <note category="state" priority="1">obsolete</note>
+      </notes>
+      <segment>
+        <source>tfa_backup.regenerate_codes</source>
+        <target>Neue Backupcodes erzeugen</target>
+      </segment>
+    </unit>
+    <unit id="7v_PSOf" name="tfa_backup.remaining_tokens">
+      <segment>
+        <source>tfa_backup.remaining_tokens</source>
+        <target>Verbleibende Backupcodes</target>
+      </segment>
+    </unit>
+    <unit id="xhNIm7L" name="tfa_backup.generation_date">
+      <segment>
+        <source>tfa_backup.generation_date</source>
+        <target>Erzeugungsdatum der Backupcodes</target>
+      </segment>
+    </unit>
+    <unit id="xd6VhOm" name="tfa_backup.codes.title">
+      <segment>
+        <source>tfa_backup.codes.title</source>
+        <target>Backupcodes</target>
+      </segment>
+    </unit>
+    <unit id="DE6_hcj" name="tfa_backup.codes.explanation">
+      <segment>
+        <source>tfa_backup.codes.explanation</source>
+        <target>Drucken Sie diese Codes aus und bewahren Sie sie an einem sicherem Ort auf!</target>
+      </segment>
+    </unit>
+    <unit id="q3Apy0z" name="tfa_backup.codes.help">
+      <segment>
+        <source>tfa_backup.codes.help</source>
+        <target>Wenn Sie keinen Zugriff auf ihr Gerät mit der Authenticator App mehr haben sollten (Smartphone verloren, Datenverlust, etc.) können Sie einen dieser Codes benutzen, um Zugriff auf ihren Account zu erhalten und evtl. eine neue Authenticator App einzurichten. Jeder dieser Codes lässt sich einmal einsetzen, es empfiehlt sich benutzte Codes zu streichen. Jeder mit Zugriff auf diese Codes kann potentiell auf ihren Account zugreifen, daher bewahren Sie sie an einem sicheren Ort auf.</target>
+      </segment>
+    </unit>
+    <unit id="iPcPo4t" name="tfa_backup.username">
+      <segment>
+        <source>tfa_backup.username</source>
+        <target>Benutzername</target>
+      </segment>
+    </unit>
+    <unit id="g7XKOBR" name="tfa_backup.codes.page_generated_on">
+      <segment>
+        <source>tfa_backup.codes.page_generated_on</source>
+        <target>Codes abgerufen am %date%</target>
+      </segment>
+    </unit>
+    <unit id="3Qg6WkA" name="tfa_backup.codes.print">
+      <segment>
+        <source>tfa_backup.codes.print</source>
+        <target>Drucken</target>
+      </segment>
+    </unit>
+    <unit id="atzHEe7" name="tfa_backup.disabled">
+      <segment>
+        <source>tfa_backup.disabled</source>
+        <target>Backupcodes deaktiviert. Authenticator App einrichten, um Backupcodes zu aktivieren.</target>
+      </segment>
+    </unit>
+    <unit id=".T4.dPM" name="tfa_backup.explanation">
+      <segment>
+        <source>tfa_backup.explanation</source>
+        <target>Mithilfe dieser Backupcodes können Sie auf ihren Account zugreifen, selbst wenn Sie das Gerät mit der Authenticator App verlieren sollten. Drucken Sie die Codes aus und bewahren Sie sie an einem sicherem Ort auf.</target>
+      </segment>
+    </unit>
+    <unit id="o5LtJ9_" name="tfa_backup.enabled">
+      <segment>
+        <source>tfa_backup.enabled</source>
+        <target>Backupcodes aktiviert</target>
+      </segment>
+    </unit>
+    <unit id="kqmz5H_" name="tfa_backup.show_codes">
+      <segment>
+        <source>tfa_backup.show_codes</source>
+        <target>Backupcodes anzeigen</target>
+      </segment>
+    </unit>
+    <unit id="vmHdm45" name="tfa.settings.backup.tab">
+      <segment>
+        <source>tfa.settings.backup.tab</source>
+        <target>Backup Codes</target>
+      </segment>
+    </unit>
+    <unit id="4ZUxld3" name="user.settings.2fa.backup_codes.regenerated">
+      <segment>
+        <source>user.settings.2fa.backup_codes.regenerated</source>
+        <target>Neue Backupcodes erfolgreich erstellt.</target>
+      </segment>
+    </unit>
+    <unit id="RXjFD7H" name="user.settings.2fa.google.disabled">
+      <segment>
+        <source>user.settings.2fa.google.disabled</source>
+        <target>Zwei-Faktor-Authentifizierung erfolgreich deaktiviert.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

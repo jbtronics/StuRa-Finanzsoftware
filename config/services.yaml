@@ -29,5 +29,11 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Services\TFA\BackupCodeGenerator:
+        arguments:
+            $code_length: 8
+            $code_count: 15
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

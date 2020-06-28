@@ -358,7 +358,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      * Returns the date when the backup codes where generated.
      * @return \DateTime
      */
-    public function getBackupCodesDate(): \DateTime
+    public function getBackupCodesDate(): ?\DateTime
     {
         return $this->backupCodesDate;
     }

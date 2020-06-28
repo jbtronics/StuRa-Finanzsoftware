@@ -5,10 +5,9 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Events\SecurityEvent;
-use App\Events\SecurityEvents;
 use App\Form\TFA\TFAGoogleSettingsType;
 use App\Form\User\PasswordChangeType;
+use App\Services\TFA\BackupCodeManager;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
@@ -20,14 +19,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/admin/user")
+ * @package App\Controller
+ */
 class UserSettingsController extends AbstractController
 {
     /**
-     * @Route("/admin/user/settings", name="user_settings")
+     * @Route("/settings", name="user_settings")
      * @return Response
      */
     public function userSettings(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,
-        GoogleAuthenticator $googleAuthenticator, QrCodeGenerator $qrCodeGenerator): Response
+        GoogleAuthenticator $googleAuthenticator, QrCodeGenerator $qrCodeGenerator, BackupCodeManager $backupCodeManager): Response
     {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -63,17 +66,17 @@ class UserSettingsController extends AbstractController
             if (! $google_enabled) {
                 //Save 2FA settings (save secrets)
                 $user->setGoogleAuthenticatorSecret($google_form->get('googleAuthenticatorSecret')->getData());
-                //$backupCodeManager->enableBackupCodes($user);
+                $backupCodeManager->enableBackupCodes($user);
 
                 $entityManager->flush();
                 $this->addFlash('success', 'user.settings.2fa.google.activated');
 
-                return $this->redirect($request->getUri());;
+                return $this->redirect($request->getUri());
             }
 
             //Remove secret to disable google authenticator
             $user->setGoogleAuthenticatorSecret(null);
-            //$backupCodeManager->disableBackupCodesIfUnused($user);
+            $backupCodeManager->disableBackupCodesIfUnused($user);
             $entityManager->flush();
             $this->addFlash('success', 'user.settings.2fa.google.disabled');
 
@@ -94,6 +97,57 @@ class UserSettingsController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/2fa_backup_codes", name="show_backup_codes")
+     */
+    public function showBackupCodes()
+    {
+        $user = $this->getUser();
+
+        //When user change its settings, he should be logged  in fully.
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (! $user instanceof User) {
+            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        }
+
+        if (empty($user->getBackupCodes())) {
+            $this->addFlash('error', 'tfa_backup.no_codes_enabled');
+
+            throw new \RuntimeException('You do not have any backup codes enabled, therefore you can not view them!');
+        }
+
+        return $this->render('admin/user/backup_codes.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+
+    /**
+     * @Route("/regenerate_backup_codes", name="tfa_regenerate_backup_codes", methods={"DELETE"})
+     */
+    public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager)
+    {
+        $user = $this->getUser();
+
+        //When user change its settings, he should be logged  in fully.
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (! $user instanceof User) {
+            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        }
+
+        if ($this->isCsrfTokenValid('regenerate_backup_codes'.$user->getId(), $request->request->get('_token'))) {
+            $backupCodeManager->regenerateBackupCodes($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'user.settings.2fa.backup_codes.regenerated');
+        } else {
+            $this->addFlash('error', 'csfr_invalid');
+        }
+
+        return $this->redirect($request->request->get('_redirect'));
+    }
 
     /**
      * @Route("/invalidate_trustedDevices", name="tfa_trustedDevices_invalidate", methods={"DELETE"})
