@@ -46,3 +46,14 @@
                 {{ form_row(google_form.submit) }}
 {{ form_end(google_form) }}
 
+
+<h5>{% trans %}tfa.settings.trustedDevices.tab{% endtrans %}</h5>
+<p>{% trans %}tfa_trustedDevices.explanation{% endtrans %}</p>
+<form action="{{ url('tfa_trustedDevices_invalidate') }}" method="post" data-delete-form data-title="{% trans %}tfa_trustedDevices.invalidate.confirm_title{% endtrans %}"
+      data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('devices_reset' ~ user.id) }}">
+    <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
+
+    <button class="btn btn-danger" type="submit">{% trans %}tfa_trustedDevices.invalidate.btn{% endtrans %}</button>
+</form>

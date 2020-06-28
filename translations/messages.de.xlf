@@ -878,5 +878,46 @@
         <target>Code</target>
       </segment>
     </unit>
+
+    <unit id="6nafcsi" name="tfa.settings.trustedDevices.tab">
+      <segment state="translated">
+        <source>tfa.settings.trustedDevices.tab</source>
+        <target>Vertrauenswürdige Geräte</target>
+      </segment>
+    </unit>
+
+    <unit id="h.BcrtU" name="tfa_trustedDevice.invalidate.success">
+      <segment state="translated">
+        <source>tfa_trustedDevice.invalidate.success</source>
+        <target>Vertrauenswürdige Geräte erfolgreich zurückgesetzt.</target>
+      </segment>
+    </unit>
+
+    <unit id="JNqROE2" name="tfa_trustedDevices.explanation">
+      <segment state="translated">
+        <source>tfa_trustedDevices.explanation</source>
+        <target>Bei der Überprüfung des zweiten Faktors, kann der aktuelle Computer als vertrauenswürdig gekennzeichnet werden, daher es werden keine Zwei-Faktor-Überprüfungen mehr an diesem Computer benötigt.
+          Wenn Sie dies fehlerhafterweise gemacht haben oder ein Computer nicht mehr vertrauenswürdig ist, können Sie hier den Status &lt;i&gt;aller &lt;/i&gt;Computer zurücksetzen.</target>
+      </segment>
+    </unit>
+    <unit id="xRB9q2I" name="tfa_trustedDevices.invalidate.confirm_title">
+      <segment state="translated">
+        <source>tfa_trustedDevices.invalidate.confirm_title</source>
+        <target>Wirklich alle vertrauenswürdigen Computer entfernen?</target>
+      </segment>
+    </unit>
+    <unit id="r7Z3.L4" name="tfa_trustedDevices.invalidate.confirm_message">
+      <segment state="translated">
+        <source>tfa_trustedDevices.invalidate.confirm_message</source>
+        <target>Sie werden auf allen Rechnern erneut eine Zwei-Faktor-Authentifizierung durchführen müssen. Achten Sie darauf, dass Sie ihr Zwei-Faktor-Gerät zur Hand haben.</target>
+      </segment>
+    </unit>
+    <unit id="jiNvzqA" name="tfa_trustedDevices.invalidate.btn">
+      <segment state="translated">
+        <source>tfa_trustedDevices.invalidate.btn</source>
+        <target>Alle vertrauenswürdigen Geräte entfernen</target>
+      </segment>
+    </unit>
+
   </file>
 </xliff>

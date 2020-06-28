@@ -5,6 +5,8 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Events\SecurityEvent;
+use App\Events\SecurityEvents;
 use App\Form\TFA\TFAGoogleSettingsType;
 use App\Form\User\PasswordChangeType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +29,9 @@ class UserSettingsController extends AbstractController
     public function userSettings(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,
         GoogleAuthenticator $googleAuthenticator, QrCodeGenerator $qrCodeGenerator): Response
     {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw new \RuntimeException('This controller can only manage App\Entity\User objects!');
@@ -75,6 +81,7 @@ class UserSettingsController extends AbstractController
         }
 
         return $this->render('admin/user/settings.html.twig', [
+            'user' => $user,
             'pw_form' => $pw_form->createView(),
             'google_form' => $google_form->createView(),
             'tfa_google' => [
@@ -85,5 +92,33 @@ class UserSettingsController extends AbstractController
                 'username' => $user->getGoogleAuthenticatorUsername(),
             ],
         ]);
+    }
+
+
+    /**
+     * @Route("/invalidate_trustedDevices", name="tfa_trustedDevices_invalidate", methods={"DELETE"})
+     *
+     * RedirectResponse
+     */
+    public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager)
+    {
+        $user = $this->getUser();
+
+        //When user change its settings, he should be logged  in fully.
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (! $user instanceof User) {
+            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        }
+
+        if ($this->isCsrfTokenValid('devices_reset'.$user->getId(), $request->request->get('_token'))) {
+            $user->invalidateTrustedDevices();
+            $entityManager->flush();
+            $this->addFlash('success', 'tfa_trustedDevice.invalidate.success');
+        } else {
+            $this->addFlash('error', 'csfr_invalid');
+        }
+
+        return $this->redirect($request->request->get('_redirect'));
     }
 }
