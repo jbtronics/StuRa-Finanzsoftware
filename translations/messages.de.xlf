@@ -1050,5 +1050,17 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Kontakt Emails</target>
       </segment>
     </unit>
+    <unit id="eg9gnb0" name="payment_order.action.email">
+      <segment>
+        <source>payment_order.action.email</source>
+        <target>Rückfrage schreiben</target>
+      </segment>
+    </unit>
+    <unit id="YEGgBoB" name="payment_order.mail.subject">
+      <segment>
+        <source>payment_order.mail.subject</source>
+        <target>Rückfrage Zahlungsauftrag</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

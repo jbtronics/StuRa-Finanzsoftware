@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Admin\Field\DisablableBooleanField;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
+use App\Services\PaymentEmailMailToGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -29,6 +30,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PaymentOrderCrudController extends AbstractCrudController
 {
+    private $mailToGenerator;
+
+    public function __construct(PaymentEmailMailToGenerator $mailToGenerator)
+    {
+        $this->mailToGenerator = $mailToGenerator;
+    }
+
     public static function getEntityFqcn(): string
     {
         return PaymentOrder::class;
@@ -62,6 +70,19 @@ class PaymentOrderCrudController extends AbstractCrudController
                                      Action::DELETE => 'ROLE_EDIT_PAYMENT_ORDERS',
                                      Action::NEW => 'ROLE_EDIT_PAYMENT_ORDERS',
                                  ]);
+
+        $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
+            ->linkToUrl(function(PaymentOrder $paymentOrder) {
+                return $this->mailToGenerator->generateMailToHref($paymentOrder);
+            });
+
+        //Hide action if no contact emails are associated with department
+        $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
+            return $this->mailToGenerator->generateMailToHref($paymentOrder) !== null;
+        });
+
+        $actions->add(Crud::PAGE_EDIT, $emailAction);
+        $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -105,7 +126,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $firstName, $lastName, $projectName, $amount, $mathematicallyCorrect, $factuallyCorrect, $comment, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $department, $lastModified, $creationDate];
+            return [$id, $firstName, $lastName, $projectName, $department, $amount, $mathematicallyCorrect, $factuallyCorrect, $comment, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$panel1, $firstName, $lastName, $department, $amount, $projectName, $comment, $panel2, $mathematicallyCorrect, $factuallyCorrect, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {
