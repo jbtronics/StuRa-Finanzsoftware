@@ -1025,5 +1025,18 @@
         <target>Zwei-Faktor-Authentifizierung erfolgreich deaktiviert.</target>
       </segment>
     </unit>
+    <unit id="GFpVDYm" name="user.section.tfa">
+      <segment>
+        <source>user.section.tfa</source>
+        <target>Zwei-Faktor-Authentifizierung</target>
+      </segment>
+    </unit>
+    <unit id="wtwYoH0" name="user.section.tfa.help">
+      <segment>
+        <source>user.section.tfa.help</source>
+        <target><![CDATA[Aus Sicherheitsgründen kann die Zwei-Faktor-Authentifizierung eines Benutzers nicht über die Weboberfläche deaktiviert werden.
+Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/console app:user-disable-2fa [username]</code> deaktivieren.]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>

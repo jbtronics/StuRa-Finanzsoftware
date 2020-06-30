@@ -84,16 +84,18 @@ class UserCrudController extends AbstractCrudController
 
         $password_panel = FormField::addPanel('user.section.password')->setHelp('user.section.password.help');
 
-        $tfa_enabled = BooleanField::new('tfa_enabled', 'user.tfa_enabled.label')->setHelp('user.tfa_enabled.help')->renderAsSwitch(false)->hideOnForm();
+        $tfa_panel = FormField::addPanel('user.section.tfa')->setHelp('user.section.tfa.help');
+        $tfa_enabled = BooleanField::new('tfa_enabled', 'user.tfa_enabled.label')
+            ->setHelp('user.tfa_enabled.help')->renderAsSwitch(false)->setFormTypeOption('disabled', true);
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $username, $fullName, $roleDescription, $email, $tfa_enabled];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $username, $roleDescription, $email, $roles, $firstName, $lastName, $roles, $tfa_enabled];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword];
+            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword, $tfa_panel, $tfa_enabled];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword];
+            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword, $tfa_panel, $tfa_enabled];
         }
     }
 
