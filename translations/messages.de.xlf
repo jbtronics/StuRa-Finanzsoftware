@@ -1038,5 +1038,17 @@
 Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/console app:user-disable-2fa [username]</code> deaktivieren.]]></target>
       </segment>
     </unit>
+    <unit id="a6nTYRh" name="department.contact_emails.help">
+      <segment>
+        <source>department.contact_emails.help</source>
+        <target>Feld leeren, um es zu entfernen</target>
+      </segment>
+    </unit>
+    <unit id="EnQXMLD" name="department.contact_emails.label">
+      <segment>
+        <source>department.contact_emails.label</source>
+        <target>Kontakt Emails</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

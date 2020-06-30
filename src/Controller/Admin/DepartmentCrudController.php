@@ -11,7 +11,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -20,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class DepartmentCrudController extends AbstractCrudController
 {
@@ -70,15 +73,23 @@ class DepartmentCrudController extends AbstractCrudController
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
 
+        $contact_emails = CollectionField::new('contact_emails', 'department.contact_emails.label')
+            ->setHelp('department.contact_emails.help')
+            ->setTemplatePath('admin/field/email_collection.html.twig')
+            ->allowAdd()->allowDelete()
+            ->setFormTypeOption('delete_empty', true)
+            ->setFormTypeOption('entry_options.required', false)
+            ->setEntryType(EmailType::class);
+
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $name, $type, $blocked];
+            return [$id, $name, $type, $blocked, $contact_emails];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $type, $blocked, $comment, $creationDate, $lastModified];
+            return [$id, $name, $type, $blocked, $comment, $contact_emails, $creationDate, $lastModified];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $type, $blocked, $comment];
+            return [$name, $type, $blocked, $contact_emails, $comment];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $type, $blocked, $comment];
+            return [$name, $type, $blocked, $contact_emails, $comment];
         }
     }
 }

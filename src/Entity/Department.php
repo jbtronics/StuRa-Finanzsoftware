@@ -54,6 +54,16 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $comment = "";
 
     /**
+     * @var string[]
+     * @ORM\Column(type="json")
+     * @Assert\Unique()
+     * @Assert\All({
+     *     @Assert\Email()
+     * })
+     */
+    private $contact_emails = [];
+
+    /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * @return string
      */
@@ -129,6 +139,31 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         $this->comment = $comment;
         return $this;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getContactEmails(): array
+    {
+        //Handle empty fields from older migrations
+        if ($this->contact_emails === null) {
+            return [];
+        }
+
+        return $this->contact_emails;
+    }
+
+    /**
+     * @param  string[]  $contact_emails
+     * @return $this
+     */
+    public function setContactEmails(array $contact_emails): self
+    {
+        $this->contact_emails = $contact_emails;
+        return $this;
+    }
+
+
 
 
 }

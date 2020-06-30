@@ -1,0 +1,23 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{# this is a bit ugly, but Twig doesn't have a 'is numeric' test #}
+
+{% set index_view = ea.crud.currentAction == "index" %}
+
+{% for email in field.value %}
+    <a class="badge badge-secondary" href="mailto:{{ email }}">{{ email }}</a>
+    {% if index_view and loop.index is divisible by(3)  %}
+        <br>
+    {% endif %}
+{% endfor %}
+
+{% dump(ea) %}
+
+{#
+{% if field.formattedValue matches '/^\\d+$/' %}
+    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
+{% else %}
+    {{ field.formattedValue }}
+{% endif %}
+#}
