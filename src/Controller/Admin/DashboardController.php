@@ -7,6 +7,7 @@ use App\Entity\PaymentOrder;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\CrudMenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -47,9 +48,58 @@ class DashboardController extends AbstractDashboardController
         return Crud::new();
     }
 
+    private function addFiltersToMenuItem(CrudMenuItem $menuItem, array $filters): CrudMenuItem
+    {
+        //Set referrer or we encounter errrors...
+        $menuItem->setQueryParameter('referrer', '');
+
+        foreach ($filters as $filter => $value) {
+            $menuItem->setQueryParameter('filters[' . $filter . ']', $value);
+        }
+
+        return $menuItem;
+    }
+
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('payment_order.labelp', 'fas fa-file-invoice-dollar', PaymentOrder::class)->setPermission('ROLE_SHOW_PAYMENT_ORDERS');
+
+        //Incoming entry must be have both fields not set.
+        $incoming = MenuItem::linkToCrud('payment_order.incoming', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($incoming, [
+            'factually_correct' => 0,
+            'mathematically_correct' => 0,
+        ]);
+
+        $factually_checking = MenuItem::linkToCrud('payment_order.factually_checking_needed', '',PaymentOrder::class);
+        $this->addFiltersToMenuItem($factually_checking, [
+           'factually_correct' => 0,
+        ]);
+
+        $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($mathematically_checking, [
+            'mathematically_correct' => 0,
+        ]);
+
+        $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($finished, [
+            'factually_correct' => 1,
+            'mathematically_correct' => 1,
+        ]);
+
+
+
+        $items = [
+            $incoming,
+            $mathematically_checking,
+            $factually_checking,
+            $finished,
+            MenuItem::linkToCrud('payment_order.all', '', PaymentOrder::class),
+            ];
+
+        yield MenuItem::subMenu('payment_order.labelp', 'fas fa-file-invoice-dollar')
+            ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
+            ->setSubItems($items);
+
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class);
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class);
 

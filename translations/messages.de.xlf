@@ -1062,5 +1062,35 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Rückfrage Zahlungsauftrag</target>
       </segment>
     </unit>
+    <unit id="C8w5njJ" name="payment_order.incoming">
+      <segment>
+        <source>payment_order.incoming</source>
+        <target>Unbearbeitet</target>
+      </segment>
+    </unit>
+    <unit id="lMMH_Ib" name="payment_order.factually_checking_needed">
+      <segment>
+        <source>payment_order.factually_checking_needed</source>
+        <target>Sachliche Prüfung benötigt</target>
+      </segment>
+    </unit>
+    <unit id="DXjGzJv" name="payment_order.mathematically_checking_needed">
+      <segment>
+        <source>payment_order.mathematically_checking_needed</source>
+        <target>Rechnerische Prüfung benötigt</target>
+      </segment>
+    </unit>
+    <unit id="5FUwDO2" name="payment_order.all">
+      <segment>
+        <source>payment_order.all</source>
+        <target>Alle</target>
+      </segment>
+    </unit>
+    <unit id="3ozMaXr" name="payment_order.finished">
+      <segment>
+        <source>payment_order.finished</source>
+        <target>Abgeschlossen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
