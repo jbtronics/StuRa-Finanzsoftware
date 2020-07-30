@@ -112,6 +112,9 @@
     "endroid/qr-code": {
         "version": "3.8.2"
     },
+    "fortawesome/font-awesome": {
+        "version": "5.14.0"
+    },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.3"
     },
