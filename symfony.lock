@@ -242,6 +242,9 @@
     "slowprog/composer-copy-file": {
         "version": "0.3.3"
     },
+    "snapappointments/bootstrap-select": {
+        "version": "v1.13.18"
+    },
     "spomky-labs/otphp": {
         "version": "v10.0.1"
     },

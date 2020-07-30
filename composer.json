@@ -16,6 +16,7 @@
         "scheb/2fa-trusted-device": "^5.0",
         "sensio/framework-extra-bundle": "^5.1",
         "slowprog/composer-copy-file": "^0.3.3",
+        "snapappointments/bootstrap-select": "^1.13",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
@@ -103,7 +104,9 @@
         },
         "copy-file": {
             "vendor/twbs/bootstrap/dist/js/bootstrap.min.js": "public/assets/js/bootstrap.js",
-            "vendor/twbs/bootstrap/dist/css/bootstrap.min.css": "public/assets/css/bootstrap.css"
+            "vendor/twbs/bootstrap/dist/css/bootstrap.min.css": "public/assets/css/bootstrap.css",
+            "vendor/snapappointments/bootstrap-select/dist/css/bootstrap-select.min.css": "public/assets/css/bootstrap-select.css",
+            "vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js": "public/assets/js/bootstrap-select.js"
         }
     }
 }
