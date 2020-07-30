@@ -84,7 +84,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     /**
      * @ORM\Column(type="json")
      */
-    private $backupCodes = null;
+    private $backupCodes = [];
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
