@@ -3,6 +3,9 @@
 uploads/*
 !uploads/.keep
 
+# The assets folders are filled by composer
+public/assets/*
+
 
 ###> symfony/framework-bundle ###
 /.env.local

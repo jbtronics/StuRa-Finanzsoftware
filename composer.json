@@ -15,6 +15,7 @@
         "scheb/2fa-qr-code": "^5.0",
         "scheb/2fa-trusted-device": "^5.0",
         "sensio/framework-extra-bundle": "^5.1",
+        "slowprog/composer-copy-file": "^0.3.3",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
@@ -39,6 +40,7 @@
         "symfony/validator": "5.1.*",
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
+        "twbs/bootstrap": "4.5.0",
         "twig/intl-extra": "^3.0"
     },
     "require-dev": {
@@ -83,10 +85,12 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
         ]
     },
     "conflict": {
@@ -96,6 +100,10 @@
         "symfony": {
             "allow-contrib": false,
             "require": "5.1.*"
+        },
+        "copy-file": {
+            "vendor/twbs/bootstrap/dist/js/bootstrap.min.js": "public/assets/js/bootstrap.js",
+            "vendor/twbs/bootstrap/dist/css/bootstrap.min.css": "public/assets/css/bootstrap.css"
         }
     }
 }

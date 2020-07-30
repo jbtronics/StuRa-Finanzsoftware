@@ -239,6 +239,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "slowprog/composer-copy-file": {
+        "version": "0.3.3"
+    },
     "spomky-labs/otphp": {
         "version": "v10.0.1"
     },
@@ -628,6 +631,9 @@
     },
     "thecodingmachine/safe": {
         "version": "v1.1.2"
+    },
+    "twbs/bootstrap": {
+        "version": "v4.5.0"
     },
     "twig/extra-bundle": {
         "version": "v3.0.3"
