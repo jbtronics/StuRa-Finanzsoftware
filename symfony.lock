@@ -5,6 +5,9 @@
     "beberlei/assert": {
         "version": "v3.2.7"
     },
+    "components/jquery": {
+        "version": "3.5.1"
+    },
     "composer/ca-bundle": {
         "version": "1.2.7"
     },
