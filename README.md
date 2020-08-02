@@ -61,3 +61,65 @@ Wenn ein Update verfügbar ist, kann die Software wie folgt aktualisiert werden:
 1. `git pull`
 2. `composer install --no-dev -o`
 3. `php bin/console doctrine:migrations:migrate` (**vorher sollte unbedingt ein Backup der Datenbank geschehen!**)
+
+## Administration
+
+### Command Line Interface
+
+Über die Konsole können Benutzer angelegt werden, Passwörter geändert, und Berechtigungen an Nutzer vergeben werden.
+Dies ist nützlich, wenn das Passwort für den Administrationsbenutzer vergessen wurde, und diese Dinge daher nicht auf 
+der Weboberfläche geändert werden können. Weiterhin lässt sich nur so die Zwei-Faktor-Authentifizierung zurücksetzen, wenn
+ein Benutzer sein Gerät und die Backup-Codes vergessen hat.
+
+Nützliche Befehle sind (ausgeführt aus dem Hauptverzeichnis):
+* `php bin/console app:user-new [USERNAME]`: legt einen neuen Benutzer an
+* `php bin/console app:user-change-password [USERNAME]`: ändert das Passwort eines Benutzers
+* `php bin/console app:user-disable-2fa [USERNAME]`: Deaktiviert alle Zwei-Faktor-Authentifizierungsmaßnahmen für den Benutzer.
+Der Nutzer kann sich danach alleine mit seinem Passwort anmelden.
+* `php bin/console app:user-promote [USERNAME]`: Gibt dem Benutzer eine zusätzliche Rolle. Siehe eingebaute Hilfe für mehr Informationen.
+
+Mit der Option `--help` kann eine Hilfe zur Verwendung und Funktionsweise dieser Befehle aufgerufen werden.
+
+Weitere nützliche Befehle könnten nützlich sein:
+* `php bin/console cache:clear`: Löscht den Programmcache. Notwendig wenn etwas an Dateien verändert wurde
+* `php bin/console doctrine:migrations:migrate`: Aktualisiert die Datenbank auf den aktuellen Programmstand
+
+### Fehlerbehebung
+
+Log-Dateien finden sich in `var/log/` (vom Programmverzeichnis aus), insbesondere `var/log/prod.log` dürfte interessant sein.
+
+Wenn Fehler auftreten, ist es hilfreich erstmal den Browsercache und Servercache (mit `php bin/console cache:clear`) zu löschen.
+Weiterhin ist wichtig, dass der Webserver vollen Zugriff auf `var/` und alle darinliegenden Dateien hat (Lesen + Schreiben).
+Wenn z.B. composer als root-User ausgeführt wurde, müssen die Berechtigungen angepasst werden. Eine andere Möglichkeit wäre,
+den Ordner `var/` zu löschen und die Website aufzurufen. Die Software legt dann die benötigten Dateien und Ordnerstrukturen wieder an.
+
+Wenn diese Tipps nicht helfen, ist es auch möglich in `.env.log` die `APP_ENV` zu `APP_ENV=dev` zu ändern 
+(dann muss aber Dev-Abhängigkeiten mit `composer install -o` installiert worden sein). Mit dieser Einstellungen werden Fehlermeldungen
+im Browser angezeigt, inklusiver Hilfreicher Debug-Tools. Da dies potentiell unsicher ist, sollte die Einstellung schnellstmöglich auf
+`APP_ENV=prod` zurückgeändert werden.
+
+## Lizenz
+TODO
+
+## Entwicklerinformationen
+Diese Anwendung ist mit [Symfony 5](https://symfony.com/) und [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) entwickelt worden.
+Für Weiterentwicklung dieser Software sollte dort die entsprechende Dokumentation gelesen werden.
+
+Für eine Entwicklungsumgebung sollten die Dev-Abhängigkeiten ohne Optimierungen mit `composer install` installiert werden.
+Dann kann der Entwicklermodus mit `APP_ENV=dev` in `.env.local` aktiviert werden, Symfony zeigt dann eine Entwicklertoolbar an und
+Optimierungen werden deaktiviert.
+
+Übersetzungsdateien befinden sich in `translations/` und können mit einem Editor wie [POEdit](https://poedit.net/) bearbeitet werden.
+Nach Änderungen muss der Cache gelöscht werden: `php bin/console cache:clear`.
+
+Der HTML-Code für die Frontpage findet sich in `templates/`. Für Templates wird [Twig](https://twig.symfony.com/) verwendet.
+
+Alles was von einem Browser abgerufen werden können soll (z.B. Styles und Javascript), muss im Ordner `public/` liegen,
+da dies der DocumentRoot ist. Die benötigten Frontendabhängigkeiten werden von Composer heruntergeladen und in den `public/assets/`
+Ordner kopiert (siehe `extra.copyFile` Eintrag in composer.json). Wenn noch deutlich komplexe Frontend-Skripte benötigt werden sollten,
+macht es eventuell Sinn auf Webpack bzw. [Webpack-Encore](https://github.com/symfony/webpack-encore) zu migrieren.
+
+Die Abhängigkeiten können mit `composer update` (bzw. `composer update -o`, wenn es im Produktivbetrieb benutzt werden soll) aktualisiert werden.
+Die Constraints sollten so gesetzt sein, dass alles weiterhin funktioniert nach einem Update, trotzdem sollte die Anwendung nach einem Update
+der Abhängigkeiten getestet werden. Für ein Upgrade von Symfony folge [dieser](https://symfony.com/doc/current/setup/upgrade_minor.html) Anleitung.
+Solange die Major-Version gleich bleibt, sollte ein Upgrade gefahrlos möglich sein (d.h. 5.1 -> 5.2 funktioniert, 5.2 -> 6.0 vermutlich nicht).
