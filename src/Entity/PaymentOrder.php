@@ -20,6 +20,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 {
     use TimestampTrait;
 
+    const FUNDING_REGEX = '/^(FA|M)-\d{3}-20\d{2}$/';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -91,6 +93,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @var string "Mittelfreigabe / Finanzantrag"
      * @ORM\Column(type="string")
+     * @Assert\Regex(PaymentOrder::FUNDING_REGEX)
      */
     private $funding_id = "";
 
@@ -257,7 +260,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @return string
      */
-    public function getComment(): ?string
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -266,7 +269,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @param  string  $comment
      * @return PaymentOrder
      */
-    public function setComment(?string $comment): PaymentOrder
+    public function setComment(string $comment): PaymentOrder
     {
         $this->comment = $comment;
         return $this;
