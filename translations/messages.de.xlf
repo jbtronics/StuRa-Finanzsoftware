@@ -1128,5 +1128,11 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Sachliche Prüfung benötigt (Referate)</target>
       </segment>
     </unit>
+    <unit id="xFQhGFj" name="payment_order.action.contact_hhv">
+      <segment>
+        <source>payment_order.action.contact_hhv</source>
+        <target>HHV kontaktieren</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

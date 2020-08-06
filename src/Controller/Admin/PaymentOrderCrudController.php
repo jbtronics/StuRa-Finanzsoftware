@@ -76,15 +76,25 @@ class PaymentOrderCrudController extends AbstractCrudController
         $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->generateMailToHref($paymentOrder);
-            });
+            })
+        ->setCssClass('text-dark');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
             return $this->mailToGenerator->generateMailToHref($paymentOrder) !== null;
         });
 
+        $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')
+            ->linkToUrl(function(PaymentOrder $paymentOrder) {
+                return $this->mailToGenerator->getHHVMailLink($paymentOrder);
+            })
+        ->setCssClass('mr-2 text-dark');
+
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
+
+        $actions->add(Crud::PAGE_EDIT, $hhv_action);
+        $actions->add(Crud::PAGE_DETAIL, $hhv_action);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }

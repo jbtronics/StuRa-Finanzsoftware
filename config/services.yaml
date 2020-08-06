@@ -7,6 +7,7 @@ parameters:
     app.version: '1.0.0-dev'
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
+    app.hhv_email: '%env(HHV_EMAIL)%'
 
 services:
     # default configuration for services in *this* file
@@ -16,6 +17,7 @@ services:
         bind:
             string $app_version: '%app.version%'
             string $fsb_email: '%app.fsb_email%'
+            string $hhv_email: '%app.hhv_email%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

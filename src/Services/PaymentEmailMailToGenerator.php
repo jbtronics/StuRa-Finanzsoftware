@@ -4,16 +4,41 @@
 namespace App\Services;
 
 
+use App\Controller\Admin\PaymentOrderCrudController;
 use App\Entity\PaymentOrder;
+use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PaymentEmailMailToGenerator
 {
     private $translator;
+    private $crudUrlGenerator;
 
-    public function __construct(TranslatorInterface $translator)
+    private $hhv_email;
+
+    public function __construct(TranslatorInterface $translator, CrudUrlGenerator $crudUrlGenerator, string $hhv_email)
     {
         $this->translator = $translator;
+        $this->hhv_email = $hhv_email;
+        $this->crudUrlGenerator = $crudUrlGenerator;
+    }
+
+    public function getHHVMailLink(?PaymentOrder $paymentOrder): ?string
+    {
+        $string = "mailto:" . urlencode($this->hhv_email);
+
+        //Add subject
+        $subject = $this->translator->trans('payment_order.mail.subject') . ' - '
+            . urlencode($paymentOrder->getDepartment()->getName()) . ': ' . urlencode($paymentOrder->getProjectName())
+            . ' ' . urlencode('[#' . $paymentOrder->getId(). ']');
+        $string .= '?subject=' . $subject;
+
+        $content = 'Link: ' . urlencode($this->crudUrlGenerator->build()->setController(PaymentOrderCrudController::class)
+            ->setEntityId($paymentOrder->getId())->setAction('detail'));
+
+        $string .= '&body=' . $content;
+
+        return $string;
     }
 
     /**
