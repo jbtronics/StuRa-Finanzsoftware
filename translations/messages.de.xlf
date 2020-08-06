@@ -1110,5 +1110,23 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Nur notwendig für Referate und FSR-Kom Anträge.</target>
       </segment>
     </unit>
+    <unit id="efVDUJi" name="payment_order.factually_checking_needed.fsr">
+      <segment>
+        <source>payment_order.factually_checking_needed.fsr</source>
+        <target>Sachliche Prüfung benötigt (FSRe)</target>
+      </segment>
+    </unit>
+    <unit id="DwJWpMJ" name="payment_order.department_type.label">
+      <segment>
+        <source>payment_order.department_type.label</source>
+        <target>Organisationstyp</target>
+      </segment>
+    </unit>
+    <unit id="i6CH_eL" name="payment_order.factually_checking_needed.section">
+      <segment>
+        <source>payment_order.factually_checking_needed.section</source>
+        <target>Sachliche Prüfung benötigt (Referate)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

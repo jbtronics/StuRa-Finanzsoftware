@@ -63,21 +63,21 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
 
-        //Incoming entry must be have both fields not set.
-        $incoming = MenuItem::linkToCrud('payment_order.incoming', '', PaymentOrder::class);
-        $this->addFiltersToMenuItem($incoming, [
-            'factually_correct' => 0,
-            'mathematically_correct' => 0,
-        ]);
-
-        $factually_checking = MenuItem::linkToCrud('payment_order.factually_checking_needed', '',PaymentOrder::class);
-        $this->addFiltersToMenuItem($factually_checking, [
-           'factually_correct' => 0,
-        ]);
-
         $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class);
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
+        ]);
+
+        $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class);
+        $this->addFiltersToMenuItem($factually_checking_fsr, [
+            'factually_correct' => 0,
+            'department_type' => 'fsr'
+        ]);
+
+        $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class);
+        $this->addFiltersToMenuItem($factually_checking_section, [
+            'factually_correct' => 0,
+            'department_type' => 'section'
         ]);
 
         $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class);
@@ -89,9 +89,9 @@ class DashboardController extends AbstractDashboardController
 
 
         $items = [
-            $incoming,
             $mathematically_checking,
-            $factually_checking,
+            $factually_checking_fsr,
+            $factually_checking_section,
             $finished,
             MenuItem::linkToCrud('payment_order.all', '', PaymentOrder::class),
             ];

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Admin\Field\DisablableBooleanField;
+use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
 use App\Services\PaymentEmailMailToGenerator;
@@ -54,6 +55,7 @@ class PaymentOrderCrudController extends AbstractCrudController
     {
         return $filters
             ->add(EntityFilter::new('department', 'payment_order.department.label'))
+            ->add(DepartmentTypeFilter::new('department_type', 'payment_order.department_type.label'))
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
             ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
             ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
