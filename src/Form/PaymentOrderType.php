@@ -41,6 +41,15 @@ class PaymentOrderType extends AbstractType
             ],
         ]);
 
+        $builder->add('funding_id', TextType::class, [
+            'label' => 'payment_order.funding_id.label',
+            'help' => 'payment_order.funding_id.help',
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'payment_order.funding_id.placeholder'
+            ],
+        ]);
+
         $builder->add('department', DepartmentChoiceType::class, [
             'label' => 'payment_order.department.label',
         ]);

@@ -88,6 +88,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      */
     private $comment = "";
 
+    /**
+     * @var string "Mittelfreigabe / Finanzantrag"
+     * @ORM\Column(type="string")
+     */
+    private $funding_id = "";
+
     public function __construct()
     {
         $this->bank_info = new BankAccountInfo();
@@ -265,6 +271,25 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->comment = $comment;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getFundingId(): string
+    {
+        return $this->funding_id;
+    }
+
+    /**
+     * @param  string  $funding_id
+     */
+    public function setFundingId(string $funding_id): self
+    {
+        $this->funding_id = $funding_id;
+        return $this;
+    }
+
+
 
 
 }
