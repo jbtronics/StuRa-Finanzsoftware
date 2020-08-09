@@ -36,6 +36,8 @@ services:
             $code_length: 8
             $code_count: 15
 
+    App\Services\Upload\PaymentOrderFileNamer:
+        public: true
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

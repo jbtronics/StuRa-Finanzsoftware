@@ -5,13 +5,13 @@ vich_uploader:
         payment_orders_form:
             uri_prefix: /uploads/payment_orders/forms
             upload_destination: '%kernel.project_dir%/public/uploads/payment_orders/forms'
-            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            namer:  App\Services\Upload\PaymentOrderFileNamer
 
             inject_on_load: true
 
         payment_orders_references:
             uri_prefix: /uploads/payment_orders/references
             upload_destination: '%kernel.project_dir%/public/uploads/payment_orders/references'
-            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            namer:  App\Services\Upload\PaymentOrderFileNamer
 
             inject_on_load: true
