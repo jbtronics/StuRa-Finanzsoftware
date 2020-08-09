@@ -354,6 +354,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     public function setPrintedFormFile(?\Symfony\Component\HttpFoundation\File\File $printed_form_file): PaymentOrder
     {
         $this->printed_form_file = $printed_form_file;
+
+        if (null !== $printed_form_file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updateTimestamps();
+        }
         return $this;
     }
 
@@ -390,6 +396,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     public function setReferencesFile(?\Symfony\Component\HttpFoundation\File\File $references_file): PaymentOrder
     {
         $this->references_file = $references_file;
+
+        if (null !== $references_file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updateTimestamps();
+        }
         return $this;
     }
 

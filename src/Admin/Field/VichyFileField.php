@@ -4,6 +4,7 @@
 namespace App\Admin\Field;
 
 
+use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -17,7 +18,6 @@ class VichyFileField implements FieldInterface
     {
         return (new self())
             ->setProperty($propertyName)
-            ->setVirtual(true)
             ->setLabel($label)
             //->setTemplateName('crud/field/image')
             ->setTemplatePath('admin/field/vichy_file.html.twig')

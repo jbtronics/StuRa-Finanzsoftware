@@ -151,5 +151,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         } elseif (Crud::PAGE_EDIT === $pageName) {
             return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         }
+
+        throw new \RuntimeException("It should not be possible to reach this point...");
     }
 }
