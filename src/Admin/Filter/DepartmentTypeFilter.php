@@ -39,7 +39,6 @@ class DepartmentTypeFilter implements FilterInterface
         ?FieldDto $fieldDto,
         EntityDto $entityDto
     ): void {
-        dump($filterDataDto->getValue());
         $queryBuilder->andWhere('department.type = :department_type')->setParameter('department_type',$filterDataDto->getValue());
         $queryBuilder->leftJoin($filterDataDto->getEntityAlias() . '.department', 'department');
     }
