@@ -1,0 +1,12 @@
+{% set index_view = ea.crud.currentAction == "index" %}
+{% set ent = entity.instance %}
+{% set file = field.value %}
+
+{% if file is not null %}
+
+    <a href="{{ vich_uploader_asset(ent, field.property) }}" target="_blank">{{ file.filename }}</a> (<b>{{ file.size | formatBytes }}</b>, {{ file.mimetype }})
+    <a href="{{ vich_uploader_asset(ent, field.property) }}" download=""><i class="fas fa-download"></i></a>
+
+{% else %}
+    <b>{% trans %}file.empty{% endtrans %}</b>
+{% endif %}

@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class PaymentOrderType extends AbstractType
 {
@@ -65,6 +66,17 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('bank_info', BankAccountInfoType::class, [
             'label' => false
+        ]);
+
+        $builder->add('printed_form_file', VichFileType::class, [
+            'label' => 'payment_order.printed_form.label',
+            'help' => 'payment_order.printed_form.help',
+            'help_html' => true
+        ]);
+
+        $builder->add('references_file', VichFileType::class, [
+            'label' => 'payment_order.references.label',
+            'help' => 'payment_order.references.help'
         ]);
 
         $builder->add('submit', SubmitType::class, [

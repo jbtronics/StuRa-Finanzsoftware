@@ -1134,5 +1134,35 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>HHV kontaktieren</target>
       </segment>
     </unit>
+    <unit id="UZeOAXi" name="file.empty">
+      <segment>
+        <source>file.empty</source>
+        <target>Keine Datei vorhanden!</target>
+      </segment>
+    </unit>
+    <unit id="IZIxTyG" name="payment_order.printed_form.label">
+      <segment>
+        <source>payment_order.printed_form.label</source>
+        <target>Gescanntes Formular</target>
+      </segment>
+    </unit>
+    <unit id="U1nhaZQ" name="payment_order.references.label">
+      <segment>
+        <source>payment_order.references.label</source>
+        <target>Nachweise</target>
+      </segment>
+    </unit>
+    <unit id="1_4xBRy" name="payment_order.printed_form.help">
+      <segment>
+        <source>payment_order.printed_form.help</source>
+        <target><![CDATA[Das ausgefüllte und unterschriebene <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege_ausfuellbar.pdf" target="_blank">Antragsformular</a>]]></target>
+      </segment>
+    </unit>
+    <unit id="4mZWrct" name="payment_order.references.help">
+      <segment>
+        <source>payment_order.references.help</source>
+        <target>Die für den Antrag benötigten Nachweise (Rechnungen, etc.)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

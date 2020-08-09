@@ -6,6 +6,7 @@ uploads/*
 # The assets folders are filled by composer
 public/assets/*
 
+public/uploads/*
 
 ###> symfony/framework-bundle ###
 /.env.local

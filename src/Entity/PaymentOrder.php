@@ -10,10 +10,13 @@ use App\Validator\FSRNotBlocked;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Entity\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentOrderRepository::class)
  * @ORM\Table("payment_orders")
+ * @Vich\Uploadable()
  * @ORM\HasLifecycleCallbacks()
  */
 class PaymentOrder implements DBElementInterface, TimestampedElementInterface
@@ -97,9 +100,42 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      */
     private $funding_id = "";
 
+    /*
+     * Associated files
+     */
+
+    /**
+     * @Vich\UploadableField(mapping="payment_orders_form", fileNameProperty="printed_form.name", size="printed_form.size", mimeType="printed_form.mimeType", originalName="printed_form.originalName", dimensions="printed_form.dimensions")
+     * @var \Symfony\Component\HttpFoundation\File\File|null
+     */
+    private $printed_form_file;
+
+    /**
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var File
+     */
+    private $printed_form;
+
+    /**
+     * @Vich\UploadableField(mapping="payment_orders_references", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
+     * @var \Symfony\Component\HttpFoundation\File\File|null
+     */
+    private $references_file;
+
+    /**
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var File
+     */
+    private $references;
+
     public function __construct()
     {
         $this->bank_info = new BankAccountInfo();
+
+        $this->references = new File();
+        $this->printed_form = new File();
     }
 
     public function getId(): ?int
@@ -292,7 +328,76 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this;
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\File\File|null
+     */
+    public function getPrintedFormFile(): ?\Symfony\Component\HttpFoundation\File\File
+    {
+        return $this->printed_form_file;
+    }
 
+    /**
+     * @param  \Symfony\Component\HttpFoundation\File\File|null  $printed_form_file
+     * @return PaymentOrder
+     */
+    public function setPrintedFormFile(?\Symfony\Component\HttpFoundation\File\File $printed_form_file): PaymentOrder
+    {
+        $this->printed_form_file = $printed_form_file;
+        return $this;
+    }
 
+    /**
+     * @return File
+     */
+    public function getPrintedForm(): File
+    {
+        return $this->printed_form;
+    }
+
+    /**
+     * @param  \Symfony\Component\HttpFoundation\File\File  $printed_form
+     * @return PaymentOrder
+     */
+    public function setPrintedForm(File $printed_form): PaymentOrder
+    {
+        $this->printed_form = $printed_form;
+        return $this;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\File\File|null
+     */
+    public function getReferencesFile(): ?\Symfony\Component\HttpFoundation\File\File
+    {
+        return $this->references_file;
+    }
+
+    /**
+     * @param  \Symfony\Component\HttpFoundation\File\File|null  $references_file
+     * @return PaymentOrder
+     */
+    public function setReferencesFile(?File $references_file): \Symfony\Component\HttpFoundation\File\File
+    {
+        $this->references_file = $references_file;
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getReferences(): File
+    {
+        return $this->references;
+    }
+
+    /**
+     * @param  File  $references
+     * @return PaymentOrder
+     */
+    public function setReferences(File $references): PaymentOrder
+    {
+        $this->references = $references;
+        return $this;
+    }
 
 }
