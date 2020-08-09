@@ -1164,5 +1164,11 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Die für den Antrag benötigten Nachweise (Rechnungen, etc.)</target>
       </segment>
     </unit>
+    <unit id="XhS3Bkw" name="form.label.delete">
+      <segment>
+        <source>form.label.delete</source>
+        <target>Löschen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
