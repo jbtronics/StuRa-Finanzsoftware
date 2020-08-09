@@ -79,7 +79,7 @@ class UserCrudController extends AbstractCrudController
         $roleDescription = TextField::new('role_description', 'user.role_description.label')->setRequired(false)->setFormTypeOption('empty_data', '');
         $plainPassword = PasswordField::new('plain_password')->setRequired(Crud::PAGE_NEW === $pageName);
         $id = IntegerField::new('id', 'user.id.label');
-        $roles = ChoiceField::new('roles')->allowMultipleChoices()->setChoices($this->getRoleChoices())->renderExpanded()->setLabel('user.roles.label');
+        $roles = ChoiceField::new('roles')->allowMultipleChoices()->setChoices($this->getRoleChoices())->renderExpanded()->renderAsNativeWidget()->setLabel('user.roles.label');
         $fullName = TextField::new('fullName', 'user.fullName.label');
 
         $password_panel = FormField::addPanel('user.section.password')->setHelp('user.section.password.help');
