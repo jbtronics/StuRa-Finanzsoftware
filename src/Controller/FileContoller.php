@@ -26,6 +26,8 @@ class FileContoller extends AbstractController
      */
     public function PaymentOrderForm(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
         return $downloadHandler->downloadObject(
             $paymentOrder,
             'printed_form_file',
@@ -43,6 +45,8 @@ class FileContoller extends AbstractController
      */
     public function PaymentOrderReferences(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
         return $downloadHandler->downloadObject(
             $paymentOrder,
             'references_file',
