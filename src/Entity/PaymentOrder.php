@@ -107,6 +107,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @Vich\UploadableField(mapping="payment_orders_form", fileNameProperty="printed_form.name", size="printed_form.size", mimeType="printed_form.mimeType", originalName="printed_form.originalName", dimensions="printed_form.dimensions")
      * @var \Symfony\Component\HttpFoundation\File\File|null
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "validator.upload_pdf"
+     * )
      */
     private $printed_form_file;
 
@@ -120,6 +125,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @Vich\UploadableField(mapping="payment_orders_references", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
      * @var \Symfony\Component\HttpFoundation\File\File|null
+     *
+     * @Assert\File(
+     *     maxSize = "10M",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "validator.upload_pdf"
+     * )
      */
     private $references_file;
 
@@ -376,7 +387,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @param  \Symfony\Component\HttpFoundation\File\File|null  $references_file
      * @return PaymentOrder
      */
-    public function setReferencesFile(?File $references_file): \Symfony\Component\HttpFoundation\File\File
+    public function setReferencesFile(?\Symfony\Component\HttpFoundation\File\File $references_file): PaymentOrder
     {
         $this->references_file = $references_file;
         return $this;

@@ -13,5 +13,11 @@
         <target>Um ein versehentliches Aussperren zu verhindern, kannst du dir selbst nicht die Rechte entziehen, Nutzer zu bearbeiten. Bitte einen anderen Nutzer mit diesem Recht, dir diese Berechtigung zu entziehen.</target>
       </segment>
     </unit>
+    <unit id="DWjanO7" name="validator.upload_pdf">
+      <segment>
+        <source>validator.upload_pdf</source>
+        <target>Bitte laden sie eine PDF hoch!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
