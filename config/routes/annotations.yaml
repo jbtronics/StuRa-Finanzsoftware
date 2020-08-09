@@ -5,7 +5,6 @@ controllers:
     prefix:
         de: ''
         de_DE: '/de'
-        fr: '/fr'
         en: '/en'
 
 #controllers_admin:
