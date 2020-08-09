@@ -39,8 +39,16 @@
     <script src="{{ asset("assets/js/bootstrap.js") }}"></script>
     <script src="{{ asset("assets/js/bootstrap-select.js") }}"></script>
 
+    <script src="{{ asset("bs-custom-file-input.min.js") }}"></script>
+
     <script>
         $('.toast').toast('show');
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        });
     </script>
 {% endblock %}
 </body>
