@@ -1170,5 +1170,11 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Löschen</target>
       </segment>
     </unit>
+    <unit id="_vLOXJC" name="payment_order.group.documents">
+      <segment>
+        <source>payment_order.group.documents</source>
+        <target>Dokumente</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -138,17 +138,18 @@ class PaymentOrderCrudController extends AbstractCrudController
         $factuallyCorrect->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'));
         $factuallyCorrect->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
 
+        $panel_documents = FormField::addPanel('payment_order.group.documents');
         $printed_form = VichyFileField::new('printed_form_file', 'payment_order.printed_form.label');
         $references = VichyFileField::new('references_file', 'payment_order.references.label');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$panel1, $printed_form, $references, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
+            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$panel1, $firstName, $lastName, $department, $amount, $projectName, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
+            return [$panel_documents, $printed_form, $references, $panel1, $firstName, $lastName, $department, $amount, $projectName, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$panel1, $printed_form, $firstName, $lastName, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
+            return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         }
     }
 }
