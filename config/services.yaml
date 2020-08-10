@@ -10,6 +10,8 @@ parameters:
     app.hhv_email: '%env(HHV_EMAIL)%'
     app.from_email: '%env(FROM_EMAIL)%'
     app.from_name: '%env(FROM_NAME)%'
+    app.send_notifications: '%env(bool:SEND_NOTIFICATIONS)%'
+    app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
 
 services:
     # default configuration for services in *this* file
@@ -45,6 +47,11 @@ services:
         arguments:
             $email: '%app.from_email%'
             $name: '%app.from_name%'
+
+    App\EventSubscriber\PaymentOrderNotificationSubscriber:
+        arguments:
+            $send_notifications: '%app.send_notifications%'
+            $notifications_bcc: '%app.notifications_bcc%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

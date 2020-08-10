@@ -16,16 +16,27 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     private $mailer;
     private $translator;
     private $fsb_email;
+    private $send_notifications;
+    private $notifications_bcc;
 
-    public function __construct(MailerInterface $mailer, TranslatorInterface $translator, string $fsb_email)
+    public function __construct(MailerInterface $mailer, TranslatorInterface $translator, string $fsb_email,
+        bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
         $this->fsb_email = $fsb_email;
         $this->translator = $translator;
+
+        $this->send_notifications = $send_notifications;
+        $this->notifications_bcc = $notifications_bcc;
     }
 
     public function sendUserEmail(PaymentOrderSubmittedEvent $event): void
     {
+        //Do nothing if notifications are disabled
+        if(!$this->send_notifications) {
+            return;
+        }
+
         $payment_order = $event->getPaymentOrder();
         if ($payment_order->getDepartment() === null || empty($payment_order->getDepartment()->getContactEmails())) {
             return;
@@ -34,6 +45,11 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
 
         $email = new TemplatedEmail();
         $email->addTo(...$department->getContactEmails());
+
+        if(!empty($this->notifications_bcc) && $this->notifications_bcc[0] !== null) {
+            $email->addBcc(...$this->notifications_bcc);
+        }
+
         $email->replyTo($this->fsb_email);
 
         $email->priority(Email::PRIORITY_HIGH);
