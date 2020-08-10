@@ -124,6 +124,12 @@
     "lcobucci/jwt": {
         "version": "3.3.2"
     },
+    "league/html-to-markdown": {
+        "version": "4.10.0"
+    },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
+    },
     "monolog/monolog": {
         "version": "2.1.0"
     },
@@ -644,11 +650,20 @@
     "thecodingmachine/safe": {
         "version": "v1.1.2"
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
     "twbs/bootstrap": {
         "version": "v4.5.0"
     },
+    "twig/cssinliner-extra": {
+        "version": "v3.0.5"
+    },
     "twig/extra-bundle": {
         "version": "v3.0.3"
+    },
+    "twig/inky-extra": {
+        "version": "v3.0.5"
     },
     "twig/intl-extra": {
         "version": "v3.0.3"

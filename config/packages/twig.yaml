@@ -3,4 +3,9 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig', 'extended_form_styles.html.twig']
     globals:
         support_email: '%app.support_email%'
+        fsb_email: '%app.fsb_email%'
         locale_menu: ['de', 'en']
+
+    paths:
+        # point this wherever your css files live
+        '%kernel.project_dir%/assets/css': css

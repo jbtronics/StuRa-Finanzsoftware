@@ -8,6 +8,8 @@ parameters:
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
     app.hhv_email: '%env(HHV_EMAIL)%'
+    app.from_email: '%env(FROM_EMAIL)%'
+    app.from_name: '%env(FROM_NAME)%'
 
 services:
     # default configuration for services in *this* file
@@ -38,6 +40,11 @@ services:
 
     App\Services\Upload\PaymentOrderFileNamer:
         public: true
+
+    App\EventSubscriber\SetEmailFromSubscriber:
+        arguments:
+            $email: '%app.from_email%'
+            $name: '%app.from_name%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

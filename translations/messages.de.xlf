@@ -1176,5 +1176,78 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
         <target>Dokumente</target>
       </segment>
     </unit>
+    <unit id="1e8YZqC" name="payment_order.notification_user.subject">
+      <segment>
+        <source>payment_order.notification_user.subject</source>
+        <target>Neuer Zahlungsauftrag eingereicht: %project%</target>
+      </segment>
+    </unit>
+    <unit id="CgimZ9t" name="payment_order.notification_user.title">
+      <segment>
+        <source>payment_order.notification_user.title</source>
+        <target>Neuer Zahlungsauftrag erfolgreich eingereicht</target>
+      </segment>
+    </unit>
+    <unit id="Ov4XSgp" name="payment_order.notification_user.info">
+      <segment>
+        <source>payment_order.notification_user.info</source>
+        <target><![CDATA[Jemand (hoffentlich einer von euch) hat für euren FSR/Referat einen neuen Zahlungsauftrag über das StuRa-Onlinesystem eingereicht. Der Antrag ist eingegangen und wird jetzt bearbeitet. Bei Rückfragen wird der FSB sich bei euch melden.
+
+<br>
+
+Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte sofort den FSB (%fsb_email%).
+
+<br>
+Die eingereichten Daten sind:]]></target>
+      </segment>
+    </unit>
+    <unit id="NcbIyfl" name="payment_order.notification_user.department">
+      <segment>
+        <source>payment_order.notification_user.department</source>
+        <target>FSR / Referat</target>
+      </segment>
+    </unit>
+    <unit id="otL0Htt" name="payment_order.notification_user.project_name">
+      <segment>
+        <source>payment_order.notification_user.project_name</source>
+        <target>Projektbezeichnung</target>
+      </segment>
+    </unit>
+    <unit id="bXlWcbH" name="payment_order.notification_user.amount">
+      <segment>
+        <source>payment_order.notification_user.amount</source>
+        <target>Betrag</target>
+      </segment>
+    </unit>
+    <unit id="Rc1M3PN" name="mail.footer.email_sent_by">
+      <segment>
+        <source>mail.footer.email_sent_by</source>
+        <target>Diese Email wurde automatisch erstellt vom </target>
+      </segment>
+    </unit>
+    <unit id="AchaWxK" name="mail.footer.dont_reply">
+      <segment>
+        <source>mail.footer.dont_reply</source>
+        <target>mail.footer.dont_reply</target>
+      </segment>
+    </unit>
+    <unit id="cMUPhlo" name="payment_order.notification_user.datetime">
+      <segment>
+        <source>payment_order.notification_user.datetime</source>
+        <target>Einreichungsdatum</target>
+      </segment>
+    </unit>
+    <unit id="rjO0oca" name="payment_order.notification_user.id">
+      <segment>
+        <source>payment_order.notification_user.id</source>
+        <target>Interne Auftrags-ID</target>
+      </segment>
+    </unit>
+    <unit id="tDqikpa" name="payment_order.notification_user.why">
+      <segment>
+        <source>payment_order.notification_user.why</source>
+        <target><![CDATA[Du erhälst diese Email, da du als Kontaktperson für das oben genannte Referat / FSR benannt bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>
