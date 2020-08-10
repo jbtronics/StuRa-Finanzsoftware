@@ -369,7 +369,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      */
     public function getBackupCodes(): array
     {
-        return $this->backupCodes;
+        return $this->backupCodes ?? [];
     }
 
     public function __toString(): string
