@@ -2,10 +2,10 @@
 
 {% block content %}
     <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <h1 class="display-4">{% trans %}homepage.welcome{% endtrans %}</h1>
+        <p class="lead">{% trans %}homepage.explaination{% endtrans %}</p>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <a class="btn btn-primary btn-lg" href="{{ path("payment_order_new") }}" role="button">Neuer Finanzantrag</a>
+        <p>{% trans with {'%fsb_email%': fsb_email, '%support_email%': support_email} %}homepage.support{% endtrans %}</p>
+        <a class="btn btn-primary btn-lg" href="{{ path("payment_order_new") }}" role="button">{% trans %}payment_order.new{% endtrans %}</a>
     </div>
 {% endblock %}

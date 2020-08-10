@@ -1249,5 +1249,23 @@ Die eingereichten Daten sind:]]></target>
         <target><![CDATA[Du erhälst diese Email, da du als Kontaktperson für das oben genannte Referat / FSR benannt bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
       </segment>
     </unit>
+    <unit id="DRl6loh" name="homepage.welcome">
+      <segment>
+        <source>homepage.welcome</source>
+        <target>Willkommen beim Finanzsystem des FSU StuRas</target>
+      </segment>
+    </unit>
+    <unit id="BX2cMD5" name="homepage.explaination">
+      <segment>
+        <source>homepage.explaination</source>
+        <target>Hier kannst du für dein Referat oder FSR Finanzanträge einreichen</target>
+      </segment>
+    </unit>
+    <unit id="6T_xFxC" name="homepage.support">
+      <segment>
+        <source>homepage.support</source>
+        <target><![CDATA[Bei Fragen wende dich bitte an den <a href="mailto:%fsb_email%"> Fachschaftenbeauftragten (FSB)</a>. Bei Technischen Problemen wende dich an <a href="mailto:%support_email%">%support_email%</a>]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>
