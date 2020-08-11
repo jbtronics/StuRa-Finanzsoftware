@@ -33,8 +33,8 @@ Wichtige Features der Software sind:
 Zum Betrieb der Software werden folgende Anforderungen an den Server gestellt:
  * Webserver (am einfachsten einzurichten ist Apache2) mit eingerichtetem PHP
  * MySQL 5.6+ oder MariaDB 10.1+ als Datenbank-Server mit einer Datenbank die von der Software benutzt werden kann.
- * PHP-Version >= 7.2 mit Erweiterungen `php-ctype`, `php-iconv`, `php-intl`, `php-ctype`, `php-pdo`.
-  Die Installation von ´php-opcache` ist empfohlen, da es die Performance enorm verbessert.
+ * PHP-Version >= 7.2 mit Erweiterungen `php-ctype`, `php-iconv`, `php-intl`, `php-ctype`, `php-pdo`, `php-xsl` (die Existenz dieser Erweiterungen wird aber später auch noch überprüft)
+  Die Installation von `php-opcache` ist empfohlen, da es die Performance enorm verbessert.
  * Eine eigene Subdomain / VHost, wo die Software eingerichtet werden kann
  * [Composer](https://getcomposer.org/): Entwender installiert aus Paketquellen (z.B. `apt install composer`) oder lokal via `wget https://getcomposer.org/composer-stable.phar`
  
