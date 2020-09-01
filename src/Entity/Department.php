@@ -136,7 +136,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName() ?? 'unknown';
     }
 
     /**

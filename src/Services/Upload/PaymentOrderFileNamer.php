@@ -20,7 +20,6 @@ namespace App\Services\Upload;
 
 
 use App\Entity\PaymentOrder;
-use Assert\InvalidArgumentException;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\NamerInterface;

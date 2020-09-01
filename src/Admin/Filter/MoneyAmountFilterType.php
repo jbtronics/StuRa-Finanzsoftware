@@ -62,8 +62,8 @@ class MoneyAmountFilterType extends AbstractType
                                                   }
                                               }
 
-                                              $data['value'] = $data['value'] * 100;
-                                              $data['value2'] = $data['value2'] * 100;
+                                              $data['value'] *= 100;
+                                              $data['value2'] *= 100;
 
                                               return $data;
                                           }

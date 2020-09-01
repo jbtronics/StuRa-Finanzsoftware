@@ -23,7 +23,6 @@ use App\Entity\Contracts\TimestampedElementInterface;
 use App\Entity\Embeddable\BankAccountInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
@@ -40,7 +39,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 {
     use TimestampTrait;
 
-    const FUNDING_REGEX = '/^(FA|M)-\d{3}-20\d{2}$/';
+    public const FUNDING_REGEX = '/^(FA|M)-\d{3}-20\d{2}$/';
 
     /**
      * @ORM\Id()

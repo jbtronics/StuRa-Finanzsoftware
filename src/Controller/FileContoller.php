@@ -24,8 +24,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
-use Vich\UploaderBundle\Handler\UploadHandler;
-use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * @Route("/file")

@@ -52,11 +52,13 @@ class NoLockoutValidator extends ConstraintValidator
         $current_user = $this->security->getUser();
 
         //Perform checks only if the edited user is the one which is logged in
-        if ($current_user instanceof User && $current_user->getId() === $value->getId()) {
-            if (!in_array('ROLE_EDIT_USER', $value->getRoles())) {
+        if ($current_user instanceof User && $current_user->getId() === $value->getId() && !in_array(
+                'ROLE_EDIT_USER',
+                $value->getRoles(),
+                true
+            )) {
                 $this->context->buildViolation($constraint->message)
                     ->addViolation();
             }
-        }
     }
 }
