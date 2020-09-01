@@ -99,7 +99,11 @@ im Browser angezeigt, inklusiver Hilfreicher Debug-Tools. Da dies potentiell uns
 `APP_ENV=prod` zurückgeändert werden.
 
 ## Lizenz
-TODO
+Diese Software ist unter der GNU Affero General Public License v3.0 (AGPL) lizensiert. 
+Dies bedeutet diese Software kann für alle Zwecke kostenlos verwendet und modifiziert werden, solange alle Änderungen
+ebenfalls unter AGPL bereitgestellt. Für weiter Infos siehe [LICENSE](https://github.com/jbtronics/StuRa-Finanzsoftware/blob/master/LICENSE).
+
+Manche Bestandteile (externe Bibliotheken) stehen unter anderen Lizenzen, diese steht dann in der entsprechenden Datei.
 
 ## Entwicklerinformationen
 Diese Anwendung ist mit [Symfony 5](https://symfony.com/) und [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) entwickelt worden.
