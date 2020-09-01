@@ -26,6 +26,11 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * This subscriber send notification emails to the responsible people if a payment order is submitted (and the event was
+ * triggered).
+ * @package App\EventSubscriber
+ */
 final class PaymentOrderNotificationSubscriber implements EventSubscriberInterface
 {
     private $mailer;

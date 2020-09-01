@@ -24,6 +24,10 @@ use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * This service generates email links for a payment order, including adresses, subject and body
+ * @package App\Services
+ */
 class PaymentEmailMailToGenerator
 {
     private $translator;
@@ -38,6 +42,12 @@ class PaymentEmailMailToGenerator
         $this->crudUrlGenerator = $crudUrlGenerator;
     }
 
+    /**
+     * Generates a "mailto:" string to contact the HHV for the given payment order. It includes a link to the payment
+     * order.
+     * @param  PaymentOrder|null  $paymentOrder
+     * @return string|null
+     */
     public function getHHVMailLink(?PaymentOrder $paymentOrder): ?string
     {
         $string = "mailto:" . urlencode($this->hhv_email);

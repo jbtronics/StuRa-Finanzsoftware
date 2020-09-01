@@ -21,6 +21,7 @@ namespace App\Validator;
 use Symfony\Component\Validator\Constraint;
 
 /**
+ * Check if an FSR or Department is not marked as blocked during validation.
  * @Annotation
  */
 class FSRNotBlocked extends Constraint

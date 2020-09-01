@@ -25,6 +25,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
+/**
+ * Custom field for a Password and Repeat password input in EasyAdmin
+ * @package App\Admin\Field
+ */
 class PasswordField implements FieldInterface
 {
 

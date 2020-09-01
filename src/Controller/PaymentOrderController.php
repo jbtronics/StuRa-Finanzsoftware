@@ -30,6 +30,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
+ * This controller handles the payment order submit form
  * @Route("/payment_order")
  * @package App\Controller
  */
@@ -56,6 +57,7 @@ class PaymentOrderController extends AbstractController
 
                 $this->addFlash('success', 'flash.saved_successfully');
 
+                //Dispatch event so an email can be sent
                 $event = new PaymentOrderSubmittedEvent($new_order);
                 $dispatcher->dispatch($event, $event::NAME);
 

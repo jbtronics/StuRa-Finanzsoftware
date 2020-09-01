@@ -25,6 +25,11 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\NamerInterface;
 
+/**
+ * Use a custom namer to create file names which are useful when viewing the directory structure.
+ * It contains the department, current date and the project name all in slugged form.
+ * @package App\Services\Upload
+ */
 class PaymentOrderFileNamer implements NamerInterface
 {
 

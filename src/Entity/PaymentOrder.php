@@ -30,6 +30,7 @@ use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
+ * This entity contains all the info of a PaymentOrder ("Zahlungsauftrag")
  * @ORM\Entity(repositoryClass=PaymentOrderRepository::class)
  * @ORM\Table("payment_orders")
  * @Vich\Uploadable()

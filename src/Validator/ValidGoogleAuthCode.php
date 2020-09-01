@@ -22,6 +22,10 @@ namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Ensure that the given google auth code is valid.
+ * @package App\Validator
+ */
 class ValidGoogleAuthCode extends Constraint
 {
 }

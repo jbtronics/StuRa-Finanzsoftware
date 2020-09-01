@@ -25,6 +25,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
+/**
+ * An custom input to allow file upload in EasyAdmin. Compatible with VichyUpload Bundle.
+ * @package App\Admin\Field
+ */
 class VichyFileField implements FieldInterface
 {
     use FieldTrait;

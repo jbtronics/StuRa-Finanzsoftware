@@ -50,11 +50,12 @@ class AppExtension extends AbstractExtension
     }
 
     /**
+     * Convert a bytes count into a human-readable form (10000 -> 10K)
      * @param $bytes
      * @param int $precision
      * @return string
      */
-    public function formatBytes($bytes, $precision = 2)
+    public function formatBytes($bytes, $precision = 2): string
     {
         $size = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
         $factor = floor((strlen($bytes) - 1) / 3);

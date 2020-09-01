@@ -35,8 +35,6 @@ class HomepageController extends AbstractController
      */
     public function homepage(Request $request): Response
     {
-
-
         return $this->render('homepage.html.twig');
     }
 }

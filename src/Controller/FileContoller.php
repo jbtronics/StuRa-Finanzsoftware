@@ -30,6 +30,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 /**
  * @Route("/file")
  * @package App\Controller
+ * This controller handles the display/download of attachment files.
  */
 class FileContoller extends AbstractController
 {
@@ -39,7 +40,7 @@ class FileContoller extends AbstractController
      * @param  DownloadHandler  $downloadHandler
      * @return Response
      */
-    public function PaymentOrderForm(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
+    public function paymentOrderForm(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 
@@ -58,7 +59,7 @@ class FileContoller extends AbstractController
      * @param  DownloadHandler  $downloadHandler
      * @return Response
      */
-    public function PaymentOrderReferences(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
+    public function paymentOrderReferences(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 

@@ -27,6 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres"
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  * @ORM\Table("departments")
  * @ORM\HasLifecycleCallbacks()
