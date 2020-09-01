@@ -352,7 +352,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      */
     public function invalidateBackupCode(string $code): void
     {
-        $key = array_search($code, $this->backupCodes), true;
+        $key = array_search($code, $this->backupCodes, true);
         if ($key !== false){
             unset($this->backupCodes[$key]);
         }
