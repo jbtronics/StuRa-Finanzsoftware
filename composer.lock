@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a7fe451f000868ae49bef164c6a9dd7",
+    "content-hash": "8702336e4761e9e4e5a4c20d4c1b7875",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1646,16 +1646,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v3.1.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "0aa01dc03f1938bc2f249d3fe686f040fa86b747"
+                "url": "https://github.com/jbtronics/EasyAdminBundle.git",
+                "reference": "5e387cc4e36c89a8a16244507155039d0056731c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/0aa01dc03f1938bc2f249d3fe686f040fa86b747",
-                "reference": "0aa01dc03f1938bc2f249d3fe686f040fa86b747",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/5e387cc4e36c89a8a16244507155039d0056731c",
+                "reference": "5e387cc4e36c89a8a16244507155039d0056731c",
                 "shasum": ""
             },
             "require": {
@@ -1708,7 +1708,12 @@
                     "EasyCorp\\Bundle\\EasyAdminBundle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "TestApp\\": "tests/Fixtures/TestApp/src/",
+                    "EasyCorp\\Bundle\\EasyAdminBundle\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -1725,13 +1730,16 @@
                 "backend",
                 "generator"
             ],
+            "support": {
+                "source": "https://github.com/jbtronics/EasyAdminBundle/tree/master"
+            },
             "funding": [
                 {
-                    "url": "https://github.com/javiereguiluz",
-                    "type": "github"
+                    "type": "github",
+                    "url": "https://github.com/javiereguiluz"
                 }
             ],
-            "time": "2020-09-01T06:17:47+00:00"
+            "time": "2020-09-03T13:29:07+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -10704,6 +10712,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "easycorp/easyadmin-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
