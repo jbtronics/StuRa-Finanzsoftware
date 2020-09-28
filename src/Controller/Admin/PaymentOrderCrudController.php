@@ -98,7 +98,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->createAsBatchAction()
             ->linkToCrudAction('export')
             ->addCssClass('btn btn-primary')
-            ->setIcon('fa fa-user-check')
+            ->setIcon('fas fa-file-export')
         );
 
         $actions->setPermissions([

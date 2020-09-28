@@ -50,6 +50,8 @@ class ExportController extends AbstractController
      */
     public function export(Request $request, EntityManagerInterface  $entityManager)
     {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
         $ids = $request->query->get('ids');
         $id_array = explode(",", $ids);
         //Retrieve all payment orders which should be retrieved from DB:
