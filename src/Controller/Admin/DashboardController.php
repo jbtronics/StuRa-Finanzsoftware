@@ -117,6 +117,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Version ' . $this->app_version, 'fas fa-info');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
+        yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu

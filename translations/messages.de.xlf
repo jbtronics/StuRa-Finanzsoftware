@@ -1316,5 +1316,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>%count% Zahlungsaufträge ausgewählt:</target>
       </segment>
     </unit>
+    <unit id="0AmiUaU" name="dashboard.menu.github">
+      <segment>
+        <source>dashboard.menu.github</source>
+        <target>Quellcode</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
