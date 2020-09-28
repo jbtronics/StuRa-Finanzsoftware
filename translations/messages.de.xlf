@@ -1322,5 +1322,53 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Quellcode</target>
       </segment>
     </unit>
+    <unit id="eaY0pQU" name="bank_account.label">
+      <segment>
+        <source>bank_account.label</source>
+        <target>Bankkonto</target>
+      </segment>
+    </unit>
+    <unit id="VFcjDgc" name="bank_account.labelp">
+      <segment>
+        <source>bank_account.labelp</source>
+        <target>Bankkonten</target>
+      </segment>
+    </unit>
+    <unit id="QD3SF4e" name="bank_account.id.label">
+      <segment>
+        <source>bank_account.id.label</source>
+        <target>ID</target>
+      </segment>
+    </unit>
+    <unit id="AfEvlUr" name="bank_account.name.label">
+      <segment>
+        <source>bank_account.name.label</source>
+        <target>Name</target>
+      </segment>
+    </unit>
+    <unit id="cBq8ptW" name="bank_account.iban.label">
+      <segment>
+        <source>bank_account.iban.label</source>
+        <target>IBAN</target>
+      </segment>
+    </unit>
+    <unit id="EmVvFs4" name="bank_account.bic.label">
+      <segment>
+        <source>bank_account.bic.label</source>
+        <target>BIC</target>
+      </segment>
+    </unit>
+    <unit id="UJyrrOF" name="bank_account.account_name.label">
+      <segment>
+        <source>bank_account.account_name.label</source>
+        <target>Kontoname</target>
+      </segment>
+    </unit>
+    <unit id="Ij6uawH" name="bank_account.account_name.help">
+      <segment>
+        <source>bank_account.account_name.help</source>
+        <target>Wenn hier ein Wert angegeben wird, wird dieser Name in den Exporten verwendet.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

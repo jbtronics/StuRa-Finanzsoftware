@@ -18,12 +18,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\BankAccount;
 use App\Entity\Department;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -84,6 +86,10 @@ class DepartmentCrudController extends AbstractCrudController
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
 
+        $bank_account = AssociationField::new('bank_account', 'department.bank_account.label')
+            ->setHelp('department.bank_account.help')
+            ->setRequired(false);
+
         $contact_emails = CollectionField::new('contact_emails', 'department.contact_emails.label')
             ->setHelp('department.contact_emails.help')
             ->setTemplatePath('admin/field/email_collection.html.twig')
@@ -96,11 +102,11 @@ class DepartmentCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $type, $blocked, $contact_emails];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $type, $blocked, $comment, $contact_emails, $creationDate, $lastModified];
+            return [$id, $name, $type, $blocked, $comment, $contact_emails, $bank_account, $creationDate, $lastModified];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $comment];
+            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $comment];
+            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment];
         }
 
         throw new \LogicException('Invalid $pageName encountered!');

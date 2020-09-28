@@ -81,6 +81,13 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $contact_emails = [];
 
     /**
+     * @var BankAccount|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", inversedBy="associated_departments")
+     * @ORM\JoinColumn(name="bank_account_id", referencedColumnName="id", nullable=true)
+     */
+    private $bank_account;
+
+    /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * @return string
      */
@@ -177,6 +184,24 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function setContactEmails(array $contact_emails): self
     {
         $this->contact_emails = $contact_emails;
+        return $this;
+    }
+
+    /**
+     * @return BankAccount|null
+     */
+    public function getBankAccount(): ?BankAccount
+    {
+        return $this->bank_account;
+    }
+
+    /**
+     * @param  BankAccount|null  $bank_account
+     * @return Department
+     */
+    public function setBankAccount(?BankAccount $bank_account): Department
+    {
+        $this->bank_account = $bank_account;
         return $this;
     }
 

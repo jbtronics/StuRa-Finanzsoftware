@@ -18,6 +18,8 @@
 
 namespace App\Entity\Embeddable;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -80,6 +82,17 @@ class BankAccountInfo
      * @ORM\Column(type="string")
      */
     private $reference = "";
+
+    /**
+     * @var Collection All departments that use this bank account
+     * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="bank_account")
+     */
+    private $associated_departments;
+
+    public function __construct()
+    {
+        $this->associated_departments = new ArrayCollection();
+    }
 
     /**
      * @return string

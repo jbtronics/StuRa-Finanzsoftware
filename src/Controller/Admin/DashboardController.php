@@ -18,6 +18,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\BankAccount;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
@@ -116,6 +117,7 @@ class DashboardController extends AbstractDashboardController
             ->setSubItems($items);
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class);
+        yield MenuItem::linkToCrud('bank_account.labelp', 'fas fa-university', BankAccount::class);
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class);
 
         yield MenuItem::section('Version ' . $this->app_version, 'fas fa-info');
