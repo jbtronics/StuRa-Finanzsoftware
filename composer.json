@@ -7,8 +7,9 @@
         "ext-iconv": "*",
         "ext-mbstring": "*",
         "components/jquery": "^3.5",
+        "digitick/sepa-xml": "^1.6",
         "doctrine/doctrine-migrations-bundle": "^2.1.2",
-        "easycorp/easyadmin-bundle": "^3.1.3",
+        "easycorp/easyadmin-bundle": "dev-master",
         "fortawesome/font-awesome": "^5.14",
         "league/html-to-markdown": "^4.10",
         "nelmio/security-bundle": "^2.10",
@@ -105,6 +106,12 @@
     "conflict": {
         "symfony/symfony": "*"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jbtronics/EasyAdminBundle.git"
+        }
+    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,

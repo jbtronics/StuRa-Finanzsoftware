@@ -1,0 +1,52 @@
+{% extends "@EasyAdmin/page/content.html.twig" %}
+{% form_theme form "@EasyAdmin/crud/form_theme.html.twig" %}
+
+{% block page_title %}{% trans %}sepa_export.title{% endtrans %}{% endblock %}
+
+{% block page_content %}
+
+    <h5>{% trans %}sepa_export.title2{% endtrans %}</h5>
+    <p class="text-muted">{% trans %}sepa_export.help{% endtrans %}</p>
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+
+    <hr>
+    <h5>{% trans with {'%count%': payment_orders | length} %}sepa_export.count_title{% endtrans %}</h5>
+
+    <table class="table table-sm table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>{% trans %}payment_order.id.label{% endtrans %}</th>
+                <th>{% trans %}payment_order.project_name.label{% endtrans %}</th>
+                <th>{% trans%}payment_order.department.label{% endtrans %}</th>
+                <th>{% trans %}payment_order.amount.label{% endtrans %}</th>
+                <th>{% trans %}bank_info.account_owner.label{% endtrans %}</th>
+                <th>{% trans %}bank_info.iban.label{% endtrans %}</th>
+                <th>{% trans %}bank_info.bank_name.label{% endtrans %}</th>
+                <th>{% trans %}bank_info.reference.label{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in payment_orders %}
+                {# @var order \App\Entity\PaymentOrder #}
+                <tr>
+                    {% set url = ea_url()
+                        .setController('App\\Controller\\Admin\\PaymentOrderCrudController')
+                        .setAction('detail')
+                        .setEntityID(order.id)
+                    %}
+                    <td><a href="{{ url }}" target="_blank">#{{ order.id }}</a></td>
+                    <td>{{ order.projectName }}</td>
+                    <td>{{ order.department.name }}</td>
+                    <td>{{ (order.amount / 100) | format_currency('EUR') }}</td>
+                    <td>{{ order.bankInfo.accountOwner }}</td>
+                    <td>{{ order.bankInfo.iban }}</td>
+                    <td>{{ order.bankInfo.bankName }} ({{ order.bankInfo.bic }})</td>
+                    <td>{{ order.bankInfo.reference }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

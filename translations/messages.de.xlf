@@ -1267,5 +1267,54 @@ Die eingereichten Daten sind:]]></target>
         <target><![CDATA[Bei Fragen wende dich bitte an den <a href="mailto:%fsb_email%"> Fachschaftenbeauftragten (FSB)</a>. Bei Technischen Problemen wende dich an <a href="mailto:%support_email%">%support_email%</a>]]></target>
       </segment>
     </unit>
+    <unit id="xoCX8s3" name="sepa_export.submit">
+      <segment>
+        <source>sepa_export.submit</source>
+        <target>Download</target>
+      </segment>
+    </unit>
+    <unit id="IpjlQ0T" name="sepa_export.bic.label">
+      <segment>
+        <source>sepa_export.bic.label</source>
+        <target>Absender BIC</target>
+      </segment>
+    </unit>
+    <unit id="ikkOxIP" name="sepa_export.iban.label">
+      <segment>
+        <source>sepa_export.iban.label</source>
+        <target>Absender IBAN</target>
+      </segment>
+    </unit>
+    <unit id="u3EGncr" name="sepa_export.name.label">
+      <segment>
+        <source>sepa_export.name.label</source>
+        <target>Absender Name</target>
+      </segment>
+    </unit>
+    <unit id="jCkAiJX" name="sepa_export.title">
+      <segment>
+        <source>sepa_export.title</source>
+        <target>Exporter</target>
+      </segment>
+    </unit>
+    <unit id="_0brlPs" name="sepa_export.title2">
+      <segment>
+        <source>sepa_export.title2</source>
+        <target>SEPA-XML Exporter</target>
+      </segment>
+    </unit>
+    <unit id="k.HbtD8" name="sepa_export.help">
+      <segment>
+        <source>sepa_export.help</source>
+        <target><![CDATA[Dieses Fenster ermöglicht es die gewählten Zahlungsaufträge als SEPA-XML Datei zu exportieren. Diese kann dann im Online-Banking einer Bank importiert werden, um automatisch eine Vielzahl von Überweisungen durchzuführen. <br>
+Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden soll.]]></target>
+      </segment>
+    </unit>
+    <unit id="IojgE6e" name="sepa_export.count_title">
+      <segment>
+        <source>sepa_export.count_title</source>
+        <target>%count% Zahlungsaufträge ausgewählt:</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
