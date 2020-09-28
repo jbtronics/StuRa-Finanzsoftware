@@ -74,24 +74,28 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
 
-        $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class);
+        $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
         ]);
 
-        $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class);
+        $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_fsr, [
             'factually_correct' => 0,
             'department_type' => 'fsr'
         ]);
 
-        $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class);
+        $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
             'department_type' => 'section'
         ]);
 
-        $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class);
+        $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($finished, [
             'factually_correct' => 1,
             'mathematically_correct' => 1,
