@@ -553,5 +553,47 @@
         <target>Admin area</target>
       </segment>
     </unit>
+    <unit id="la1VeQg" name="payment_order.funding_id.help">
+      <segment>
+        <source>payment_order.funding_id.help</source>
+        <target>Only necessary for departments and FSR-Kom applications.</target>
+      </segment>
+    </unit>
+    <unit id="IZIxTyG" name="payment_order.printed_form.label">
+      <segment>
+        <source>payment_order.printed_form.label</source>
+        <target>Scanned form</target>
+      </segment>
+    </unit>
+    <unit id="n32Jsyv" name="payment_order.funding_id.placeholder">
+      <segment>
+        <source>payment_order.funding_id.placeholder</source>
+        <target>M-000-2020</target>
+      </segment>
+    </unit>
+    <unit id="2lDQ7WR" name="payment_order.funding_id.label">
+      <segment>
+        <source>payment_order.funding_id.label</source>
+        <target>Funding ID</target>
+      </segment>
+    </unit>
+    <unit id="1_4xBRy" name="payment_order.printed_form.help">
+      <segment>
+        <source>payment_order.printed_form.help</source>
+        <target><![CDATA[The filled and signed <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege_ausfuellbar.pdf" target="_blank">application form</a>]]></target>
+      </segment>
+    </unit>
+    <unit id="U1nhaZQ" name="payment_order.references.label">
+      <segment>
+        <source>payment_order.references.label</source>
+        <target>Evidences</target>
+      </segment>
+    </unit>
+    <unit id="4mZWrct" name="payment_order.references.help">
+      <segment>
+        <source>payment_order.references.help</source>
+        <target>The evidence required for the application (invoices, etc.)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
