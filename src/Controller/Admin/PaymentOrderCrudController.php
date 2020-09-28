@@ -27,6 +27,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -40,19 +41,34 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentOrderCrudController extends AbstractCrudController
 {
     private $mailToGenerator;
+    private $dashboardControllerRegistry;
 
-    public function __construct(PaymentEmailMailToGenerator $mailToGenerator)
+    public function __construct(PaymentEmailMailToGenerator $mailToGenerator, DashboardControllerRegistry $dashboardControllerRegistry)
     {
         $this->mailToGenerator = $mailToGenerator;
+        $this->dashboardControllerRegistry = $dashboardControllerRegistry;
     }
 
     public static function getEntityFqcn(): string
     {
         return PaymentOrder::class;
+    }
+
+    public function export(array $ids, AdminContext $context): Response
+    {
+        //We must add an eaContext Parameter or we will run into an error...
+        $context_id = $this->dashboardControllerRegistry->getContextIdByControllerFqcn($context->getDashboardControllerFqcn());
+
+        return $this->redirectToRoute('payment_order_export', [
+            'eaContext' => $context_id,
+            'ids' => implode(",", $ids)
+        ]);
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -77,6 +93,14 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        // Button with text and icon
+        $actions->add(Crud::PAGE_INDEX, Action::new('Export')
+            ->createAsBatchAction()
+            ->linkToCrudAction('export')
+            ->addCssClass('btn btn-primary')
+            ->setIcon('fa fa-user-check')
+        );
+
         $actions->setPermissions([
                                      Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
                                      Action::DETAIL => 'ROLE_SHOW_PAYMENT_ORDERS',

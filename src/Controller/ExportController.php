@@ -1,0 +1,93 @@
+<?php
+/*
+ * Copyright (C) 2020  Jan Böhmer
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+namespace App\Controller;
+
+
+use App\Entity\PaymentOrder;
+use App\Form\SepaExportType;
+use App\Services\PaymentOrdersSEPAExporter;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/admin/payment_order")
+ * @package App\Controller
+ */
+class ExportController extends AbstractController
+{
+
+    protected $sepaExporter;
+
+    public function __construct(PaymentOrdersSEPAExporter $sepaExporter)
+    {
+        $this->sepaExporter = $sepaExporter;
+    }
+
+    /**
+     * @Route("/export", name="payment_order_export")
+     */
+    public function export(Request $request, EntityManagerInterface  $entityManager)
+    {
+        $ids = $request->query->get('ids');
+        $id_array = explode(",", $ids);
+        //Retrieve all payment orders which should be retrieved from DB:
+        $payment_orders = [];
+        foreach ($id_array as $id) {
+            $payment_orders[] = $entityManager->find(PaymentOrder::class, $id);
+        }
+
+        $form = $this->createForm(SepaExportType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $xml_string = $this->sepaExporter->export(
+                $payment_orders,
+                $form->getData()
+            );
+
+            $filename = "export.xml";
+
+            //Download as file
+            return $this->getDownloadResponse($xml_string, $filename);
+        }
+
+        return $this->render("admin/payment_order/export/export.html.twig", [
+            'payment_orders' => $payment_orders,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    protected function getDownloadResponse(string $content, string $filename): Response
+    {
+        $response = new Response();
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type',  'application/xml');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '";');
+        $response->headers->set('Content-length',  strlen($content));
+        $response->setContent( $content);
+        return $response;
+    }
+}

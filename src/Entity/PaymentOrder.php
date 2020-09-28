@@ -274,6 +274,16 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this->amount;
     }
 
+    public function getAmountString(): ?string
+    {
+        if ($this->amount === null) {
+            return null;
+        }
+
+        //%F (with big F) is important here, to always output with a dot
+        return sprintf("%.2F", $this->amount / 100);
+    }
+
     /**
      * @param  int  $amount
      * @return PaymentOrder
