@@ -70,7 +70,9 @@ class ExportController extends AbstractController
                 $form->getData()
             );
 
-            $filename = "export.xml";
+
+
+            $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
 
             //Download as file
             return $this->getDownloadResponse($xml_string, $filename);
