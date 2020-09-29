@@ -28,6 +28,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\CrudMenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,10 +37,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DashboardController extends AbstractDashboardController
 {
     private $app_version;
+    private $crud_url_generator;
 
-    public function __construct(string $app_version)
+    public function __construct(string $app_version, CrudUrlGenerator $crudUrlGenerator)
     {
         $this->app_version = $app_version;
+        $this->crud_url_generator = $crudUrlGenerator;
     }
 
     public function configureDashboard(): Dashboard
@@ -63,11 +66,15 @@ class DashboardController extends AbstractDashboardController
     private function addFiltersToMenuItem(CrudMenuItem $menuItem, array $filters): CrudMenuItem
     {
         //Set referrer or we encounter errrors...
-        $menuItem->setQueryParameter('referrer', '');
+
+        //$cleaned_referrer = $this->crud_url_generator->build()->currentPageReferrer;
+        $menuItem->setQueryParameter('referrer', 'index');
 
         foreach ($filters as $filter => $value) {
             $menuItem->setQueryParameter('filters[' . $filter . ']', $value);
         }
+
+        $menuItem->setQueryParameter('crudAction', 'index');
 
         return $menuItem;
     }
@@ -80,6 +87,7 @@ class DashboardController extends AbstractDashboardController
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
         ]);
+
 
         $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class)
             ->setDefaultSort(['creation_date' => 'DESC']);

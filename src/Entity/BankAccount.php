@@ -6,6 +6,8 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\NamedElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Repository\BankAccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -56,6 +58,17 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
      * @ORM\Column(type="string", length=255)
      */
     private $account_name;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="bank_account")
+     */
+    private $associated_departments;
+
+    public function __construct()
+    {
+        $this->associated_departments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
