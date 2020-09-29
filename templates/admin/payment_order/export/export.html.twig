@@ -5,6 +5,23 @@
 
 {% block page_content %}
 
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        })
+    </script>
+
+    <script>
+        {# Disable/Enable fields for manual input if needed. #}
+        function onPresetChange(element) {
+            if (element.value === "") {
+                $("[data-manual-input]").removeAttr("disabled");
+            } else {
+                $("[data-manual-input]").attr("disabled", "1");
+            }
+        }
+    </script>
+
     <h5>{% trans %}sepa_export.title2{% endtrans %}</h5>
     <p class="text-muted">{% trans %}sepa_export.help{% endtrans %}</p>
 

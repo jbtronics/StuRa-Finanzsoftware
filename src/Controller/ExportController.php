@@ -19,12 +19,14 @@
 namespace App\Controller;
 
 
+use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Form\SepaExportType;
 use App\Services\PaymentOrdersSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,12 +67,28 @@ class ExportController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
+            //Determine the Values to use
+            $data = $form->getData();
+            //If user has selected a bank account preset, then use the data from it
+            if ($data['bank_account'] instanceof BankAccount) {
+                $iban = $data['bank_account']->getIban();
+                $bic = $data['bank_account']->getBic();
+                $name = $data['bank_account']->getExportAccountName();
+            } else { //Use the manual inputted data
+                $iban = $data['iban'];
+                $bic = $data['bic'];
+                $name = $data['name'];
+            }
+
             $xml_string = $this->sepaExporter->export(
                 $payment_orders,
-                $form->getData()
+                [
+                    'iban' => $iban,
+                    'bic' => $bic,
+                    'name' => $name,
+                ]
             );
-
-
 
             $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
 

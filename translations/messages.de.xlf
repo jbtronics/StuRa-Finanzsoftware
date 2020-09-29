@@ -1376,5 +1376,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Anmerkungen</target>
       </segment>
     </unit>
+    <unit id="cZVX0PG" name="sepa_export.bank_account.label">
+      <segment>
+        <source>sepa_export.bank_account.label</source>
+        <target>Bank Account</target>
+      </segment>
+    </unit>
+    <unit id="Kxdni7X" name="sepa_export.bank_account.placeholder">
+      <segment>
+        <source>sepa_export.bank_account.placeholder</source>
+        <target>Manuelle Eingabe (siehe unten)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
