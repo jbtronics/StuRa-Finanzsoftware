@@ -1701,12 +1701,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "5e387cc4e36c89a8a16244507155039d0056731c"
+                "reference": "ddad1f605647b7867e1b0a2a6f36b7d1286caac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/5e387cc4e36c89a8a16244507155039d0056731c",
-                "reference": "5e387cc4e36c89a8a16244507155039d0056731c",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/ddad1f605647b7867e1b0a2a6f36b7d1286caac0",
+                "reference": "ddad1f605647b7867e1b0a2a6f36b7d1286caac0",
                 "shasum": ""
             },
             "require": {
@@ -1790,7 +1790,7 @@
                     "url": "https://github.com/javiereguiluz"
                 }
             ],
-            "time": "2020-09-03T13:29:07+00:00"
+            "time": "2020-09-29T14:36:54+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1923,16 +1923,16 @@
         },
         {
             "name": "fortawesome/font-awesome",
-            "version": "5.14.0",
+            "version": "5.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "c38da7f63e45b7ba12fb33539a4e54677f8e63aa"
+                "reference": "f0b80521fddaa2a2e40b00576a5b64dfb8fe7301"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/c38da7f63e45b7ba12fb33539a4e54677f8e63aa",
-                "reference": "c38da7f63e45b7ba12fb33539a4e54677f8e63aa",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/f0b80521fddaa2a2e40b00576a5b64dfb8fe7301",
+                "reference": "f0b80521fddaa2a2e40b00576a5b64dfb8fe7301",
                 "shasum": ""
             },
             "type": "library",
@@ -1982,7 +1982,7 @@
                 "icon",
                 "svg"
             ],
-            "time": "2020-07-15T18:03:34+00:00"
+            "time": "2020-09-29T13:24:01+00:00"
         },
         {
             "name": "jms/metadata",

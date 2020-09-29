@@ -65,10 +65,10 @@ class DashboardController extends AbstractDashboardController
 
     private function addFiltersToMenuItem(CrudMenuItem $menuItem, array $filters): CrudMenuItem
     {
-        //Set referrer or we encounter errrors...
+        //Set referrer or we encounter errrors... (not needed in JB custom version))
 
-        //$cleaned_referrer = $this->crud_url_generator->build()->currentPageReferrer;
-        $menuItem->setQueryParameter('referrer', 'index');
+        //$referrer = $this->crud_url_generator->build()->currentPageReferrer;
+        //$menuItem->setQueryParameter('referrer', $referrer);
 
         foreach ($filters as $filter => $value) {
             $menuItem->setQueryParameter('filters[' . $filter . ']', $value);
