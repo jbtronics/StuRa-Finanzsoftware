@@ -1412,5 +1412,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Händische Kontoauswahl</target>
       </segment>
     </unit>
+    <unit id="1nRJ6xx" name="department.bank_account.help">
+      <segment>
+        <source>department.bank_account.help</source>
+        <target>Wenn hier ein Bankkonto angegeben ist, wird dieses beim Export mit automatischer Kontozuweisung verwendet. Wenn hier nichts angegeben wird, kann die automatische Zuweisung nicht benutzt werden.</target>
+      </segment>
+    </unit>
+    <unit id="TJ5otBm" name="department.bank_account.label">
+      <segment>
+        <source>department.bank_account.label</source>
+        <target>Bankkonto</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
