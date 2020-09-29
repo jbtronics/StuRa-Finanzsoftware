@@ -32,8 +32,21 @@ use Symfony\Component\Validator\Constraints\Iban;
 
 class SepaExportType extends AbstractType
 {
+    private const MODE_CHOICES = [
+         'sepa_export.mode.auto' => 'auto',
+        'sepa_export.mode.manual' => 'manual',
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('mode', ChoiceType::class, [
+            'expanded' => true,
+            'data' => 'auto',
+            'help' => 'sepa_export.mode.help',
+            'label' => 'sepa_export.mode.label',
+            'choices' => static::MODE_CHOICES,
+        ]);
+
         $builder->add('bank_account', EntityType::class, [
             'label' => 'sepa_export.bank_account.label',
             'required' => false,
@@ -42,6 +55,7 @@ class SepaExportType extends AbstractType
                 'class' => 'field-association select2',
                 //Define the handler to enable/disable the other fields (this is a bit hacky though)...
                 'onchange' => 'onPresetChange(this);',
+                'data-mode-manual' => true,
             ],
             'placeholder' => 'sepa_export.bank_account.placeholder',
             'choice_label' => function( BankAccount $account) {
@@ -53,6 +67,7 @@ class SepaExportType extends AbstractType
             'label' => 'sepa_export.name.label',
             'attr' => [
                 'data-manual-input' => true,
+                'data-mode-manual' => true,
             ]
         ]);
         $builder->add('iban', TextType::class, [
@@ -60,6 +75,7 @@ class SepaExportType extends AbstractType
             'constraints' => [new Iban()],
             'attr' => [
                 'data-manual-input' => true,
+                'data-mode-manual' => true,
             ]
         ]);
         $builder->add('bic', TextType::class, [
@@ -67,6 +83,7 @@ class SepaExportType extends AbstractType
             'constraints' => [new Bic()],
             'attr' => [
                 'data-manual-input' => true,
+                'data-mode-manual' => true,
             ]
         ]);
 

@@ -21,6 +21,7 @@ namespace App\Controller;
 
 use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
+use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Form\SepaExportType;
 use App\Services\PaymentOrdersSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/payment_order")
@@ -41,10 +43,12 @@ class ExportController extends AbstractController
 {
 
     protected $sepaExporter;
+    protected $translator;
 
-    public function __construct(PaymentOrdersSEPAExporter $sepaExporter)
+    public function __construct(PaymentOrdersSEPAExporter $sepaExporter, TranslatorInterface $translator)
     {
         $this->sepaExporter = $sepaExporter;
+        $this->translator = $translator;
     }
 
     /**
@@ -81,19 +85,30 @@ class ExportController extends AbstractController
                 $name = $data['name'];
             }
 
-            $xml_string = $this->sepaExporter->export(
-                $payment_orders,
-                [
-                    'iban' => $iban,
-                    'bic' => $bic,
-                    'name' => $name,
-                ]
-            );
+            try {
+                $xml_string = $this->sepaExporter->export(
+                    $payment_orders,
+                    [
+                        'iban' => $iban,
+                        'bic' => $bic,
+                        'name' => $name,
+                        'mode' => $data['mode']
+                    ]
+                );
+            } catch (SEPAExportAutoModeNotPossible $exception) {
+                //Show error if auto mode is not possible
+                $this->addFlash('danger',
+                                $this->translator->trans('sepa_export.error.department_missing_account')
+                                . ': ' . $exception->getWrongDepartment()->getName());
+            }
+
 
             $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
 
             //Download as file
-            return $this->getDownloadResponse($xml_string, $filename);
+            if (!empty($xml_string)) {
+                return $this->getDownloadResponse($xml_string, $filename);
+            }
         }
 
         return $this->render("admin/payment_order/export/export.html.twig", [

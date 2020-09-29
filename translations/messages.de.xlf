@@ -1388,5 +1388,29 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Manuelle Eingabe (siehe unten)</target>
       </segment>
     </unit>
+    <unit id="nBeuZLx" name="sepa_export.error.department_missing_account">
+      <segment>
+        <source>sepa_export.error.department_missing_account</source>
+        <target>Automatische Zuordnung nicht möglich. Organisation hat kein Standardkonto</target>
+      </segment>
+    </unit>
+    <unit id="pbd7vWW" name="sepa_export.mode.label">
+      <segment>
+        <source>sepa_export.mode.label</source>
+        <target>Modus</target>
+      </segment>
+    </unit>
+    <unit id="9I43De_" name="sepa_export.mode.auto">
+      <segment>
+        <source>sepa_export.mode.auto</source>
+        <target>Automatische Kontozuordnung</target>
+      </segment>
+    </unit>
+    <unit id="f8FPBi5" name="sepa_export.mode.manual">
+      <segment>
+        <source>sepa_export.mode.manual</source>
+        <target>Händische Kontoauswahl</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

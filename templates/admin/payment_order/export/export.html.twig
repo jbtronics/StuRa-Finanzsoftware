@@ -6,8 +6,20 @@
 {% block page_content %}
 
     <script>
+        function onModeChange() {
+            if (this.value === "manual") {
+                $("[data-mode-manual]").removeAttr("disabled");
+            } else {
+                $("[data-mode-manual]").attr("disabled", "1");
+            }
+        }
+
         $(document).ready(function() {
             $('.select2').select2();
+
+            {# Disable/Enable fields for manual mode if needed #}
+            $('input[type=radio][name="sepa_export[mode]"]').change(onModeChange);
+            $("[data-mode-manual]").attr("disabled", "1");
         })
     </script>
 
@@ -20,6 +32,10 @@
                 $("[data-manual-input]").attr("disabled", "1");
             }
         }
+
+
+
+
     </script>
 
     <h5>{% trans %}sepa_export.title2{% endtrans %}</h5>
