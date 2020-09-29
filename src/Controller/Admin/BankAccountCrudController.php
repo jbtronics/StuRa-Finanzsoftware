@@ -6,8 +6,10 @@ use App\Entity\BankAccount;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BankAccountCrudController extends AbstractCrudController
 {
@@ -33,6 +35,10 @@ class BankAccountCrudController extends AbstractCrudController
             TextField::new('account_name', 'bank_account.account_name.label')
                 ->setRequired(false)->setFormTypeOption('empty_data', '')
                 ->setHelp('bank_account.account_name.help'),
+
+            TextEditorField::new('comment', 'bank_account.comment.label')
+                ->setRequired(false)->setFormTypeOption('empty_data', '')
+                ->hideOnIndex(),
         ];
     }
 }

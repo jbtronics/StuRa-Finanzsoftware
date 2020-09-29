@@ -48,6 +48,11 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     private $bic;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $comment = "";
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $account_name;
@@ -125,6 +130,17 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
         }
 
         return $this->name;
+    }
+
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $new_comment): BankAccount
+    {
+        $this->comment = $new_comment;
+        return $this;
     }
 
     public function __toString(): string

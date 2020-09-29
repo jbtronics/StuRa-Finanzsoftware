@@ -1370,5 +1370,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Wenn hier ein Wert angegeben wird, wird dieser Name in den Exporten verwendet.</target>
       </segment>
     </unit>
+    <unit id="lhIUciL" name="bank_account.comment.label">
+      <segment>
+        <source>bank_account.comment.label</source>
+        <target>Anmerkungen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
