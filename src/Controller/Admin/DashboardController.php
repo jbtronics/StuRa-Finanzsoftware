@@ -22,6 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\CrudMenuItem;
@@ -149,5 +150,10 @@ class DashboardController extends AbstractDashboardController
                                MenuItem::linktoRoute(Languages::getName('de', 'de') . ' (DE)', '', 'admin_dashboard.de'),
                                MenuItem::linktoRoute(Languages::getName('en', 'en') . ' (EN)', '', 'admin_dashboard.en'),
                            ]);
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('admin_styles.css');
     }
 }
