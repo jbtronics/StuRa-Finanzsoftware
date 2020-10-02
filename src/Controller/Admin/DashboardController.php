@@ -127,7 +127,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class);
         yield MenuItem::linkToCrud('bank_account.labelp', 'fas fa-university', BankAccount::class)
             ->setPermission('ROLE_READ_BANK_ACCOUNTS');
-        yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class)
+            ->setPermission('ROLE_READ_USER');
 
         yield MenuItem::section('Version ' . $this->app_version, 'fas fa-info');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
