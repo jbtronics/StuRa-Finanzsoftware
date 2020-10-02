@@ -42,7 +42,6 @@ class SepaExportType extends AbstractType
         $builder->add('mode', ChoiceType::class, [
             'expanded' => true,
             'data' => 'auto',
-            'help' => 'sepa_export.mode.help',
             'label' => 'sepa_export.mode.label',
             'choices' => static::MODE_CHOICES,
         ]);
