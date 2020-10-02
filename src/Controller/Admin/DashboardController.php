@@ -124,7 +124,8 @@ class DashboardController extends AbstractDashboardController
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
             ->setSubItems($items);
 
-        yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class);
+        yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
+            ->setPermission('ROLE_READ_ORGANISATIONS');
         yield MenuItem::linkToCrud('bank_account.labelp', 'fas fa-university', BankAccount::class)
             ->setPermission('ROLE_READ_BANK_ACCOUNTS');
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class)

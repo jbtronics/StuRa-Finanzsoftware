@@ -57,7 +57,9 @@ class DepartmentCrudController extends AbstractCrudController
         $actions->setPermissions([
                                      Action::EDIT => 'ROLE_EDIT_ORGANISATIONS',
                                      Action::DELETE => 'ROLE_EDIT_ORGANISATIONS',
-                                     Action::NEW => 'ROLE_EDIT_ORGANISATIONS'
+                                     Action::NEW => 'ROLE_EDIT_ORGANISATIONS',
+                                     Action::INDEX => 'ROLE_READ_ORGANISATIONS',
+                                     Action::DETAIL => 'ROLE_READ_ORGANISATIONS',
                                  ]);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
