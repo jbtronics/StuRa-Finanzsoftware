@@ -80,6 +80,7 @@ class UserCrudController extends AbstractCrudController
             'user.role.edit_payment_orders' => 'ROLE_EDIT_PAYMENT_ORDERS',
             'user.role.edit_po_factually' => 'ROLE_PO_FACTUALLY',
             'user.role.edit_po_mathematically' => 'ROLE_PO_MATHEMATICALLY',
+            'user.role.edit_bank_accounts' => 'ROLE_EDIT_BANK_ACCOUNTS',
         ];
     }
 

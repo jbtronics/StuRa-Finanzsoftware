@@ -32,6 +32,14 @@ class BankAccountCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $actions->setPermissions([
+                                     Action::EDIT => 'ROLE_EDIT_BANK_ACCOUNTS',
+                                     Action::DELETE => 'ROLE_EDIT_BANK_ACCOUNTS',
+                                     Action::NEW => 'ROLE_EDIT_BANK_ACCOUNTS',
+                                     Action::INDEX => 'ROLE_READ_BANK_ACCOUNTS',
+                                     Action::DETAIL => 'ROLE_READ_BANK_ACCOUNTS',
+                                 ]);
+
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 

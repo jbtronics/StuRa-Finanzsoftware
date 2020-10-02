@@ -1424,5 +1424,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bankkonto</target>
       </segment>
     </unit>
+    <unit id="w7gR38s" name="user.role.edit_bank_accounts">
+      <segment>
+        <source>user.role.edit_bank_accounts</source>
+        <target>Bankkonten bearbeiten</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
