@@ -19,5 +19,17 @@
         <target>Bitte laden sie eine PDF hoch!</target>
       </segment>
     </unit>
+    <unit id="Vk4LrU3" name="validator.fsr_email_must_not_be_empty">
+      <segment>
+        <source>validator.fsr_email_must_not_be_empty</source>
+        <target>FSR müssen Emails für Kassenverantwortliche und Haushaltsverantwortliche hinterlegt haben!</target>
+      </segment>
+    </unit>
+    <unit id="Oujtwz7" name="validator.fsr_emails_must_not_be_the_same">
+      <segment>
+        <source>validator.fsr_emails_must_not_be_the_same</source>
+        <target>Haushalts- und Kassenverantwortlicher dürfen nicht die gleiche Person sein!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

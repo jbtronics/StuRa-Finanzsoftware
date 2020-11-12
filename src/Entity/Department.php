@@ -88,6 +88,23 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $bank_account;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     * @Assert\Email()
+     * @Assert\Expression("!(value === null || value === '') || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
+     * @Assert\Expression("value !== this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
+     */
+    private $email_hhv;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     * @Assert\Email()
+     * @Assert\Expression("!(value === null || value === '') || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
+     */
+    private $email_treasurer;
+
+    /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * @return string
      */
@@ -202,6 +219,42 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function setBankAccount(?BankAccount $bank_account): Department
     {
         $this->bank_account = $bank_account;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailHhv(): string
+    {
+        return $this->email_hhv;
+    }
+
+    /**
+     * @param  string  $email_hhv
+     * @return Department
+     */
+    public function setEmailHhv(string $email_hhv): Department
+    {
+        $this->email_hhv = $email_hhv;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailTreasurer(): string
+    {
+        return $this->email_treasurer;
+    }
+
+    /**
+     * @param  string  $email_treasurer
+     * @return Department
+     */
+    public function setEmailTreasurer(string $email_treasurer): Department
+    {
+        $this->email_treasurer = $email_treasurer;
         return $this;
     }
 

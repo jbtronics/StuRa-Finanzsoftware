@@ -30,6 +30,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -88,6 +90,11 @@ class DepartmentCrudController extends AbstractCrudController
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
 
+        $email_hhv = EmailField::new('email_hhv', 'department.email_hhv.label')
+            ->setRequired(false)->setFormTypeOption('empty_data', '');
+        $email_treasurer = EmailField::new('email_treasurer', 'department.email_treasurer.label')
+            ->setRequired(false)->setFormTypeOption('empty_data', '');;
+
         $bank_account = AssociationField::new('bank_account', 'department.bank_account.label')
             ->setHelp('department.bank_account.help')
             ->setRequired(false);
@@ -100,15 +107,17 @@ class DepartmentCrudController extends AbstractCrudController
             ->setFormTypeOption('entry_options.required', false)
             ->setEntryType(EmailType::class);
 
+        $section = FormField::addPanel('department.fsr_email_panel.label')
+            ->setHelp('department.fsr_email_panel.help');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $type, $blocked, $contact_emails];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $type, $blocked, $comment, $contact_emails, $bank_account, $creationDate, $lastModified];
+            return [$id, $name, $type, $blocked, $comment, $contact_emails, $bank_account, $creationDate, $lastModified, $section, $email_hhv, $email_treasurer];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment];
+            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment];
+            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];
         }
 
         throw new \LogicException('Invalid $pageName encountered!');

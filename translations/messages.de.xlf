@@ -1430,5 +1430,29 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bankkonten bearbeiten</target>
       </segment>
     </unit>
+    <unit id="zEDlHBE" name="department.email_hhv.label">
+      <segment>
+        <source>department.email_hhv.label</source>
+        <target>Email Haushaltsverantwortlicher</target>
+      </segment>
+    </unit>
+    <unit id="dncGr0X" name="department.email_treasurer.label">
+      <segment>
+        <source>department.email_treasurer.label</source>
+        <target>Email Kassenverantwortlicher</target>
+      </segment>
+    </unit>
+    <unit id="Iqm.ffE" name="department.fsr_email_panel.label">
+      <segment>
+        <source>department.fsr_email_panel.label</source>
+        <target>Kontaktdaten Haushalts- und Kassenverantwortliche</target>
+      </segment>
+    </unit>
+    <unit id="y3CZ3z_" name="department.fsr_email_panel.help">
+      <segment>
+        <source>department.fsr_email_panel.help</source>
+        <target>Nur für FSRe erforderlich.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
