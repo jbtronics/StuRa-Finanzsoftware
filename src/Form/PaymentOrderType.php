@@ -58,6 +58,7 @@ class PaymentOrderType extends AbstractType
             'label' => 'payment_order.funding_id.label',
             'help' => 'payment_order.funding_id.help',
             'required' => false,
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.funding_id.placeholder'
             ],
