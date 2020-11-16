@@ -26,11 +26,15 @@ class PaymentOrderPDFGenerator
     public function generatePDF(PaymentOrder $paymentOrder): string
     {
         $pdf = new SturaPDF();
+        $pdf->setAuthor('StuRa FSU Jena');
+        $pdf->setTitle('Zahlungsauftrag #' . $paymentOrder->getId());
+        $pdf->setSubject('Zahlungsauftrag');
+
 
         $pdf->AddPage();
 
-
         $pdf->setY(80);
+        $pdf->setMargins(25, 10);
 
         $pdf->writeHTML('<h1>Zahlungsauftrag #' . $paymentOrder->getId() . '</h1><br>');
 

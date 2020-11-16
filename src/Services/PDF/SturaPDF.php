@@ -21,8 +21,6 @@ namespace App\Services\PDF;
 
 class SturaPDF extends \TCPDF
 {
-
-
     public function Header()
     {
         $image_file = dirname(__DIR__, 3).'/assets/StuRa.png';
