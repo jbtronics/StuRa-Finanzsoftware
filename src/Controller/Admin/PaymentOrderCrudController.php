@@ -162,7 +162,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
         $departmentName = TextareaField::new('department.name', 'payment_order.department.label');
 
-        $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label');
+        $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label')->setRequired(false)->setFormTypeOption('empty_data', '');
 
         //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
         //factually and mathematically correct status

@@ -22,6 +22,7 @@ namespace App\Controller;
 use App\Entity\PaymentOrder;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderType;
+use App\Services\PDF\PaymentOrderPDFGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
