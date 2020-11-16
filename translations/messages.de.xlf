@@ -370,7 +370,7 @@
     <unit id="f8NZm.9" name="payment_order.new.contact_info">
       <segment>
         <source>payment_order.new.contact_info</source>
-        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
+        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:fsb@stura.uni-jena.de">fsb@stura.uni-jena.de</a>]]></target>
       </segment>
     </unit>
     <unit id="_eaBSeV" name="footer.impress">
