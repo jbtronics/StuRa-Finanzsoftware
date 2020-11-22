@@ -23,6 +23,7 @@ use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
+use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentEmailMailToGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -50,11 +51,15 @@ class PaymentOrderCrudController extends AbstractCrudController
 {
     private $mailToGenerator;
     private $dashboardControllerRegistry;
+    private $confirmationEmailSender;
 
-    public function __construct(PaymentEmailMailToGenerator $mailToGenerator, DashboardControllerRegistry $dashboardControllerRegistry)
+    public function __construct(PaymentEmailMailToGenerator $mailToGenerator,
+        DashboardControllerRegistry $dashboardControllerRegistry,
+        ConfirmationEmailSender $confirmationEmailSender)
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
+        $this->confirmationEmailSender = $confirmationEmailSender;
     }
 
     public static function getEntityFqcn(): string
@@ -94,6 +99,16 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
 
+    public function resendConfirmationEmail(AdminContext $context): Response
+    {
+        $payment_order = $context->getEntity()->getInstance();
+
+        $this->confirmationEmailSender->resendConfirmations($payment_order);
+
+        $this->addFlash('success', 'payment_order.action.resend_confirmation.success');
+        return $this->redirect('/admin');
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         // Button with text and icon
@@ -116,7 +131,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->generateMailToHref($paymentOrder);
             })
-        ->setCssClass('text-dark');
+            ->setCssClass('text-dark');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
@@ -127,13 +142,23 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->getHHVMailLink($paymentOrder);
             })
-        ->setCssClass('mr-2 text-dark');
+            ->setCssClass('mr-2 text-dark');
+
+        $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
+            ->linkToCrudAction('resendConfirmationEmail')
+            ->displayIf(function (PaymentOrder $paymentOrder) {
+                return $paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null;
+            })
+            ->setCssClass('mr-2 text-dark');;
 
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
         $actions->add(Crud::PAGE_EDIT, $hhv_action);
         $actions->add(Crud::PAGE_DETAIL, $hhv_action);
+
+        $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
+        $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }

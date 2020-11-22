@@ -106,6 +106,18 @@ class ConfirmationEmailSender
         $this->mailer->send($email);
     }
 
+    public function resendConfirmations(PaymentOrder $paymentOrder): void
+    {
+        //Resend emails that not already were confirmed
+        if ($paymentOrder->getConfirm1Timestamp() === null) {
+            $this->sendConfirmation1($paymentOrder);
+        }
+
+        if ($paymentOrder->getConfirm2Timestamp() === null) {
+            $this->sendConfirmation2($paymentOrder);
+        }
+    }
+
     private function hash_token(string $token): string
     {
         return password_hash($token, PASSWORD_DEFAULT);
