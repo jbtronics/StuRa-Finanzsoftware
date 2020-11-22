@@ -1664,5 +1664,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bestätigungen werden erneut versendet.</target>
       </segment>
     </unit>
+    <unit id="icEbaa6" name="dashboard.warning">
+      <segment>
+        <source>dashboard.warning</source>
+        <target>Achtung: Diese Software dient nur der Organisation der internen Abläufe. Rechtlich verbindlich sind nur die originalen Belege und Abrechnungen!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

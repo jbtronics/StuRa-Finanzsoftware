@@ -8,6 +8,9 @@
         <h1>{% trans %}dashboard.welcome{% endtrans %}</h1>
         <h4>{% trans %}dashboard.explanation{% endtrans %}</h4>
         <p>{% trans with {'%email%': support_email} %}dashboard.contact_info{% endtrans %}</p>
+
+        <hr>
+        <b>{% trans %}dashboard.warning{% endtrans %}</b>
     </div>
 
 {% endblock %}
