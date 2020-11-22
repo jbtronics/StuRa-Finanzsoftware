@@ -1,1195 +1,792 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
-  <file id="messages.de">
-    <unit id="E2ncJ4t" name="department.type.fsr">
-      <segment>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" target-language="de" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="E2ncJ4t" resname="department.type.fsr">
         <source>department.type.fsr</source>
         <target>FSR</target>
-      </segment>
-    </unit>
-    <unit id="YiUUE7z" name="department.type.section">
-      <segment>
+      </trans-unit>
+      <trans-unit id="YiUUE7z" resname="department.type.section">
         <source>department.type.section</source>
         <target>Referat</target>
-      </segment>
-    </unit>
-    <unit id="nsmevWx" name="department.type.misc">
-      <segment>
+      </trans-unit>
+      <trans-unit id="nsmevWx" resname="department.type.misc">
         <source>department.type.misc</source>
         <target>Sonstiges</target>
-      </segment>
-    </unit>
-    <unit id="icN11_8" name="department.name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="icN11_8" resname="department.name.label">
         <source>department.name.label</source>
         <target>Name</target>
-      </segment>
-    </unit>
-    <unit id="cth0tHM" name="department.type.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cth0tHM" resname="department.type.label">
         <source>department.type.label</source>
         <target>Typ</target>
-      </segment>
-    </unit>
-    <unit id="3VFuvCg" name="department.blocked.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="3VFuvCg" resname="department.blocked.label">
         <source>department.blocked.label</source>
         <target>Blockiert</target>
-      </segment>
-    </unit>
-    <unit id="l6BhnYm" name="department.blocked.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="l6BhnYm" resname="department.blocked.help">
         <source>department.blocked.help</source>
         <target>Blockierte FSRe können keine Zahlungsaufträge einreichen und erhalten einen Hinweis den FSB zu kontaktieren.</target>
-      </segment>
-    </unit>
-    <unit id="UzElk4s" name="department.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="UzElk4s" resname="department.label">
         <source>department.label</source>
         <target>Organisation</target>
-      </segment>
-    </unit>
-    <unit id="irZlgo9" name="department.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="irZlgo9" resname="department.help">
         <source>department.help</source>
         <target>Organisationen repräsentieren die verschiedenen Strukturen innerhalb der Studierendenschaft (z.B. FSRe oder die verschiedenen Referate).</target>
-      </segment>
-    </unit>
-    <unit id="CxOlLnk" name="department.id.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="CxOlLnk" resname="department.id.label">
         <source>department.id.label</source>
         <target>ID</target>
-      </segment>
-    </unit>
-    <unit id="D_EFj_u" name="Last modified">
-      <segment>
+      </trans-unit>
+      <trans-unit id="D_EFj_u" resname="Last modified">
         <source>Last modified</source>
         <target>Zuletzt bearbeitet</target>
-      </segment>
-    </unit>
-    <unit id="bk0LHGc" name="Creation date">
-      <segment>
+      </trans-unit>
+      <trans-unit id="bk0LHGc" resname="Creation date">
         <source>Creation date</source>
         <target>Erstellungsdatum</target>
-      </segment>
-    </unit>
-    <unit id="SX4qX8Q" name="payment_order.amount.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="SX4qX8Q" resname="payment_order.amount.label">
         <source>payment_order.amount.label</source>
         <target>Betrag</target>
-      </segment>
-    </unit>
-    <unit id="vJEF49c" name="payment_order.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="vJEF49c" resname="payment_order.label">
         <source>payment_order.label</source>
         <target>Zahlungsauftrag</target>
-      </segment>
-    </unit>
-    <unit id="jDgAkFp" name="payment_order.department.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="jDgAkFp" resname="payment_order.department.label">
         <source>payment_order.department.label</source>
         <target>Struktur / Organisation</target>
-      </segment>
-    </unit>
-    <unit id="1QzYM50" name="select.choose_value">
-      <segment>
+      </trans-unit>
+      <trans-unit id="1QzYM50" resname="select.choose_value">
         <source>select.choose_value</source>
         <target>Bitte wählen Sie ein Element aus</target>
-      </segment>
-    </unit>
-    <unit id="fpNoBgB" name="payment_order.tab.basic">
-      <segment>
+      </trans-unit>
+      <trans-unit id="fpNoBgB" resname="payment_order.tab.basic">
         <source>payment_order.tab.basic</source>
         <target>Allgemeine Informationen</target>
-      </segment>
-    </unit>
-    <unit id="slBrlP3" name="payment_order.tab.bank_account">
-      <segment>
+      </trans-unit>
+      <trans-unit id="slBrlP3" resname="payment_order.tab.bank_account">
         <source>payment_order.tab.bank_account</source>
         <target>Kontodaten</target>
-      </segment>
-    </unit>
-    <unit id="Y3IVpQ4" name="payment_order.first_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Y3IVpQ4" resname="payment_order.first_name.label">
         <source>payment_order.first_name.label</source>
         <target>Vorname</target>
-      </segment>
-    </unit>
-    <unit id="Ykc_Dks" name="payment_order.last_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Ykc_Dks" resname="payment_order.last_name.label">
         <source>payment_order.last_name.label</source>
         <target>Nachname</target>
-      </segment>
-    </unit>
-    <unit id="czR285_" name="payment_order.project_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="czR285_" resname="payment_order.project_name.label">
         <source>payment_order.project_name.label</source>
         <target>Projektbezeichnung</target>
-      </segment>
-    </unit>
-    <unit id="7MzlP5Q" name="payment_order.mathematically_correct.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="7MzlP5Q" resname="payment_order.mathematically_correct.label">
         <source>payment_order.mathematically_correct.label</source>
         <target>Rechnerisch richtig</target>
-      </segment>
-    </unit>
-    <unit id="SkKFOJa" name="payment_order.mathematically_correct.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="SkKFOJa" resname="payment_order.mathematically_correct.help">
         <source>payment_order.mathematically_correct.help</source>
         <target>Vom Kassenverantwortlichen auszufüllen</target>
-      </segment>
-    </unit>
-    <unit id="bJmAsPw" name="payment_order.factually_correct.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="bJmAsPw" resname="payment_order.factually_correct.label">
         <source>payment_order.factually_correct.label</source>
         <target>Sachlich richtig</target>
-      </segment>
-    </unit>
-    <unit id="CHPgi0H" name="payment_order.factually_correct.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="CHPgi0H" resname="payment_order.factually_correct.help">
         <source>payment_order.factually_correct.help</source>
         <target>Vom Haushaltsverantwortlichem auszufüllen</target>
-      </segment>
-    </unit>
-    <unit id="h1gnEkF" name="bank_info.account_owner.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="h1gnEkF" resname="bank_info.account_owner.label">
         <source>bank_info.account_owner.label</source>
         <target>Kontoinhaber*in</target>
-      </segment>
-    </unit>
-    <unit id="60RXclF" name="bank_info.street.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="60RXclF" resname="bank_info.street.label">
         <source>bank_info.street.label</source>
         <target>Straße/Nr.</target>
-      </segment>
-    </unit>
-    <unit id="onfTzQS" name="bank_info.zip_code.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="onfTzQS" resname="bank_info.zip_code.label">
         <source>bank_info.zip_code.label</source>
         <target>PLZ</target>
-      </segment>
-    </unit>
-    <unit id="OEDC6l7" name="bank_info.city.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="OEDC6l7" resname="bank_info.city.label">
         <source>bank_info.city.label</source>
         <target>Stadt</target>
-      </segment>
-    </unit>
-    <unit id="fX4n4mK" name="bank_info.iban.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="fX4n4mK" resname="bank_info.iban.label">
         <source>bank_info.iban.label</source>
         <target>IBAN</target>
-      </segment>
-    </unit>
-    <unit id="eusURAT" name="bank_info.bank_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="eusURAT" resname="bank_info.bank_name.label">
         <source>bank_info.bank_name.label</source>
         <target>Bank</target>
-      </segment>
-    </unit>
-    <unit id="6riBiSg" name="bank_info.reference.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="6riBiSg" resname="bank_info.reference.label">
         <source>bank_info.reference.label</source>
         <target>Verwendungszweck</target>
-      </segment>
-    </unit>
-    <unit id="mFnw95z" name="bank_info.bic.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="mFnw95z" resname="bank_info.bic.label">
         <source>bank_info.bic.label</source>
         <target>BIC</target>
-      </segment>
-    </unit>
-    <unit id="DsIXCSB" name="payment_order.first_name.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DsIXCSB" resname="payment_order.first_name.placeholder">
         <source>payment_order.first_name.placeholder</source>
         <target>Max</target>
-      </segment>
-    </unit>
-    <unit id="4o8ji0f" name="payment_order.last_name.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="4o8ji0f" resname="payment_order.last_name.placeholder">
         <source>payment_order.last_name.placeholder</source>
         <target>Musterfrau</target>
-      </segment>
-    </unit>
-    <unit id="SeEEXRc" name="payment_order.amount.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="SeEEXRc" resname="payment_order.amount.placeholder">
         <source>payment_order.amount.placeholder</source>
         <target>123,40</target>
-      </segment>
-    </unit>
-    <unit id="wl74CxY" name="payment_order.project_name.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wl74CxY" resname="payment_order.project_name.placeholder">
         <source>payment_order.project_name.placeholder</source>
         <target>Ersti-Party</target>
-      </segment>
-    </unit>
-    <unit id="afbmWOm" name="bank_info.account_owner.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="afbmWOm" resname="bank_info.account_owner.placeholder">
         <source>bank_info.account_owner.placeholder</source>
         <target>Erika Mustermann</target>
-      </segment>
-    </unit>
-    <unit id="rp8Ufr4" name="bank_info.street.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="rp8Ufr4" resname="bank_info.street.placeholder">
         <source>bank_info.street.placeholder</source>
         <target>Musterstraße 3b</target>
-      </segment>
-    </unit>
-    <unit id="Q1hZbAH" name="bank_info.zip_code.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Q1hZbAH" resname="bank_info.zip_code.placeholder">
         <source>bank_info.zip_code.placeholder</source>
         <target>07747</target>
-      </segment>
-    </unit>
-    <unit id="cjeN9X3" name="bank_info.city.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cjeN9X3" resname="bank_info.city.placeholder">
         <source>bank_info.city.placeholder</source>
         <target>Jena</target>
-      </segment>
-    </unit>
-    <unit id="6Sv4Ptz" name="bank_info.iban.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="6Sv4Ptz" resname="bank_info.iban.placeholder">
         <source>bank_info.iban.placeholder</source>
         <target>DE12 0000 0000 0000 1234 00</target>
-      </segment>
-    </unit>
-    <unit id="m1iUAKu" name="bank_info.bic.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="m1iUAKu" resname="bank_info.bic.placeholder">
         <source>bank_info.bic.placeholder</source>
         <target>MARKDEF1820</target>
-      </segment>
-    </unit>
-    <unit id="qXiphLD" name="bank_info.bank_name.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="qXiphLD" resname="bank_info.bank_name.placeholder">
         <source>bank_info.bank_name.placeholder</source>
         <target>Musterbank Jena</target>
-      </segment>
-    </unit>
-    <unit id="sdGlPuZ" name="bank_info.reference.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="sdGlPuZ" resname="bank_info.reference.placeholder">
         <source>bank_info.reference.placeholder</source>
         <target>Rückzahlung Erst-Party</target>
-      </segment>
-    </unit>
-    <unit id="sVK1lZ3" name="payment_order.id.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="sVK1lZ3" resname="payment_order.id.label">
         <source>payment_order.id.label</source>
         <target>ID</target>
-      </segment>
-    </unit>
-    <unit id="V.M67Ij" name="payment_order.group.info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="V.M67Ij" resname="payment_order.group.info">
         <source>payment_order.group.info</source>
         <target>Info</target>
-      </segment>
-    </unit>
-    <unit id="9CxJfWP" name="payment_order.group.status">
-      <segment>
+      </trans-unit>
+      <trans-unit id="9CxJfWP" resname="payment_order.group.status">
         <source>payment_order.group.status</source>
         <target>Status</target>
-      </segment>
-    </unit>
-    <unit id="wAPmlBL" name="payment_order.group.receiver">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wAPmlBL" resname="payment_order.group.receiver">
         <source>payment_order.group.receiver</source>
         <target>Empfängerinformationen</target>
-      </segment>
-    </unit>
-    <unit id="LjThHWX" name="payment_order.group.bank_info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="LjThHWX" resname="payment_order.group.bank_info">
         <source>payment_order.group.bank_info</source>
         <target>Empfängerkonto</target>
-      </segment>
-    </unit>
-    <unit id="oXzZAN1" name="navbar.new_request">
-      <segment>
+      </trans-unit>
+      <trans-unit id="oXzZAN1" resname="navbar.new_request">
         <source>navbar.new_request</source>
         <target>Neuer Antrag</target>
-      </segment>
-    </unit>
-    <unit id="AVtQRcv" name="payment_order.new">
-      <segment>
+      </trans-unit>
+      <trans-unit id="AVtQRcv" resname="payment_order.new">
         <source>payment_order.new</source>
         <target>Neuer Zahlungsauftrag</target>
-      </segment>
-    </unit>
-    <unit id="NehzWgk" name="flash.error">
-      <segment>
+      </trans-unit>
+      <trans-unit id="NehzWgk" resname="flash.error">
         <source>flash.error</source>
         <target>Fehler</target>
-      </segment>
-    </unit>
-    <unit id="GaY3q3t" name="flash.error.check_input">
-      <segment>
+      </trans-unit>
+      <trans-unit id="GaY3q3t" resname="flash.error.check_input">
         <source>flash.error.check_input</source>
         <target>Überprüfen Sie ihre Eingaben!</target>
-      </segment>
-    </unit>
-    <unit id="IidAUjY" name="payment_order.new.account_info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="IidAUjY" resname="payment_order.new.account_info">
         <source>payment_order.new.account_info</source>
         <target>Kontodaten</target>
-      </segment>
-    </unit>
-    <unit id="OxCscUL" name="payment_order.new.general">
-      <segment>
+      </trans-unit>
+      <trans-unit id="OxCscUL" resname="payment_order.new.general">
         <source>payment_order.new.general</source>
         <target>Allgemein</target>
-      </segment>
-    </unit>
-    <unit id="g4ahva6" name="flash.success">
-      <segment>
+      </trans-unit>
+      <trans-unit id="g4ahva6" resname="flash.success">
         <source>flash.success</source>
         <target>Erfolg</target>
-      </segment>
-    </unit>
-    <unit id="ry4m8Eq" name="flash.saved_successfully">
-      <segment>
+      </trans-unit>
+      <trans-unit id="ry4m8Eq" resname="flash.saved_successfully">
         <source>flash.saved_successfully</source>
         <target>Zahlungsauftrag wurde erfolgreich übermittelt.</target>
-      </segment>
-    </unit>
-    <unit id="vLpI6E_" name="payment_order.submit">
-      <segment>
+      </trans-unit>
+      <trans-unit id="vLpI6E_" resname="payment_order.submit">
         <source>payment_order.submit</source>
         <target>Auftrag absenden</target>
-      </segment>
-    </unit>
-    <unit id="u1b2Nmk" name="payment_order.discard">
-      <segment>
+      </trans-unit>
+      <trans-unit id="u1b2Nmk" resname="payment_order.discard">
         <source>payment_order.discard</source>
         <target>Eingaben verwerfen</target>
-      </segment>
-    </unit>
-    <unit id="99uSrvT" name="payment_order.new.hint">
-      <segment>
+      </trans-unit>
+      <trans-unit id="99uSrvT" resname="payment_order.new.hint">
         <source>payment_order.new.hint</source>
         <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan des unterschriebenen <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege.pdf">Formulars</a> und aller Belege beigefügt werden!]]></target>
-      </segment>
-    </unit>
-    <unit id="f8NZm.9" name="payment_order.new.contact_info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="f8NZm.9" resname="payment_order.new.contact_info">
         <source>payment_order.new.contact_info</source>
         <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:finanzen@stura.uni-jena.de">finanzen@stura.uni-jena.de</a>]]></target>
-      </segment>
-    </unit>
-    <unit id="_eaBSeV" name="footer.impress">
-      <segment>
+      </trans-unit>
+      <trans-unit id="_eaBSeV" resname="footer.impress">
         <source>footer.impress</source>
         <target>Impressum</target>
-      </segment>
-    </unit>
-    <unit id="m6d6qSk" name="footer.privacy">
-      <segment>
+      </trans-unit>
+      <trans-unit id="m6d6qSk" resname="footer.privacy">
         <source>footer.privacy</source>
         <target>Datenschutz</target>
-      </segment>
-    </unit>
-    <unit id="89cKxJI" name="password.new">
-      <segment>
+      </trans-unit>
+      <trans-unit id="89cKxJI" resname="password.new">
         <source>password.new</source>
         <target>Neues Passwort</target>
-      </segment>
-    </unit>
-    <unit id="swIf4he" name="password.repeat">
-      <segment>
+      </trans-unit>
+      <trans-unit id="swIf4he" resname="password.repeat">
         <source>password.repeat</source>
         <target>Wiederholen</target>
-      </segment>
-    </unit>
-    <unit id="S4Z.EZY" name="user.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="S4Z.EZY" resname="user.label">
         <source>user.label</source>
         <target>Benutzer</target>
-      </segment>
-    </unit>
-    <unit id="oX4P2rM" name="user.username.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="oX4P2rM" resname="user.username.label">
         <source>user.username.label</source>
         <target>Benutzername</target>
-      </segment>
-    </unit>
-    <unit id="Mwvv8H." name="user.first_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Mwvv8H." resname="user.first_name.label">
         <source>user.first_name.label</source>
         <target>Vorname</target>
-      </segment>
-    </unit>
-    <unit id="HM4xASr" name="user.last_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="HM4xASr" resname="user.last_name.label">
         <source>user.last_name.label</source>
         <target>Nachname</target>
-      </segment>
-    </unit>
-    <unit id="cDu6Rok" name="user.email.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cDu6Rok" resname="user.email.label">
         <source>user.email.label</source>
         <target>Email</target>
-      </segment>
-    </unit>
-    <unit id="zydvDNX" name="user.role_description.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="zydvDNX" resname="user.role_description.label">
         <source>user.role_description.label</source>
         <target>Funktion</target>
-      </segment>
-    </unit>
-    <unit id="QsSMNif" name="user.section.password">
-      <segment>
+      </trans-unit>
+      <trans-unit id="QsSMNif" resname="user.section.password">
         <source>user.section.password</source>
         <target>Passwort</target>
-      </segment>
-    </unit>
-    <unit id="4PeZU9c" name="user.section.password.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="4PeZU9c" resname="user.section.password.help">
         <source>user.section.password.help</source>
         <target>Fülle die unteren Felder aus um ein neues Passwort zu setzen. Wenn die Felder leer gelassen werden, wird das Password nicht geändert.</target>
-      </segment>
-    </unit>
-    <unit id="yFBylec" name="user.id.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="yFBylec" resname="user.id.label">
         <source>user.id.label</source>
         <target>ID</target>
-      </segment>
-    </unit>
-    <unit id="zyG2Utf" name="user.fullName.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="zyG2Utf" resname="user.fullName.label">
         <source>user.fullName.label</source>
         <target>Name</target>
-      </segment>
-    </unit>
-    <unit id="K2JB8dO" name="payment_order.labelp">
-      <segment>
+      </trans-unit>
+      <trans-unit id="K2JB8dO" resname="payment_order.labelp">
         <source>payment_order.labelp</source>
         <target>Zahlungsaufträge</target>
-      </segment>
-    </unit>
-    <unit id="wUA9m3p" name="department.labelp">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wUA9m3p" resname="department.labelp">
         <source>department.labelp</source>
         <target>Organisationen</target>
-      </segment>
-    </unit>
-    <unit id="UFjTALq" name="user.labelp">
-      <segment>
+      </trans-unit>
+      <trans-unit id="UFjTALq" resname="user.labelp">
         <source>user.labelp</source>
         <target>Benutzer</target>
-      </segment>
-    </unit>
-    <unit id="Jn5fIJg" name="payment_order.comment.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Jn5fIJg" resname="payment_order.comment.label">
         <source>payment_order.comment.label</source>
         <target>Kommentar</target>
-      </segment>
-    </unit>
-    <unit id="gkS4VmA" name="payment_order.comment.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="gkS4VmA" resname="payment_order.comment.help">
         <source>payment_order.comment.help</source>
         <target>Dieses Feld ist nur für die Finanzer sichtbar.</target>
-      </segment>
-    </unit>
-    <unit id="dGdv64A" name="creation_date">
-      <segment>
+      </trans-unit>
+      <trans-unit id="dGdv64A" resname="creation_date">
         <source>creation_date</source>
         <target>Erstellt</target>
-      </segment>
-    </unit>
-    <unit id="jKxgewM" name="department.comment.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="jKxgewM" resname="department.comment.label">
         <source>department.comment.label</source>
         <target>Kommentar</target>
-      </segment>
-    </unit>
-    <unit id="ebGPTqc" name="dashboard.menu.homepage">
-      <segment>
+      </trans-unit>
+      <trans-unit id="ebGPTqc" resname="dashboard.menu.homepage">
         <source>dashboard.menu.homepage</source>
         <target>Homepage</target>
-      </segment>
-    </unit>
-    <unit id="g0cEPJ_" name="dashboard.menu.stura">
-      <segment>
+      </trans-unit>
+      <trans-unit id="g0cEPJ_" resname="dashboard.menu.stura">
         <source>dashboard.menu.stura</source>
         <target>StuRa Website</target>
-      </segment>
-    </unit>
-    <unit id="tj.43TE" name="dashboard.welcome">
-      <segment>
+      </trans-unit>
+      <trans-unit id="tj.43TE" resname="dashboard.welcome">
         <source>dashboard.welcome</source>
         <target>Willkommen im Administrationsbereich</target>
-      </segment>
-    </unit>
-    <unit id="fl0NRjN" name="dashboard.explanation">
-      <segment>
+      </trans-unit>
+      <trans-unit id="fl0NRjN" resname="dashboard.explanation">
         <source>dashboard.explanation</source>
         <target>Hier kannst du abhängig von deinen Berechtigungen, Anträge bearbeiten, neue Nutzer und Organisationen anlegen und anderes. Die Links findest du in der Sidebar links.</target>
-      </segment>
-    </unit>
-    <unit id="0ep_czU" name="dashboard.contact_info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="0ep_czU" resname="dashboard.contact_info">
         <source>dashboard.contact_info</source>
         <target><![CDATA[Bei Fragen oder Problemen kontaktiere: <a href="mailto:%email%">%email%</a>]]></target>
-      </segment>
-    </unit>
-    <unit id="3bqLM8Q" name="dashboard.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="3bqLM8Q" resname="dashboard.title">
         <source>dashboard.title</source>
         <target>Start</target>
-      </segment>
-    </unit>
-    <unit id="O91DX8B" name="last_modified">
-      <segment>
+      </trans-unit>
+      <trans-unit id="O91DX8B" resname="last_modified">
         <source>last_modified</source>
         <target>Zuletzt bearbeitet</target>
-      </segment>
-    </unit>
-    <unit id="RfpKaIp" name="navbar.choose_language">
-      <segment>
+      </trans-unit>
+      <trans-unit id="RfpKaIp" resname="navbar.choose_language">
         <source>navbar.choose_language</source>
         <target>Sprache wählen</target>
-      </segment>
-    </unit>
-    <unit id="DI1GAwT" name="navbar.admin_login">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DI1GAwT" resname="navbar.admin_login">
         <source>navbar.admin_login</source>
         <target>Adminbereich</target>
-      </segment>
-    </unit>
-    <unit id="Zq_tDey" name="user.settings.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Zq_tDey" resname="user.settings.title">
         <source>user.settings.title</source>
         <target>Benutzereinstellungen</target>
-      </segment>
-    </unit>
-    <unit id="E9DlrbB" name="password.change_pw.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="E9DlrbB" resname="password.change_pw.title">
         <source>password.change_pw.title</source>
         <target>Passwort ändern</target>
-      </segment>
-    </unit>
-    <unit id="y3Ds7Ka" name="password.old">
-      <segment>
+      </trans-unit>
+      <trans-unit id="y3Ds7Ka" resname="password.old">
         <source>password.old</source>
         <target>Bisheriges Passwort</target>
-      </segment>
-    </unit>
-    <unit id="dUkL17k" name="submit">
-      <segment>
+      </trans-unit>
+      <trans-unit id="dUkL17k" resname="submit">
         <source>submit</source>
         <target>Absenden</target>
-      </segment>
-    </unit>
-    <unit id="wgjsxq3" name="password.changed_successful">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wgjsxq3" resname="password.changed_successful">
         <source>password.changed_successful</source>
         <target>Passwort erfolgreich geändert!</target>
-      </segment>
-    </unit>
-    <unit id="vLfg6nz" name="user.roles.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="vLfg6nz" resname="user.roles.label">
         <source>user.roles.label</source>
         <target>Berechtigungen</target>
-      </segment>
-    </unit>
-    <unit id="TYDprKl" name="user.role.access_admin">
-      <segment>
+      </trans-unit>
+      <trans-unit id="TYDprKl" resname="user.role.access_admin">
         <source>user.role.access_admin</source>
         <target>Auf Adminbereich zugreifen</target>
-      </segment>
-    </unit>
-    <unit id="STYojTt" name="user.role.edit_user">
-      <segment>
+      </trans-unit>
+      <trans-unit id="STYojTt" resname="user.role.edit_user">
         <source>user.role.edit_user</source>
         <target>Benutzer bearbeiten/anlegen</target>
-      </segment>
-    </unit>
-    <unit id="xi95zJW" name="user.role.edit_organisations">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xi95zJW" resname="user.role.edit_organisations">
         <source>user.role.edit_organisations</source>
         <target>Organisationen bearbeiten/anlegen</target>
-      </segment>
-    </unit>
-    <unit id="vJXzLDQ" name="user.role.show_payment_orders">
-      <segment>
+      </trans-unit>
+      <trans-unit id="vJXzLDQ" resname="user.role.show_payment_orders">
         <source>user.role.show_payment_orders</source>
         <target>Zahlungsaufträge anzeigen</target>
-      </segment>
-    </unit>
-    <unit id="rSz9n89" name="user.role.edit_payment_orders">
-      <segment>
+      </trans-unit>
+      <trans-unit id="rSz9n89" resname="user.role.edit_payment_orders">
         <source>user.role.edit_payment_orders</source>
         <target>Zahlungsaufträge bearbeiten</target>
-      </segment>
-    </unit>
-    <unit id="QD__4os" name="user.role.edit_po_factually">
-      <segment>
+      </trans-unit>
+      <trans-unit id="QD__4os" resname="user.role.edit_po_factually">
         <source>user.role.edit_po_factually</source>
         <target>"Sachlich richtig" bearbeiten</target>
-      </segment>
-    </unit>
-    <unit id="uBXjFSy" name="user.role.edit_po_mathematically">
-      <segment>
+      </trans-unit>
+      <trans-unit id="uBXjFSy" resname="user.role.edit_po_mathematically">
         <source>user.role.edit_po_mathematically</source>
         <target>"Rechnerisch richtig" bearbeiten</target>
-      </segment>
-    </unit>
-    <unit id="_Fh8M7G" name="user.tfa_enabled.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="_Fh8M7G" resname="user.tfa_enabled.label">
         <source>user.tfa_enabled.label</source>
         <target>2FA</target>
-      </segment>
-    </unit>
-    <unit id="Wcwc592" name="user.tfa_enabled.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Wcwc592" resname="user.tfa_enabled.help">
         <source>user.tfa_enabled.help</source>
         <target>Gibt an ob der Benutzer eine Zwei-Faktor-Authentifizierung (2FA) eingerichtet hat.</target>
-      </segment>
-    </unit>
-    <unit id="6O05gNK" name="tfa.settings.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="6O05gNK" resname="tfa.settings.title">
         <source>tfa.settings.title</source>
         <target>Zwei-Faktor-Authentifizierung</target>
-      </segment>
-    </unit>
-    <unit id="AYt4Z2k" name="tfa_google.disable.confirm_title">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
-      </notes>
-      <segment>
+      </trans-unit>
+      <trans-unit id="AYt4Z2k" resname="tfa_google.disable.confirm_title">
         <source>tfa_google.disable.confirm_title</source>
         <target>Möchten Sie die Authenticator App wirklich deaktivieren?</target>
-      </segment>
-    </unit>
-    <unit id="lTwm.J0" name="tfa_google.disable.confirm_message">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+      </trans-unit>
+      <trans-unit id="lTwm.J0" resname="tfa_google.disable.confirm_message">
         <source>tfa_google.disable.confirm_message</source>
         <target><![CDATA[Wenn Sie die Authenticator App deaktivieren, werden alle Backupcodes gelöscht, daher sie müssen sie evtl. neu ausdrucken.<br>
           Beachten Sie außerdem, dass ihr Account ohne Zwei-Faktor-Authentifizierung nicht mehr so gut gegen Angreifer geschützt ist!]]></target>
-      </segment>
-    </unit>
-    <unit id="VYOAO2c" name="tfa_google.disabled_message">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+      </trans-unit>
+      <trans-unit id="VYOAO2c" resname="tfa_google.disabled_message">
         <source>tfa_google.disabled_message</source>
         <target>Authenticator App deaktiviert</target>
-      </segment>
-    </unit>
-    <unit id="cW3GnIC" name="tfa_google.step.download">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="cW3GnIC" resname="tfa_google.step.download">
         <source>tfa_google.step.download</source>
         <target><![CDATA[Laden Sie eine Authenticator App herunter (z.B. <a class="link-external" target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a> oder <a class="link-external" target="_blank" href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp">FreeOTP Authenticator</a>)]]></target>
-      </segment>
-    </unit>
-    <unit id="TXv.pXw" name="tfa_google.step.scan">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
+      </trans-unit>
+      <trans-unit id="TXv.pXw" resname="tfa_google.step.scan">
         <source>tfa_google.step.scan</source>
         <target>Scannen Sie den nebenstehenden QR-Code mit der App oder geben Sie die Daten manuell ein</target>
-      </segment>
-    </unit>
-    <unit id="A9Ex8CO" name="tfa_google.step.input_code">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
+      </trans-unit>
+      <trans-unit id="A9Ex8CO" resname="tfa_google.step.input_code">
         <source>tfa_google.step.input_code</source>
         <target>Geben Sie den erzeugten Code in das untere Feld ein und bestätigen Sie</target>
-      </segment>
-    </unit>
-    <unit id="RqoGsnx" name="tfa_google.step.download_backup">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
+      </trans-unit>
+      <trans-unit id="RqoGsnx" resname="tfa_google.step.download_backup">
         <source>tfa_google.step.download_backup</source>
         <target>Drucken Sie ihre Backupcodes aus und lagern sie an einem sicherem Ort</target>
-      </segment>
-    </unit>
-    <unit id="EygadTb" name="tfa_google.manual_setup">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
+      </trans-unit>
+      <trans-unit id="EygadTb" resname="tfa_google.manual_setup">
         <source>tfa_google.manual_setup</source>
         <target>Manuelle Einrichtung</target>
-      </segment>
-    </unit>
-    <unit id="4jE4fvm" name="tfa_google.manual_setup.type">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
+      </trans-unit>
+      <trans-unit id="4jE4fvm" resname="tfa_google.manual_setup.type">
         <source>tfa_google.manual_setup.type</source>
         <target>Typ</target>
-      </segment>
-    </unit>
-    <unit id="NqQTgh6" name="tfa_google.manual_setup.username">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
+      </trans-unit>
+      <trans-unit id="NqQTgh6" resname="tfa_google.manual_setup.username">
         <source>tfa_google.manual_setup.username</source>
         <target>Benutzername</target>
-      </segment>
-    </unit>
-    <unit id="pkupOqy" name="tfa_google.manual_setup.secret">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
+      </trans-unit>
+      <trans-unit id="pkupOqy" resname="tfa_google.manual_setup.secret">
         <source>tfa_google.manual_setup.secret</source>
         <target>Secret</target>
-      </segment>
-    </unit>
-    <unit id="zabzs3X" name="tfa_google.manual_setup.digit_count">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
+      </trans-unit>
+      <trans-unit id="zabzs3X" resname="tfa_google.manual_setup.digit_count">
         <source>tfa_google.manual_setup.digit_count</source>
         <target>Anzahl Stellen</target>
-      </segment>
-    </unit>
-    <unit id="FvB0dIm" name="tfa_google.enabled_message">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
-        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
+      </trans-unit>
+      <trans-unit id="FvB0dIm" resname="tfa_google.enabled_message">
         <source>tfa_google.enabled_message</source>
         <target>Authenticator App aktiv</target>
-      </segment>
-    </unit>
-    <unit id="3WtQFdr" name="tfa.check.title">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
-        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
-        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
+      </trans-unit>
+      <trans-unit id="3WtQFdr" resname="tfa.check.title">
         <source>tfa.check.title</source>
         <target>Zwei-Faktor-Authentifizierung benötigt</target>
-      </segment>
-    </unit>
-    <unit id="FPvJfPr" name="tfa.code.trusted_pc">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
-        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
+      </trans-unit>
+      <trans-unit id="FPvJfPr" resname="tfa.code.trusted_pc">
         <source>tfa.code.trusted_pc</source>
         <target>Dies ist ein vertrauenswürdiger Computer (wenn dies aktiviert ist, werden auf diesem Computer keine weiteren Zwei-Faktor-Abfragen durchgeführt)</target>
-      </segment>
-    </unit>
-    <unit id="XtrGxkd" name="login.btn">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\login.html.twig:58</note>
-        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
-        <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="XtrGxkd" resname="login.btn">
         <source>login.btn</source>
         <target>Login</target>
-      </segment>
-    </unit>
-    <unit id="okzpfQC" name="user.logout">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
-        <note category="file-source" priority="1">Part-DB1\templates\_navbar.html.twig:42</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
+        <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
+        <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
+      </trans-unit>
+      <trans-unit id="okzpfQC" resname="user.logout">
+        <source>user.logout</source>
+        <target>Ausloggen</target>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
+        <note priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
+        <note priority="1">Part-DB1\templates\_navbar.html.twig:42</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
         <note priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
         <note priority="1">Part-DB1\templates\_navbar.html.twig:40</note>
-      </notes>
-      <segment>
-        <source>user.logout</source>
-        <target>Ausloggen</target>
-      </segment>
-    </unit>
-    <unit id="INlwXoR" name="tfa.check.code.label">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
-        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
-      </notes>
-      <segment>
+      </trans-unit>
+      <trans-unit id="INlwXoR" resname="tfa.check.code.label">
         <source>tfa.check.code.label</source>
         <target>Authenticator App Code</target>
-      </segment>
-    </unit>
-    <unit id="TUbr0_A" name="tfa.check.code.help">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
-        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
+      </trans-unit>
+      <trans-unit id="TUbr0_A" resname="tfa.check.code.help">
         <source>tfa.check.code.help</source>
         <target>Geben Sie hier den 6-stelligen Code aus ihrer Authenticator App ein oder einen ihrer Backupcodes, wenn der Authenticator nicht verfügbar ist.</target>
-      </segment>
-    </unit>
-    <unit id="XTe6pUU" name="tfa.provider.google">
-      <segment>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
+      </trans-unit>
+      <trans-unit id="XTe6pUU" resname="tfa.provider.google">
         <source>tfa.provider.google</source>
         <target>Authenticator App</target>
-      </segment>
-    </unit>
-    <unit id="g7Bwb96" name="tfa_google.disable">
-      <segment>
+      </trans-unit>
+      <trans-unit id="g7Bwb96" resname="tfa_google.disable">
         <source>tfa_google.disable</source>
         <target>Authentikator App deaktivieren</target>
-      </segment>
-    </unit>
-    <unit id="xy.2mkA" name="user.settings.2fa.google.activated">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xy.2mkA" resname="user.settings.2fa.google.activated">
         <source>user.settings.2fa.google.activated</source>
         <target>Zwei-Faktor-Authentifizierung aktiviert</target>
-      </segment>
-    </unit>
-    <unit id="wPnvtWt" name="tfa_google.enable">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wPnvtWt" resname="tfa_google.enable">
         <source>tfa_google.enable</source>
         <target>Authenticator aktivieren</target>
-      </segment>
-    </unit>
-    <unit id="lj4_PUd" name="tfa_google.code">
-      <segment>
+      </trans-unit>
+      <trans-unit id="lj4_PUd" resname="tfa_google.code">
         <source>tfa_google.code</source>
         <target>Code</target>
-      </segment>
-    </unit>
-    <unit id="6nafcsi" name="tfa.settings.trustedDevices.tab">
-      <segment>
+      </trans-unit>
+      <trans-unit id="6nafcsi" resname="tfa.settings.trustedDevices.tab">
         <source>tfa.settings.trustedDevices.tab</source>
         <target>Vertrauenswürdige Geräte</target>
-      </segment>
-    </unit>
-    <unit id="h.BcrtU" name="tfa_trustedDevice.invalidate.success">
-      <segment>
+      </trans-unit>
+      <trans-unit id="h.BcrtU" resname="tfa_trustedDevice.invalidate.success">
         <source>tfa_trustedDevice.invalidate.success</source>
         <target>Vertrauenswürdige Geräte erfolgreich zurückgesetzt.</target>
-      </segment>
-    </unit>
-    <unit id="JNqROE2" name="tfa_trustedDevices.explanation">
-      <segment>
+      </trans-unit>
+      <trans-unit id="JNqROE2" resname="tfa_trustedDevices.explanation">
         <source>tfa_trustedDevices.explanation</source>
         <target><![CDATA[Bei der Überprüfung des zweiten Faktors, kann der aktuelle Computer als vertrauenswürdig gekennzeichnet werden, daher es werden keine Zwei-Faktor-Überprüfungen mehr an diesem Computer benötigt.
           Wenn Sie dies fehlerhafterweise gemacht haben oder ein Computer nicht mehr vertrauenswürdig ist, können Sie hier den Status <i>aller </i>Computer zurücksetzen.]]></target>
-      </segment>
-    </unit>
-    <unit id="xRB9q2I" name="tfa_trustedDevices.invalidate.confirm_title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xRB9q2I" resname="tfa_trustedDevices.invalidate.confirm_title">
         <source>tfa_trustedDevices.invalidate.confirm_title</source>
         <target>Wirklich alle vertrauenswürdigen Computer entfernen?</target>
-      </segment>
-    </unit>
-    <unit id="r7Z3.L4" name="tfa_trustedDevices.invalidate.confirm_message">
-      <segment>
+      </trans-unit>
+      <trans-unit id="r7Z3.L4" resname="tfa_trustedDevices.invalidate.confirm_message">
         <source>tfa_trustedDevices.invalidate.confirm_message</source>
         <target>Sie werden auf allen Rechnern erneut eine Zwei-Faktor-Authentifizierung durchführen müssen. Achten Sie darauf, dass Sie ihr Zwei-Faktor-Gerät zur Hand haben.</target>
-      </segment>
-    </unit>
-    <unit id="jiNvzqA" name="tfa_trustedDevices.invalidate.btn">
-      <segment>
+      </trans-unit>
+      <trans-unit id="jiNvzqA" resname="tfa_trustedDevices.invalidate.btn">
         <source>tfa_trustedDevices.invalidate.btn</source>
         <target>Alle vertrauenswürdigen Geräte entfernen</target>
-      </segment>
-    </unit>
-    <unit id="_OcjXRe" name="tfa_backup.no_codes_enabled">
-      <notes>
-        <note category="file-source" priority="1">Part-DB1\src\Controller\UserSettingsController.php:101</note>
-        <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:92</note>
-      </notes>
-      <segment>
+      </trans-unit>
+      <trans-unit id="_OcjXRe" resname="tfa_backup.no_codes_enabled">
         <source>tfa_backup.no_codes_enabled</source>
         <target>Es sind keine Backupcodes aktiviert!</target>
-      </segment>
-    </unit>
-    <unit id="n13qerD" name="tfa_backup.regenerate_codes">
-      <notes>
-        <note priority="1">obsolete</note>
-        <note category="state" priority="1">obsolete</note>
-      </notes>
-      <segment>
+        <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:101</note>
+        <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:92</note>
+      </trans-unit>
+      <trans-unit id="n13qerD" resname="tfa_backup.regenerate_codes">
         <source>tfa_backup.regenerate_codes</source>
         <target>Neue Backupcodes erzeugen</target>
-      </segment>
-    </unit>
-    <unit id="7v_PSOf" name="tfa_backup.remaining_tokens">
-      <segment>
+        <note priority="1">obsolete</note>
+        <note priority="1">obsolete</note>
+      </trans-unit>
+      <trans-unit id="7v_PSOf" resname="tfa_backup.remaining_tokens">
         <source>tfa_backup.remaining_tokens</source>
         <target>Verbleibende Backupcodes</target>
-      </segment>
-    </unit>
-    <unit id="xhNIm7L" name="tfa_backup.generation_date">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xhNIm7L" resname="tfa_backup.generation_date">
         <source>tfa_backup.generation_date</source>
         <target>Erzeugungsdatum der Backupcodes</target>
-      </segment>
-    </unit>
-    <unit id="xd6VhOm" name="tfa_backup.codes.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xd6VhOm" resname="tfa_backup.codes.title">
         <source>tfa_backup.codes.title</source>
         <target>Backupcodes</target>
-      </segment>
-    </unit>
-    <unit id="DE6_hcj" name="tfa_backup.codes.explanation">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DE6_hcj" resname="tfa_backup.codes.explanation">
         <source>tfa_backup.codes.explanation</source>
         <target>Drucken Sie diese Codes aus und bewahren Sie sie an einem sicherem Ort auf!</target>
-      </segment>
-    </unit>
-    <unit id="q3Apy0z" name="tfa_backup.codes.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="q3Apy0z" resname="tfa_backup.codes.help">
         <source>tfa_backup.codes.help</source>
         <target>Wenn Sie keinen Zugriff auf ihr Gerät mit der Authenticator App mehr haben sollten (Smartphone verloren, Datenverlust, etc.) können Sie einen dieser Codes benutzen, um Zugriff auf ihren Account zu erhalten und evtl. eine neue Authenticator App einzurichten. Jeder dieser Codes lässt sich einmal einsetzen, es empfiehlt sich benutzte Codes zu streichen. Jeder mit Zugriff auf diese Codes kann potentiell auf ihren Account zugreifen, daher bewahren Sie sie an einem sicheren Ort auf.</target>
-      </segment>
-    </unit>
-    <unit id="iPcPo4t" name="tfa_backup.username">
-      <segment>
+      </trans-unit>
+      <trans-unit id="iPcPo4t" resname="tfa_backup.username">
         <source>tfa_backup.username</source>
         <target>Benutzername</target>
-      </segment>
-    </unit>
-    <unit id="g7XKOBR" name="tfa_backup.codes.page_generated_on">
-      <segment>
+      </trans-unit>
+      <trans-unit id="g7XKOBR" resname="tfa_backup.codes.page_generated_on">
         <source>tfa_backup.codes.page_generated_on</source>
         <target>Codes abgerufen am %date%</target>
-      </segment>
-    </unit>
-    <unit id="3Qg6WkA" name="tfa_backup.codes.print">
-      <segment>
+      </trans-unit>
+      <trans-unit id="3Qg6WkA" resname="tfa_backup.codes.print">
         <source>tfa_backup.codes.print</source>
         <target>Drucken</target>
-      </segment>
-    </unit>
-    <unit id="atzHEe7" name="tfa_backup.disabled">
-      <segment>
+      </trans-unit>
+      <trans-unit id="atzHEe7" resname="tfa_backup.disabled">
         <source>tfa_backup.disabled</source>
         <target>Backupcodes deaktiviert. Authenticator App einrichten, um Backupcodes zu aktivieren.</target>
-      </segment>
-    </unit>
-    <unit id=".T4.dPM" name="tfa_backup.explanation">
-      <segment>
+      </trans-unit>
+      <trans-unit id=".T4.dPM" resname="tfa_backup.explanation">
         <source>tfa_backup.explanation</source>
         <target>Mithilfe dieser Backupcodes können Sie auf ihren Account zugreifen, selbst wenn Sie das Gerät mit der Authenticator App verlieren sollten. Drucken Sie die Codes aus und bewahren Sie sie an einem sicherem Ort auf.</target>
-      </segment>
-    </unit>
-    <unit id="o5LtJ9_" name="tfa_backup.enabled">
-      <segment>
+      </trans-unit>
+      <trans-unit id="o5LtJ9_" resname="tfa_backup.enabled">
         <source>tfa_backup.enabled</source>
         <target>Backupcodes aktiviert</target>
-      </segment>
-    </unit>
-    <unit id="kqmz5H_" name="tfa_backup.show_codes">
-      <segment>
+      </trans-unit>
+      <trans-unit id="kqmz5H_" resname="tfa_backup.show_codes">
         <source>tfa_backup.show_codes</source>
         <target>Backupcodes anzeigen</target>
-      </segment>
-    </unit>
-    <unit id="vmHdm45" name="tfa.settings.backup.tab">
-      <segment>
+      </trans-unit>
+      <trans-unit id="vmHdm45" resname="tfa.settings.backup.tab">
         <source>tfa.settings.backup.tab</source>
         <target>Backup Codes</target>
-      </segment>
-    </unit>
-    <unit id="4ZUxld3" name="user.settings.2fa.backup_codes.regenerated">
-      <segment>
+      </trans-unit>
+      <trans-unit id="4ZUxld3" resname="user.settings.2fa.backup_codes.regenerated">
         <source>user.settings.2fa.backup_codes.regenerated</source>
         <target>Neue Backupcodes erfolgreich erstellt.</target>
-      </segment>
-    </unit>
-    <unit id="RXjFD7H" name="user.settings.2fa.google.disabled">
-      <segment>
+      </trans-unit>
+      <trans-unit id="RXjFD7H" resname="user.settings.2fa.google.disabled">
         <source>user.settings.2fa.google.disabled</source>
         <target>Zwei-Faktor-Authentifizierung erfolgreich deaktiviert.</target>
-      </segment>
-    </unit>
-    <unit id="GFpVDYm" name="user.section.tfa">
-      <segment>
+      </trans-unit>
+      <trans-unit id="GFpVDYm" resname="user.section.tfa">
         <source>user.section.tfa</source>
         <target>Zwei-Faktor-Authentifizierung</target>
-      </segment>
-    </unit>
-    <unit id="wtwYoH0" name="user.section.tfa.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="wtwYoH0" resname="user.section.tfa.help">
         <source>user.section.tfa.help</source>
         <target><![CDATA[Aus Sicherheitsgründen kann die Zwei-Faktor-Authentifizierung eines Benutzers nicht über die Weboberfläche deaktiviert werden.
 Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/console app:user-disable-2fa [username]</code> deaktivieren.]]></target>
-      </segment>
-    </unit>
-    <unit id="a6nTYRh" name="department.contact_emails.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="a6nTYRh" resname="department.contact_emails.help">
         <source>department.contact_emails.help</source>
         <target>Feld leeren, um es zu entfernen</target>
-      </segment>
-    </unit>
-    <unit id="EnQXMLD" name="department.contact_emails.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="EnQXMLD" resname="department.contact_emails.label">
         <source>department.contact_emails.label</source>
         <target>Kontakt Emails</target>
-      </segment>
-    </unit>
-    <unit id="eg9gnb0" name="payment_order.action.email">
-      <segment>
+      </trans-unit>
+      <trans-unit id="eg9gnb0" resname="payment_order.action.email">
         <source>payment_order.action.email</source>
         <target>Rückfrage schreiben</target>
-      </segment>
-    </unit>
-    <unit id="YEGgBoB" name="payment_order.mail.subject">
-      <segment>
+      </trans-unit>
+      <trans-unit id="YEGgBoB" resname="payment_order.mail.subject">
         <source>payment_order.mail.subject</source>
         <target>Rückfrage Zahlungsauftrag</target>
-      </segment>
-    </unit>
-    <unit id="C8w5njJ" name="payment_order.incoming">
-      <segment>
+      </trans-unit>
+      <trans-unit id="C8w5njJ" resname="payment_order.incoming">
         <source>payment_order.incoming</source>
         <target>Unbearbeitet</target>
-      </segment>
-    </unit>
-    <unit id="lMMH_Ib" name="payment_order.factually_checking_needed">
-      <segment>
+      </trans-unit>
+      <trans-unit id="lMMH_Ib" resname="payment_order.factually_checking_needed">
         <source>payment_order.factually_checking_needed</source>
         <target>Sachliche Prüfung benötigt</target>
-      </segment>
-    </unit>
-    <unit id="DXjGzJv" name="payment_order.mathematically_checking_needed">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DXjGzJv" resname="payment_order.mathematically_checking_needed">
         <source>payment_order.mathematically_checking_needed</source>
         <target>Rechnerische Prüfung benötigt</target>
-      </segment>
-    </unit>
-    <unit id="5FUwDO2" name="payment_order.all">
-      <segment>
+      </trans-unit>
+      <trans-unit id="5FUwDO2" resname="payment_order.all">
         <source>payment_order.all</source>
         <target>Alle</target>
-      </segment>
-    </unit>
-    <unit id="3ozMaXr" name="payment_order.finished">
-      <segment>
+      </trans-unit>
+      <trans-unit id="3ozMaXr" resname="payment_order.finished">
         <source>payment_order.finished</source>
         <target>Abgeschlossen</target>
-      </segment>
-    </unit>
-    <unit id="2lDQ7WR" name="payment_order.funding_id.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="2lDQ7WR" resname="payment_order.funding_id.label">
         <source>payment_order.funding_id.label</source>
         <target>Mittelfreigabe / Finanzantrag</target>
-      </segment>
-    </unit>
-    <unit id="n32Jsyv" name="payment_order.funding_id.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="n32Jsyv" resname="payment_order.funding_id.placeholder">
         <source>payment_order.funding_id.placeholder</source>
         <target>M-000-2020</target>
-      </segment>
-    </unit>
-    <unit id="la1VeQg" name="payment_order.funding_id.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="la1VeQg" resname="payment_order.funding_id.help">
         <source>payment_order.funding_id.help</source>
         <target>Nur notwendig für Referate und FSR-Kom Anträge.</target>
-      </segment>
-    </unit>
-    <unit id="efVDUJi" name="payment_order.factually_checking_needed.fsr">
-      <segment>
+      </trans-unit>
+      <trans-unit id="efVDUJi" resname="payment_order.factually_checking_needed.fsr">
         <source>payment_order.factually_checking_needed.fsr</source>
         <target>Sachliche Prüfung benötigt (FSRe)</target>
-      </segment>
-    </unit>
-    <unit id="DwJWpMJ" name="payment_order.department_type.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DwJWpMJ" resname="payment_order.department_type.label">
         <source>payment_order.department_type.label</source>
         <target>Organisationstyp</target>
-      </segment>
-    </unit>
-    <unit id="i6CH_eL" name="payment_order.factually_checking_needed.section">
-      <segment>
+      </trans-unit>
+      <trans-unit id="i6CH_eL" resname="payment_order.factually_checking_needed.section">
         <source>payment_order.factually_checking_needed.section</source>
         <target>Sachliche Prüfung benötigt (Referate)</target>
-      </segment>
-    </unit>
-    <unit id="xFQhGFj" name="payment_order.action.contact_hhv">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xFQhGFj" resname="payment_order.action.contact_hhv">
         <source>payment_order.action.contact_hhv</source>
         <target>HHV kontaktieren</target>
-      </segment>
-    </unit>
-    <unit id="UZeOAXi" name="file.empty">
-      <segment>
+      </trans-unit>
+      <trans-unit id="UZeOAXi" resname="file.empty">
         <source>file.empty</source>
         <target>Keine Datei vorhanden!</target>
-      </segment>
-    </unit>
-    <unit id="IZIxTyG" name="payment_order.printed_form.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="IZIxTyG" resname="payment_order.printed_form.label">
         <source>payment_order.printed_form.label</source>
         <target>Gescanntes Formular</target>
-      </segment>
-    </unit>
-    <unit id="U1nhaZQ" name="payment_order.references.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="U1nhaZQ" resname="payment_order.references.label">
         <source>payment_order.references.label</source>
         <target>Nachweise</target>
-      </segment>
-    </unit>
-    <unit id="1_4xBRy" name="payment_order.printed_form.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="1_4xBRy" resname="payment_order.printed_form.help">
         <source>payment_order.printed_form.help</source>
         <target><![CDATA[Das ausgefüllte und unterschriebene <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege_ausfuellbar.pdf" target="_blank">Antragsformular</a>]]></target>
-      </segment>
-    </unit>
-    <unit id="4mZWrct" name="payment_order.references.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="4mZWrct" resname="payment_order.references.help">
         <source>payment_order.references.help</source>
         <target>Die für den Antrag benötigten Nachweise (Rechnungen, etc.)</target>
-      </segment>
-    </unit>
-    <unit id="XhS3Bkw" name="form.label.delete">
-      <segment>
+      </trans-unit>
+      <trans-unit id="XhS3Bkw" resname="form.label.delete">
         <source>form.label.delete</source>
         <target>Löschen</target>
-      </segment>
-    </unit>
-    <unit id="_vLOXJC" name="payment_order.group.documents">
-      <segment>
+      </trans-unit>
+      <trans-unit id="_vLOXJC" resname="payment_order.group.documents">
         <source>payment_order.group.documents</source>
         <target>Dokumente</target>
-      </segment>
-    </unit>
-    <unit id="1e8YZqC" name="payment_order.notification_user.subject">
-      <segment>
+      </trans-unit>
+      <trans-unit id="1e8YZqC" resname="payment_order.notification_user.subject">
         <source>payment_order.notification_user.subject</source>
         <target>Neuer Zahlungsauftrag eingereicht: %project%</target>
-      </segment>
-    </unit>
-    <unit id="CgimZ9t" name="payment_order.notification_user.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="CgimZ9t" resname="payment_order.notification_user.title">
         <source>payment_order.notification_user.title</source>
         <target>Neuer Zahlungsauftrag erfolgreich eingereicht</target>
-      </segment>
-    </unit>
-    <unit id="Ov4XSgp" name="payment_order.notification_user.info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Ov4XSgp" resname="payment_order.notification_user.info">
         <source>payment_order.notification_user.info</source>
         <target><![CDATA[Jemand (hoffentlich einer von euch) hat für euren FSR/Referat einen neuen Zahlungsauftrag über das StuRa-Onlinesystem eingereicht. Der Antrag ist eingegangen und wird jetzt bearbeitet. Bei Rückfragen wird der FSB sich bei euch melden.
 
@@ -1199,416 +796,308 @@ Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte
 
 <br>
 Die eingereichten Daten sind:]]></target>
-      </segment>
-    </unit>
-    <unit id="NcbIyfl" name="payment_order.notification_user.department">
-      <segment>
+      </trans-unit>
+      <trans-unit id="NcbIyfl" resname="payment_order.notification_user.department">
         <source>payment_order.notification_user.department</source>
         <target>FSR / Referat</target>
-      </segment>
-    </unit>
-    <unit id="otL0Htt" name="payment_order.notification_user.project_name">
-      <segment>
+      </trans-unit>
+      <trans-unit id="otL0Htt" resname="payment_order.notification_user.project_name">
         <source>payment_order.notification_user.project_name</source>
         <target>Projektbezeichnung</target>
-      </segment>
-    </unit>
-    <unit id="bXlWcbH" name="payment_order.notification_user.amount">
-      <segment>
+      </trans-unit>
+      <trans-unit id="bXlWcbH" resname="payment_order.notification_user.amount">
         <source>payment_order.notification_user.amount</source>
         <target>Betrag</target>
-      </segment>
-    </unit>
-    <unit id="Rc1M3PN" name="mail.footer.email_sent_by">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Rc1M3PN" resname="mail.footer.email_sent_by">
         <source>mail.footer.email_sent_by</source>
         <target>Diese Email wurde automatisch erstellt vom </target>
-      </segment>
-    </unit>
-    <unit id="AchaWxK" name="mail.footer.dont_reply">
-      <segment>
+      </trans-unit>
+      <trans-unit id="AchaWxK" resname="mail.footer.dont_reply">
         <source>mail.footer.dont_reply</source>
         <target>mail.footer.dont_reply</target>
-      </segment>
-    </unit>
-    <unit id="cMUPhlo" name="payment_order.notification_user.datetime">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cMUPhlo" resname="payment_order.notification_user.datetime">
         <source>payment_order.notification_user.datetime</source>
         <target>Einreichungsdatum</target>
-      </segment>
-    </unit>
-    <unit id="rjO0oca" name="payment_order.notification_user.id">
-      <segment>
+      </trans-unit>
+      <trans-unit id="rjO0oca" resname="payment_order.notification_user.id">
         <source>payment_order.notification_user.id</source>
         <target>Interne Auftrags-ID</target>
-      </segment>
-    </unit>
-    <unit id="tDqikpa" name="payment_order.notification_user.why">
-      <segment>
+      </trans-unit>
+      <trans-unit id="tDqikpa" resname="payment_order.notification_user.why">
         <source>payment_order.notification_user.why</source>
         <target><![CDATA[Du erhälst diese Email, da du als Kontaktperson für das oben genannte Referat / FSR benannt bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
-      </segment>
-    </unit>
-    <unit id="DRl6loh" name="homepage.welcome">
-      <segment>
+      </trans-unit>
+      <trans-unit id="DRl6loh" resname="homepage.welcome">
         <source>homepage.welcome</source>
         <target>Willkommen beim Finanzsystem des FSU StuRas</target>
-      </segment>
-    </unit>
-    <unit id="BX2cMD5" name="homepage.explaination">
-      <segment>
+      </trans-unit>
+      <trans-unit id="BX2cMD5" resname="homepage.explaination">
         <source>homepage.explaination</source>
         <target>Hier kannst du für dein Referat oder FSR Finanzanträge einreichen</target>
-      </segment>
-    </unit>
-    <unit id="6T_xFxC" name="homepage.support">
-      <segment>
+      </trans-unit>
+      <trans-unit id="6T_xFxC" resname="homepage.support">
         <source>homepage.support</source>
         <target><![CDATA[Bei Fragen wende dich bitte an den <a href="mailto:%fsb_email%"> Fachschaftenbeauftragten (FSB)</a>. Bei Technischen Problemen wende dich an <a href="mailto:%support_email%">%support_email%</a>]]></target>
-      </segment>
-    </unit>
-    <unit id="xoCX8s3" name="sepa_export.submit">
-      <segment>
+      </trans-unit>
+      <trans-unit id="xoCX8s3" resname="sepa_export.submit">
         <source>sepa_export.submit</source>
         <target>Download</target>
-      </segment>
-    </unit>
-    <unit id="IpjlQ0T" name="sepa_export.bic.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="IpjlQ0T" resname="sepa_export.bic.label">
         <source>sepa_export.bic.label</source>
         <target>Absender BIC</target>
-      </segment>
-    </unit>
-    <unit id="ikkOxIP" name="sepa_export.iban.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="ikkOxIP" resname="sepa_export.iban.label">
         <source>sepa_export.iban.label</source>
         <target>Absender IBAN</target>
-      </segment>
-    </unit>
-    <unit id="u3EGncr" name="sepa_export.name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="u3EGncr" resname="sepa_export.name.label">
         <source>sepa_export.name.label</source>
         <target>Absender Name</target>
-      </segment>
-    </unit>
-    <unit id="jCkAiJX" name="sepa_export.title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="jCkAiJX" resname="sepa_export.title">
         <source>sepa_export.title</source>
         <target>Exporter</target>
-      </segment>
-    </unit>
-    <unit id="_0brlPs" name="sepa_export.title2">
-      <segment>
+      </trans-unit>
+      <trans-unit id="_0brlPs" resname="sepa_export.title2">
         <source>sepa_export.title2</source>
         <target>SEPA-XML Exporter</target>
-      </segment>
-    </unit>
-    <unit id="k.HbtD8" name="sepa_export.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="k.HbtD8" resname="sepa_export.help">
         <source>sepa_export.help</source>
         <target><![CDATA[Dieses Fenster ermöglicht es die gewählten Zahlungsaufträge als SEPA-XML Datei zu exportieren. Diese kann dann im Online-Banking einer Bank importiert werden, um automatisch eine Vielzahl von Überweisungen durchzuführen. <br>
 Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden soll.]]></target>
-      </segment>
-    </unit>
-    <unit id="IojgE6e" name="sepa_export.count_title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="IojgE6e" resname="sepa_export.count_title">
         <source>sepa_export.count_title</source>
         <target>%count% Zahlungsaufträge ausgewählt:</target>
-      </segment>
-    </unit>
-    <unit id="0AmiUaU" name="dashboard.menu.github">
-      <segment>
+      </trans-unit>
+      <trans-unit id="0AmiUaU" resname="dashboard.menu.github">
         <source>dashboard.menu.github</source>
         <target>Quellcode</target>
-      </segment>
-    </unit>
-    <unit id="eaY0pQU" name="bank_account.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="eaY0pQU" resname="bank_account.label">
         <source>bank_account.label</source>
         <target>Bankkonto</target>
-      </segment>
-    </unit>
-    <unit id="VFcjDgc" name="bank_account.labelp">
-      <segment>
+      </trans-unit>
+      <trans-unit id="VFcjDgc" resname="bank_account.labelp">
         <source>bank_account.labelp</source>
         <target>Bankkonten</target>
-      </segment>
-    </unit>
-    <unit id="QD3SF4e" name="bank_account.id.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="QD3SF4e" resname="bank_account.id.label">
         <source>bank_account.id.label</source>
         <target>ID</target>
-      </segment>
-    </unit>
-    <unit id="AfEvlUr" name="bank_account.name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="AfEvlUr" resname="bank_account.name.label">
         <source>bank_account.name.label</source>
         <target>Name</target>
-      </segment>
-    </unit>
-    <unit id="cBq8ptW" name="bank_account.iban.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cBq8ptW" resname="bank_account.iban.label">
         <source>bank_account.iban.label</source>
         <target>IBAN</target>
-      </segment>
-    </unit>
-    <unit id="EmVvFs4" name="bank_account.bic.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="EmVvFs4" resname="bank_account.bic.label">
         <source>bank_account.bic.label</source>
         <target>BIC</target>
-      </segment>
-    </unit>
-    <unit id="UJyrrOF" name="bank_account.account_name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="UJyrrOF" resname="bank_account.account_name.label">
         <source>bank_account.account_name.label</source>
         <target>Kontoname</target>
-      </segment>
-    </unit>
-    <unit id="Ij6uawH" name="bank_account.account_name.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Ij6uawH" resname="bank_account.account_name.help">
         <source>bank_account.account_name.help</source>
         <target>Wenn hier ein Wert angegeben wird, wird dieser Name in den Exporten verwendet.</target>
-      </segment>
-    </unit>
-    <unit id="lhIUciL" name="bank_account.comment.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="lhIUciL" resname="bank_account.comment.label">
         <source>bank_account.comment.label</source>
         <target>Anmerkungen</target>
-      </segment>
-    </unit>
-    <unit id="cZVX0PG" name="sepa_export.bank_account.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cZVX0PG" resname="sepa_export.bank_account.label">
         <source>sepa_export.bank_account.label</source>
         <target>Bank Account</target>
-      </segment>
-    </unit>
-    <unit id="Kxdni7X" name="sepa_export.bank_account.placeholder">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Kxdni7X" resname="sepa_export.bank_account.placeholder">
         <source>sepa_export.bank_account.placeholder</source>
         <target>Manuelle Eingabe (siehe unten)</target>
-      </segment>
-    </unit>
-    <unit id="nBeuZLx" name="sepa_export.error.department_missing_account">
-      <segment>
+      </trans-unit>
+      <trans-unit id="nBeuZLx" resname="sepa_export.error.department_missing_account">
         <source>sepa_export.error.department_missing_account</source>
         <target>Automatische Zuordnung nicht möglich. Organisation hat kein Standardkonto</target>
-      </segment>
-    </unit>
-    <unit id="pbd7vWW" name="sepa_export.mode.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="pbd7vWW" resname="sepa_export.mode.label">
         <source>sepa_export.mode.label</source>
         <target>Modus</target>
-      </segment>
-    </unit>
-    <unit id="9I43De_" name="sepa_export.mode.auto">
-      <segment>
+      </trans-unit>
+      <trans-unit id="9I43De_" resname="sepa_export.mode.auto">
         <source>sepa_export.mode.auto</source>
         <target>Automatische Kontozuordnung</target>
-      </segment>
-    </unit>
-    <unit id="f8FPBi5" name="sepa_export.mode.manual">
-      <segment>
+      </trans-unit>
+      <trans-unit id="f8FPBi5" resname="sepa_export.mode.manual">
         <source>sepa_export.mode.manual</source>
         <target>Händische Kontoauswahl</target>
-      </segment>
-    </unit>
-    <unit id="1nRJ6xx" name="department.bank_account.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="1nRJ6xx" resname="department.bank_account.help">
         <source>department.bank_account.help</source>
         <target>Wenn hier ein Bankkonto angegeben ist, wird dieses beim Export mit automatischer Kontozuweisung verwendet. Wenn hier nichts angegeben wird, kann die automatische Zuweisung nicht benutzt werden.</target>
-      </segment>
-    </unit>
-    <unit id="TJ5otBm" name="department.bank_account.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="TJ5otBm" resname="department.bank_account.label">
         <source>department.bank_account.label</source>
         <target>Bankkonto</target>
-      </segment>
-    </unit>
-    <unit id="w7gR38s" name="user.role.edit_bank_accounts">
-      <segment>
+      </trans-unit>
+      <trans-unit id="w7gR38s" resname="user.role.edit_bank_accounts">
         <source>user.role.edit_bank_accounts</source>
         <target>Bankkonten bearbeiten</target>
-      </segment>
-    </unit>
-    <unit id="zEDlHBE" name="department.email_hhv.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="zEDlHBE" resname="department.email_hhv.label">
         <source>department.email_hhv.label</source>
         <target>Email Haushaltsverantwortlicher</target>
-      </segment>
-    </unit>
-    <unit id="dncGr0X" name="department.email_treasurer.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="dncGr0X" resname="department.email_treasurer.label">
         <source>department.email_treasurer.label</source>
         <target>Email Kassenverantwortlicher</target>
-      </segment>
-    </unit>
-    <unit id="Iqm.ffE" name="department.fsr_email_panel.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="Iqm.ffE" resname="department.fsr_email_panel.label">
         <source>department.fsr_email_panel.label</source>
         <target>Kontaktdaten Haushalts- und Kassenverantwortliche</target>
-      </segment>
-    </unit>
-    <unit id="y3CZ3z_" name="department.fsr_email_panel.help">
-      <segment>
+      </trans-unit>
+      <trans-unit id="y3CZ3z_" resname="department.fsr_email_panel.help">
         <source>department.fsr_email_panel.help</source>
         <target>Nur für FSRe erforderlich.</target>
-      </segment>
-    </unit>
-    <unit id="fGGGpZ1" name="payment_order.confirmation.invalid_step">
-      <segment>
+      </trans-unit>
+      <trans-unit id="fGGGpZ1" resname="payment_order.confirmation.invalid_step">
         <source>payment_order.confirmation.invalid_step</source>
         <target>Ungültiger Bestätigungsschritt. Erlaubte Werte für confirm sind 1 oder 2.</target>
-      </segment>
-    </unit>
-    <unit id="ISVNV7I" name="payment_order.confirmation.invalid_token">
-      <segment>
+      </trans-unit>
+      <trans-unit id="ISVNV7I" resname="payment_order.confirmation.invalid_token">
         <source>payment_order.confirmation.invalid_token</source>
         <target>Ungültiges Token!</target>
-      </segment>
-    </unit>
-    <unit id="nJXv2UA" name="payment_order.confirm_title">
-      <segment>
+      </trans-unit>
+      <trans-unit id="nJXv2UA" resname="payment_order.confirm_title">
         <source>payment_order.confirm_title</source>
         <target>Bestätigung des Zahlungsauftrages</target>
-      </segment>
-    </unit>
-    <unit id="IX2p1z." name="payment_order.confirm.step_1">
-      <segment>
+      </trans-unit>
+      <trans-unit id="IX2p1z." resname="payment_order.confirm.step_1">
         <source>payment_order.confirm.step_1</source>
         <target>Haushaltsverantwortlicher</target>
-      </segment>
-    </unit>
-    <unit id="ojac6uH" name="payment_order.name.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="ojac6uH" resname="payment_order.name.label">
         <source>payment_order.name.label</source>
         <target>Name des Zahlungsempfängers</target>
-      </segment>
-    </unit>
-    <unit id="cvGELqY" name="payment_order.confirm.general">
-      <segment>
+      </trans-unit>
+      <trans-unit id="cvGELqY" resname="payment_order.confirm.general">
         <source>payment_order.confirm.general</source>
         <target>Allgemein</target>
-      </segment>
-    </unit>
-    <unit id="nI.D9eC" name="payment_order.submitted_date.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="nI.D9eC" resname="payment_order.submitted_date.label">
         <source>payment_order.submitted_date.label</source>
         <target>Einreichungsdatum</target>
-      </segment>
-    </unit>
-    <unit id="XcKFdDS" name="bank_info.address.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="XcKFdDS" resname="bank_info.address.label">
         <source>bank_info.address.label</source>
         <target>Anschrift</target>
-      </segment>
-    </unit>
-    <unit id="sbrhvf9" name="payment_order.confirm.title_1">
-      <segment>
+      </trans-unit>
+      <trans-unit id="sbrhvf9" resname="payment_order.confirm.title_1">
         <source>payment_order.confirm.title_1</source>
         <target>Schritt 1: Zahlungsauftrag prüfen</target>
-      </segment>
-    </unit>
-    <unit id="z.KlqEL" name="payment_order.confirm.title_2">
-      <segment>
+      </trans-unit>
+      <trans-unit id="z.KlqEL" resname="payment_order.confirm.title_2">
         <source>payment_order.confirm.title_2</source>
         <target>Schritt 2: Belege prüfen</target>
-      </segment>
-    </unit>
-    <unit id="U1gJ_hx" name="payment_order.confirm.title_3">
-      <segment>
+      </trans-unit>
+      <trans-unit id="U1gJ_hx" resname="payment_order.confirm.title_3">
         <source>payment_order.confirm.title_3</source>
         <target>Schritt 3: Zahlungsauftrag ausdrucken und unterschreiben</target>
-      </segment>
-    </unit>
-    <unit id="uXLM_xq" name="payment_order.confirm.step_2">
-      <segment>
+      </trans-unit>
+      <trans-unit id="uXLM_xq" resname="payment_order.confirm.step_2">
         <source>payment_order.confirm.step_2</source>
         <target>Kassenverantwortlicher</target>
-      </segment>
-    </unit>
-    <unit id="V7ptdOw" name="payment_order.confirmed_1.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="V7ptdOw" resname="payment_order.confirmed_1.label">
         <source>payment_order.confirmed_1.label</source>
         <target>Bestätigt durch FSR-Haushaltsverantwortlichen</target>
-      </segment>
-    </unit>
-    <unit id="NkkqJrn" name="payment_order.confirmed_2.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="NkkqJrn" resname="payment_order.confirmed_2.label">
         <source>payment_order.confirmed_2.label</source>
         <target>Bestätigt durch FSR-Kassenverantwortlichen</target>
-      </segment>
-    </unit>
-    <unit id="dmgyXtT" name="payment_order.unconfirmed">
-      <segment>
+      </trans-unit>
+      <trans-unit id="dmgyXtT" resname="payment_order.unconfirmed">
         <source>payment_order.unconfirmed</source>
         <target>Unbestätigt</target>
-      </segment>
-    </unit>
-    <unit id="O1aB7ix" name="payment_order.confirmation.already_confirmed">
-      <segment>
+      </trans-unit>
+      <trans-unit id="O1aB7ix" resname="payment_order.confirmation.already_confirmed">
         <source>payment_order.confirmation.already_confirmed</source>
         <target>Dieser Zahlungsauftrag wurde von dir bereits bestätigt. Du kannst keine Änderungen mehr vornehmen.</target>
-      </segment>
-    </unit>
-    <unit id="PPAgk_y" name="payment_order.confirm.submit.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="PPAgk_y" resname="payment_order.confirm.submit.label">
         <source>payment_order.confirm.submit.label</source>
         <target>Zahlungsauftrag bestätigen</target>
-      </segment>
-    </unit>
-    <unit id="13FXskh" name="payment_order.confirm.download_form">
-      <segment>
+      </trans-unit>
+      <trans-unit id="13FXskh" resname="payment_order.confirm.download_form">
         <source>payment_order.confirm.download_form</source>
         <target>Formular herunterladen</target>
-      </segment>
-    </unit>
-    <unit id="._uHzmg" name="payment_order.confirm.download_references">
-      <segment>
+      </trans-unit>
+      <trans-unit id="._uHzmg" resname="payment_order.confirm.download_references">
         <source>payment_order.confirm.download_references</source>
         <target>Belege herunterladen</target>
-      </segment>
-    </unit>
-    <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
-      <segment>
+      </trans-unit>
+      <trans-unit id="9Csxh7g" resname="payment_order.confirm.hint_1">
         <source>payment_order.confirm.hint_1</source>
         <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
-      </segment>
-    </unit>
-    <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="w_Xc3Lt" resname="payment_order.confirm.check1.label">
         <source>payment_order.confirm.check1.label</source>
         <target>Ich habe die oben stehenden Daten geprüft und bestätige, dass sie korrekt sind.</target>
-      </segment>
-    </unit>
-    <unit id="t8gocrc" name="payment_order.confirm.hint_2">
-      <segment>
+      </trans-unit>
+      <trans-unit id="t8gocrc" resname="payment_order.confirm.hint_2">
         <source>payment_order.confirm.hint_2</source>
         <target><![CDATA[Schaue dir die eingereichten Belege an und prüfe, ob sie den Zahlungsauftrag ausreichend begründen. <br><i>Wichtig ist, dass alle Belege bei euch im Original vorliegen!</i>]]></target>
-      </segment>
-    </unit>
-    <unit id="dhI6VR7" name="payment_order.confirm.check2.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id="dhI6VR7" resname="payment_order.confirm.check2.label">
         <source>payment_order.confirm.check2.label</source>
         <target>Ich habe die Belege geprüft und bestätige, dass ich alle Belege im Original vorliegen habe.</target>
-      </segment>
-    </unit>
-    <unit id="M.gjN8U" name="payment_order.confirm.hint_3">
-      <segment>
+      </trans-unit>
+      <trans-unit id="M.gjN8U" resname="payment_order.confirm.hint_3">
         <source>payment_order.confirm.hint_3</source>
         <target>Drucke den unten stehenden Zahlungsauftrag aus, unterschreibe ihn und hefte ihn zu den Belegen ab.</target>
-      </segment>
-    </unit>
-    <unit id=".6wa._B" name="payment_order.confirm.check3.label">
-      <segment>
+      </trans-unit>
+      <trans-unit id=".6wa._B" resname="payment_order.confirm.check3.label">
         <source>payment_order.confirm.check3.label</source>
         <target>Ich bestätige, dass ich den Zahlungsauftrag unterschrieben und abgeheftet habe.</target>
-      </segment>
-    </unit>
-    <unit id="YA5xZMy" name="flash.info">
-      <segment>
+      </trans-unit>
+      <trans-unit id="YA5xZMy" resname="flash.info">
         <source>flash.info</source>
         <target>Info</target>
-      </segment>
-    </unit>
+      </trans-unit>
+      <trans-unit id="MSMBTva" resname="payment_order.confirmation_email.subject">
+        <source>payment_order.confirmation_email.subject</source>
+        <target state="translated">Bestätigung benötigt: %project%</target>
+      </trans-unit>
+      <trans-unit id="GhAyeyw" resname="department.type.">
+        <source>department.type.</source>
+        <target state="needs-translation"/>
+      </trans-unit>
+      <trans-unit id="hm.gln_" resname="payment_order.confirmation_mail.title">
+        <source>payment_order.confirmation_mail.title</source>
+        <target state="translated">Bestätigung für Zahlungsauftrag benötigt</target>
+      </trans-unit>
+      <trans-unit id="2DBB98l" resname="payment_order.confirmation_mail.info">
+        <source>payment_order.confirmation_mail.info</source>
+        <target state="translated">Jemand (hoffentlich einer von euch) hat für euren FSR einen Zahlungsauftrag eingereicht. Der Antrag muss noch von euch geprüft und bestätigt werden, klicke dafür auf den untenstehenden Button/Link. Bei Fehlern oder Fragen kontaktiere den FSB (%fsb_email%).</target>
+      </trans-unit>
+      <trans-unit id="ym_gxms" resname="payment_order.confirmation_email.vpn_hint">
+        <source>payment_order.confirmation_email.vpn_hint</source>
+        <target state="translated">Bitte beachte, dass das Zahlungssystem nur aus dem Uninetzwerk erreichbar ist. Verbinde dich daher mit eduroam oder nutze den VPN-Client der Uni um die Bestätigungsseite aufzurufen.</target>
+      </trans-unit>
+      <trans-unit id="g1xiVYZ" resname="payment_order.confirmation_mail.button">
+        <source>payment_order.confirmation_mail.button</source>
+        <target state="translated">Zahlungsauftrag bestätigen</target>
+      </trans-unit>
+      <trans-unit id="nnZjLCg" resname="payment_order.confirmation_mail.why">
+        <source>payment_order.confirmation_mail.why</source>
+        <target state="translated">Du erhälst diese Email, da du als Haushaltsverantwortlicher/Kassenverantwortlicher für den oben genannten FSR eingetragen bist. Sollte dies nicht stimmen, melde dich bitte beim &lt;a href="mailto:%fsb_email%"&gt;FSB&lt;/a&gt;.</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
