@@ -92,7 +92,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * @ORM\Column(type="string")
      * @Assert\Email()
      * @Assert\Expression("!(value === null || value === '') || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
-     * @Assert\Expression("value !== null && value !== '' && value !== this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
+     * @Assert\Expression("(value == null || value == '') || value !== this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
      */
     private $email_hhv;
 

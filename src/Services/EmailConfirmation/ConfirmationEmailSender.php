@@ -33,20 +33,36 @@ class ConfirmationEmailSender
     private $entityManager;
     private $translator;
 
+    private $fsb_email;
+    private $send_notifications;
+    private $notifications_bcc;
+
     public function __construct(MailerInterface $mailer, ConfirmationTokenGenerator $tokenGenerator,
-        EntityManagerInterface $entityManager, TranslatorInterface $translator)
+        EntityManagerInterface $entityManager, TranslatorInterface $translator,
+        string $fsb_email, bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+
+        $this->fsb_email = $fsb_email;
+        $this->send_notifications = $send_notifications;
+        $this->notifications_bcc = $notifications_bcc;
     }
 
     public function sendConfirmation1(PaymentOrder $paymentOrder): void
     {
         $token = $this->tokenGenerator->getToken();
         $paymentOrder->setConfirm1Token($this->hash_token($token));
-        $this->sendConfirmation($paymentOrder, $paymentOrder->getDepartment()->getEmailHhv(), $token, 1);
+        $email = $paymentOrder->getDepartment()->getEmailHhv();
+        //Dont send the confirmation email if no email is set, otherwise just confirm it
+        if (!empty($email) && $this->send_notifications) {
+            $this->sendConfirmation($paymentOrder, $email , $token, 1);
+        } else {
+            $paymentOrder->setConfirm1Timestamp(new \DateTime());
+        }
+
         $this->entityManager->flush();
     }
 
@@ -54,7 +70,13 @@ class ConfirmationEmailSender
     {
         $token = $this->tokenGenerator->getToken();
         $paymentOrder->setConfirm2Token($this->hash_token($token));
-        $this->sendConfirmation($paymentOrder, $paymentOrder->getDepartment()->getEmailTreasurer(), $token, 2);
+        $email = $paymentOrder->getDepartment()->getEmailTreasurer();
+        //Dont send the confirmation email if no email is set, otherwise just confirm it
+        if (!empty($email) && $this->send_notifications) {
+            $this->sendConfirmation($paymentOrder, $email , $token, 2);
+        } else {
+            $paymentOrder->setConfirm2Timestamp(new \DateTime());
+        }
         $this->entityManager->flush();
     }
 
@@ -64,6 +86,7 @@ class ConfirmationEmailSender
         $email->addTo($email_address);
 
         $email->priority(Email::PRIORITY_HIGH);
+        $email->replyTo($this->fsb_email);
 
         $email->subject(
             $this->translator->trans(
