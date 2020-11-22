@@ -1544,5 +1544,71 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Unbestätigt</target>
       </segment>
     </unit>
+    <unit id="O1aB7ix" name="payment_order.confirmation.already_confirmed">
+      <segment>
+        <source>payment_order.confirmation.already_confirmed</source>
+        <target>Dieser Zahlungsauftrag wurde von dir bereits bestätigt. Du kannst keine Änderungen mehr vornehmen.</target>
+      </segment>
+    </unit>
+    <unit id="PPAgk_y" name="payment_order.confirm.submit.label">
+      <segment>
+        <source>payment_order.confirm.submit.label</source>
+        <target>Zahlungsauftrag bestätigen</target>
+      </segment>
+    </unit>
+    <unit id="13FXskh" name="payment_order.confirm.download_form">
+      <segment>
+        <source>payment_order.confirm.download_form</source>
+        <target>Formular herunterladen</target>
+      </segment>
+    </unit>
+    <unit id="._uHzmg" name="payment_order.confirm.download_references">
+      <segment>
+        <source>payment_order.confirm.download_references</source>
+        <target>Belege herunterladen</target>
+      </segment>
+    </unit>
+    <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
+      <segment>
+        <source>payment_order.confirm.hint_1</source>
+        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+      </segment>
+    </unit>
+    <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
+      <segment>
+        <source>payment_order.confirm.check1.label</source>
+        <target>Ich habe die oben stehenden Daten geprüft und bestätige, dass sie korrekt sind.</target>
+      </segment>
+    </unit>
+    <unit id="t8gocrc" name="payment_order.confirm.hint_2">
+      <segment>
+        <source>payment_order.confirm.hint_2</source>
+        <target><![CDATA[Schaue dir die eingereichten Belege an und prüfe, ob sie den Zahlungsauftrag ausreichend begründen. <br><i>Wichtig ist, dass alle Belege bei euch im Original vorliegen!</i>]]></target>
+      </segment>
+    </unit>
+    <unit id="dhI6VR7" name="payment_order.confirm.check2.label">
+      <segment>
+        <source>payment_order.confirm.check2.label</source>
+        <target>Ich habe die Belege geprüft und bestätige, dass ich alle Belege im Original vorliegen habe.</target>
+      </segment>
+    </unit>
+    <unit id="M.gjN8U" name="payment_order.confirm.hint_3">
+      <segment>
+        <source>payment_order.confirm.hint_3</source>
+        <target>Drucke den unten stehenden Zahlungsauftrag aus, unterschreibe ihn und hefte ihn zu den Belegen ab.</target>
+      </segment>
+    </unit>
+    <unit id=".6wa._B" name="payment_order.confirm.check3.label">
+      <segment>
+        <source>payment_order.confirm.check3.label</source>
+        <target>Ich bestätige, dass ich den Zahlungsauftrag unterschrieben und abgeheftet habe.</target>
+      </segment>
+    </unit>
+    <unit id="YA5xZMy" name="flash.info">
+      <segment>
+        <source>flash.info</source>
+        <target>Info</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
