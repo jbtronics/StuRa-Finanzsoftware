@@ -1454,5 +1454,71 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Nur für FSRe erforderlich.</target>
       </segment>
     </unit>
+    <unit id="fGGGpZ1" name="payment_order.confirmation.invalid_step">
+      <segment>
+        <source>payment_order.confirmation.invalid_step</source>
+        <target>Ungültiger Bestätigungsschritt. Erlaubte Werte für confirm sind 1 oder 2.</target>
+      </segment>
+    </unit>
+    <unit id="ISVNV7I" name="payment_order.confirmation.invalid_token">
+      <segment>
+        <source>payment_order.confirmation.invalid_token</source>
+        <target>Ungültiges Token!</target>
+      </segment>
+    </unit>
+    <unit id="nJXv2UA" name="payment_order.confirm_title">
+      <segment>
+        <source>payment_order.confirm_title</source>
+        <target>Bestätigung des Zahlungsauftrages</target>
+      </segment>
+    </unit>
+    <unit id="IX2p1z." name="payment_order.confirm.step_1">
+      <segment>
+        <source>payment_order.confirm.step_1</source>
+        <target>Haushaltsverantwortlicher</target>
+      </segment>
+    </unit>
+    <unit id="ojac6uH" name="payment_order.name.label">
+      <segment>
+        <source>payment_order.name.label</source>
+        <target>Name des Zahlungsempfängers</target>
+      </segment>
+    </unit>
+    <unit id="cvGELqY" name="payment_order.confirm.general">
+      <segment>
+        <source>payment_order.confirm.general</source>
+        <target>Allgemein</target>
+      </segment>
+    </unit>
+    <unit id="nI.D9eC" name="payment_order.submitted_date.label">
+      <segment>
+        <source>payment_order.submitted_date.label</source>
+        <target>Einreichungsdatum</target>
+      </segment>
+    </unit>
+    <unit id="XcKFdDS" name="bank_info.address.label">
+      <segment>
+        <source>bank_info.address.label</source>
+        <target>Anschrift</target>
+      </segment>
+    </unit>
+    <unit id="sbrhvf9" name="payment_order.confirm.title_1">
+      <segment>
+        <source>payment_order.confirm.title_1</source>
+        <target>Schritt 1: Zahlungsauftrag prüfen</target>
+      </segment>
+    </unit>
+    <unit id="z.KlqEL" name="payment_order.confirm.title_2">
+      <segment>
+        <source>payment_order.confirm.title_2</source>
+        <target>Schritt 2: Belege prüfen</target>
+      </segment>
+    </unit>
+    <unit id="U1gJ_hx" name="payment_order.confirm.title_3">
+      <segment>
+        <source>payment_order.confirm.title_3</source>
+        <target>Schritt 3: Zahlungsauftrag ausdrucken und unterschreiben</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

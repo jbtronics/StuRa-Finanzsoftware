@@ -116,6 +116,30 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      */
     private $funding_id = "";
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $confirm1_token = null;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $confirm1_timestamp = null;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $confirm2_token = null;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $confirm2_timestamp = null;
+
     /*
      * Associated files
      */
@@ -448,5 +472,79 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->references = $references;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getConfirm1Token(): ?string
+    {
+        return $this->confirm1_token;
+    }
+
+    /**
+     * @param  string|null  $confirm1_token
+     * @return PaymentOrder
+     */
+    public function setConfirm1Token(?string $confirm1_token): PaymentOrder
+    {
+        $this->confirm1_token = $confirm1_token;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getConfirm1Timestamp(): ?\DateTime
+    {
+        return $this->confirm1_timestamp;
+    }
+
+    /**
+     * @param  \DateTime|null  $confirm1_timestamp
+     * @return PaymentOrder
+     */
+    public function setConfirm1Timestamp(?\DateTime $confirm1_timestamp): PaymentOrder
+    {
+        $this->confirm1_timestamp = $confirm1_timestamp;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getConfirm2Token(): ?string
+    {
+        return $this->confirm2_token;
+    }
+
+    /**
+     * @param  string|null  $confirm2_token
+     * @return PaymentOrder
+     */
+    public function setConfirm2Token(?string $confirm2_token): PaymentOrder
+    {
+        $this->confirm2_token = $confirm2_token;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getConfirm2Timestamp(): ?\DateTime
+    {
+        return $this->confirm2_timestamp;
+    }
+
+    /**
+     * @param  \DateTime|null  $confirm2_timestamp
+     * @return PaymentOrder
+     */
+    public function setConfirm2Timestamp(?\DateTime $confirm2_timestamp): PaymentOrder
+    {
+        $this->confirm2_timestamp = $confirm2_timestamp;
+        return $this;
+    }
+
+
 
 }

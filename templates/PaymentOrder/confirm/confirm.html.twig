@@ -1,0 +1,100 @@
+{% extends "main_card.html.twig" %}
+
+{% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i>
+    {% trans %}payment_order.confirm_title{% endtrans %}
+    #{{ entity.id }}
+    ({% if confirmation_nr == 1 %}{% trans %}payment_order.confirm.step_1{% endtrans %}{% else %}{% trans %}payment_order.confirm.step_2{% endtrans %}{% endif %})
+{% endblock %}
+
+{% block card_content %}
+
+    {{ form_start(form) }}
+
+    <h4>{% trans %}payment_order.confirm.title_1{% endtrans %}</h4>
+    <p class="">
+        {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_1{% endtrans %}
+    </p>
+    <div class="container">
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <tr>
+            <td>{% trans %}payment_order.id.label{% endtrans %}</td>
+            <td>#{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.submitted_date.label{% endtrans %}</td>
+            <td>{{ entity.creationDate | format_datetime }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.name.label{% endtrans %}</td>
+            <td>{{ entity.fullName }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.department.label{% endtrans %}</td>
+            <td>{{ entity.department.name }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.project_name.label{% endtrans %}</td>
+            <td>{{ entity.projectName }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.funding_id.label{% endtrans %}</td>
+            <td>{{ entity.fundingId }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.amount.label{% endtrans %}</td>
+            <td>{{ entity.amountString }} €</td>
+        </tr>
+        <tr>
+            <td>{% trans %}bank_info.account_owner.label{% endtrans %}</td>
+            <td>{{ entity.bankInfo.accountOwner }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}bank_info.address.label{% endtrans %}</td>
+            <td>{{ entity.bankInfo.address }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}bank_info.iban.label{% endtrans %}</td>
+            <td>{{ entity.bankInfo.iban }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}bank_info.bic.label{% endtrans %}</td>
+            <td>{{ entity.bankInfo.bic }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}bank_info.reference.label{% endtrans %}</td>
+            <td>{{ entity.bankInfo.reference }}</td>
+        </tr>
+    </table>
+
+        {{ form_row(form.check_1) }}
+
+    </div>
+
+    <h4>{% trans %}payment_order.confirm.title_2{% endtrans %}</h4>
+    <p class="">
+        <b>{% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_2{% endtrans %}</b>
+    </p>
+    <div class="container">
+        <a href="#" class="btn btn-secondary" target="_blank">
+            <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_references{% endtrans %}
+        </a>
+        {{ form_row(form.check_2) }}
+    </div>
+
+    <br>
+    <h4>{% trans %}payment_order.confirm.title_3{% endtrans %}</h4>
+
+    <p class="">
+        {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_3{% endtrans %}
+    </p>
+    <div class="container">
+        <a href="#" class="btn btn-secondary" target="_blank">
+            <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_form{% endtrans %}
+        </a>
+        {{ form_row(form.check_3) }}
+    </div>
+
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+
+{% endblock %}

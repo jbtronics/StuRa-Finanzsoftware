@@ -237,4 +237,9 @@ class BankAccountInfo
         $this->reference = $reference;
         return $this;
     }
+
+    public function getAddress(): string
+    {
+        return $this->getStreet() . ', ' . $this->getZipCode() . ' ' . $this->getCity();
+    }
 }
