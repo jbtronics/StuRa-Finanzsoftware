@@ -1526,5 +1526,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Kassenverantwortlicher</target>
       </segment>
     </unit>
+    <unit id="V7ptdOw" name="payment_order.confirmed_1.label">
+      <segment>
+        <source>payment_order.confirmed_1.label</source>
+        <target>Bestätigt durch FSR-Haushaltsverantwortlichen</target>
+      </segment>
+    </unit>
+    <unit id="NkkqJrn" name="payment_order.confirmed_2.label">
+      <segment>
+        <source>payment_order.confirmed_2.label</source>
+        <target>Bestätigt durch FSR-Kassenverantwortlichen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
