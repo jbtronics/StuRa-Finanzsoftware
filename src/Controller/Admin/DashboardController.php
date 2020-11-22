@@ -87,6 +87,7 @@ class DashboardController extends AbstractDashboardController
             ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
+            'confirmed' => 1,
         ]);
 
 
@@ -94,14 +95,16 @@ class DashboardController extends AbstractDashboardController
             ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_fsr, [
             'factually_correct' => 0,
-            'department_type' => 'fsr'
+            'department_type' => 'fsr',
+            'confirmed' => 1,
         ]);
 
         $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class)
             ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
-            'department_type' => 'section'
+            'department_type' => 'section',
+            'confirmed' => 1,
         ]);
 
         $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class)
@@ -109,8 +112,14 @@ class DashboardController extends AbstractDashboardController
         $this->addFiltersToMenuItem($finished, [
             'factually_correct' => 1,
             'mathematically_correct' => 1,
+            'confirmed' => 1,
         ]);
 
+        $unconfirmed = MenuItem::linkToCrud('payment_order.unconfirmed', '', PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
+        $this->addFiltersToMenuItem($unconfirmed, [
+            'confirmed' => 0,
+        ]);
 
 
         $items = [
@@ -118,6 +127,7 @@ class DashboardController extends AbstractDashboardController
             $factually_checking_fsr,
             $factually_checking_section,
             $finished,
+            $unconfirmed,
             MenuItem::linkToCrud('payment_order.all', '', PaymentOrder::class),
             ];
 

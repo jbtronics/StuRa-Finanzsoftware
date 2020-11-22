@@ -651,7 +651,7 @@
     </unit>
     <unit id="AYt4Z2k" name="tfa_google.disable.confirm_title">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
       </notes>
       <segment>
@@ -661,7 +661,7 @@
     </unit>
     <unit id="lTwm.J0" name="tfa_google.disable.confirm_message">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:33</note>
       </notes>
       <segment>
@@ -672,7 +672,7 @@
     </unit>
     <unit id="VYOAO2c" name="tfa_google.disabled_message">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:39</note>
       </notes>
       <segment>
@@ -682,7 +682,7 @@
     </unit>
     <unit id="cW3GnIC" name="tfa_google.step.download">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:48</note>
       </notes>
       <segment>
@@ -692,7 +692,7 @@
     </unit>
     <unit id="TXv.pXw" name="tfa_google.step.scan">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:49</note>
       </notes>
       <segment>
@@ -702,7 +702,7 @@
     </unit>
     <unit id="A9Ex8CO" name="tfa_google.step.input_code">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:50</note>
       </notes>
       <segment>
@@ -712,7 +712,7 @@
     </unit>
     <unit id="RqoGsnx" name="tfa_google.step.download_backup">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:51</note>
       </notes>
       <segment>
@@ -722,7 +722,7 @@
     </unit>
     <unit id="EygadTb" name="tfa_google.manual_setup">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:58</note>
       </notes>
       <segment>
@@ -732,7 +732,7 @@
     </unit>
     <unit id="4jE4fvm" name="tfa_google.manual_setup.type">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:62</note>
       </notes>
       <segment>
@@ -742,7 +742,7 @@
     </unit>
     <unit id="NqQTgh6" name="tfa_google.manual_setup.username">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:63</note>
       </notes>
       <segment>
@@ -752,7 +752,7 @@
     </unit>
     <unit id="pkupOqy" name="tfa_google.manual_setup.secret">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:64</note>
       </notes>
       <segment>
@@ -762,7 +762,7 @@
     </unit>
     <unit id="zabzs3X" name="tfa_google.manual_setup.digit_count">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:65</note>
       </notes>
       <segment>
@@ -772,7 +772,7 @@
     </unit>
     <unit id="FvB0dIm" name="tfa_google.enabled_message">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
+        <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
         <note priority="1">Part-DB1\templates\Users\_2fa_settings.html.twig:74</note>
       </notes>
       <segment>
@@ -782,8 +782,8 @@
     </unit>
     <unit id="3WtQFdr" name="tfa.check.title">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:3</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:5</note>
       </notes>
@@ -794,7 +794,7 @@
     </unit>
     <unit id="FPvJfPr" name="tfa.code.trusted_pc">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:39</note>
       </notes>
       <segment>
@@ -804,8 +804,8 @@
     </unit>
     <unit id="XtrGxkd" name="login.btn">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\login.html.twig:58</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
+        <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:52</note>
         <note priority="1">Part-DB1\templates\security\login.html.twig:58</note>
       </notes>
@@ -816,9 +816,9 @@
     </unit>
     <unit id="okzpfQC" name="user.logout">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
-        <note category="file-source" priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
-        <note category="file-source" priority="1">Part-DB1\templates\_navbar.html.twig:42</note>
+        <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
+        <note priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
+        <note priority="1">Part-DB1\templates\_navbar.html.twig:42</note>
         <note priority="1">Part-DB1\templates\security\2fa_base_form.html.twig:53</note>
         <note priority="1">Part-DB1\templates\security\U2F\u2f_login.html.twig:13</note>
         <note priority="1">Part-DB1\templates\_navbar.html.twig:40</note>
@@ -830,7 +830,7 @@
     </unit>
     <unit id="INlwXoR" name="tfa.check.code.label">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
         <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:6</note>
       </notes>
       <segment>
@@ -840,7 +840,7 @@
     </unit>
     <unit id="TUbr0_A" name="tfa.check.code.help">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
+        <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
         <note priority="1">Part-DB1\templates\security\2fa_form.html.twig:10</note>
       </notes>
       <segment>
@@ -917,7 +917,7 @@
     </unit>
     <unit id="_OcjXRe" name="tfa_backup.no_codes_enabled">
       <notes>
-        <note category="file-source" priority="1">Part-DB1\src\Controller\UserSettingsController.php:101</note>
+        <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:101</note>
         <note priority="1">Part-DB1\src\Controller\UserSettingsController.php:92</note>
       </notes>
       <segment>
@@ -928,7 +928,7 @@
     <unit id="n13qerD" name="tfa_backup.regenerate_codes">
       <notes>
         <note priority="1">obsolete</note>
-        <note category="state" priority="1">obsolete</note>
+        <note priority="1">obsolete</note>
       </notes>
       <segment>
         <source>tfa_backup.regenerate_codes</source>
@@ -1452,6 +1452,222 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>department.fsr_email_panel.help</source>
         <target>Nur für FSRe erforderlich.</target>
+      </segment>
+    </unit>
+    <unit id="fGGGpZ1" name="payment_order.confirmation.invalid_step">
+      <segment>
+        <source>payment_order.confirmation.invalid_step</source>
+        <target>Ungültiger Bestätigungsschritt. Erlaubte Werte für confirm sind 1 oder 2.</target>
+      </segment>
+    </unit>
+    <unit id="ISVNV7I" name="payment_order.confirmation.invalid_token">
+      <segment>
+        <source>payment_order.confirmation.invalid_token</source>
+        <target>Ungültiges Token!</target>
+      </segment>
+    </unit>
+    <unit id="nJXv2UA" name="payment_order.confirm_title">
+      <segment>
+        <source>payment_order.confirm_title</source>
+        <target>Bestätigung des Zahlungsauftrages</target>
+      </segment>
+    </unit>
+    <unit id="IX2p1z." name="payment_order.confirm.step_1">
+      <segment>
+        <source>payment_order.confirm.step_1</source>
+        <target>Haushaltsverantwortlicher</target>
+      </segment>
+    </unit>
+    <unit id="ojac6uH" name="payment_order.name.label">
+      <segment>
+        <source>payment_order.name.label</source>
+        <target>Name des Zahlungsempfängers</target>
+      </segment>
+    </unit>
+    <unit id="cvGELqY" name="payment_order.confirm.general">
+      <segment>
+        <source>payment_order.confirm.general</source>
+        <target>Allgemein</target>
+      </segment>
+    </unit>
+    <unit id="nI.D9eC" name="payment_order.submitted_date.label">
+      <segment>
+        <source>payment_order.submitted_date.label</source>
+        <target>Einreichungsdatum</target>
+      </segment>
+    </unit>
+    <unit id="XcKFdDS" name="bank_info.address.label">
+      <segment>
+        <source>bank_info.address.label</source>
+        <target>Anschrift</target>
+      </segment>
+    </unit>
+    <unit id="sbrhvf9" name="payment_order.confirm.title_1">
+      <segment>
+        <source>payment_order.confirm.title_1</source>
+        <target>Schritt 1: Zahlungsauftrag prüfen</target>
+      </segment>
+    </unit>
+    <unit id="z.KlqEL" name="payment_order.confirm.title_2">
+      <segment>
+        <source>payment_order.confirm.title_2</source>
+        <target>Schritt 2: Belege prüfen</target>
+      </segment>
+    </unit>
+    <unit id="U1gJ_hx" name="payment_order.confirm.title_3">
+      <segment>
+        <source>payment_order.confirm.title_3</source>
+        <target>Schritt 3: Zahlungsauftrag ausdrucken und unterschreiben</target>
+      </segment>
+    </unit>
+    <unit id="uXLM_xq" name="payment_order.confirm.step_2">
+      <segment>
+        <source>payment_order.confirm.step_2</source>
+        <target>Kassenverantwortlicher</target>
+      </segment>
+    </unit>
+    <unit id="V7ptdOw" name="payment_order.confirmed_1.label">
+      <segment>
+        <source>payment_order.confirmed_1.label</source>
+        <target>Bestätigt durch FSR-Haushaltsverantwortlichen</target>
+      </segment>
+    </unit>
+    <unit id="NkkqJrn" name="payment_order.confirmed_2.label">
+      <segment>
+        <source>payment_order.confirmed_2.label</source>
+        <target>Bestätigt durch FSR-Kassenverantwortlichen</target>
+      </segment>
+    </unit>
+    <unit id="dmgyXtT" name="payment_order.unconfirmed">
+      <segment>
+        <source>payment_order.unconfirmed</source>
+        <target>Unbestätigt</target>
+      </segment>
+    </unit>
+    <unit id="O1aB7ix" name="payment_order.confirmation.already_confirmed">
+      <segment>
+        <source>payment_order.confirmation.already_confirmed</source>
+        <target>Dieser Zahlungsauftrag wurde von dir bereits bestätigt. Du kannst keine Änderungen mehr vornehmen.</target>
+      </segment>
+    </unit>
+    <unit id="PPAgk_y" name="payment_order.confirm.submit.label">
+      <segment>
+        <source>payment_order.confirm.submit.label</source>
+        <target>Zahlungsauftrag bestätigen</target>
+      </segment>
+    </unit>
+    <unit id="13FXskh" name="payment_order.confirm.download_form">
+      <segment>
+        <source>payment_order.confirm.download_form</source>
+        <target>Formular herunterladen</target>
+      </segment>
+    </unit>
+    <unit id="._uHzmg" name="payment_order.confirm.download_references">
+      <segment>
+        <source>payment_order.confirm.download_references</source>
+        <target>Belege herunterladen</target>
+      </segment>
+    </unit>
+    <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
+      <segment>
+        <source>payment_order.confirm.hint_1</source>
+        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+      </segment>
+    </unit>
+    <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
+      <segment>
+        <source>payment_order.confirm.check1.label</source>
+        <target>Ich habe die oben stehenden Daten geprüft und bestätige, dass sie korrekt sind.</target>
+      </segment>
+    </unit>
+    <unit id="t8gocrc" name="payment_order.confirm.hint_2">
+      <segment>
+        <source>payment_order.confirm.hint_2</source>
+        <target><![CDATA[Schaue dir die eingereichten Belege an und prüfe, ob sie den Zahlungsauftrag ausreichend begründen. <br><i>Wichtig ist, dass alle Belege bei euch im Original vorliegen!</i>]]></target>
+      </segment>
+    </unit>
+    <unit id="dhI6VR7" name="payment_order.confirm.check2.label">
+      <segment>
+        <source>payment_order.confirm.check2.label</source>
+        <target>Ich habe die Belege geprüft und bestätige, dass ich alle Belege im Original vorliegen habe.</target>
+      </segment>
+    </unit>
+    <unit id="M.gjN8U" name="payment_order.confirm.hint_3">
+      <segment>
+        <source>payment_order.confirm.hint_3</source>
+        <target>Drucke den unten stehenden Zahlungsauftrag aus, unterschreibe ihn und hefte ihn zu den Belegen ab.</target>
+      </segment>
+    </unit>
+    <unit id=".6wa._B" name="payment_order.confirm.check3.label">
+      <segment>
+        <source>payment_order.confirm.check3.label</source>
+        <target>Ich bestätige, dass ich den Zahlungsauftrag unterschrieben und abgeheftet habe.</target>
+      </segment>
+    </unit>
+    <unit id="YA5xZMy" name="flash.info">
+      <segment>
+        <source>flash.info</source>
+        <target>Info</target>
+      </segment>
+    </unit>
+    <unit id="MSMBTva" name="payment_order.confirmation_email.subject">
+      <segment>
+        <source>payment_order.confirmation_email.subject</source>
+        <target>Bestätigung benötigt: %project%</target>
+      </segment>
+    </unit>
+    <unit id="GhAyeyw" name="department.type.">
+      <segment>
+        <source>department.type.</source>
+        <target></target>
+      </segment>
+    </unit>
+    <unit id="hm.gln_" name="payment_order.confirmation_mail.title">
+      <segment>
+        <source>payment_order.confirmation_mail.title</source>
+        <target>Bestätigung für Zahlungsauftrag benötigt</target>
+      </segment>
+    </unit>
+    <unit id="2DBB98l" name="payment_order.confirmation_mail.info">
+      <segment>
+        <source>payment_order.confirmation_mail.info</source>
+        <target>Jemand (hoffentlich einer von euch) hat für euren FSR einen Zahlungsauftrag eingereicht. Der Antrag muss noch von euch geprüft und bestätigt werden, klicke dafür auf den untenstehenden Button/Link. Bei Fehlern oder Fragen kontaktiere den FSB (%fsb_email%).</target>
+      </segment>
+    </unit>
+    <unit id="ym_gxms" name="payment_order.confirmation_email.vpn_hint">
+      <segment>
+        <source>payment_order.confirmation_email.vpn_hint</source>
+        <target>Bitte beachte, dass das Zahlungssystem nur aus dem Uninetzwerk erreichbar ist. Verbinde dich daher mit eduroam oder nutze den VPN-Client der Uni um die Bestätigungsseite aufzurufen.</target>
+      </segment>
+    </unit>
+    <unit id="g1xiVYZ" name="payment_order.confirmation_mail.button">
+      <segment>
+        <source>payment_order.confirmation_mail.button</source>
+        <target>Zahlungsauftrag bestätigen</target>
+      </segment>
+    </unit>
+    <unit id="nnZjLCg" name="payment_order.confirmation_mail.why">
+      <segment>
+        <source>payment_order.confirmation_mail.why</source>
+        <target><![CDATA[Du erhälst diese Email, da du als Haushaltsverantwortlicher/Kassenverantwortlicher für den oben genannten FSR eingetragen bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+      </segment>
+    </unit>
+    <unit id="pb8wrse" name="payment_order.action.resend_confirmation">
+      <segment>
+        <source>payment_order.action.resend_confirmation</source>
+        <target>Bestätigungsemails erneut senden</target>
+      </segment>
+    </unit>
+    <unit id="K6sogkC" name="payment_order.action.resend_confirmation.success">
+      <segment>
+        <source>payment_order.action.resend_confirmation.success</source>
+        <target>Bestätigungen werden erneut versendet.</target>
+      </segment>
+    </unit>
+    <unit id="icEbaa6" name="dashboard.warning">
+      <segment>
+        <source>dashboard.warning</source>
+        <target>Achtung: Diese Software dient nur der Organisation der internen Abläufe. Rechtlich verbindlich sind nur die originalen Belege und Abrechnungen!</target>
       </segment>
     </unit>
   </file>

@@ -19,9 +19,11 @@
 namespace App\Controller\Admin;
 
 use App\Admin\Field\VichyFileField;
+use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
+use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentEmailMailToGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -43,16 +45,21 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
 
 class PaymentOrderCrudController extends AbstractCrudController
 {
     private $mailToGenerator;
     private $dashboardControllerRegistry;
+    private $confirmationEmailSender;
 
-    public function __construct(PaymentEmailMailToGenerator $mailToGenerator, DashboardControllerRegistry $dashboardControllerRegistry)
+    public function __construct(PaymentEmailMailToGenerator $mailToGenerator,
+        DashboardControllerRegistry $dashboardControllerRegistry,
+        ConfirmationEmailSender $confirmationEmailSender)
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
+        $this->confirmationEmailSender = $confirmationEmailSender;
     }
 
     public static function getEntityFqcn(): string
@@ -87,8 +94,19 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
             ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
             ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
+            ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
             ->add(DateTimeFilter::new('last_modified', 'last_modified'));
+    }
+
+    public function resendConfirmationEmail(AdminContext $context): Response
+    {
+        $payment_order = $context->getEntity()->getInstance();
+
+        $this->confirmationEmailSender->resendConfirmations($payment_order);
+
+        $this->addFlash('success', 'payment_order.action.resend_confirmation.success');
+        return $this->redirect('/admin');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -113,7 +131,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->generateMailToHref($paymentOrder);
             })
-        ->setCssClass('text-dark');
+            ->setCssClass('text-dark');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
@@ -124,13 +142,23 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->getHHVMailLink($paymentOrder);
             })
-        ->setCssClass('mr-2 text-dark');
+            ->setCssClass('mr-2 text-dark');
+
+        $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
+            ->linkToCrudAction('resendConfirmationEmail')
+            ->displayIf(function (PaymentOrder $paymentOrder) {
+                return $paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null;
+            })
+            ->setCssClass('mr-2 text-dark');;
 
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
         $actions->add(Crud::PAGE_EDIT, $hhv_action);
         $actions->add(Crud::PAGE_DETAIL, $hhv_action);
+
+        $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
+        $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -162,7 +190,10 @@ class PaymentOrderCrudController extends AbstractCrudController
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
         $departmentName = TextareaField::new('department.name', 'payment_order.department.label');
 
-        $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label');
+        $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
+        $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
+
+        $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label')->setRequired(false)->setFormTypeOption('empty_data', '');
 
         //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
         //factually and mathematically correct status
@@ -179,7 +210,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
+            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$panel_documents, $printed_form, $references, $panel1, $firstName, $lastName, $department, $amount, $projectName, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {

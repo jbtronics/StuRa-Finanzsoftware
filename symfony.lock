@@ -650,6 +650,9 @@
     "symfony/yaml": {
         "version": "v5.1.2"
     },
+    "tecnickcom/tcpdf": {
+        "version": "6.3.5"
+    },
     "thecodingmachine/safe": {
         "version": "v1.1.2"
     },

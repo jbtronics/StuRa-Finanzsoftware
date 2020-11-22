@@ -53,5 +53,10 @@ services:
             $send_notifications: '%app.send_notifications%'
             $notifications_bcc: '%app.notifications_bcc%'
 
+    App\Services\EmailConfirmation\ConfirmationEmailSender:
+        arguments:
+            $send_notifications: '%app.send_notifications%'
+            $notifications_bcc: '%app.notifications_bcc%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
