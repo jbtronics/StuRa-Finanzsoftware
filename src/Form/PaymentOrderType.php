@@ -81,11 +81,12 @@ class PaymentOrderType extends AbstractType
             'label' => false
         ]);
 
+        /*
         $builder->add('printed_form_file', VichFileType::class, [
             'label' => 'payment_order.printed_form.label',
             'help' => 'payment_order.printed_form.help',
             'help_html' => true,
-        ]);
+        ]); */
 
         $builder->add('references_file', VichFileType::class, [
             'label' => 'payment_order.references.label',

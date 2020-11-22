@@ -1,0 +1,47 @@
+{% extends "mails/base_mail.html.twig" %}
+
+{% block content %}
+    <row>
+        <columns>
+            <h4>{% trans %}payment_order.confirmation_mail.title{% endtrans %}</h4>
+            <br>
+            <p>{% trans with {'%fsb_email%': fsb_email} %}payment_order.confirmation_mail.info{% endtrans %}</p>
+
+            <callout class="secondary">
+                <row>
+                    <columns>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.department{% endtrans %}: </b> {{ payment_order.department.name }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </b> {{ payment_order.projectName }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amountString }} €
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> #{{ payment_order.id}}
+                        </p>
+                    </columns>
+                </row>
+            </callout>
+
+            <p>{% trans %}payment_order.confirmation_email.vpn_hint{% endtrans %}</p>
+
+            <button class="large expand" href="{{ url('payment_order_confirm', {
+                'id': payment_order.id,
+                'confirm': verification_number,
+                'token': token
+            }) }}">{% trans %}payment_order.confirmation_mail.button{% endtrans %}</button>
+
+            <br>
+
+            <p>{% trans with {'%fsb_email%': fsb_email} %}payment_order.confirmation_mail.why{% endtrans %}</p>
+
+        </columns>
+    </row>
+
+{% endblock %}

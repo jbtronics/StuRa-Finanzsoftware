@@ -29,7 +29,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/admin/pdf")
  * @package App\Controller\Admin
  */
-class PDFGenerator extends AbstractController
+class PDFGeneratorController extends AbstractController
 {
     /**
      * @Route("/payment_order/{id}")

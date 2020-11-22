@@ -1520,5 +1520,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Schritt 3: Zahlungsauftrag ausdrucken und unterschreiben</target>
       </segment>
     </unit>
+    <unit id="uXLM_xq" name="payment_order.confirm.step_2">
+      <segment>
+        <source>payment_order.confirm.step_2</source>
+        <target>Kassenverantwortlicher</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
