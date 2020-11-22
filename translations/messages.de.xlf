@@ -1538,5 +1538,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bestätigt durch FSR-Kassenverantwortlichen</target>
       </segment>
     </unit>
+    <unit id="dmgyXtT" name="payment_order.unconfirmed">
+      <segment>
+        <source>payment_order.unconfirmed</source>
+        <target>Unbestätigt</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

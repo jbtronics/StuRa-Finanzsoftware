@@ -19,6 +19,7 @@
 namespace App\Controller\Admin;
 
 use App\Admin\Field\VichyFileField;
+use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
@@ -88,6 +89,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
             ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
             ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
+            ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
             ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
