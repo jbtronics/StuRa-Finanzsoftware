@@ -90,10 +90,23 @@ class DepartmentCrudController extends AbstractCrudController
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
 
-        $email_hhv = EmailField::new('email_hhv', 'department.email_hhv.label')
-            ->setRequired(false)->setFormTypeOption('empty_data', '');
-        $email_treasurer = EmailField::new('email_treasurer', 'department.email_treasurer.label')
-            ->setRequired(false)->setFormTypeOption('empty_data', '');;
+        $email_hhv = CollectionField::new('email_hhv', 'department.email_hhv.label')
+            ->setHelp('department.contact_emails.help')
+            ->setTemplatePath('admin/field/email_collection.html.twig')
+            ->allowAdd()->allowDelete()
+            ->setFormTypeOption('delete_empty', true)
+            ->setFormTypeOption('entry_options.required', false)
+            ->setFormTypeOption('entry_options.empty_data', '')
+            ->setEntryType(EmailType::class);
+
+        $email_treasurer = CollectionField::new('email_treasurer', 'department.email_treasurer.label')
+            ->setHelp('department.contact_emails.help')
+            ->setTemplatePath('admin/field/email_collection.html.twig')
+            ->allowAdd()->allowDelete()
+            ->setFormTypeOption('delete_empty', true)
+            ->setFormTypeOption('entry_options.required', false)
+            ->setFormTypeOption('entry_options.empty_data', '')
+            ->setEntryType(EmailType::class);
 
         $bank_account = AssociationField::new('bank_account', 'department.bank_account.label')
             ->setHelp('department.bank_account.help')

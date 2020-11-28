@@ -88,19 +88,25 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $bank_account;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\Email()
-     * @Assert\Expression("!(value === null || value === '') || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
-     * @Assert\Expression("(value == null || value == '') || value !== this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
+     * @var string[]
+     * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\Unique()
+     * @Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
+     * @Assert\All({
+     *     @Assert\Email(),
+     *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
+     * })
      */
     private $email_hhv;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\Email()
-     * @Assert\Expression("!(value === null || value === '') || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
+     * @var string[]
+     * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\Unique()
+     * @Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
+     * @Assert\All({
+     *     @Assert\Email()
+     * })
      */
     private $email_treasurer;
 
@@ -223,36 +229,44 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getEmailHhv(): string
+    public function getEmailHhv(): array
     {
+        //Handle empty fields from older migrations
+        if ($this->email_hhv === null) {
+            return [];
+        }
         return $this->email_hhv;
     }
 
     /**
-     * @param  string  $email_hhv
+     * @param  array  $email_hhv
      * @return Department
      */
-    public function setEmailHhv(string $email_hhv): Department
+    public function setEmailHhv(array $email_hhv): Department
     {
         $this->email_hhv = $email_hhv;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getEmailTreasurer(): string
+    public function getEmailTreasurer(): array
     {
+        //Handle empty fields from older migrations
+        if ($this->email_treasurer === null) {
+            return [];
+        }
         return $this->email_treasurer;
     }
 
     /**
-     * @param  string  $email_treasurer
+     * @param  string[]  $email_treasurer
      * @return Department
      */
-    public function setEmailTreasurer(string $email_treasurer): Department
+    public function setEmailTreasurer(array $email_treasurer): Department
     {
         $this->email_treasurer = $email_treasurer;
         return $this;

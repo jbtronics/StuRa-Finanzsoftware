@@ -80,10 +80,11 @@ class ConfirmationEmailSender
         $this->entityManager->flush();
     }
 
-    private function sendConfirmation(PaymentOrder $paymentOrder, string $email_address, string $token, int $verification_number)
+    private function sendConfirmation(PaymentOrder $paymentOrder, array $email_addresses, string $token, int $verification_number): void
     {
         $email = new TemplatedEmail();
-        $email->addTo($email_address);
+        //$email->addBcc(...$email_address);
+        //$email->addTo($email_address);
 
         $email->priority(Email::PRIORITY_HIGH);
         $email->replyTo($this->fsb_email);
@@ -103,7 +104,11 @@ class ConfirmationEmailSender
 
 
         //Submit mail
-        $this->mailer->send($email);
+        foreach ($email_addresses as $address) {
+            $email->to($address);
+            $this->mailer->send($email);
+        }
+
     }
 
     public function resendConfirmations(PaymentOrder $paymentOrder): void
