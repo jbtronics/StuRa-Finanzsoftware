@@ -104,7 +104,7 @@
       </segment>
     </unit>
     <unit id="slBrlP3" name="payment_order.tab.bank_account">
-      <segment state="translated">
+      <segment>
         <source>payment_order.tab.bank_account</source>
         <target>Kontodaten Zahlungsempfänger*in</target>
       </segment>
@@ -362,7 +362,7 @@
       </segment>
     </unit>
     <unit id="99uSrvT" name="payment_order.new.hint">
-      <segment state="translated">
+      <segment>
         <source>payment_order.new.hint</source>
         <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan aller Belege beigefügt werden!]]></target>
       </segment>
@@ -1141,13 +1141,13 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
       </segment>
     </unit>
     <unit id="IZIxTyG" name="payment_order.printed_form.label">
-      <segment state="translated">
+      <segment>
         <source>payment_order.printed_form.label</source>
         <target>Zahlungsauftragsformular</target>
       </segment>
     </unit>
     <unit id="U1nhaZQ" name="payment_order.references.label">
-      <segment state="translated">
+      <segment>
         <source>payment_order.references.label</source>
         <target>Rechnungen</target>
       </segment>
@@ -1159,7 +1159,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
       </segment>
     </unit>
     <unit id="4mZWrct" name="payment_order.references.help">
-      <segment state="translated">
+      <segment>
         <source>payment_order.references.help</source>
         <target>Die für den Antrag benötigten Rechnungen/Quittungen/Belege als PDF</target>
       </segment>
@@ -1250,13 +1250,13 @@ Die eingereichten Daten sind:]]></target>
       </segment>
     </unit>
     <unit id="DRl6loh" name="homepage.welcome">
-      <segment state="translated">
+      <segment>
         <source>homepage.welcome</source>
         <target>Finanzsystem des Studierendenrates der Friedrich-Schiller-Universität</target>
       </segment>
     </unit>
     <unit id="BX2cMD5" name="homepage.explaination">
-      <segment state="translated">
+      <segment>
         <source>homepage.explaination</source>
         <target>Hier kannst du für dein Referat oder FSR Finanzanträge einreichen.</target>
       </segment>
@@ -1569,7 +1569,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       </segment>
     </unit>
     <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
-      <segment state="translated">
+      <segment>
         <source>payment_order.confirm.hint_1</source>
         <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, bestätige den Auftrag keinesfalls und melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
       </segment>
@@ -1619,7 +1619,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="GhAyeyw" name="department.type.">
       <segment>
         <source>department.type.</source>
-        <target/>
+        <target></target>
       </segment>
     </unit>
     <unit id="hm.gln_" name="payment_order.confirmation_mail.title">
@@ -1635,7 +1635,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       </segment>
     </unit>
     <unit id="ym_gxms" name="payment_order.confirmation_email.vpn_hint">
-      <segment state="translated">
+      <segment>
         <source>payment_order.confirmation_email.vpn_hint</source>
         <target>Bitte beachte, dass du den Bestätigungslink nur aus dem Uninetzwerk aufrufen kannst. Verbinde dich daher mit eduroam oder nutze den VPN-Client der Uni um die Bestätigungsseite aufzurufen.</target>
       </segment>
@@ -1668,6 +1668,12 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>dashboard.warning</source>
         <target>Achtung: Diese Software dient nur der Organisation der internen Abläufe. Rechtlich verbindlich sind nur die originalen Belege und Abrechnungen!</target>
+      </segment>
+    </unit>
+    <unit id="fjjVcA1" name="payment_order.confirmation.success">
+      <segment>
+        <source>payment_order.confirmation.success</source>
+        <target>Zahlungsauftrag erfolgreich bestätigt.</target>
       </segment>
     </unit>
   </file>
