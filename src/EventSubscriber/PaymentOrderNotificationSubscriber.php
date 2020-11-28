@@ -92,12 +92,8 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
                             'payment_order' => $payment_order
                         ]);
 
-
-        //Submit mail
-        foreach($department->getContactEmails() as $address) {
-            $email->to($address);
-            $this->mailer->send($email);
-        }
+        $email->addBcc(...$department->getContactEmails());
+        $this->mailer->send($email);
     }
 
     public function generatePDF(PaymentOrderSubmittedEvent $event ): void

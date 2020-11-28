@@ -103,11 +103,8 @@ class ConfirmationEmailSender
                         ]);
 
 
-        //Submit mail
-        foreach ($email_addresses as $address) {
-            $email->to($address);
-            $this->mailer->send($email);
-        }
+        $email->addBcc(...$email_addresses);
+        $this->mailer->send($email);
 
     }
 
