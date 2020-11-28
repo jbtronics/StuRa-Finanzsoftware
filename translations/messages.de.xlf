@@ -328,7 +328,7 @@
     <unit id="IidAUjY" name="payment_order.new.account_info">
       <segment>
         <source>payment_order.new.account_info</source>
-        <target>Kontodaten</target>
+        <target>Kontodaten Zahlungsempfänger*in</target>
       </segment>
     </unit>
     <unit id="OxCscUL" name="payment_order.new.general">
@@ -1670,10 +1670,10 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Achtung: Diese Software dient nur der Organisation der internen Abläufe. Rechtlich verbindlich sind nur die originalen Belege und Abrechnungen!</target>
       </segment>
     </unit>
-    <unit id="fjjVcA1" name="payment_order.confirmation.success">
+    <unit id="O2OBLv0" name="payment_order.new.name_hint">
       <segment>
-        <source>payment_order.confirmation.success</source>
-        <target>Zahlungsauftrag erfolgreich bestätigt.</target>
+        <source>payment_order.new.name_hint</source>
+        <target>Gib hier den Namen und Kontaktdaten des Auftraggebers (also deine) an.</target>
       </segment>
     </unit>
   </file>
