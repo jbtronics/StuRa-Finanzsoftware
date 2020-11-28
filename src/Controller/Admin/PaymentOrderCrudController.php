@@ -210,6 +210,9 @@ class PaymentOrderCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_EDIT, $hhv_action);
         $actions->add(Crud::PAGE_DETAIL, $hhv_action);
 
+        $actions->disable(Crud::PAGE_NEW);
+
+
         $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
         $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
 
