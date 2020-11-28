@@ -44,12 +44,14 @@ class ConfirmedFilter implements FilterInterface
     {
         if($filterDataDto->getValue() === false) {
             $comparison = 'IS NULL';
+            $queryBuilder
+                ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm1_timestamp', $comparison))
+                ->orWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm2_timestamp', $comparison));
         } else {
             $comparison = 'IS NOT NULL';
+            $queryBuilder
+                ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm1_timestamp', $comparison))
+                ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm2_timestamp', $comparison));
         }
-
-        $queryBuilder
-            ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm1_timestamp', $comparison))
-            ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm2_timestamp', $comparison));
     }
 }
