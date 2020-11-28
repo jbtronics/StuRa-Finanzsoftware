@@ -1730,5 +1730,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>max.musterfrau@uni-jena.de</target>
       </segment>
     </unit>
+    <unit id="fjjVcA1" name="payment_order.confirmation.success">
+      <segment>
+        <source>payment_order.confirmation.success</source>
+        <target>Zahlungsauftrag erfolgreich bestätigt</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
