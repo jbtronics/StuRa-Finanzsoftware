@@ -101,6 +101,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(DepartmentTypeFilter::new('department_type', 'payment_order.department_type.label'))
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
             ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(BooleanFilter::new('exported', 'payment_order.exported.label'))
             ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
@@ -230,6 +231,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')->setRequired(false)->setFormTypeOption('empty_data', '');
         $panel2 = FormField::addPanel('payment_order.group.status');
         $mathematicallyCorrect = BooleanField::new('mathematically_correct', 'payment_order.mathematically_correct.label')->setHelp('payment_order.mathematically_correct.help');
+        $exported = BooleanField::new('exported', 'payment_order.exported.label')->setHelp('payment_order.exported.help');
         $factuallyCorrect = BooleanField::new('factually_correct', 'payment_order.factually_correct.label')->setHelp('payment_order.factually_correct.help');
         $panel3 = FormField::addPanel('payment_order.group.receiver');
         $bankInfoAccountOwner = TextField::new('bank_info.account_owner', 'bank_info.account_owner.label');
@@ -266,11 +268,11 @@ class PaymentOrderCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
+            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $projectName, $department, $amount, $funding_id, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$panel_documents, $printed_form, $references, $panel1, $firstName, $lastName, $department, $amount, $projectName, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
+            return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         }
 
         throw new \RuntimeException("It should not be possible to reach this point...");

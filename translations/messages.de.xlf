@@ -1700,5 +1700,23 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Der Zahlungsauftrag ist nun sachlich geprüft.</target>
       </segment>
     </unit>
+    <unit id="gt9t02d" name="payment_order.exported.label">
+      <segment>
+        <source>payment_order.exported.label</source>
+        <target>Exportiert</target>
+      </segment>
+    </unit>
+    <unit id="Y8yoxYc" name="payment_order.exported.help">
+      <segment>
+        <source>payment_order.exported.help</source>
+        <target>Wird automatisch beim Export gesetzt</target>
+      </segment>
+    </unit>
+    <unit id="V0K0Are" name="payment_order.ready_for_export.section">
+      <segment>
+        <source>payment_order.ready_for_export.section</source>
+        <target>Bereit für Export</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

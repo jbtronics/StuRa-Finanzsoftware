@@ -99,6 +99,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     private $mathematically_correct = false;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $exported = false;
+
+    /**
      * @var bool "sachlich richtig"
      * @ORM\Column(type="boolean")
      */
@@ -139,6 +145,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $confirm2_timestamp = null;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $contact_email = "";
 
     /*
      * Associated files
@@ -353,6 +365,25 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->factually_correct = $factually_correct;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isExported(): bool
+    {
+        return $this->exported;
+    }
+
+    /**
+     * @param  bool  $exported
+     * @return PaymentOrder
+     */
+    public function setExported(bool $exported): PaymentOrder
+    {
+        $this->exported = $exported;
+        return $this;
+    }
+
 
     /**
      * @return string

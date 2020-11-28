@@ -44,11 +44,13 @@ class ExportController extends AbstractController
 
     protected $sepaExporter;
     protected $translator;
+    protected $entityManager;
 
-    public function __construct(PaymentOrdersSEPAExporter $sepaExporter, TranslatorInterface $translator)
+    public function __construct(PaymentOrdersSEPAExporter $sepaExporter, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->sepaExporter = $sepaExporter;
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -95,6 +97,13 @@ class ExportController extends AbstractController
                         'mode' => $data['mode']
                     ]
                 );
+
+                //Set export flag
+                foreach($payment_orders as $paymentOrder) {
+                    $paymentOrder->setExported(true);
+                }
+                $this->entityManager->flush();
+
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',

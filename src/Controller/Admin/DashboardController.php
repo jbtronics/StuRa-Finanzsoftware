@@ -90,12 +90,21 @@ class DashboardController extends AbstractDashboardController
             'confirmed' => 1,
         ]);
 
+        $ready_for_export_section = MenuItem::linkToCrud('payment_order.ready_for_export.section', '',PaymentOrder::class)
+            ->setDefaultSort(['creation_date' => 'DESC']);
+        $this->addFiltersToMenuItem($ready_for_export_section, [
+            'mathematically_correct' => 1,
+            'exported' => 0,
+            'confirmed' => 1,
+        ]);
+
 
         $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class)
             ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_fsr, [
             'factually_correct' => 0,
             'department_type' => 'fsr',
+            'exported' => 1,
             'confirmed' => 1,
         ]);
 
@@ -104,6 +113,7 @@ class DashboardController extends AbstractDashboardController
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
             'department_type' => 'section',
+            'exported' => 1,
             'confirmed' => 1,
         ]);
 
@@ -112,6 +122,7 @@ class DashboardController extends AbstractDashboardController
         $this->addFiltersToMenuItem($finished, [
             'factually_correct' => 1,
             'mathematically_correct' => 1,
+            'exported' => 1,
             'confirmed' => 1,
         ]);
 
@@ -124,6 +135,7 @@ class DashboardController extends AbstractDashboardController
 
         $items = [
             $mathematically_checking,
+            $ready_for_export_section,
             $factually_checking_fsr,
             $factually_checking_section,
             $finished,
