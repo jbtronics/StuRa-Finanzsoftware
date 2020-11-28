@@ -104,9 +104,9 @@
       </segment>
     </unit>
     <unit id="slBrlP3" name="payment_order.tab.bank_account">
-      <segment>
+      <segment state="translated">
         <source>payment_order.tab.bank_account</source>
-        <target>Kontodaten</target>
+        <target>Kontodaten Zahlungsempfänger*in</target>
       </segment>
     </unit>
     <unit id="Y3IVpQ4" name="payment_order.first_name.label">
@@ -362,9 +362,9 @@
       </segment>
     </unit>
     <unit id="99uSrvT" name="payment_order.new.hint">
-      <segment>
+      <segment state="translated">
         <source>payment_order.new.hint</source>
-        <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan des unterschriebenen <a href="https://www.stura.uni-jena.de/downloads/finanzen/Zahlungsauftraege.pdf">Formulars</a> und aller Belege beigefügt werden!]]></target>
+        <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan aller Belege beigefügt werden!]]></target>
       </segment>
     </unit>
     <unit id="f8NZm.9" name="payment_order.new.contact_info">
@@ -1141,15 +1141,15 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
       </segment>
     </unit>
     <unit id="IZIxTyG" name="payment_order.printed_form.label">
-      <segment>
+      <segment state="translated">
         <source>payment_order.printed_form.label</source>
-        <target>Gescanntes Formular</target>
+        <target>Zahlungsauftragsformular</target>
       </segment>
     </unit>
     <unit id="U1nhaZQ" name="payment_order.references.label">
-      <segment>
+      <segment state="translated">
         <source>payment_order.references.label</source>
-        <target>Nachweise</target>
+        <target>Rechnungen</target>
       </segment>
     </unit>
     <unit id="1_4xBRy" name="payment_order.printed_form.help">
@@ -1159,9 +1159,9 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
       </segment>
     </unit>
     <unit id="4mZWrct" name="payment_order.references.help">
-      <segment>
+      <segment state="translated">
         <source>payment_order.references.help</source>
-        <target>Die für den Antrag benötigten Nachweise (Rechnungen, etc.)</target>
+        <target>Die für den Antrag benötigten Rechnungen/Quittungen/Belege als PDF</target>
       </segment>
     </unit>
     <unit id="XhS3Bkw" name="form.label.delete">
@@ -1250,15 +1250,15 @@ Die eingereichten Daten sind:]]></target>
       </segment>
     </unit>
     <unit id="DRl6loh" name="homepage.welcome">
-      <segment>
+      <segment state="translated">
         <source>homepage.welcome</source>
-        <target>Willkommen beim Finanzsystem des FSU StuRas</target>
+        <target>Finanzsystem des Studierendenrates der Friedrich-Schiller-Universität</target>
       </segment>
     </unit>
     <unit id="BX2cMD5" name="homepage.explaination">
-      <segment>
+      <segment state="translated">
         <source>homepage.explaination</source>
-        <target>Hier kannst du für dein Referat oder FSR Finanzanträge einreichen</target>
+        <target>Hier kannst du für dein Referat oder FSR Finanzanträge einreichen.</target>
       </segment>
     </unit>
     <unit id="6T_xFxC" name="homepage.support">
@@ -1569,9 +1569,9 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       </segment>
     </unit>
     <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
-      <segment>
+      <segment state="translated">
         <source>payment_order.confirm.hint_1</source>
-        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, bestätige den Auftrag keinesfalls und melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
       </segment>
     </unit>
     <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
@@ -1619,7 +1619,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="GhAyeyw" name="department.type.">
       <segment>
         <source>department.type.</source>
-        <target></target>
+        <target/>
       </segment>
     </unit>
     <unit id="hm.gln_" name="payment_order.confirmation_mail.title">
@@ -1635,9 +1635,9 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       </segment>
     </unit>
     <unit id="ym_gxms" name="payment_order.confirmation_email.vpn_hint">
-      <segment>
+      <segment state="translated">
         <source>payment_order.confirmation_email.vpn_hint</source>
-        <target>Bitte beachte, dass das Zahlungssystem nur aus dem Uninetzwerk erreichbar ist. Verbinde dich daher mit eduroam oder nutze den VPN-Client der Uni um die Bestätigungsseite aufzurufen.</target>
+        <target>Bitte beachte, dass du den Bestätigungslink nur aus dem Uninetzwerk aufrufen kannst. Verbinde dich daher mit eduroam oder nutze den VPN-Client der Uni um die Bestätigungsseite aufzurufen.</target>
       </segment>
     </unit>
     <unit id="g1xiVYZ" name="payment_order.confirmation_mail.button">

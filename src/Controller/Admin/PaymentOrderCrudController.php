@@ -184,7 +184,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label');
         $bankInfoBic = TextField::new('bank_info.bic', 'bank_info.bic.label');
         $bankInfoBankName = TextField::new('bank_info.bank_name', 'bank_info.bank_name.label');
-        $bankInfoReference = TextField::new('bank_info.reference', 'bank_info.reference.label')->setRequired(false);
+        $bankInfoReference = TextField::new('bank_info.reference', 'bank_info.reference.label')->setRequired(false)->setFormTypeOption('empty_data', '');
         $id = IntegerField::new('id', 'payment_order.id.label');
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
