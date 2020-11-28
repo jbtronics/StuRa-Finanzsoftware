@@ -79,14 +79,14 @@ class BankAccountInfoType extends AbstractType
             ]
         ]);
 
-        $builder->add('reference', TextType::class, [
+        /*$builder->add('reference', TextType::class, [
             'label' => 'bank_info.reference.label',
             'required' => false,
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.reference.placeholder'
             ]
-        ]);
+        ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver)
