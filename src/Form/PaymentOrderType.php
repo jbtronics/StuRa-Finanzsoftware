@@ -21,6 +21,7 @@ namespace App\Form;
 
 use App\Entity\PaymentOrder;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,6 +45,13 @@ class PaymentOrderType extends AbstractType
             'label' => 'payment_order.last_name.label',
             'attr' => [
                 'placeholder' => 'payment_order.last_name.placeholder'
+            ]
+        ]);
+
+        $builder->add('contact_email', EmailType::class, [
+            'label' => 'payment_order.contact_email.label',
+            'attr' => [
+                'placeholder' => 'payment_order.contact_email.placeholder'
             ]
         ]);
 

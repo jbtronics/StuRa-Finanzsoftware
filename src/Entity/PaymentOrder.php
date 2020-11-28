@@ -149,6 +149,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @var string
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\Email()
      */
     private $contact_email = "";
 
@@ -580,6 +581,26 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     {
         return $this->confirm1_timestamp !== null && $this->confirm2_timestamp !== null;
     }
+
+    /**
+     * @return string
+     */
+    public function getContactEmail(): string
+    {
+        return $this->contact_email;
+    }
+
+    /**
+     * @param  string  $contact_email
+     * @return PaymentOrder
+     */
+    public function setContactEmail(string $contact_email): PaymentOrder
+    {
+        $this->contact_email = $contact_email;
+        return $this;
+    }
+
+
 
 
 }

@@ -1718,5 +1718,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bereit für Export</target>
       </segment>
     </unit>
+    <unit id="Oa9DYsQ" name="payment_order.contact_email.label">
+      <segment>
+        <source>payment_order.contact_email.label</source>
+        <target>Email Auftraggeber</target>
+      </segment>
+    </unit>
+    <unit id="NAo.TOd" name="payment_order.contact_email.placeholder">
+      <segment>
+        <source>payment_order.contact_email.placeholder</source>
+        <target>max.musterfrau@uni-jena.de</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

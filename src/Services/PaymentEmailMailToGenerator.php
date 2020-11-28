@@ -75,13 +75,18 @@ class PaymentEmailMailToGenerator
     public function generateMailToHref(PaymentOrder $paymentOrder): ?string
     {
         $emails = $paymentOrder->getDepartment()->getContactEmails();
-        if (empty($emails)) {
-            return null;
-        }
 
         $string = "mailto:";
 
-        $string .= urlencode(implode(';', $emails));
+        if(!empty($paymentOrder->getContactEmail())) {
+            $string .= urlencode($paymentOrder->getContactEmail());
+        } elseif (!empty($paymentOrder->getDepartment()->getContactEmails())) {
+            $string .= urlencode(implode(';', $emails));
+        } else {
+            return null;
+        }
+
+
 
         //Determine a good email subject
         $subject = $this->translator->trans('payment_order.mail.subject') . ': ' . urlencode($paymentOrder->getProjectName());
