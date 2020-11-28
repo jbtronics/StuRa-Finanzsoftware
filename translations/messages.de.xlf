@@ -1676,5 +1676,29 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Gib hier den Namen und Kontaktdaten des Auftraggebers (also deine) an.</target>
       </segment>
     </unit>
+    <unit id="ugc7GXB" name="payment_order.action.mathematically_correct">
+      <segment>
+        <source>payment_order.action.mathematically_correct</source>
+        <target>Rechnerisch geprüft</target>
+      </segment>
+    </unit>
+    <unit id="HHyLzgh" name="payment_order.action.mathematically_correct.success">
+      <segment>
+        <source>payment_order.action.mathematically_correct.success</source>
+        <target>Zahlungsauftrag ist nun rechnerisch richtig!</target>
+      </segment>
+    </unit>
+    <unit id="OXYcXCZ" name="payment_order.action.factually_correct">
+      <segment>
+        <source>payment_order.action.factually_correct</source>
+        <target>Sachlich geprüft</target>
+      </segment>
+    </unit>
+    <unit id="n2gn74X" name="payment_order.action.factually_correct.success">
+      <segment>
+        <source>payment_order.action.factually_correct.success</source>
+        <target>Der Zahlungsauftrag ist nun sachlich geprüft.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

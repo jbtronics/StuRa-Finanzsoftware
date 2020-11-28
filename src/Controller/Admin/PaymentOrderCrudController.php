@@ -25,6 +25,7 @@ use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentEmailMailToGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -44,6 +45,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -52,14 +55,19 @@ class PaymentOrderCrudController extends AbstractCrudController
     private $mailToGenerator;
     private $dashboardControllerRegistry;
     private $confirmationEmailSender;
+    private $request;
+    private $entityManager;
 
     public function __construct(PaymentEmailMailToGenerator $mailToGenerator,
-        DashboardControllerRegistry $dashboardControllerRegistry,
-        ConfirmationEmailSender $confirmationEmailSender)
+        DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
+        ConfirmationEmailSender $confirmationEmailSender, RequestStack $requestStack)
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
         $this->confirmationEmailSender = $confirmationEmailSender;
+
+        $this->request = $requestStack->getCurrentRequest();
+        $this->entityManager = $entityManager;
     }
 
     public static function getEntityFqcn(): string
@@ -106,7 +114,32 @@ class PaymentOrderCrudController extends AbstractCrudController
         $this->confirmationEmailSender->resendConfirmations($payment_order);
 
         $this->addFlash('success', 'payment_order.action.resend_confirmation.success');
-        return $this->redirect('/admin');
+
+        return $this->redirect($context->getReferrer() ?? '/admin');
+    }
+
+    public function checkMathematicallyCorrect(AdminContext $context): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
+
+        /** @var PaymentOrder $payment_order */
+        $payment_order = $context->getEntity()->getInstance();
+        $payment_order->setMathematicallyCorrect(true);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'payment_order.action.mathematically_correct.success');
+        return $this->redirect($context->getReferrer() ?? '/admin');
+    }
+
+    public function checkFactuallyCorrect(AdminContext $context): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
+
+        /** @var PaymentOrder $payment_order */
+        $payment_order = $context->getEntity()->getInstance();
+        $payment_order->setFactuallyCorrect(true);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'payment_order.action.factually_correct.success');
+        return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -149,7 +182,26 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->displayIf(function (PaymentOrder $paymentOrder) {
                 return $paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null;
             })
-            ->setCssClass('mr-2 text-dark');;
+            ->setCssClass('mr-2 text-dark');
+
+        $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
+            ->linkToCrudAction('checkMathematicallyCorrect')
+            ->displayIf(function (PaymentOrder $paymentOrder) {
+                return $this->isGranted('ROLE_PO_MATHEMATICALLY')
+                    && $paymentOrder->isConfirmed()
+                    && !$paymentOrder->isMathematicallyCorrect();
+            })
+            ->setCssClass('mr-2 btn btn-success');
+
+        $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
+            ->linkToCrudAction('checkFactuallyCorrect')
+            ->displayIf(function (PaymentOrder $paymentOrder) {
+                return $this->isGranted('ROLE_PO_FACTUALLY')
+                    && $paymentOrder->isConfirmed()
+                    && !$paymentOrder->isFactuallyCorrect()
+                    && $paymentOrder->isMathematicallyCorrect();
+            })
+            ->setCssClass('mr-2 btn btn-success');
 
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
@@ -159,6 +211,10 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
         $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
+
+        $actions->add(Crud::PAGE_DETAIL, $mathematically_correct_action);
+        $actions->add(Crud::PAGE_DETAIL, $factually_correct_action);
+
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }

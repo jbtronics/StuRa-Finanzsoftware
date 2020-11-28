@@ -545,6 +545,10 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this;
     }
 
+    public function isConfirmed(): bool
+    {
+        return $this->confirm1_timestamp !== null && $this->confirm2_timestamp !== null;
+    }
 
 
 }
