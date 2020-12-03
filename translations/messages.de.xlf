@@ -16,7 +16,7 @@
     <unit id="nsmevWx" name="department.type.misc">
       <segment>
         <source>department.type.misc</source>
-        <target>Sonstiges</target>
+        <target>Verwaltung</target>
       </segment>
     </unit>
     <unit id="icN11_8" name="department.name.label">
