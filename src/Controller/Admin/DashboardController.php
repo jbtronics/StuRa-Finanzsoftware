@@ -112,7 +112,7 @@ class DashboardController extends AbstractDashboardController
             ->setDefaultSort(['creation_date' => 'DESC']);
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
-            'department_type' => 'section',
+            'department_type' => 'section_misc',
             'exported' => 1,
             'confirmed' => 1,
         ]);

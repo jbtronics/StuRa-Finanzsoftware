@@ -40,6 +40,8 @@ class DepartmentTypeFilter implements FilterInterface
             $choices['department.type.' . $type ] = $type;
         }
 
+        $choices['department.type.section_misc'] = 'section_misc';
+
         return (new self())
             ->setFilterFqcn(__CLASS__)
             ->setProperty($propertyName)
@@ -54,7 +56,20 @@ class DepartmentTypeFilter implements FilterInterface
         ?FieldDto $fieldDto,
         EntityDto $entityDto
     ): void {
-        $queryBuilder->andWhere('department.type = :department_type')->setParameter('department_type',$filterDataDto->getValue());
+
+        $value = $filterDataDto->getValue();
+
+        if ($value === 'section_misc') {
+            $queryBuilder->andWhere('department.type = :misc')
+                ->setParameter('misc', 'misc');
+            $queryBuilder->orWhere('department.type = :section')
+                ->setParameter('section', 'section');
+        } else {
+            $queryBuilder->andWhere('department.type = :department_type')->setParameter(
+                'department_type',
+                $filterDataDto->getValue()
+            );
+        }
         $queryBuilder->leftJoin($filterDataDto->getEntityAlias() . '.department', 'department');
     }
 }

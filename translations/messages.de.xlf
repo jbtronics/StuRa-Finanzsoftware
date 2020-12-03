@@ -1125,7 +1125,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="i6CH_eL" name="payment_order.factually_checking_needed.section">
       <segment>
         <source>payment_order.factually_checking_needed.section</source>
-        <target>Sachliche Prüfung benötigt (Referate)</target>
+        <target>Sachliche Prüfung benötigt (Referate/Verwaltung)</target>
       </segment>
     </unit>
     <unit id="xFQhGFj" name="payment_order.action.contact_hhv">
@@ -1734,6 +1734,18 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>payment_order.confirmation.success</source>
         <target>Zahlungsauftrag erfolgreich bestätigt</target>
+      </segment>
+    </unit>
+    <unit id="I4TrAoh" name="payment_order.confirmed.label">
+      <segment>
+        <source>payment_order.confirmed.label</source>
+        <target>Bestätigt</target>
+      </segment>
+    </unit>
+    <unit id="2woLfst" name="department.type.section_misc">
+      <segment>
+        <source>department.type.section_misc</source>
+        <target>Referate / Verwaltung</target>
       </segment>
     </unit>
   </file>
