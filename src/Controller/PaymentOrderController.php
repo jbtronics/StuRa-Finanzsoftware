@@ -24,6 +24,7 @@ use App\Entity\User;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
 use App\Form\PaymentOrderType;
+use App\Services\PaymentReferenceGenerator;
 use App\Services\PDF\PaymentOrderPDFGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
@@ -47,7 +48,7 @@ class PaymentOrderController extends AbstractController
      * @Route("/new", name="payment_order_new")
      * @return Response
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher, PaymentReferenceGenerator $paymentReferenceGenerator): Response
     {
         $new_order = new PaymentOrder();
 
@@ -60,6 +61,11 @@ class PaymentOrderController extends AbstractController
 
                 $entityManager->persist($new_order);
                 $entityManager->flush();
+
+                //We have to do this after the first flush, as we need to know the ID
+                $paymentReferenceGenerator->setPaymentReference($new_order);
+                $entityManager->flush();
+
 
                 $this->addFlash('success', 'flash.saved_successfully');
 

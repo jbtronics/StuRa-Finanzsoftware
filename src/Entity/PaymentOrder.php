@@ -599,8 +599,4 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->contact_email = $contact_email;
         return $this;
     }
-
-
-
-
 }
