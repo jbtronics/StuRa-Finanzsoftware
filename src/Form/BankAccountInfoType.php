@@ -32,28 +32,32 @@ class BankAccountInfoType extends AbstractType
         $builder->add('account_owner', TextType::class, [
             'label' => 'bank_info.account_owner.label',
             'attr' => [
-                'placeholder' => 'bank_info.account_owner.placeholder'
+                'placeholder' => 'bank_info.account_owner.placeholder',
+                'autocomplete' => 'name',
             ]
         ]);
 
         $builder->add('street', TextType::class, [
             'label' => 'bank_info.street.label',
             'attr' => [
-                'placeholder' => 'bank_info.street.placeholder'
+                'placeholder' => 'bank_info.street.placeholder',
+                'autocomplete' => 'street-address',
             ]
         ]);
 
         $builder->add('zip_code', TextType::class, [
             'label' => 'bank_info.zip_code.label',
             'attr' => [
-                'placeholder' => 'bank_info.zip_code.placeholder'
+                'placeholder' => 'bank_info.zip_code.placeholder',
+                'autocomplete' => 'postal_code',
             ]
         ]);
 
         $builder->add('city', TextType::class, [
             'label' => 'bank_info.city.label',
             'attr' => [
-                'placeholder' => 'bank_info.city.placeholder'
+                'placeholder' => 'bank_info.city.placeholder',
+                'autocomplete' => 'address-level2',
             ]
         ]);
 
