@@ -46,7 +46,7 @@ class PaymentOrderType extends AbstractType
             'label' => 'payment_order.last_name.label',
             'attr' => [
                 'placeholder' => 'payment_order.last_name.placeholder',
-                'autocomplete' => 'family_name'
+                'autocomplete' => 'family_name',
             ]
         ]);
 

@@ -2,6 +2,93 @@
 
 {% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i> {% trans %}payment_order.new{% endtrans %}{% endblock %}
 
+{% block head_javascripts %}
+    <script>
+        /* function to save JSON to file from browser
+        * adapted from http://bgrins.github.io/devtools-snippets/#console-save
+        * @param {Object} data -- json object to save
+        * @param {String} file -- file name to save to
+        */
+        function saveJSON(data, filename){
+
+            if(!data) {
+                console.error('No data')
+                return;
+            }
+
+            if(!filename) filename = 'console.json'
+
+            if(typeof data === "object"){
+                data = JSON.stringify(data, undefined, 4)
+            }
+
+            var blob = new Blob([data], {type: 'text/json'}),
+                e    = document.createEvent('MouseEvents'),
+                a    = document.createElement('a')
+
+            a.download = filename
+            a.href = window.URL.createObjectURL(blob)
+            a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+            e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+            a.dispatchEvent(e)
+        }
+
+        function deserializeForm(data)
+        {
+            for (var prop in data) {
+                if(prop === 'department') {
+                    //Update selected department
+                    $("#payment_order_department").val(data[prop]).selectpicker("render");
+                } else {
+                    $("input[data-json='" + prop + "']").val(data[prop]);
+                }
+            }
+        }
+
+        function serializeForm()
+        {
+            var data = {};
+
+            $("[data-json]").each(function(index) {
+                var key = $(this).data('json');
+                var value = $(this).val();
+
+                data[key] = value;
+            });
+
+            return data;
+        }
+
+        function exportJSON() {
+            var data = serializeForm();
+            var name = $("#export_name").val();
+            if(!name) {
+                alert("Name darf nicht leer sein!");
+                return;
+            }
+
+            saveJSON(data, name + '.json');
+        }
+
+
+        function importJSON() {
+            const fileSelector = document.getElementById('fileSelect');
+            fileSelector.addEventListener('change', (event) => {
+                var file = document.getElementById('fileSelect').files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var content = e.target.result;
+                    deserializeForm(JSON.parse(content));
+                }
+                reader.readAsText(file);
+            });
+
+            fileSelector.click();
+        }
+    </script>
+
+{% endblock %}
+
 {% block card_content %}
     <p class="text-muted">
         {% trans %}payment_order.new.hint{% endtrans %}<br>
@@ -20,15 +107,15 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        {{ form_row(form.first_name) }}
+                        {{ form_row(form.first_name, {'attr': {'data-json': 'first_name'}}) }}
                     </div>
                     <div class="col-sm-6">
-                        {{ form_row(form.last_name) }}
+                        {{ form_row(form.last_name, {'attr': {'data-json': 'last_name'}}) }}
                     </div>
                 </div>
 
-                {{ form_row(form.contact_email) }}
-                {{ form_row(form.department) }}
+                {{ form_row(form.contact_email, {'attr': {'data-json': 'contact_email'}}) }}
+                {{ form_row(form.department, {'attr': {'data-json': 'department'}}) }}
                 {{ form_row(form.project_name) }}
                 {{ form_row(form.amount) }}
                 {{ form_row(form.funding_id) }}
@@ -40,21 +127,49 @@
         <div class="col-sm-6">
             <fieldset>
                 <legend>{% trans %}payment_order.new.account_info{% endtrans %}</legend>
-                {{ form_row(form.bank_info.account_owner) }}
-                {{ form_row(form.bank_info.street) }}
+                {{ form_row(form.bank_info.account_owner, {'attr': {'data-json': 'account_owner'}}) }}
+                {{ form_row(form.bank_info.street, {'attr': {'data-json': 'street'}}) }}
                 <div class="row">
                     <div class="col-sm-6">
-                        {{ form_row(form.bank_info.zip_code) }}
+                        {{ form_row(form.bank_info.zip_code, {'attr': {'data-json': 'zip_code'}}) }}
                     </div>
                     <div class="col-sm-6">
-                        {{ form_row(form.bank_info.city) }}
+                        {{ form_row(form.bank_info.city, {'attr': {'data-json': 'city'}}) }}
                     </div>
                 </div>
-                {{ form_row(form.bank_info.iban) }}
-                {{ form_row(form.bank_info.bic) }}
-                {{ form_row(form.bank_info.bank_name) }}
-               {# {{ form_row(form.bank_info.reference) }} #}
+                {{ form_row(form.bank_info.iban, {'attr': {'data-json': 'iban'}}) }}
+                {{ form_row(form.bank_info.bic, {'attr': {'data-json': 'bic'}}) }}
+                {{ form_row(form.bank_info.bank_name, {'attr': {'data-json': 'bank_name'}}) }}
+                {# {{ form_row(form.bank_info.reference) }} #}
             </fieldset>
+
+            <fieldset>
+                <legend>Vorlagen TODO</legend>
+
+                <div class="input-group mb-3">
+                    <input type="text" id="export_name" class="form-control" placeholder="Vorlagen Name">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" title="Lokal im Browser speichern" type="button">Speichern</button>
+                        <button class="btn btn-outline-secondary" onclick="exportJSON();" title="Als Datei speichern" type="button">Download</button>
+                    </div>
+                </div>
+
+                <input type="file" class="btn btn-info" id="fileSelect" accept=".json" hidden>
+                <div class="btn-group btn-block" role="group" aria-label="Button group with nested dropdown">
+                    <div class="btn-group w-75" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Vorlage auswählen
+                        </button>
+                        <div class="dropdown-menu " aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#">Dropdown link</a>
+                            <a class="dropdown-item" href="#">Dropdown link</a>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-secondary w-25" onclick="importJSON();">Upload</button>
+                </div>
+            </fieldset>
+
         </div>
 
     </div>
