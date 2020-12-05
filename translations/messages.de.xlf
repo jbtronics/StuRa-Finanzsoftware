@@ -1748,5 +1748,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Referate / Verwaltung</target>
       </segment>
     </unit>
+    <unit id="aK4UlI1" name="payment_order.submit_new">
+      <segment>
+        <source>payment_order.submit_new</source>
+        <target>Absenden und weiteren Auftrag erstellen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

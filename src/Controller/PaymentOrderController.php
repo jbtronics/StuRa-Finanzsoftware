@@ -73,8 +73,17 @@ class PaymentOrderController extends AbstractController
                 $event = new PaymentOrderSubmittedEvent($new_order);
                 $dispatcher->dispatch($event, $event::NAME);
 
-                //Redirect to homepage
-                return $this->redirectToRoute('homepage');
+                //Redirect to homepage, if no further paymentOrders should be submitted
+                //Otherwise create a new form for further ones
+                if($form->getClickedButton()->getName() === "submit") {
+                    return $this->redirectToRoute('homepage');
+                } else if($form->getClickedButton()->getName() === "submit_new") {
+                    $old_order = $new_order;
+                    $new_order = new PaymentOrder();
+                    $this->copyProperties($old_order, $new_order);
+
+                    $form = $this->createForm(PaymentOrderType::class, $new_order);
+                }
             } else {
                 $this->addFlash('error', 'flash.error.check_input');
             }
@@ -84,6 +93,15 @@ class PaymentOrderController extends AbstractController
             'form' => $form->createView(),
             'entity' => $new_order,
         ]);
+    }
+
+    private function copyProperties(PaymentOrder $source, PaymentOrder $target): void
+    {
+        $target->setFirstName($source->getFirstName());
+        $target->setLastName($source->getLastName());
+        $target->setContactEmail($source->getContactEmail());
+        $target->setDepartment($source->getDepartment());
+        $target->setBankInfo($source->getBankInfo());
     }
 
     /**

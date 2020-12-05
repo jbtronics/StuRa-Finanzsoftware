@@ -105,10 +105,24 @@ class PaymentOrderType extends AbstractType
         ]);
 
         $builder->add('submit', SubmitType::class, [
-            'label' => 'payment_order.submit'
+            'label' => 'payment_order.submit',
+            'attr' => [
+                'class' => 'btn btn-primary'
+            ]
         ]);
+
+        $builder->add('submit_new', SubmitType::class, [
+            'label' => 'payment_order.submit_new',
+            'attr' => [
+                'class' => 'btn btn-secondary'
+            ]
+        ]);
+
         $builder->add('reset', ResetType::class, [
-            'label' => 'payment_order.discard'
+            'label' => 'payment_order.discard',
+            'attr' => [
+                'class' => 'btn btn-danger'
+            ]
         ]);
     }
 

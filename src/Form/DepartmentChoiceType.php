@@ -20,29 +20,29 @@ namespace App\Form;
 
 
 use App\Entity\Department;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class DepartmentChoiceType extends AbstractType
+class DepartmentChoiceType extends EntityType
 {
     private $translator;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(ManagerRegistry $registry, TranslatorInterface $translator)
     {
+        parent::__construct($registry);
         $this->translator = $translator;
-    }
-
-    public function getParent()
-    {
-        return EntityType::class;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
+
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
-                                   'data_class' => Department::class,
+                                   //'data_class' => Department::class,
                                    'class' => Department::class,
                                    'placeholder' => 'select.choose_value',
                                    'choice_label' => 'name',
