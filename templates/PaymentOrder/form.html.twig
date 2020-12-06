@@ -63,7 +63,7 @@
             var data = serializeForm();
             var name = $("#export_name").val();
             if(!name) {
-                alert("Name darf nicht leer sein!");
+                alert("Vorlagenname darf nicht leer sein!");
                 return;
             }
 
@@ -106,17 +106,33 @@
             deserializeForm(JSON.parse(json_string));
         }
 
+        function removeTemplate(index) {
+            var templates = localStorage.getItem('payment_order_templates') == null ? [] : JSON.parse(localStorage.getItem('payment_order_templates'));
+            if(confirm("Vorlage wirklich löschen?")) {
+                templates[index] = undefined;
+                localStorage.setItem('payment_order_templates', JSON.stringify(templates));
+                updateTemplateList();
+            }
+        }
+
         function updateTemplateList() {
             var templates = localStorage.getItem('payment_order_templates');
             if (templates) {
                 templates = JSON.parse(templates);
                 var $menu = $('#templates_menu');
+                var $delete_menu = $('#templates_delete_menu');
                 //Clear content
                 $menu.html("");
+                $delete_menu.html("");
                 for (var index in templates) {
+                    if (!templates[index]) continue;
                     var button = $("<button class='dropdown-item' type='button'>" + templates[index].name + "</button>");
                     button.attr("onclick", "loadTemplate('" + JSON.stringify(templates[index]['data']) + "');");
                     $menu.append(button);
+
+                    var delete_button = $("<button class='dropdown-item' type='button'>" + templates[index].name + "</button>");
+                    delete_button.attr("onclick", "removeTemplate(" + index + ");");
+                    $delete_menu.append(delete_button);
                 }
             }
         }
@@ -193,10 +209,10 @@
                 </div>
 
                 <input type="file" class="btn btn-info" id="fileSelect" accept=".json" hidden>
-                <div class="btn-group btn-block" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group btn-block mb-3" role="group">
                     <div class="btn-group w-75" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Vorlage auswählen
+                            Vorlage laden
                         </button>
                         <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1">
                             <span class="p-2">Keine Vorlagen gespeichert.</span>
@@ -204,6 +220,15 @@
                     </div>
 
                     <button type="button" class="btn btn-outline-secondary w-25" onclick="importJSON();">Upload</button>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-outline-danger btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Vorlage löschen
+                    </button>
+                    <div class="dropdown-menu" id="templates_delete_menu" aria-labelledby="dropdownMenuButton">
+                        <span class="p-2">Keine Vorlagen gespeichert.</span>
+                    </div>
                 </div>
             </fieldset>
 
