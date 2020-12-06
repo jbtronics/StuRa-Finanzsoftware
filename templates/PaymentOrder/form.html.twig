@@ -85,6 +85,44 @@
 
             fileSelector.click();
         }
+
+        function saveTemplate() {
+            var templates = localStorage.getItem('payment_order_templates') == null ? [] : JSON.parse(localStorage.getItem('payment_order_templates'));
+
+            var name = $("#export_name").val();
+            if(!name) {
+                alert("Name darf nicht leer sein!");
+                return;
+            }
+            templates.push({
+                name: name,
+                data: serializeForm(),
+            });
+            localStorage.setItem('payment_order_templates', JSON.stringify(templates));
+            updateTemplateList();
+        }
+
+        function loadTemplate(json_string) {
+            deserializeForm(JSON.parse(json_string));
+        }
+
+        function updateTemplateList() {
+            var templates = localStorage.getItem('payment_order_templates');
+            if (templates) {
+                templates = JSON.parse(templates);
+                var $menu = $('#templates_menu');
+                //Clear content
+                $menu.html("");
+                for (var index in templates) {
+                    var button = $("<button class='dropdown-item' type='button'>" + templates[index].name + "</button>");
+                    button.attr("onclick", "loadTemplate('" + JSON.stringify(templates[index]['data']) + "');");
+                    $menu.append(button);
+                }
+            }
+        }
+
+        window.addEventListener('load', updateTemplateList, false);
+
     </script>
 
 {% endblock %}
@@ -149,7 +187,7 @@
                 <div class="input-group mb-3">
                     <input type="text" id="export_name" class="form-control" placeholder="Vorlagen Name">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" title="Lokal im Browser speichern" type="button">Speichern</button>
+                        <button class="btn btn-outline-secondary" onclick="saveTemplate();" title="Lokal im Browser speichern" type="button">Speichern</button>
                         <button class="btn btn-outline-secondary" onclick="exportJSON();" title="Als Datei speichern" type="button">Download</button>
                     </div>
                 </div>
@@ -160,9 +198,8 @@
                         <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Vorlage auswählen
                         </button>
-                        <div class="dropdown-menu " aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
+                        <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1">
+                            <span class="p-2">Keine Vorlagen gespeichert.</span>
                         </div>
                     </div>
 
