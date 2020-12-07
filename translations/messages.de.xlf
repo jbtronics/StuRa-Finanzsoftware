@@ -1754,5 +1754,77 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Absenden und weiteren Auftrag erstellen</target>
       </segment>
     </unit>
+    <unit id="_zIgxH0" name="payment_order.new.templates.caption">
+      <segment>
+        <source>payment_order.new.templates.caption</source>
+        <target>Vorlagen</target>
+      </segment>
+    </unit>
+    <unit id="qCU_HsW" name="payment_order.new.templates.export_name.placeholder">
+      <segment>
+        <source>payment_order.new.templates.export_name.placeholder</source>
+        <target>Vorlagenname</target>
+      </segment>
+    </unit>
+    <unit id="TO40fqD" name="payment_order.new.templates.save_template.title">
+      <segment>
+        <source>payment_order.new.templates.save_template.title</source>
+        <target>Lokal im Browser speichern</target>
+      </segment>
+    </unit>
+    <unit id="wuSqZ44" name="payment_order.new.templates.save_template">
+      <segment>
+        <source>payment_order.new.templates.save_template</source>
+        <target>Speichern</target>
+      </segment>
+    </unit>
+    <unit id="gTBEgmE" name="payment_order.new.templates.download_template.title">
+      <segment>
+        <source>payment_order.new.templates.download_template.title</source>
+        <target>Als Datei speichern</target>
+      </segment>
+    </unit>
+    <unit id="o4G4LJV" name="payment_order.new.templates.download_template">
+      <segment>
+        <source>payment_order.new.templates.download_template</source>
+        <target>Downloaden</target>
+      </segment>
+    </unit>
+    <unit id="OW052Kb" name="payment_order.new.templates.load_template">
+      <segment>
+        <source>payment_order.new.templates.load_template</source>
+        <target>Vorlage laden</target>
+      </segment>
+    </unit>
+    <unit id="esGFB3o" name="payment_order.new.templates.no_templates">
+      <segment>
+        <source>payment_order.new.templates.no_templates</source>
+        <target>Keine Vorlagen vorhanden.</target>
+      </segment>
+    </unit>
+    <unit id="Ti.9dKz" name="payment_order.new.templates.not_allowed_to_be_empty">
+      <segment>
+        <source>payment_order.new.templates.not_allowed_to_be_empty</source>
+        <target>Vorlagenname darf nicht leer sein!</target>
+      </segment>
+    </unit>
+    <unit id="bhNKDxP" name="payment_order.new.templates.remove_confirm">
+      <segment>
+        <source>payment_order.new.templates.remove_confirm</source>
+        <target>Vorlage wirklich löschen?</target>
+      </segment>
+    </unit>
+    <unit id="RKUrf60" name="payment_order.new.templates.upload">
+      <segment>
+        <source>payment_order.new.templates.upload</source>
+        <target>Upload</target>
+      </segment>
+    </unit>
+    <unit id="ljjzlFM" name="payment_order.new.templates.delete">
+      <segment>
+        <source>payment_order.new.templates.delete</source>
+        <target>Vorlage löschen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

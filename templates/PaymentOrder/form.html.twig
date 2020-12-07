@@ -63,7 +63,7 @@
             var data = serializeForm();
             var name = $("#export_name").val();
             if(!name) {
-                alert("Vorlagenname darf nicht leer sein!");
+                alert("{% trans %}payment_order.new.templates.not_allowed_to_be_empty{% endtrans %}");
                 return;
             }
 
@@ -108,7 +108,7 @@
 
         function removeTemplate(index) {
             var templates = localStorage.getItem('payment_order_templates') == null ? [] : JSON.parse(localStorage.getItem('payment_order_templates'));
-            if(confirm("Vorlage wirklich löschen?")) {
+            if(confirm("{% trans %}payment_order.new.templates.remove_confirm{% endtrans %}")) {
                 templates[index] = undefined;
                 localStorage.setItem('payment_order_templates', JSON.stringify(templates));
                 updateTemplateList();
@@ -198,13 +198,13 @@
             </fieldset>
 
             <fieldset>
-                <legend>Vorlagen TODO</legend>
+                <legend>{% trans %}payment_order.new.templates.caption{% endtrans %}</legend>
 
                 <div class="input-group mb-3">
-                    <input type="text" id="export_name" class="form-control" placeholder="Vorlagen Name">
+                    <input type="text" id="export_name" class="form-control" placeholder="{% trans %}payment_order.new.templates.export_name.placeholder{% endtrans %}">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" onclick="saveTemplate();" title="Lokal im Browser speichern" type="button">Speichern</button>
-                        <button class="btn btn-outline-secondary" onclick="exportJSON();" title="Als Datei speichern" type="button">Download</button>
+                        <button class="btn btn-outline-secondary" onclick="saveTemplate();" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
+                        <button class="btn btn-outline-secondary" onclick="exportJSON();" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
                     </div>
                 </div>
 
@@ -212,22 +212,22 @@
                 <div class="btn-group btn-block mb-3" role="group">
                     <div class="btn-group w-75" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Vorlage laden
+                            {% trans %}payment_order.new.templates.load_template{% endtrans %}
                         </button>
                         <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1">
-                            <span class="p-2">Keine Vorlagen gespeichert.</span>
+                            <span class="p-2">{% trans %}payment_order.new.templates.no_templates{% endtrans %}</span>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-secondary w-25" onclick="importJSON();">Upload</button>
+                    <button type="button" class="btn btn-outline-secondary w-25" onclick="importJSON();">{% trans %}payment_order.new.templates.upload{% endtrans %}</button>
                 </div>
 
                 <div class="dropdown">
                     <button class="btn btn-outline-danger btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Vorlage löschen
+                        {% trans %}payment_order.new.templates.delete{% endtrans %}
                     </button>
                     <div class="dropdown-menu" id="templates_delete_menu" aria-labelledby="dropdownMenuButton">
-                        <span class="p-2">Keine Vorlagen gespeichert.</span>
+                        <span class="p-2">{% trans %}payment_order.new.templates.no_templates{% endtrans %}</span>
                     </div>
                 </div>
             </fieldset>
