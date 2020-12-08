@@ -37,5 +37,11 @@
         <target>Das Beschlussdatum kann nicht in der Zukunft liegen!</target>
       </segment>
     </unit>
+    <unit id="D7PZ6lj" name="validator.resolution_date.needed_for_fsr_fsrkom">
+      <segment>
+        <source>validator.resolution_date.needed_for_fsr_fsrkom</source>
+        <target>Beschlussdatum notwendig für FSRe und FSR-Kom Anträge.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
