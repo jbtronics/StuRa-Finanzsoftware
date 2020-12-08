@@ -41,10 +41,12 @@ class PaymentOrderPDFGenerator
         $this->writeRow($pdf, 'Name des Zahlungsempfängers', $paymentOrder->getFullName());
         $this->writeRow($pdf,'Struktur / Organisation', $paymentOrder->getDepartment()->getName());
         $this->writeRow($pdf, 'Projektbezeichnung', $paymentOrder->getProjectName());
-        $this->writeRow($pdf, 'Mittelfreigabe / Finanzantrag', !empty($paymentOrder->getFundingId()) ? $paymentOrder->getFundingId() : '<i>Nicht angegeben</i>');
         $this->writeRow($pdf, 'Betrag', $paymentOrder->getAmountString() . ' €');
+        $this->writeRow($pdf, 'Mittelfreigabe / Finanzantrag', !empty($paymentOrder->getFundingId()) ? $paymentOrder->getFundingId() : '<i>Nicht angegeben</i>');
+        $this->writeRow($pdf, 'FSR-Kom Antrag', $paymentOrder->isFsrKomResolution() ? 'Ja' : 'Nein');
+        $formatter = new \IntlDateFormatter('de_DE', \IntlDateFormatter::MEDIUM, \IntlDateFormatter::NONE);
+        $this->writeRow($pdf, 'Beschlussdatum', $paymentOrder->getResolutionDate() === null ? '<i>Nicht angegeben</i>' : $formatter->format($paymentOrder->getResolutionDate()));
 
-        $pdf->Ln();
         $pdf->Ln();
 
         $this->writeRow($pdf, 'Kontoinhaber*in', $paymentOrder->getBankInfo()->getAccountOwner());
@@ -60,7 +62,7 @@ class PaymentOrderPDFGenerator
         $this->writeRow($pdf, 'Einreichungsdatum', $formatter->format($paymentOrder->getCreationDate()));
 
 
-        $pdf->Ln(20);
+        $pdf->Ln(15);
         $pdf->writeHTML('Dieses Dokument muss <i>ausgedruckt</i> und <i>unterschrieben</i> werden und wird dann zusammen mit den Belegen abgeheftet
                 und mit dem Jahresabschluss beim StuRa abgegeben!');
         $pdf->writeHTML('Mit meiner Unterschrift erkläre ich, dass die Angaben hier korrekt sind und ich alle Belege vorliegen habe.');

@@ -1826,5 +1826,35 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Vorlage löschen</target>
       </segment>
     </unit>
+    <unit id="uD9OTtF" name="payment_order.fsr_kom.label">
+      <segment>
+        <source>payment_order.fsr_kom.label</source>
+        <target>FSR-Kom Beschluss?</target>
+      </segment>
+    </unit>
+    <unit id="UHwgUW." name="payment_order.resolution_date.label">
+      <segment>
+        <source>payment_order.resolution_date.label</source>
+        <target>Beschlussdatum</target>
+      </segment>
+    </unit>
+    <unit id="RPOi_i3" name="payment_order.new.comment">
+      <segment>
+        <source>payment_order.new.comment</source>
+        <target>Anmerkungen zum Auftrag</target>
+      </segment>
+    </unit>
+    <unit id="haOas0X" name="Yes">
+      <segment>
+        <source>Yes</source>
+        <target>Ja</target>
+      </segment>
+    </unit>
+    <unit id="HqRCoTS" name="No">
+      <segment>
+        <source>No</source>
+        <target>Nein</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

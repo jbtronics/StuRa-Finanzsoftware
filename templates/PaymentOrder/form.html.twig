@@ -91,7 +91,7 @@
 
             var name = $("#export_name").val();
             if(!name) {
-                alert("Name darf nicht leer sein!");
+                alert("{% trans %}payment_order.new.templates.not_allowed_to_be_empty{% endtrans %}");
                 return;
             }
             templates.push({
@@ -173,6 +173,8 @@
                 {{ form_row(form.project_name) }}
                 {{ form_row(form.amount) }}
                 {{ form_row(form.funding_id) }}
+                {{ form_row(form.fsr_kom_resolution) }}
+                {{ form_row(form.resolution_date) }}
             </fieldset>
 
             {{ form_row(form.references_file) }}
@@ -195,6 +197,11 @@
                 {{ form_row(form.bank_info.bic, {'attr': {'data-json': 'bic'}}) }}
                 {{ form_row(form.bank_info.bank_name, {'attr': {'data-json': 'bank_name'}}) }}
                 {# {{ form_row(form.bank_info.reference) }} #}
+            </fieldset>
+
+            <fieldset>
+                <legend>{% trans %}payment_order.new.comment{% endtrans %}</legend>
+                {{ form_row(form.comment, {'label': false}) }}
             </fieldset>
 
             <fieldset>

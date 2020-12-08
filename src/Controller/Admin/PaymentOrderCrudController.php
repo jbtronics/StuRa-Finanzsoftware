@@ -34,6 +34,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -257,6 +258,8 @@ class PaymentOrderCrudController extends AbstractCrudController
         $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
 
         $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label')->setRequired(false)->setFormTypeOption('empty_data', '');
+        $fsr_kom = BooleanField::new('fsr_kom_resolution', 'payment_order.fsr_kom.label')->setRequired(false);
+        $resolution_date = DateField::new('resolution_date', 'payment_order.resolution_date.label')->setRequired(false);
 
         //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
         //factually and mathematically correct status
@@ -273,11 +276,11 @@ class PaymentOrderCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $contact_email, $projectName, $department, $amount, $funding_id, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
+            return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $contact_email, $projectName, $department, $amount, $funding_id, $resolution_date, $fsr_kom, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$panel_documents, $printed_form, $references, $panel1, $firstName, $lastName, $department, $amount, $projectName, $funding_id, $panel2, $mathematicallyCorrect, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $contact_email, $department, $amount, $projectName, $funding_id,  $panel2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
+            return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $contact_email, $department, $amount, $projectName, $funding_id, $resolution_date, $fsr_kom,  $panel2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         }
 
         throw new \RuntimeException("It should not be possible to reach this point...");

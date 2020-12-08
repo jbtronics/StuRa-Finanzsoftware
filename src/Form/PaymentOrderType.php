@@ -20,11 +20,15 @@ namespace App\Form;
 
 
 use App\Entity\PaymentOrder;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -75,6 +79,18 @@ class PaymentOrderType extends AbstractType
             ],
         ]);
 
+        $builder->add('fsr_kom_resolution', CheckboxType::class, [
+            'label' => 'payment_order.fsr_kom.label',
+            'required' => false,
+        ]);
+
+        $builder->add('resolution_date', DateType::class, [
+            'label' => 'payment_order.resolution_date.label',
+            'required' => false,
+            'html5' => true,
+            'widget' => 'single_text',
+        ]);
+
         $builder->add('department', DepartmentChoiceType::class, [
             'label' => 'payment_order.department.label',
         ]);
@@ -102,6 +118,12 @@ class PaymentOrderType extends AbstractType
         $builder->add('references_file', VichFileType::class, [
             'label' => 'payment_order.references.label',
             'help' => 'payment_order.references.help'
+        ]);
+
+        $builder->add('comment', TextareaType::class, [
+           'label' => 'payment_order.comment.label',
+            'empty_data' => '',
+            'required' => false,
         ]);
 
         $builder->add('submit', SubmitType::class, [

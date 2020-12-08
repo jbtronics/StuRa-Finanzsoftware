@@ -31,5 +31,11 @@
         <target>Haushalts- und Kassenverantwortlicher dürfen nicht die gleiche Person sein!</target>
       </segment>
     </unit>
+    <unit id="uMOPhNt" name="validator.resolution_must_not_be_in_future">
+      <segment>
+        <source>validator.resolution_must_not_be_in_future</source>
+        <target>Das Beschlussdatum kann nicht in der Zukunft liegen!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -40,6 +40,14 @@
             <td>{{ entity.fundingId }}</td>
         </tr>
         <tr>
+            <td>{% trans %}payment_order.fsr_kom.label{% endtrans %}</td>
+            <td>{{ entity.fsrKomResolution ? 'Yes'|trans : 'No'|trans }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.resolution_date.label{% endtrans %}</td>
+            <td>{{ entity.resolutionDate is null ? '' : entity.resolutionDate | format_date }}</td>
+        </tr>
+        <tr>
             <td>{% trans %}payment_order.amount.label{% endtrans %}</td>
             <td>{{ entity.amountString }} €</td>
         </tr>

@@ -147,6 +147,20 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     private $confirm2_timestamp = null;
 
     /**
+     * @var bool Is FSR-Kom resolution
+     * @ORM\Column(type="boolean")
+     */
+    private $fsr_kom_resolution = false;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\LessThanOrEqual(value="today", message="validator.resolution_must_not_be_in_future")
+     * @Assert\GreaterThan(value="-3 years", message="validator.resolution_too_old")
+     */
+    private $resolution_date = null;
+
+    /**
      * @var string
      * @ORM\Column(type="string", nullable=false)
      * @Assert\Email()
@@ -597,6 +611,42 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     public function setContactEmail(string $contact_email): PaymentOrder
     {
         $this->contact_email = $contact_email;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFsrKomResolution(): bool
+    {
+        return $this->fsr_kom_resolution;
+    }
+
+    /**
+     * @param  bool  $fsr_kom_resolution
+     * @return PaymentOrder
+     */
+    public function setFsrKomResolution(bool $fsr_kom_resolution): PaymentOrder
+    {
+        $this->fsr_kom_resolution = $fsr_kom_resolution;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getResolutionDate(): ?\DateTime
+    {
+        return $this->resolution_date;
+    }
+
+    /**
+     * @param  \DateTime|null  $resolution_date
+     * @return PaymentOrder
+     */
+    public function setResolutionDate(?\DateTime $resolution_date): PaymentOrder
+    {
+        $this->resolution_date = $resolution_date;
         return $this;
     }
 }
