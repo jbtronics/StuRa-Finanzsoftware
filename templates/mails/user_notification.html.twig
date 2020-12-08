@@ -17,7 +17,7 @@
                             <b>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </b> {{ payment_order.projectName }}
                         </p>
                         <p>
-                            <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amount | format_currency('EUR') }}
+                            <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amountString }} €
                         </p>
                         <p>
                             <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
