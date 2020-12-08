@@ -70,6 +70,8 @@ class BankAccountInfoType extends AbstractType
 
         $builder->add('bic', TextType::class, [
             'label' => 'bank_info.bic.label',
+            'required' => false,
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.bic.placeholder'
             ]

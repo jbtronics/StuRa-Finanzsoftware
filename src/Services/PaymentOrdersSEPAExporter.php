@@ -100,7 +100,9 @@ class PaymentOrdersSEPAExporter
                 str_replace(' ', '',$payment_order->getBankInfo()->getIban()),
                 $payment_order->getBankInfo()->getAccountOwner()
             );
-            $transfer->setBic($payment_order->getBankInfo()->getBic());
+            if (!empty($payment_order->getBankInfo()->getBic())) {
+                $transfer->setBic($payment_order->getBankInfo()->getBic());
+            }
             $transfer->setRemittanceInformation($payment_order->getBankInfo()->getReference());
 
             $payment->addTransfer($transfer);
