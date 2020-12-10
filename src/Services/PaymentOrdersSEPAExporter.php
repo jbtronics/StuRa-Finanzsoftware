@@ -74,6 +74,7 @@ class PaymentOrdersSEPAExporter
             );
 
             $this->addPaymentOrderTransactions($payment, $account_info['entries']);
+            $payment->setBatchBooking(false);
             $sepaFile->addPaymentInformation($payment);
         }
 
@@ -104,7 +105,6 @@ class PaymentOrdersSEPAExporter
                 $transfer->setBic($payment_order->getBankInfo()->getBic());
             }
             $transfer->setRemittanceInformation($payment_order->getBankInfo()->getReference());
-
             $payment->addTransfer($transfer);
         }
     }
