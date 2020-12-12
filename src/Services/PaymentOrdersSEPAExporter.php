@@ -46,6 +46,40 @@ class PaymentOrdersSEPAExporter
         $accounts = [];
         $return = [];
 
+        //Export every payment order separately
+        foreach($payment_orders as $payment_order) {
+            /** @var PaymentOrder $payment_order */
+            $bank_account = $payment_order->getDepartment()->getBankAccount();
+            //Throw an error if auto mode is not possible (as bank account definitions are missing)
+            if ($bank_account === null) {
+                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
+            }
+
+            $groupHeader = new GroupHeader(
+                static::ID_PREFIX . ' ' . uniqid('', false),
+                static::PARTY_NAME
+            );
+            $sepaFile = new CustomerCreditTransferFile($groupHeader);
+
+            // A single payment info where all PaymentOrders are added as transactions
+            $payment = new PaymentInformation(
+                static::PAYMENT_PREFIX.' '.uniqid('', false),
+                str_replace(' ', '', $bank_account->getIban()),
+                $bank_account->getBic(),
+                $bank_account->getExportAccountName()
+            );
+
+            $this->addPaymentOrderTransactions($payment, [$payment_order]);
+            $payment->setBatchBooking(false);
+            $sepaFile->addPaymentInformation($payment);
+
+            // Or if you want to use the format 'pain.001.001.03' instead
+            $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
+
+            $return['ZA' . sprintf('%05d', $payment_order->getId())] = $domBuilder->asXml();
+        }
+
+        /*
         if ($options['mode'] === "manual") {
             $accounts[0] = [
                 'iban' => $options['iban'],
@@ -82,7 +116,7 @@ class PaymentOrdersSEPAExporter
             $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
 
             $return[$account_info['name']] = $domBuilder->asXml();
-        }
+        } */
 
         //String in format ['account name' => data]
         return $return;
