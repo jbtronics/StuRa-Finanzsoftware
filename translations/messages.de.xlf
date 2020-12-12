@@ -1856,5 +1856,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Nein</target>
       </segment>
     </unit>
+    <unit id="y12niEf" name="sepa_export.mode.auto_single">
+      <segment>
+        <source>sepa_export.mode.auto_single</source>
+        <target>Automatische Kontozuordnung (jeder Auftrag als einzelne Datei)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

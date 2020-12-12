@@ -33,15 +33,16 @@ use Symfony\Component\Validator\Constraints\Iban;
 class SepaExportType extends AbstractType
 {
     private const MODE_CHOICES = [
-         'sepa_export.mode.auto' => 'auto',
+        'sepa_export.mode.auto' => 'auto',
         'sepa_export.mode.manual' => 'manual',
+        'sepa_export.mode.auto_single' => 'auto_single',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('mode', ChoiceType::class, [
             'expanded' => true,
-            'data' => 'auto',
+            'data' => 'auto_single',
             'label' => 'sepa_export.mode.label',
             'choices' => static::MODE_CHOICES,
         ]);

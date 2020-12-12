@@ -46,6 +46,53 @@ class PaymentOrdersSEPAExporter
         $accounts = [];
         $return = [];
 
+        if ($options['mode'] === "manual") {
+            $accounts[0] = [
+                'iban' => $options['iban'],
+                'bic' => $options['bic'],
+                'name' => $options['name'],
+                'entries' => $payment_orders,
+            ];
+        } elseif ($options['mode'] === "auto") {
+            $accounts = $this->groupByBankAccounts($payment_orders);
+        } elseif ($options['mode'] === "auto_single") {
+            return $this->exportAutoSingle($payment_orders);
+        } else {
+            throw new \RuntimeException("Unknown mode");
+        }
+
+        foreach ($accounts as $account_info) {
+            $groupHeader = new GroupHeader(
+                static::ID_PREFIX.' '.uniqid('', false),
+                static::PARTY_NAME
+            );
+            $sepaFile = new CustomerCreditTransferFile($groupHeader);
+
+            // A single payment info where all PaymentOrders are added as transactions
+            $payment = new PaymentInformation(
+                static::PAYMENT_PREFIX.' '.uniqid('', false),
+                $account_info['iban'],
+                $account_info['bic'],
+                $account_info['name']
+            );
+
+            $this->addPaymentOrderTransactions($payment, $account_info['entries']);
+            $payment->setBatchBooking(false);
+            $sepaFile->addPaymentInformation($payment);
+
+            // Or if you want to use the format 'pain.001.001.03' instead
+            $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
+
+            $return[$account_info['name']] = $domBuilder->asXml();
+        }
+
+        return $return;
+    }
+
+    protected function exportAutoSingle(array $payment_orders): array
+    {
+        $return = [];
+
         //Export every payment order separately
         foreach($payment_orders as $payment_order) {
             /** @var PaymentOrder $payment_order */
@@ -79,46 +126,6 @@ class PaymentOrdersSEPAExporter
             $return['ZA' . sprintf('%05d', $payment_order->getId())] = $domBuilder->asXml();
         }
 
-        /*
-        if ($options['mode'] === "manual") {
-            $accounts[0] = [
-                'iban' => $options['iban'],
-                'bic' => $options['bic'],
-                'name' => $options['name'],
-                'entries' => $payment_orders,
-            ];
-        } elseif ($options['mode'] === "auto") {
-            $accounts = $this->groupByBankAccounts($payment_orders);
-        } else {
-            throw new \RuntimeException("Unknown mode");
-        }
-
-        foreach($accounts as $account_info) {
-            $groupHeader = new GroupHeader(
-                static::ID_PREFIX . ' ' . uniqid('', false),
-                static::PARTY_NAME
-            );
-            $sepaFile = new CustomerCreditTransferFile($groupHeader);
-
-            // A single payment info where all PaymentOrders are added as transactions
-            $payment = new PaymentInformation(
-                static::PAYMENT_PREFIX.' '.uniqid('', false),
-                $account_info['iban'],
-                $account_info['bic'],
-                $account_info['name']
-            );
-
-            $this->addPaymentOrderTransactions($payment, $account_info['entries']);
-            $payment->setBatchBooking(false);
-            $sepaFile->addPaymentInformation($payment);
-
-            // Or if you want to use the format 'pain.001.001.03' instead
-            $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
-
-            $return[$account_info['name']] = $domBuilder->asXml();
-        } */
-
-        //String in format ['account name' => data]
         return $return;
     }
 
@@ -157,12 +164,13 @@ class PaymentOrdersSEPAExporter
         $tmp = [];
 
         foreach ($payment_orders as $payment_order) {
-            //Throw an error if auto mode is not possible (as bank account definitions are missing)
-            if ($payment_order->getDepartment()->getBankAccount() === null) {
-                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
-            }
 
             $bank_account = $payment_order->getDepartment()->getBankAccount();
+
+            //Throw an error if auto mode is not possible (as bank account definitions are missing)
+            if ($bank_account === null) {
+                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
+            }
 
             //Create entry for bank account if not existing yet
             if (!isset($tmp[$bank_account->getId()])) {
@@ -197,7 +205,7 @@ class PaymentOrdersSEPAExporter
            the accounts for the payment order departments are used automatically and are put in (if needed) multiple
            payments from different accounts */
         $resolver->setDefault('mode', 'manual');
-        $resolver->setAllowedValues('mode', ['auto', 'manual']);
+        $resolver->setAllowedValues('mode', ['auto', 'manual', 'auto_single']);
 
         $resolver->setNormalizer('iban', function(Options  $options, $value) {
             if ($value === null ){
