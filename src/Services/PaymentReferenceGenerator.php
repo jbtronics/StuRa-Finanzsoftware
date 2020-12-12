@@ -49,7 +49,7 @@ class PaymentReferenceGenerator
         if ($paymentOrder->getId() === null) {
             throw new \RuntimeException('ID is null. You have to persist the PaymentOrder before using this function!');
         }
-        $tmp .= sprintf("ZA%04d", $paymentOrder->getId());
+        $tmp .= $paymentOrder->getIDString();
 
         return $tmp;
 

@@ -650,4 +650,13 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->resolution_date = $resolution_date;
         return $this;
     }
+
+    /**
+     * Get the ID as string like ZA0005
+     * @return string
+     */
+    public function getIDString(): string
+    {
+        return sprintf("ZA%04d", $this->getId());
+    }
 }

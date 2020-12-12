@@ -117,7 +117,7 @@ class PaymentOrdersSEPAExporter
 
             // A single payment info where all PaymentOrders are added as transactions
             $payment = new PaymentInformation(
-                static::PAYMENT_PREFIX.' '.uniqid('', false),
+                $payment_order->getIDString() . ' '.uniqid('', false),
                 str_replace(' ', '', $bank_account->getIban()),
                 $bank_account->getBic(),
                 $bank_account->getExportAccountName()
@@ -130,7 +130,7 @@ class PaymentOrdersSEPAExporter
             // Or if you want to use the format 'pain.001.001.03' instead
             $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
 
-            $return['ZA' . sprintf('%05d', $payment_order->getId())] = $domBuilder->asXml();
+            $return[$payment_order->getIDString()] = $domBuilder->asXml();
         }
 
         return $return;
