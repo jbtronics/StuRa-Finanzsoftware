@@ -19,6 +19,7 @@
 namespace App\Services;
 
 
+use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
 use Digitick\Sepa\DomBuilder\DomBuilderFactory;
@@ -27,6 +28,7 @@ use Digitick\Sepa\PaymentInformation;
 use Digitick\Sepa\TransferFile\CustomerCreditTransferFile;
 use Digitick\Sepa\TransferFile\Factory\TransferFileFacadeFactory;
 use Digitick\Sepa\TransferInformation\CustomerCreditTransferInformation;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
@@ -36,6 +38,15 @@ class PaymentOrdersSEPAExporter
     protected const PARTY_NAME = "StuRa FSU Jena";
     protected const ID_PREFIX = "StuRa Export";
     protected const PAYMENT_PREFIX = "Payment";
+
+    protected $fsr_kom_bank_account_id;
+    protected $entityManager;
+
+    public function __construct(int $fsr_kom_bank_account_id, EntityManagerInterface $entityManager)
+    {
+        $this->fsr_kom_bank_account_id = $fsr_kom_bank_account_id;
+        $this->entityManager = $entityManager;
+    }
 
     public function export(array $payment_orders, array $options): array
     {
@@ -96,11 +107,7 @@ class PaymentOrdersSEPAExporter
         //Export every payment order separately
         foreach($payment_orders as $payment_order) {
             /** @var PaymentOrder $payment_order */
-            $bank_account = $payment_order->getDepartment()->getBankAccount();
-            //Throw an error if auto mode is not possible (as bank account definitions are missing)
-            if ($bank_account === null) {
-                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
-            }
+            $bank_account = $this->getResolvedBankAccount($payment_order);
 
             $groupHeader = new GroupHeader(
                 static::ID_PREFIX . ' ' . uniqid('', false),
@@ -165,12 +172,7 @@ class PaymentOrdersSEPAExporter
 
         foreach ($payment_orders as $payment_order) {
 
-            $bank_account = $payment_order->getDepartment()->getBankAccount();
-
-            //Throw an error if auto mode is not possible (as bank account definitions are missing)
-            if ($bank_account === null) {
-                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
-            }
+            $bank_account = $this->getResolvedBankAccount($payment_order);
 
             //Create entry for bank account if not existing yet
             if (!isset($tmp[$bank_account->getId()])) {
@@ -187,6 +189,27 @@ class PaymentOrdersSEPAExporter
         }
 
         return $tmp;
+    }
+
+    /**
+     * Get Bank account for PaymentOrder and resolve FSR-Kom bank account if needed.
+     * @param  PaymentOrder  $paymentOrder
+     * @return BankAccount
+     */
+    protected function getResolvedBankAccount(PaymentOrder $payment_order): BankAccount
+    {
+        if ($payment_order->isFsrKomResolution()) {
+            return $this->getFSRKomBankAccount();
+        } else {
+            $bank_account = $payment_order->getDepartment()->getBankAccount();
+
+            //Throw an error if auto mode is not possible (as bank account definitions are missing)
+            if ($bank_account === null) {
+                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
+            }
+
+            return $bank_account;
+        }
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
@@ -214,5 +237,10 @@ class PaymentOrdersSEPAExporter
             //Return spaces from IBAN
             return str_replace(' ', '', $value);
         });
+    }
+
+    public function getFSRKomBankAccount(): BankAccount
+    {
+        return $this->entityManager->find(BankAccount::class, $this->fsr_kom_bank_account_id);
     }
 }

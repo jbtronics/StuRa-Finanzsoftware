@@ -12,6 +12,7 @@ parameters:
     app.from_name: '%env(FROM_NAME)%'
     app.send_notifications: '%env(bool:SEND_NOTIFICATIONS)%'
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
+    app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
 
 services:
     # default configuration for services in *this* file
@@ -57,6 +58,10 @@ services:
         arguments:
             $send_notifications: '%app.send_notifications%'
             $notifications_bcc: '%app.notifications_bcc%'
+
+    App\Services\PaymentOrdersSEPAExporter:
+        arguments:
+            $fsr_kom_bank_account_id: '%app.fsr_kom_account_id%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
