@@ -32,6 +32,7 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -88,7 +89,7 @@ class ExportController extends AbstractController
             }
 
             try {
-                $xml_string = $this->sepaExporter->export(
+                $xml_files = $this->sepaExporter->export(
                     $payment_orders,
                     [
                         'iban' => $iban,
@@ -98,25 +99,41 @@ class ExportController extends AbstractController
                     ]
                 );
 
+                //Download as file
+                if (count($xml_files) === 1) {
+                    $xml_string = array_values($xml_files)[0];
+                    $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
+                    return $this->getDownloadResponse($xml_string, $filename);
+                } else {
+                    $zip = new \ZipArchive();
+                    $file_path = tempnam(sys_get_temp_dir(), 'stura');
+                    if ($zip->open($file_path, \ZipArchive::CREATE) === TRUE) {
+                        foreach ($xml_files as $name => $content) {
+                            $name = $name . '.xml';
+                            $zip->addFromString($name, $content);
+                        }
+                        $zip->close();
+                        $response = new BinaryFileResponse($file_path);
+                        $response->deleteFileAfterSend();
+                        $response->setPrivate();
+                        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "export_" . date("Y-m-d_H-i-s") . ".zip");
+                        return $response;
+                    } else {
+                        throw new \RuntimeException("Could not create a ZIP Archive.");
+                    }
+                }
+
+
                 //Set export flag
                 foreach($payment_orders as $paymentOrder) {
                     $paymentOrder->setExported(true);
                 }
                 $this->entityManager->flush();
-
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',
                                 $this->translator->trans('sepa_export.error.department_missing_account')
                                 . ': ' . $exception->getWrongDepartment()->getName());
-            }
-
-
-            $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
-
-            //Download as file
-            if (!empty($xml_string)) {
-                return $this->getDownloadResponse($xml_string, $filename);
             }
         }
 
@@ -126,11 +143,11 @@ class ExportController extends AbstractController
         ]);
     }
 
-    protected function getDownloadResponse(string $content, string $filename): Response
+    protected function getDownloadResponse(string $content, string $filename, string $mime_type = 'application/xml'): Response
     {
         $response = new Response();
         $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type',  'application/xml');
+        $response->headers->set('Content-type',  $mime_type);
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '";');
         $response->headers->set('Content-length',  strlen($content));
         $response->setContent( $content);

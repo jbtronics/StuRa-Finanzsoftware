@@ -52,7 +52,8 @@
         "twig/extra-bundle": "^3.0",
         "twig/inky-extra": "^3.0",
         "twig/intl-extra": "^3.0",
-        "vich/uploader-bundle": "^1.15"
+        "vich/uploader-bundle": "^1.15",
+      "ext-zip": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

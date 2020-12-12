@@ -37,19 +37,14 @@ class PaymentOrdersSEPAExporter
     protected const ID_PREFIX = "StuRa Export";
     protected const PAYMENT_PREFIX = "Payment";
 
-    public function export(array $payment_orders, array $options): string
+    public function export(array $payment_orders, array $options): array
     {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $options = $resolver->resolve($options);
 
-        $groupHeader = new GroupHeader(
-            static::ID_PREFIX . ' ' . uniqid('', false),
-            static::PARTY_NAME
-        );
-        $sepaFile = new CustomerCreditTransferFile($groupHeader);
-
         $accounts = [];
+        $return = [];
 
         if ($options['mode'] === "manual") {
             $accounts[0] = [
@@ -65,6 +60,12 @@ class PaymentOrdersSEPAExporter
         }
 
         foreach($accounts as $account_info) {
+            $groupHeader = new GroupHeader(
+                static::ID_PREFIX . ' ' . uniqid('', false),
+                static::PARTY_NAME
+            );
+            $sepaFile = new CustomerCreditTransferFile($groupHeader);
+
             // A single payment info where all PaymentOrders are added as transactions
             $payment = new PaymentInformation(
                 static::PAYMENT_PREFIX.' '.uniqid('', false),
@@ -76,12 +77,15 @@ class PaymentOrdersSEPAExporter
             $this->addPaymentOrderTransactions($payment, $account_info['entries']);
             $payment->setBatchBooking(false);
             $sepaFile->addPaymentInformation($payment);
+
+            // Or if you want to use the format 'pain.001.001.03' instead
+            $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
+
+            $return[$account_info['name']] = $domBuilder->asXml();
         }
 
-        // Or if you want to use the format 'pain.001.001.03' instead
-        $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
-
-        return $domBuilder->asXml();
+        //String in format ['account name' => data]
+        return $return;
     }
 
     /**
