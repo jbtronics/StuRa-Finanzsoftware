@@ -22,6 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
+use App\Services\GitVersionInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -39,11 +40,13 @@ class DashboardController extends AbstractDashboardController
 {
     private $app_version;
     private $crud_url_generator;
+    private $gitVersionInfo;
 
-    public function __construct(string $app_version, CrudUrlGenerator $crudUrlGenerator)
+    public function __construct(string $app_version, CrudUrlGenerator $crudUrlGenerator, GitVersionInfo $gitVersionInfo)
     {
         $this->app_version = $app_version;
         $this->crud_url_generator = $crudUrlGenerator;
+        $this->gitVersionInfo = $gitVersionInfo;
     }
 
     public function configureDashboard(): Dashboard
@@ -154,7 +157,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class)
             ->setPermission('ROLE_READ_USER');
 
-        yield MenuItem::section('Version ' . $this->app_version, 'fas fa-info');
+        $version = $this->app_version . '-' . $this->gitVersionInfo->getGitCommitHash() ?? '';
+        yield MenuItem::section('Version ' . $version, 'fas fa-info');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
         yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
