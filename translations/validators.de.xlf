@@ -43,5 +43,11 @@
         <target>Beschlussdatum notwendig für FSRe und FSR-Kom Anträge.</target>
       </segment>
     </unit>
+    <unit id="CKYEx.B" name="validator.resolution_too_old">
+      <segment>
+        <source>validator.resolution_too_old</source>
+        <target>Datum liegt zu weit in der Vergangenheit!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

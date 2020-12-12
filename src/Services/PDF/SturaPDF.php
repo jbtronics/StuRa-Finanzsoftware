@@ -36,7 +36,6 @@ class SturaPDF extends \TCPDF
         $this->writeHTMLCell(0,0, 145, 60, '07747 Jena');
 
 
-
         // Title
         //$this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
         //$this->writeHTML($image_file);

@@ -29,7 +29,7 @@ class PaymentOrderPDFGenerator
         $pdf->setAuthor('StuRa FSU Jena');
         $pdf->setTitle('Zahlungsauftrag #' . $paymentOrder->getId());
         $pdf->setSubject('Zahlungsauftrag');
-
+        $pdf->SetAutoPageBreak(false);
 
         $pdf->AddPage();
 
@@ -68,7 +68,7 @@ class PaymentOrderPDFGenerator
         $pdf->writeHTML('Mit meiner Unterschrift erkläre ich, dass die Angaben hier korrekt sind und ich alle Belege vorliegen habe.');
 
         if($paymentOrder->getDepartment()->getType() == 'fsr') {
-            $pdf->Ln(30);
+            $pdf->Ln(20);
             $this->addSignatureField($pdf, 'Datum, Unterschrift FSR Verantwortliche', false);
         }
 
