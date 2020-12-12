@@ -31,13 +31,13 @@ class PaymentReferenceGenerator
     public function generatePaymentReference(PaymentOrder $paymentOrder): string
     {
         //Max 140 chars are allowed for a payment reference
-        //Format: [ProjectName 60] [FSR Name 50] [?Funding ID 10] ZA[PaymentOrder ID]
+        //Format: [ProjectName 70] [FSR Name 45] [?Funding ID 10] ZA[PaymentOrder ID]
 
         //Project name
-        $tmp = mb_strimwidth($paymentOrder->getProjectName(), 0, 60, '');
+        $tmp = mb_strimwidth($paymentOrder->getProjectName(), 0, 70, '');
         $tmp .= ' ';
         //FSR Name
-        $tmp .= mb_strimwidth($paymentOrder->getDepartment()->getName(), 0, 50, '');
+        $tmp .= mb_strimwidth($paymentOrder->getDepartment()->getName(), 0, 45, '');
         $tmp .= ' ';
         //Funding ID if existing
         if (!empty($paymentOrder->getFundingId())) {
