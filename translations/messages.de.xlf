@@ -1481,7 +1481,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="ojac6uH" name="payment_order.name.label">
       <segment>
         <source>payment_order.name.label</source>
-        <target>Name des Zahlungsempfängers</target>
+        <target>Name des Auftraggebers</target>
       </segment>
     </unit>
     <unit id="cvGELqY" name="payment_order.confirm.general">
