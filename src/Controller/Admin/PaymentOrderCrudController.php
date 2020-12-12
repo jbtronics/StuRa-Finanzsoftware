@@ -110,8 +110,14 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
 
+    /**
+     * Handler for action if user click "resend" button in admin page
+     * @param  AdminContext  $context
+     * @return Response
+     */
     public function resendConfirmationEmail(AdminContext $context): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_EDIT_PAYMENT_ORDERS');
         $payment_order = $context->getEntity()->getInstance();
 
         $this->confirmationEmailSender->resendConfirmations($payment_order);
@@ -121,6 +127,11 @@ class PaymentOrderCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
+    /**
+     * Handler for action if user click "check mathematically" button in admin page
+     * @param  AdminContext  $context
+     * @return Response
+     */
     public function checkMathematicallyCorrect(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
@@ -133,6 +144,11 @@ class PaymentOrderCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
+    /**
+     * Handler for action if user click "check factually" button in admin page
+     * @param  AdminContext  $context
+     * @return Response
+     */
     public function checkFactuallyCorrect(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
@@ -183,7 +199,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null;
+                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && ($paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null);
             })
             ->setCssClass('mr-2 text-dark');
 
