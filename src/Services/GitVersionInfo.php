@@ -21,15 +21,20 @@ namespace App\Services;
 
 namespace App\Services;
 
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class GitVersionInfo
 {
     protected $project_dir;
+    protected $cache;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, CacheInterface $cache)
     {
         $this->project_dir = $kernel->getProjectDir();
+        $this->cache = $cache;
     }
 
     /**
@@ -39,7 +44,9 @@ class GitVersionInfo
      */
     public function getGitBranchName(): ?string
     {
-        if (is_file($this->project_dir.'/.git/HEAD')) {
+        return $this->cache->get('git_branch', function(ItemInterface $item) {
+            $item->expiresAfter(4320); //Recache every 12h
+            if (is_file($this->project_dir.'/.git/HEAD')) {
             $git = file($this->project_dir.'/.git/HEAD');
             $head = explode('/', $git[0], 3);
 
@@ -50,7 +57,8 @@ class GitVersionInfo
             return trim($head[2]);
         }
 
-        return null; // this is not a Git installation
+            return null; // this is not a Git installation
+        });
     }
 
     /**
@@ -64,19 +72,24 @@ class GitVersionInfo
      */
     public function getGitCommitHash(int $length = 7): ?string
     {
-        $filename = $this->project_dir.'/.git/refs/remotes/origin/'.$this->getGitBranchName();
-        if (is_file($filename)) {
-            $head = file($filename);
+        return $this->cache->get('git_hash', function(ItemInterface $item) use ($length) {
+            $item->expiresAfter(4320); //Recache every 12h
 
-            if (!isset($head[0])) {
-                return null;
+            $filename = $this->project_dir.'/.git/refs/remotes/origin/'.$this->getGitBranchName();
+            if (is_file($filename)) {
+                $head = file($filename);
+
+                if (!isset($head[0])) {
+                    return null;
+                }
+
+                $hash = $head[0];
+
+                return substr($hash, 0, $length);
             }
 
-            $hash = $head[0];
+            return null; // this is not a Git installation
+        });
 
-            return substr($hash, 0, $length);
-        }
-
-        return null; // this is not a Git installation
     }
 }
