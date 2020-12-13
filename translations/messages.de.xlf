@@ -1862,5 +1862,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Automatische Kontozuordnung (jeder Auftrag als einzelne Datei)</target>
       </segment>
     </unit>
+    <unit id="mYgO0lS" name="payment_order.flash.can_not_delete_checked_payment_order">
+      <segment>
+        <source>payment_order.flash.can_not_delete_checked_payment_order</source>
+        <target>Es können keine Zahlungsaufträge gelöscht werden, die bereits geprüft oder exportiert wurden.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

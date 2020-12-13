@@ -301,4 +301,19 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         throw new \RuntimeException("It should not be possible to reach this point...");
     }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        /** @var PaymentOrder $entityInstance */
+        //Forbit delete process if PaymentOrder was already exported or checked
+        if ($entityInstance->isExported()
+            || $entityInstance->isMathematicallyCorrect()
+            || $entityInstance->isFactuallyCorrect()) {
+            $this->addFlash('warning','payment_order.flash.can_not_delete_checked_payment_order');
+            //Return early
+            return;
+        }
+
+        parent::deleteEntity($entityManager, $entityInstance);
+    }
 }
