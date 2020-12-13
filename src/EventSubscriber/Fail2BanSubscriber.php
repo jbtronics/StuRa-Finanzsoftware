@@ -54,7 +54,7 @@ class Fail2BanSubscriber implements EventSubscriberInterface
     public function logFail2Ban(AuthenticationFailureEvent $event): void
     {
         $ipAddress = $this->request->getCurrentRequest()->getClientIp();
-        $this->logger->error('Authentication failed for IP: %s' . $ipAddress);
+        $this->logger->error('Authentication failed for IP: ' . $ipAddress);
     }
 
     public static function getSubscribedEvents()
