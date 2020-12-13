@@ -20,6 +20,5 @@ monolog:
             # log to var/log/(environment).log
             path: "%kernel.logs_dir%/fail2ban_%kernel.environment%.log"
             level: error
-            excluded_http_codes: [404, 405]
 
 
