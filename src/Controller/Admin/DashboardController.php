@@ -87,14 +87,14 @@ class DashboardController extends AbstractDashboardController
     {
 
         $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort(['creation_date' => 'ASC']);
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
             'confirmed' => 1,
         ]);
 
         $ready_for_export_section = MenuItem::linkToCrud('payment_order.ready_for_export.section', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort(['creation_date' => 'ASC']);
         $this->addFiltersToMenuItem($ready_for_export_section, [
             'mathematically_correct' => 1,
             'exported' => 0,
@@ -103,7 +103,7 @@ class DashboardController extends AbstractDashboardController
 
 
         $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort(['creation_date' => 'ASC']);
         $this->addFiltersToMenuItem($factually_checking_fsr, [
             'factually_correct' => 0,
             'department_type' => 'fsr',
@@ -112,7 +112,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort(['creation_date' => 'ASC']);
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
             'department_type' => 'section_misc',
@@ -130,7 +130,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         $unconfirmed = MenuItem::linkToCrud('payment_order.unconfirmed', '', PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort(['creation_date' => 'ASC']);
         $this->addFiltersToMenuItem($unconfirmed, [
             'confirmed' => 0,
         ]);
