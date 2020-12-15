@@ -156,6 +156,7 @@ class PaymentOrdersSEPAExporter
             if (!empty($payment_order->getBankInfo()->getBic())) {
                 $transfer->setBic($payment_order->getBankInfo()->getBic());
             }
+            $transfer->setEndToEndIdentification($payment_order->getIDString());
             $transfer->setRemittanceInformation($payment_order->getBankInfo()->getReference());
             $payment->addTransfer($transfer);
         }
