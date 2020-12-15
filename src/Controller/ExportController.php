@@ -99,11 +99,13 @@ class ExportController extends AbstractController
                     ]
                 );
 
+                $response = null;
+
                 //Download as file
                 if (count($xml_files) === 1) {
                     $xml_string = array_values($xml_files)[0];
                     $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
-                    return $this->getDownloadResponse($xml_string, $filename);
+                    $response = $this->getDownloadResponse($xml_string, $filename);
                 } else {
                     $zip = new \ZipArchive();
                     $file_path = tempnam(sys_get_temp_dir(), 'stura');
@@ -117,7 +119,6 @@ class ExportController extends AbstractController
                         $response->deleteFileAfterSend();
                         $response->setPrivate();
                         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "export_" . date("Y-m-d_H-i-s") . ".zip");
-                        return $response;
                     } else {
                         throw new \RuntimeException("Could not create a ZIP Archive.");
                     }
@@ -129,6 +130,9 @@ class ExportController extends AbstractController
                     $paymentOrder->setExported(true);
                 }
                 $this->entityManager->flush();
+
+                return $response;
+
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',
