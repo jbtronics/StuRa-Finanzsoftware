@@ -7,5 +7,11 @@
         <target><![CDATA[Seite <b>%current%</b> von <b>%last%</b>]]></target>
       </segment>
     </unit>
+    <unit id="nVUMu1k" name="paginator.results">
+      <segment>
+        <source>paginator.results</source>
+        <target><![CDATA[<b>%current%</b> von <b>%count%</b> Ergebnissen]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>

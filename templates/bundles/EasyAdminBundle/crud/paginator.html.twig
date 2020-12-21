@@ -3,8 +3,17 @@
 {% trans_default_domain 'EasyAdminBundle' %}
 
 <div class="list-pagination">
+
+    {% if paginator.hasNextPage %}
+        {% set real_page_size = paginator.pageSize %}
+    {% else %}
+        {% set real_page_size = paginator.numResults - paginator.pageSize * paginator.previousPage %}
+    {% endif %}
+
+
+
     <div class="list-pagination-counter">
-        {{ 'paginator.results'| trans({'%count%': paginator.numResults}) |raw }}
+        {{ 'paginator.results'| trans({'%count%': paginator.numResults, '%current%': real_page_size}, 'app') |raw }}
     </div>
 
     <span>{{ 'paginator.page_int' | trans({'%current%': paginator.currentPage, '%last%': paginator.lastPage}, 'app') | raw }}</span>
