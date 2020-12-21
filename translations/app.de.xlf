@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
+  <file id="app.de">
+    <unit id="ken9lrj" name="paginator.page_int">
+      <segment>
+        <source>paginator.page_int</source>
+        <target><![CDATA[Seite <b>%current%</b> von <b>%last%</b>]]></target>
+      </segment>
+    </unit>
+  </file>
+</xliff>
