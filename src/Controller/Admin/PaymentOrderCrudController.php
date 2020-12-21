@@ -46,6 +46,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -106,6 +107,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(BooleanFilter::new('exported', 'payment_order.exported.label'))
             ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
+            ->add(TextFilter::new('funding_id', 'payment_order.funding_id.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
             ->add(DateTimeFilter::new('last_modified', 'last_modified'));
     }
