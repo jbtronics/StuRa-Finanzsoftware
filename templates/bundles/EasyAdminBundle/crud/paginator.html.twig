@@ -4,7 +4,9 @@
 
 <div class="list-pagination">
 
-    {% if paginator.hasNextPage %}
+    {% if paginator.numResults < paginator.pageSize %}
+        {% set real_page_size = paginator.numResults %}
+    {% elseif paginator.hasNextPage %}
         {% set real_page_size = paginator.pageSize %}
     {% else %}
         {% set real_page_size = paginator.numResults - paginator.pageSize * paginator.previousPage %}
