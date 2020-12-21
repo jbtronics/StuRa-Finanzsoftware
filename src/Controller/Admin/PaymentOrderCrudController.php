@@ -93,7 +93,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('payment_order.label')
             ->setEntityLabelInPlural('payment_order.labelp')
-            ->setSearchFields(['id', 'first_name', 'last_name', 'project_name', 'amount', 'comment', 'bank_info.account_owner', 'bank_info.street', 'bank_info.zip_code', 'bank_info.city', 'bank_info.iban', 'bank_info.bic', 'bank_info.bank_name', 'bank_info.reference']);
+            ->setSearchFields(['id', 'first_name', 'last_name', 'project_name', 'funding_id', 'contact_email', 'amount', 'comment', 'bank_info.account_owner', 'bank_info.street', 'bank_info.zip_code', 'bank_info.city', 'bank_info.iban', 'bank_info.bic', 'bank_info.bank_name', 'bank_info.reference']);
     }
 
     public function configureFilters(Filters $filters): Filters

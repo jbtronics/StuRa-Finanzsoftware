@@ -27,6 +27,7 @@ class BankAccountCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('bank_account.label')
+            ->setSearchFields(['name', 'iban', 'bic', 'comment', 'account_name'])
             ->setEntityLabelInPlural('bank_account.labelp');
     }
 
