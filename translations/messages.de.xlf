@@ -1868,5 +1868,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Es können keine Zahlungsaufträge gelöscht werden, die bereits geprüft oder exportiert wurden.</target>
       </segment>
     </unit>
+    <unit id="4up1GtJ" name="payment_order.funding_id.label_short">
+      <segment>
+        <source>payment_order.funding_id.label_short</source>
+        <target>M / FA</target>
+      </segment>
+    </unit>
+    <unit id="qs8yEUB" name="payment_order.department.label_short">
+      <segment>
+        <source>payment_order.department.label_short</source>
+        <target>Struktur</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -268,12 +268,14 @@ class PaymentOrderCrudController extends AbstractCrudController
         $id = IntegerField::new('id', 'payment_order.id.label');
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
-        $departmentName = TextareaField::new('department.name', 'payment_order.department.label');
+        $departmentName = TextareaField::new('department.name', 'payment_order.department.label_short');
 
         $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
         $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
 
         $funding_id = TextField::new('funding_id', 'payment_order.funding_id.label')->setRequired(false)->setFormTypeOption('empty_data', '');
+        //Use short name for index
+        $funding_id_index = TextField::new('funding_id', 'payment_order.funding_id.label_short')->setHelp('payment_order.funding_id.label');
         $fsr_kom = BooleanField::new('fsr_kom_resolution', 'payment_order.fsr_kom.label')->setRequired(false);
         $resolution_date = DateField::new('resolution_date', 'payment_order.resolution_date.label')->setRequired(false);
 
@@ -290,7 +292,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $references = VichyFileField::new('references_file', 'payment_order.references.label');
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $creationDate];
+            return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $funding_id_index, $creationDate];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
             return [$panel_documents, $printed_form, $references, $panel1, $id, $firstName, $lastName, $contact_email, $projectName, $department, $amount, $funding_id, $resolution_date, $fsr_kom, $panel2, $confirmed_1, $confirmed_2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference, $lastModified, $creationDate];
         } elseif (Crud::PAGE_NEW === $pageName) {
