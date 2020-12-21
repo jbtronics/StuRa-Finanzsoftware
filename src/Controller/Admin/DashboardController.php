@@ -178,6 +178,12 @@ class DashboardController extends AbstractDashboardController
                            ]);
     }
 
+    public function configureCrud(): Crud
+    {
+        return parent::configureCrud()
+            ->setPaginatorPageSize(40);
+    }
+
     public function configureAssets(): Assets
     {
         return Assets::new()->addCssFile('admin_styles.css');
