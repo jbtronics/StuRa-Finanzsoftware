@@ -118,11 +118,23 @@
     "fortawesome/font-awesome": {
         "version": "5.14.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.0"
+    },
     "jms/metadata": {
         "version": "2.3.0"
     },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.3"
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "lcobucci/jwt": {
         "version": "3.3.2"
@@ -159,9 +171,6 @@
     },
     "ocramius/package-versions": {
         "version": "1.5.1"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.2.3"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.3.0"
@@ -516,6 +525,9 @@
     "symfony/property-info": {
         "version": "v5.1.2"
     },
+    "symfony/proxy-manager-bridge": {
+        "version": "v5.1.10"
+    },
     "symfony/routing": {
         "version": "5.1",
         "recipe": {
@@ -694,11 +706,5 @@
     },
     "webmozart/assert": {
         "version": "1.9.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }
