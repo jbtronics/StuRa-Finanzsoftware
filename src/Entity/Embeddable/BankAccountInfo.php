@@ -33,49 +33,49 @@ class BankAccountInfo
      * @var string
      * @ORM\Column(type="string")
      */
-    private $account_owner;
+    private $account_owner = "";
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $street;
+    private $street = "";
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $zip_code;
+    private $zip_code = "";
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $city;
+    private $city = "";
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Iban()
      */
-    private $iban;
+    private $iban = "";
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Bic(ibanPropertyPath="iban")
      */
-    private $bic;
+    private $bic = "";
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $bank_name;
+    private $bank_name = "";
 
     /**
      * @var string

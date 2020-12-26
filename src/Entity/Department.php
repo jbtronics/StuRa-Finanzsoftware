@@ -50,14 +50,14 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * @ORM\Column(type="string")
      * @var string
      */
-    private $name;
+    private $name = "";
 
     /**
      * @ORM\Column(type="string")
      * @Assert\Choice(choices=Department::ALLOWED_TYPES)
      * @var string|null
      */
-    private $type;
+    private $type = "fsr";
 
     /**
      * @var bool If an FSR is blocked it can not submit new payment orders
@@ -85,7 +85,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", inversedBy="associated_departments")
      * @ORM\JoinColumn(name="bank_account_id", referencedColumnName="id", nullable=true)
      */
-    private $bank_account;
+    private $bank_account = null;
 
     /**
      * @var string[]
@@ -97,7 +97,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
      * })
      */
-    private $email_hhv;
+    private $email_hhv = [];
 
     /**
      * @var string[]
@@ -108,7 +108,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Email()
      * })
      */
-    private $email_treasurer;
+    private $email_treasurer = [];
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)

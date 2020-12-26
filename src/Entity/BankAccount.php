@@ -35,19 +35,19 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $name;
+    private $name = "";
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Iban()
      */
-    private $iban;
+    private $iban = "";
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Bic(ibanPropertyPath="iban")
      */
-    private $bic;
+    private $bic = "";
 
     /**
      * @ORM\Column(type="text")
@@ -57,7 +57,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $account_name;
+    private $account_name = "";
 
     /**
      * @var Collection
