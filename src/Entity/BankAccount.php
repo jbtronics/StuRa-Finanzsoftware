@@ -46,6 +46,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Bic(ibanPropertyPath="iban")
+     * @Assert\NotBlank()
      */
     private $bic = "";
 
@@ -75,20 +76,29 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
         return $this->id;
     }
 
+    /**
+     * Returns the name with which the bank account is referred in the system.
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Sets the name with which the bank account is referred in the system.
+     * Must be unique for all bank accounts
+     * @param  string  $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
-     * Gets the IBAN associated with this bank account.
+     * Gets the IBAN associated with this bank account and which will be used in XML exports.
      * @return string|null
      */
     public function getIban(): ?string
@@ -96,22 +106,32 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
         return $this->iban;
     }
 
+    /**
+     * Sets the IBAN associated with this bank account and which will be used in XML exports.
+     * Must be unique for all bank accounts.
+     * @param  string  $iban
+     * @return $this
+     */
     public function setIban(string $iban): self
     {
         $this->iban = $iban;
-
         return $this;
     }
 
     /**
-     * Gets the BIC associated with this bank account.
-     * @return string|null
+     * Gets the BIC associated with this bank account and which will be used in XML exports.
+     * @return string
      */
-    public function getBic(): ?string
+    public function getBic(): string
     {
         return $this->bic;
     }
 
+    /**
+     * Sets the BIC associated with this bank account and which will be used in XML exports.
+     * @param  string  $bic
+     * @return $this
+     */
     public function setBic(string $bic): self
     {
         $this->bic = $bic;
@@ -119,15 +139,24 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
         return $this;
     }
 
-    public function getAccountName(): ?string
+    /**
+     * Return the name of the bank account that can be used in XML exports.
+     * Can return a empty string.
+     * @return string
+     */
+    public function getAccountName(): string
     {
         return $this->account_name;
     }
 
+    /**
+     * Sets the name of the bank account that can be used in XML exports.
+     * Can be an empty string.
+     * @return $this
+     */
     public function setAccountName(string $account_name): self
     {
         $this->account_name = $account_name;
-
         return $this;
     }
 
@@ -138,24 +167,37 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
      */
     public function getExportAccountName(): string
     {
-        if(!empty($this->account_name)) {
+        if(!empty(trim($this->account_name))) {
             return $this->account_name;
         }
 
         return $this->name;
     }
 
+    /**
+     * Return a comment that can be used to describe this bank account more detailed.
+     * @return string
+     */
     public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function setComment(?string $new_comment): BankAccount
+    /**
+     * Return a comment that can be used to describe this bank account more detailed.
+     * @param  null  $new_comment
+     * @return $this
+     */
+    public function setComment(string $new_comment): BankAccount
     {
         $this->comment = $new_comment;
         return $this;
     }
 
+    /**
+     * A __toString() function which is used to generate a user-friendly representation of this object in drop-downs.
+     * @return string
+     */
     public function __toString(): string
     {
         return ($this->name ?? 'unknown') . ' [' . $this->iban . ']';

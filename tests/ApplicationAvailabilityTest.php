@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Just a simple test to ensure that different pages are available (and do not throw an exception)
  * @package App\Tests
+ * @group DB
  */
 class ApplicationAvailabilityTest extends WebTestCase
 {

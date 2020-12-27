@@ -85,7 +85,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      * @var string
      * @Assert\Length(min=6)
      */
-    private $plain_password;
+    private $plain_password = null;
 
     /**
      * @ORM\Column(name="googleAuthenticatorSecret", type="string", nullable=true)
@@ -113,23 +113,29 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * The name that is used to internally identify this user. Also used as login name.
+     * Must be unique for all users.
      */
     public function getUsername(): string
     {
         return (string) $this->username;
     }
 
+    /**
+     * Sets the username for this user.
+     * @param  string  $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
-
         return $this;
     }
 
     /**
+     * Returns all roles for this user.
+     * Every user has at least the ROLE_USER role.
+     * @return string[]
      * @see UserInterface
      */
     public function getRoles(): array
@@ -141,22 +147,31 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
         return array_unique($roles);
     }
 
+    /**
+     * Add the given role to this user.
+     * @param  string  $new_role
+     * @return $this
+     */
     public function addRole(string $new_role): self
     {
         $this->roles[] = $new_role;
         $this->roles = array_unique($this->roles);
-
-        return $this;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
         return $this;
     }
 
     /**
+     * Sets all roles for this user.
+     * @param  string[]  $roles
+     * @return $this
+     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * Returns the (hashed) password for this user.
      * @see UserInterface
      */
     public function getPassword(): string
@@ -164,6 +179,12 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
         return (string) $this->password;
     }
 
+    /**
+     * Sets the (hashed) password for this user.
+     * Should be generated with UserPasswordEncryptorInterface
+     * @param  string  $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -172,6 +193,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
+     * Not used
      * @see UserInterface
      */
     public function getSalt()
@@ -185,10 +207,11 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        $this->plainPassword = null;
+        $this->plain_password = null;
     }
 
     /**
+     * Returns the description of what this user does or why he needs an account (the function of the user).
      * @return string
      */
     public function getRoleDescription(): string
@@ -197,6 +220,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
+     * Sets the description of what this user does or why he needs an account (the function of the user).
      * @param  string  $role_description
      * @return User
      */
@@ -207,6 +231,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
+     * Returns the email of this user.
      * @return string
      */
     public function getEmail(): string
@@ -215,6 +240,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
+     * Sets the email of this user.
      * @param  string  $email
      * @return User
      */
@@ -225,7 +251,8 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * @return mixed
+     * Return the first name of this user.
+     * @return string|null
      */
     public function getFirstName(): ?string
     {
@@ -233,17 +260,19 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * @param  mixed  $first_name
+     * Sets the first name of this user.
+     * @param string  $first_name
      * @return User
      */
-    public function setFirstName($first_name)
+    public function setFirstName(string $first_name): User
     {
         $this->first_name = $first_name;
         return $this;
     }
 
     /**
-     * @return mixed
+     * Returns the last name of this user.
+     * @return string|null
      */
     public function getLastName(): ?string
     {
@@ -251,21 +280,34 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * @param  mixed  $last_name
+     * Sets the last name of this user.
+     * @param  string  $last_name
      * @return User
      */
-    public function setLastName($last_name)
+    public function setLastName(string $last_name)
     {
         $this->last_name = $last_name;
         return $this;
     }
 
+    /**
+     * Returns the full name of this user (in the format "first_name last_name")
+     * @return string
+     */
     public function getFullName(): string
     {
-        return $this->first_name . ' ' . $this->getLastName();
+        if (empty($this->getFirstName())) {
+            return $this->getLastName();
+        }
+        if (empty($this->getLastName())) {
+            return $this->getFirstName();
+        }
+        return $this->first_name.' '.$this->getLastName();
     }
 
     /**
+     * Returns the temporary saved plain password. We need this to set a password via EasyAdmin interface.
+     * A value is only available shortly after it was set via setPlainPassword() and is deleted by eraseCredentials().
      * @return string
      */
     public function getPlainPassword(): ?string
@@ -274,6 +316,8 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
+     * Sets the temporary saved plain password. We need this to set a password via EasyAdmin interface.
+     * The value is deleted by eraseCredentials().
      * @param  string  $plainPassword
      * @return User
      */
@@ -292,27 +336,49 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
         return $this->isGoogleAuthenticatorEnabled();
     }
 
+    /**
+     * Returns true if this user has google authentication 2FA enabled.
+     * @return bool
+     */
     public function isGoogleAuthenticatorEnabled(): bool
     {
         return $this->googleAuthenticatorSecret ? true : false;
     }
 
+    /**
+     * Returns the username that should be shown to the user for this service, when using google authenticator.
+     * Here the standard username is used.
+     * @return string
+     */
     public function getGoogleAuthenticatorUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * Returns the secret used for google authenticator 2FA.
+     * @return string|null
+     */
     public function getGoogleAuthenticatorSecret(): ?string
     {
         return $this->googleAuthenticatorSecret;
     }
 
+    /**
+     * Sets the secred used for google authenticator 2FA.
+     * @param  string|null  $googleAuthenticatorSecret
+     * @return $this
+     */
     public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): self
     {
         $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
         return $this;
     }
 
+    /**
+     * Returns the trusted token version used to implement trusted device 2FA.
+     * @return int
+     */
     public function getTrustedTokenVersion(): int
     {
         return $this->trustedVersion;
@@ -324,7 +390,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      */
     public function invalidateTrustedDevices(): self
     {
-        $this->googleAuthenticatorSecret++;
+        $this->trustedVersion++;
         return $this;
     }
 
