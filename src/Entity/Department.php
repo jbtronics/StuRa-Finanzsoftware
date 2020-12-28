@@ -48,7 +48,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     public const TYPE_ADMINISTRATIVE = "misc";
 
-    public const ALLOWED_TYPES = [self::TYPE_FSR, self::TYPE_SECTION, self::TYPE_FSR];
+    public const ALLOWED_TYPES = [self::TYPE_FSR, self::TYPE_SECTION, self::TYPE_ADMINISTRATIVE];
 
     use TimestampTrait;
 
