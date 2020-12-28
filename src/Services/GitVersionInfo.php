@@ -21,11 +21,14 @@ namespace App\Services;
 
 namespace App\Services;
 
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
+/**
+ * This service allows to extract informations about the current git commit (useful for version info)
+ * @package App\Services
+ */
 class GitVersionInfo
 {
     protected $project_dir;
@@ -39,6 +42,7 @@ class GitVersionInfo
 
     /**
      * Get the Git branch name of the installed system.
+     * The information is cached.
      *
      * @return string|null The current git branch name. Null, if this is no Git installation
      */
@@ -63,6 +67,7 @@ class GitVersionInfo
 
     /**
      * Get hash of the last git commit (on remote "origin"!).
+     * The information is cached.
      *
      * If this method does not work, try to make a "git pull" first!
      *

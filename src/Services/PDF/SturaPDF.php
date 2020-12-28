@@ -18,7 +18,10 @@
 
 namespace App\Services\PDF;
 
-
+/**
+ * A TCPDF class configured to create a PDF document with StuRa header.
+ * @package App\Services\PDF
+ */
 class SturaPDF extends \TCPDF
 {
     public function Header()

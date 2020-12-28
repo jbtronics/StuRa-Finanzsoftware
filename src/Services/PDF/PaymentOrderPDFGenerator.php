@@ -21,8 +21,19 @@ namespace App\Services\PDF;
 
 use App\Entity\PaymentOrder;
 
+/**
+ * This service generates a PDF document describing the payment order.
+ * @package App\Services\PDF
+ */
 class PaymentOrderPDFGenerator
 {
+
+    /**
+     * Generates a PDF from the given PaymentOrder.
+     * The raw PDF content is returned as string.
+     * @param  PaymentOrder  $paymentOrder
+     * @return string
+     */
     public function generatePDF(PaymentOrder $paymentOrder): string
     {
         if ($paymentOrder->getDepartment() === null) {

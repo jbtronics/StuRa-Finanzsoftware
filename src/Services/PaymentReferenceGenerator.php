@@ -21,6 +21,10 @@ namespace App\Services;
 
 use App\Entity\PaymentOrder;
 
+/**
+ * This service generates a payment reference for payment orders
+ * @package App\Services
+ */
 class PaymentReferenceGenerator
 {
     public function setPaymentReference(PaymentOrder $paymentOrder): void
@@ -28,6 +32,13 @@ class PaymentReferenceGenerator
         $paymentOrder->getBankInfo()->setReference($this->generatePaymentReference($paymentOrder));
     }
 
+    /**
+     * Returns a payment reference for the given payment order.
+     * It contains the project name, the FSR name, and the funding ID (if existing) and the ZA-ID.
+     * The length of all values are cut the way, that the reference does not exceed 140 chars.
+     * @param  PaymentOrder  $paymentOrder
+     * @return string
+     */
     public function generatePaymentReference(PaymentOrder $paymentOrder): string
     {
         //Max 140 chars are allowed for a payment reference

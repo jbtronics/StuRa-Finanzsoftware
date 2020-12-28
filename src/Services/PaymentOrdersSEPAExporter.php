@@ -26,13 +26,16 @@ use Digitick\Sepa\DomBuilder\DomBuilderFactory;
 use Digitick\Sepa\GroupHeader;
 use Digitick\Sepa\PaymentInformation;
 use Digitick\Sepa\TransferFile\CustomerCreditTransferFile;
-use Digitick\Sepa\TransferFile\Factory\TransferFileFacadeFactory;
 use Digitick\Sepa\TransferInformation\CustomerCreditTransferInformation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\String\UnicodeString;
 
+/**
+ * This service allows to create a SEPA-XML file from a payment order that can be used to import it in an online
+ * banking system.
+ * @package App\Services
+ */
 class PaymentOrdersSEPAExporter
 {
     protected const PARTY_NAME = "StuRa FSU Jena";
@@ -48,6 +51,13 @@ class PaymentOrdersSEPAExporter
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Exports the given paymentOrders as SEPA-XML files.
+     * @param  array  $payment_orders
+     * @param  array  $options
+     * @return array
+     * @throws \Digitick\Sepa\Exception\InvalidArgumentException
+     */
     public function export(array $payment_orders, array $options): array
     {
         $resolver = new OptionsResolver();
@@ -240,6 +250,10 @@ class PaymentOrdersSEPAExporter
         });
     }
 
+    /**
+     * Returns the bank account associated with FSR-Kom (this is configured by FSR_KOM_ACCOUNT_ID env).
+     * @return BankAccount
+     */
     public function getFSRKomBankAccount(): BankAccount
     {
         return $this->entityManager->find(BankAccount::class, $this->fsr_kom_bank_account_id);

@@ -26,6 +26,10 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * This service is responsible for sending the confirmation emails for a payment_order
+ * @package App\Services\EmailConfirmation
+ */
 class ConfirmationEmailSender
 {
     private $mailer;
@@ -51,6 +55,15 @@ class ConfirmationEmailSender
         $this->notifications_bcc = $notifications_bcc;
     }
 
+    /**
+     * Send the confirmation email to the first verification person for the given payment_order.
+     * Email addresses are taken from department (and are added as BCC)
+     * A token is generated, send via email and saved in hashed form in the payment order.
+     * Calling this function will flush database.
+     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
+     * no email is sent.
+     * @param  PaymentOrder  $paymentOrder
+     */
     public function sendConfirmation1(PaymentOrder $paymentOrder): void
     {
         $token = $this->tokenGenerator->getToken();
@@ -66,6 +79,15 @@ class ConfirmationEmailSender
         $this->entityManager->flush();
     }
 
+    /**
+     * Send the confirmation email to the second verification person for the given payment_order.
+     * Email addresses are taken from department (and are added as BCC)
+     * A token is generated, send via email and saved in hashed form in the payment order.
+     * Calling this function will flush database.
+     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
+     * no email is sent.
+     * @param  PaymentOrder  $paymentOrder
+     */
     public function sendConfirmation2(PaymentOrder $paymentOrder): void
     {
         $token = $this->tokenGenerator->getToken();
@@ -80,6 +102,14 @@ class ConfirmationEmailSender
         $this->entityManager->flush();
     }
 
+    /**
+     * Sents a confirmation email for the given payment order for a plaintext token.
+     * @param  PaymentOrder  $paymentOrder The paymentOrder for which the email should be generated
+     * @param  string[]  $email_addresses The mail addresses that should be added as BCC
+     * @param  string  $token The plaintext token to access confirmation page.
+     * @param  int  $verification_number The verification step (1 or 2)
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
     private function sendConfirmation(PaymentOrder $paymentOrder, array $email_addresses, string $token, int $verification_number): void
     {
         //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
@@ -113,6 +143,12 @@ class ConfirmationEmailSender
 
     }
 
+    /**
+     * Resend all confirmation emails for cases where a confirmation is missing.
+     * If some part is already confirmed this confirmation is not sent again.
+     * If a confirmation is missing a new token will be generated and sent via email.
+     * @param  PaymentOrder  $paymentOrder
+     */
     public function resendConfirmations(PaymentOrder $paymentOrder): void
     {
         //Resend emails that not already were confirmed
