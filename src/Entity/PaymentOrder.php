@@ -29,7 +29,14 @@ use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * This entity contains all the info of a PaymentOrder ("Zahlungsauftrag")
+ * This entity represents a request to pay money for something to a persons bank account.
+ * The applicant (which can be some other person than the payment receiver) submits a payment order ("Zahlungsauftrag")
+ * via the front end form. The finance officers of the department for which the payment order was submitted receive an
+ * email with a verification link where they have to confirm the payment oder.
+ * In the backend the back office officers can see all submitted payment orders. In the first step it is checked if a
+ * payment order is factually correct, then it is exported (as SEPA-XML) to the online banking system. Another officer
+ * then checks if the payment order is factually correct and then approve the payment in the online banking.
+ *
  * @ORM\Entity(repositoryClass=PaymentOrderRepository::class)
  * @ORM\Table("payment_orders")
  * @Vich\Uploadable()
@@ -223,6 +230,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the bank info associated with this payment order.
+     * @see BankAccountInfo
      * @return BankAccountInfo
      */
     public function getBankInfo(): BankAccountInfo
@@ -231,6 +240,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the bank info associated with this payment order.
+     * @see BankAccountInfo
      * @param  BankAccountInfo  $bank_info
      * @return PaymentOrder
      */
@@ -240,12 +251,23 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this;
     }
 
+    /**
+     * Returns the full name of person which has submitted this payment order.
+     * @return string
+     */
     public function getFullName(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        if (empty($this->getFirstName())) {
+            return $this->getLastName();
+        }
+        if (empty($this->getLastName())) {
+            return $this->getFirstName();
+        }
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
+     * Returns the first name of the person which has submitted this payment order.
      * @return string
      */
     public function getFirstName(): string
@@ -254,6 +276,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the first name of the person which has submitted this payment order.
      * @param  string  $first_name
      * @return PaymentOrder
      */
@@ -264,6 +287,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the last name of the person which has submitted this payment order.
      * @return string
      */
     public function getLastName(): string
@@ -272,6 +296,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the last name of the person which has submitted this payment order.
      * @param  string  $last_name
      * @return PaymentOrder
      */
@@ -282,6 +307,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the department for which this payment order was submitted.
      * @return Department
      */
     public function getDepartment(): ?Department
@@ -290,6 +316,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the department for which this payment order was submitted.
      * @param  Department  $department
      * @return PaymentOrder
      */
@@ -300,6 +327,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the name of the project which caused this payment order.
+     * This value will be used in the bank reference value by default.
      * @return string
      */
     public function getProjectName(): string
@@ -308,6 +337,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the name of the project which caused this payment order.
+     * This value will be used in the bank reference value by default.
      * @param  string  $project_name
      * @return PaymentOrder
      */
@@ -318,7 +349,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
-     * Returns the requested amount of money in cents.
+     * Returns the amount that should be paid in (euro) cents.
      * @return int
      */
     public function getAmount(): ?int
@@ -326,6 +357,22 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this->amount;
     }
 
+    /**
+     * Sets the amount that should be paid in (euro) cents.
+     * @param  int  $amount
+     * @return PaymentOrder
+     */
+    public function setAmount(int $amount): PaymentOrder
+    {
+        $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * Returns the amount formatted as euro string (with dot as decimal separator) in the form "123.45" (only 2 digits).
+     * Returns null if no amount was set.
+     * @return string|null
+     */
     public function getAmountString(): ?string
     {
         if ($this->amount === null) {
@@ -337,16 +384,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
-     * @param  int  $amount
-     * @return PaymentOrder
-     */
-    public function setAmount(int $amount): PaymentOrder
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    /**
+     * Returns whether this payment order was checked as mathematically correct.
+     * This means it was checked that the amount and data in this payment order matches the data on the invoice.
      * @return bool
      */
     public function isMathematicallyCorrect(): bool
@@ -355,6 +394,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets whether this payment order was checked as mathematically correct.
+     * This means it was checked that the amount and data in this payment order matches the data on the invoice.
      * @param  bool  $mathematically_correct
      * @return PaymentOrder
      */
@@ -365,6 +406,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns whether this payment order was checked as factually correct.
+     * This means it was checked that this payment is really needed. In our context it also means that an payment order
+     * was payed out and is finished.
      * @return bool
      */
     public function isFactuallyCorrect(): bool
@@ -373,6 +417,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets whether this payment order was checked as factually correct.
+     * This means it was checked that this payment is really needed. In our context it also means that an payment order
+     * was payed out and is finished.
      * @param  bool  $factually_correct
      * @return PaymentOrder
      */
@@ -383,6 +430,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns whether this payment order was exported as SEPA-XML (and imported in online banking).
+     * This is automatically set when payment orders are exported.
      * @return bool
      */
     public function isExported(): bool
@@ -391,6 +440,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets whether this payment order was exported as SEPA-XML (and imported in online banking).
+     * This is automatically set when payment orders are exported.
      * @param  bool  $exported
      * @return PaymentOrder
      */
@@ -402,6 +453,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
 
     /**
+     * Returns the comment associated with this payment order.
+     * This can be HTML if changed in the backend.
      * @return string
      */
     public function getComment(): string
@@ -410,6 +463,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the comment associated with this payment order.
+     * This can be HTML if changed in the backend.
      * @param  string  $comment
      * @return PaymentOrder
      */
@@ -420,6 +475,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the funding ID associated with this payment order (if it existing).
+     * Returns an empty string if no funding ID is associated.
      * @return string
      */
     public function getFundingId(): string
@@ -428,6 +485,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the funding ID associated with this payment order (if it existing).
+     * Set to an empty string if no funding ID is associated.
      * @param  string  $funding_id
      */
     public function setFundingId(string $funding_id): self
@@ -437,6 +496,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Return the HTTPFoundation File associated that contains the PDF version of this payment order.
      * @return \Symfony\Component\HttpFoundation\File\File|null
      */
     public function getPrintedFormFile(): ?\Symfony\Component\HttpFoundation\File\File
@@ -445,6 +505,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the HTTPFoundation File associated that contains the PDF version of this payment order.
      * @param  \Symfony\Component\HttpFoundation\File\File|null  $printed_form_file
      * @return PaymentOrder
      */
@@ -461,6 +522,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Return the Vich File associated that contains the PDF version of this payment order.
      * @return File
      */
     public function getPrintedForm(): File
@@ -469,7 +531,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
-     * @param  \Symfony\Component\HttpFoundation\File\File  $printed_form
+     * Return the Vich File associated that contains the PDF version of this payment order.
+     * @param  File  $printed_form
      * @return PaymentOrder
      */
     public function setPrintedForm(File $printed_form): PaymentOrder
@@ -479,6 +542,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Return the HTTPFoundation File associated that contains the invoice for this payment order.
      * @return \Symfony\Component\HttpFoundation\File\File|null
      */
     public function getReferencesFile(): ?\Symfony\Component\HttpFoundation\File\File
@@ -487,6 +551,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the HTTPFoundation File associated that contains the invoice for this payment order.
      * @param  \Symfony\Component\HttpFoundation\File\File|null  $references_file
      * @return PaymentOrder
      */
@@ -503,6 +568,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Return the Vich File associated that contains the invoice for this payment order.
      * @return File
      */
     public function getReferences(): File
@@ -511,6 +577,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the HTTPFoundation File associated that contains the invoice for this payment order.
      * @param  File  $references
      * @return PaymentOrder
      */
@@ -521,6 +588,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the (hashed) token that can be used to access the confirmation1 page of this payment page.
+     * This value be verified with the password_verify() function.
+     * Can be null if no confirmation should be possible for this payment order.
      * @return string|null
      */
     public function getConfirm1Token(): ?string
@@ -529,6 +599,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the (hashed) token that can be used to access the confirmation1 page of this payment page.
+     * This value be created with the password_hash() function.
+     * Can be null if no confirmation should be possible for this payment order.
      * @param  string|null  $confirm1_token
      * @return PaymentOrder
      */
@@ -539,6 +612,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the timestamp when the first confirmation for this payment order was submitted.
+     * Returns null if this payment order is not confirmed (yet).
      * @return \DateTime|null
      */
     public function getConfirm1Timestamp(): ?\DateTime
@@ -547,6 +622,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the timestamp when the first confirmation for this payment order was submitted.
+     * Set to null if this payment order is not confirmed (yet).
      * @param  \DateTime|null  $confirm1_timestamp
      * @return PaymentOrder
      */
@@ -557,6 +634,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     *  Returns the (hashed) token that can be used to access the confirmation2 page of this payment page.
+     * This value be verified with the password_verify() function.
+     * Can be null if no confirmation should be possible for this payment order.
      * @return string|null
      */
     public function getConfirm2Token(): ?string
@@ -565,6 +645,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the (hashed) token that can be used to access the confirmation1 page of this payment page.
+     * This value be created with the password_hash() function.
+     * Can be null if no confirmation should be possible for this payment order.
      * @param  string|null  $confirm2_token
      * @return PaymentOrder
      */
@@ -575,6 +658,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the timestamp when the second confirmation for this payment order was submitted.
+     * Returns null if this payment order is not confirmed (yet).
      * @return \DateTime|null
      */
     public function getConfirm2Timestamp(): ?\DateTime
@@ -583,6 +668,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the timestamp when the second confirmation for this payment order was submitted.
+     * Set to null if this payment order is not confirmed (yet).
      * @param  \DateTime|null  $confirm2_timestamp
      * @return PaymentOrder
      */
@@ -592,12 +679,17 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this;
     }
 
+    /**
+     * Returns whether this payment order is confirmed (by both instances).
+     * @return bool
+     */
     public function isConfirmed(): bool
     {
         return $this->confirm1_timestamp !== null && $this->confirm2_timestamp !== null;
     }
 
     /**
+     * Returns the email of the person which has submitted this payment order and which is used for answering questions.
      * @return string
      */
     public function getContactEmail(): string
@@ -606,6 +698,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the email of the person which has submitted this payment order and which is used for answering questions.
      * @param  string  $contact_email
      * @return PaymentOrder
      */
@@ -616,6 +709,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns whether this is an payment order for an resolution of the FSR-Kom (these are handled differently)
      * @return bool
      */
     public function isFsrKomResolution(): bool
@@ -624,6 +718,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets whether this is an payment order for an resolution of the FSR-Kom (these are handled differently)
      * @param  bool  $fsr_kom_resolution
      * @return PaymentOrder
      */
@@ -634,6 +729,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the date when the resolution that causes this payment order was passed.
+     * This value is optional as not every payment order needs an resolution.
+     * Only the date is shown for this DateTime.
      * @return \DateTime|null
      */
     public function getResolutionDate(): ?\DateTime
@@ -642,6 +740,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Sets the date when the resolution that causes this payment order was passed.
+     * This value is optional as not every payment order needs an resolution.
+     * Only the date is shown for this DateTime.
      * @param  \DateTime|null  $resolution_date
      * @return PaymentOrder
      */

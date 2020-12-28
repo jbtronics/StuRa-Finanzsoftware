@@ -13,6 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * This entity describes an bank account that the StuRa has control over.
+ * It can be associated with an department.
+ *
  * @ORM\Entity(repositoryClass=BankAccountRepository::class)
  * @ORM\Table("bank_accounts")
  * @ORM\HasLifecycleCallbacks()

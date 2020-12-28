@@ -27,7 +27,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres"
+ * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres".
+ * It can has a associated bank account which is used to choose the correct bank account in SEPA exports.
+ *
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  * @ORM\Table("departments")
  * @ORM\HasLifecycleCallbacks()

@@ -24,6 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * This embeddable contains all information about the person which should receive a payment of a payment order.
+ *
  * @ORM\Embeddable()
  */
 class BankAccountInfo
@@ -83,18 +85,13 @@ class BankAccountInfo
      */
     private $reference = "";
 
-    /**
-     * @var Collection All departments that use this bank account
-     * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="bank_account")
-     */
-    private $associated_departments;
-
     public function __construct()
     {
-        $this->associated_departments = new ArrayCollection();
+
     }
 
     /**
+     * Returns the name of the account owner / payment receiver
      * @return string
      */
     public function getAccountOwner(): ?string
@@ -103,6 +100,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the name of account owner / payment receiver
      * @param  string  $account_owner
      * @return BankAccountInfo
      */
@@ -113,6 +111,7 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the street and house no. where the payment receiver lives.
      * @return string
      */
     public function getStreet(): ?string
@@ -121,6 +120,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the street and house no. where the payment receiver lives.
      * @param  string  $street
      * @return BankAccountInfo
      */
@@ -131,6 +131,7 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the zip code where the payment receiver lives.
      * @return string
      */
     public function getZipCode(): ?string
@@ -139,6 +140,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the zip code where the payment receiver lives.
      * @param  string  $zip_code
      * @return BankAccountInfo
      */
@@ -149,6 +151,7 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the city name where the payment receiver lives.
      * @return string
      */
     public function getCity(): ?string
@@ -157,6 +160,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the city name where the payment receiver lives.
      * @param  string  $city
      * @return BankAccountInfo
      */
@@ -167,6 +171,9 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the IBAN of the receivers bank account.
+     * The IBAN is formatted with spaces after it was validated by IBAN constraint, so the returned value containes
+     * spaces.
      * @return string
      */
     public function getIban(): ?string
@@ -175,6 +182,8 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the IBAN of the receivers bank account.
+     * The IBAN will be formatted with spaces after it was validated by IBAN constraint.
      * @param  string  $iban
      * @return BankAccountInfo
      */
@@ -185,6 +194,8 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the BIC of the receivers bank account.
+     * Can be left empty for national payments (IBAN-only transaction)
      * @return string
      */
     public function getBic(): ?string
@@ -193,6 +204,8 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the BIC of the receivers bank account.
+     * Can be left empty for national payments (IBAN-only transaction)
      * @param  string  $bic
      * @return BankAccountInfo
      */
@@ -203,6 +216,7 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the name of the receivers bank.
      * @return string
      */
     public function getBankName(): ?string
@@ -211,6 +225,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the name of the receivers bank.
      * @param  string  $bank_name
      * @return BankAccountInfo
      */
@@ -221,6 +236,7 @@ class BankAccountInfo
     }
 
     /**
+     * Returns the transaction reference that is used for the payment.
      * @return string
      */
     public function getReference(): ?string
@@ -229,6 +245,7 @@ class BankAccountInfo
     }
 
     /**
+     * Sets the transaction reference that is used for the payment.
      * @param  string  $reference
      * @return BankAccountInfo
      */
@@ -238,6 +255,10 @@ class BankAccountInfo
         return $this;
     }
 
+    /**
+     * Returns the whole address of the payment receiver as a single line (in the format "Street 1, 12345 City"
+     * @return string
+     */
     public function getAddress(): string
     {
         return $this->getStreet() . ', ' . $this->getZipCode() . ' ' . $this->getCity();

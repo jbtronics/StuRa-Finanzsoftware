@@ -29,6 +29,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * This entity describes a user that can login to the backend system (it needs an ROLE_ADMIN role however).
+ * The login is done with the username and a user choosable password. It is possible to configure two factor authentication
+ * methods for additional security.
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"username"})
  * @NoLockout(groups={"perm_edit"})
@@ -302,7 +306,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
         if (empty($this->getLastName())) {
             return $this->getFirstName();
         }
-        return $this->first_name.' '.$this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
@@ -456,6 +460,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     public function __toString(): string
     {
-        return $this->first_name . ' ' . $this->last_name . ' (' . $this->username . ')';
+        return $this->getFullName() . ' (' . $this->username . ')';
     }
 }
