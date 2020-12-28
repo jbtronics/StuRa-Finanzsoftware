@@ -104,7 +104,7 @@ class PaymentOrderType extends AbstractType
             ]
         ]);
 
-        $builder->add('bank_info', BankAccountInfoType::class, [
+        $builder->add('bank_info', PayeeInfoType::class, [
             'label' => false
         ]);
 
