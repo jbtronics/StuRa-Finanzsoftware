@@ -82,6 +82,11 @@ class ConfirmationEmailSender
 
     private function sendConfirmation(PaymentOrder $paymentOrder, array $email_addresses, string $token, int $verification_number): void
     {
+        //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
+        if ($paymentOrder->getId() === null) {
+            throw new \InvalidArgumentException('$paymentOrder must be serialized / have an ID so than an confirmation URL can be generated!');
+        }
+
         $email = new TemplatedEmail();
         //$email->addBcc(...$email_address);
         //$email->addTo($email_address);
