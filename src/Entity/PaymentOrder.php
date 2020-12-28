@@ -57,7 +57,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
     /**
      * @var PayeeInfo
-     * @ORM\Embedded(class="PayeeInfo")
+     * @ORM\Embedded(class="App\Entity\Embeddable\PayeeInfo")
      * @Assert\Valid()
      */
     private $bank_info;
