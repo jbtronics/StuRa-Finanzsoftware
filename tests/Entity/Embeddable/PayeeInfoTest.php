@@ -18,15 +18,15 @@
 
 namespace App\Tests\Entity\Embeddable;
 
-use App\Entity\Embeddable\BankAccountInfo;
+use App\Entity\Embeddable\PayeeInfo;
 use PHPUnit\Framework\TestCase;
 
-class BankAccountInfoTest extends TestCase
+class PayeeInfoTest extends TestCase
 {
 
     public function testGetAddress()
     {
-        $payout_info = new BankAccountInfo();
+        $payout_info = new PayeeInfo();
         $payout_info->setStreet('Test street 1');
         $payout_info->setZipCode('1234');
         $payout_info->setCity('City');

@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Embeddable()
  */
-class BankAccountInfo
+class PayeeInfo
 {
     /**
      * @Assert\NotBlank()
@@ -102,9 +102,9 @@ class BankAccountInfo
     /**
      * Sets the name of account owner / payment receiver
      * @param  string  $account_owner
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setAccountOwner(string $account_owner): BankAccountInfo
+    public function setAccountOwner(string $account_owner): PayeeInfo
     {
         $this->account_owner = $account_owner;
         return $this;
@@ -122,9 +122,9 @@ class BankAccountInfo
     /**
      * Sets the street and house no. where the payment receiver lives.
      * @param  string  $street
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setStreet(string $street): BankAccountInfo
+    public function setStreet(string $street): PayeeInfo
     {
         $this->street = $street;
         return $this;
@@ -142,9 +142,9 @@ class BankAccountInfo
     /**
      * Sets the zip code where the payment receiver lives.
      * @param  string  $zip_code
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setZipCode(string $zip_code): BankAccountInfo
+    public function setZipCode(string $zip_code): PayeeInfo
     {
         $this->zip_code = $zip_code;
         return $this;
@@ -162,9 +162,9 @@ class BankAccountInfo
     /**
      * Sets the city name where the payment receiver lives.
      * @param  string  $city
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setCity(string $city): BankAccountInfo
+    public function setCity(string $city): PayeeInfo
     {
         $this->city = $city;
         return $this;
@@ -185,9 +185,9 @@ class BankAccountInfo
      * Sets the IBAN of the receivers bank account.
      * The IBAN will be formatted with spaces after it was validated by IBAN constraint.
      * @param  string  $iban
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setIban(string $iban): BankAccountInfo
+    public function setIban(string $iban): PayeeInfo
     {
         $this->iban = $iban;
         return $this;
@@ -207,9 +207,9 @@ class BankAccountInfo
      * Sets the BIC of the receivers bank account.
      * Can be left empty for national payments (IBAN-only transaction)
      * @param  string  $bic
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setBic(string $bic): BankAccountInfo
+    public function setBic(string $bic): PayeeInfo
     {
         $this->bic = $bic;
         return $this;
@@ -227,9 +227,9 @@ class BankAccountInfo
     /**
      * Sets the name of the receivers bank.
      * @param  string  $bank_name
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setBankName(string $bank_name): BankAccountInfo
+    public function setBankName(string $bank_name): PayeeInfo
     {
         $this->bank_name = $bank_name;
         return $this;
@@ -247,9 +247,9 @@ class BankAccountInfo
     /**
      * Sets the transaction reference that is used for the payment.
      * @param  string  $reference
-     * @return BankAccountInfo
+     * @return PayeeInfo
      */
-    public function setReference(?string $reference): BankAccountInfo
+    public function setReference(?string $reference): PayeeInfo
     {
         $this->reference = $reference;
         return $this;

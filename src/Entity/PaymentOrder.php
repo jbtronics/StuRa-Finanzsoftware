@@ -20,7 +20,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
-use App\Entity\Embeddable\BankAccountInfo;
+use App\Entity\Embeddable\PayeeInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,8 +56,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     private $id;
 
     /**
-     * @var BankAccountInfo
-     * @ORM\Embedded(class="App\Entity\Embeddable\BankAccountInfo")
+     * @var PayeeInfo
+     * @ORM\Embedded(class="PayeeInfo")
      * @Assert\Valid()
      */
     private $bank_info;
@@ -218,7 +218,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
     public function __construct()
     {
-        $this->bank_info = new BankAccountInfo();
+        $this->bank_info = new PayeeInfo();
 
         $this->references = new File();
         $this->printed_form = new File();
@@ -231,21 +231,21 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
     /**
      * Returns the bank info associated with this payment order.
-     * @see BankAccountInfo
-     * @return BankAccountInfo
+     * @return PayeeInfo
+     *@see PayeeInfo
      */
-    public function getBankInfo(): BankAccountInfo
+    public function getBankInfo(): PayeeInfo
     {
         return $this->bank_info;
     }
 
     /**
      * Returns the bank info associated with this payment order.
-     * @see BankAccountInfo
-     * @param  BankAccountInfo  $bank_info
+     * @param  PayeeInfo  $bank_info
      * @return PaymentOrder
+     *@see PayeeInfo
      */
-    public function setBankInfo(BankAccountInfo $bank_info): PaymentOrder
+    public function setBankInfo(PayeeInfo $bank_info): PaymentOrder
     {
         $this->bank_info = $bank_info;
         return $this;

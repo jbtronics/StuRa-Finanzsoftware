@@ -19,7 +19,7 @@
 namespace App\Form;
 
 
-use App\Entity\Embeddable\BankAccountInfo;
+use App\Entity\Embeddable\PayeeInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -97,6 +97,6 @@ class BankAccountInfoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('data_class', BankAccountInfo::class);
+        $resolver->setDefault('data_class', PayeeInfo::class);
     }
 }
