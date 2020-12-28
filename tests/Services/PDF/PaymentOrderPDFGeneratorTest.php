@@ -49,39 +49,4 @@ class PaymentOrderPDFGeneratorTest extends WebTestCase
         // Just a little test to ensure that something PDF-like is generated
         self::assertStringStartsWith('%PDF-', $pdf);
     }
-
-    public function arrayToPaymentOrder(array $data): PaymentOrder
-    {
-        $payment_order = new class($data['id']) extends PaymentOrder {
-            public function __construct(int $id)
-            {
-                $this->id2 = $id;
-                parent::__construct();
-            }
-
-            public function getId(): ?int
-            {
-                return $this->id2;
-            }
-        };
-
-        $payment_order->setFirstName($data['first_name'])
-            ->setLastName($data['last_name'])
-            ->setContactEmail($data['contact_email'])
-            ->setAmount($data['amount'])
-            ->setProjectName($data['project_name'])
-            ->setFundingId($data['funding_id'] ?? '')
-            ->setResolutionDate($data['resolution_date'] ?? null)
-            ->setComment($data['comment'] ?? null)
-            ->setDepartment($data['department'])
-            ->getBankInfo()->setAccountOwner($data['account_owner'])
-            ->setStreet($data['street'])
-            ->setCity($data['city'])
-            ->setZipCode($data['zip'])
-            ->setIban($data['iban'])
-            ->setBic($data['bic'])
-            ->setReference($data['reference']);
-
-        return $payment_order;
-    }
 }

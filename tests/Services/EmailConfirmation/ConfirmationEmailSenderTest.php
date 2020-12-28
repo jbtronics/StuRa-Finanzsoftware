@@ -22,6 +22,7 @@ use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\TFA\BackupCodeManager;
+use App\Tests\PaymentOrderTestingHelper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -46,8 +47,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     {
         $department = new Department();
         $department->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = $this->getDummyPaymentOrder();
-        $payment_order->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->sendConfirmation1($payment_order);
 
@@ -74,8 +74,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     {
         $department = new Department();
         $department->setEmailHhv([]);
-        $payment_order = $this->getDummyPaymentOrder();
-        $payment_order->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->sendConfirmation1($payment_order);
 
@@ -91,8 +90,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     {
         $department = new Department();
         $department->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = $this->getDummyPaymentOrder();
-        $payment_order->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->sendConfirmation2($payment_order);
 
@@ -119,8 +117,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     {
         $department = new Department();
         $department->setEmailHhv([]);
-        $payment_order = $this->getDummyPaymentOrder();
-        $payment_order->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->sendConfirmation2($payment_order);
 
@@ -138,7 +135,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $department
             ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
             ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = $this->getDummyPaymentOrder()->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         //Confirm payment order and set tokens
         $payment_order->setConfirm1Timestamp(new \DateTime())
@@ -160,7 +157,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $department
             ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
             ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = $this->getDummyPaymentOrder()->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->resendConfirmations($payment_order);
 
@@ -174,7 +171,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $department
             ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
             ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = $this->getDummyPaymentOrder()->setDepartment($department);
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         //Confirm payment order and set tokens
         $payment_order->setConfirm1Timestamp(new \DateTime());
@@ -190,15 +187,4 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertNotSame('test', $payment_order->getConfirm2Token());
     }
 
-
-    private function getDummyPaymentOrder(): PaymentOrder
-    {
-        return new class extends PaymentOrder {
-            //We have to return an ID or URL generation will not work.
-            public function getId(): ?int
-            {
-                return 1;
-            }
-        };
-    }
 }
