@@ -25,6 +25,10 @@ class PaymentOrderPDFGenerator
 {
     public function generatePDF(PaymentOrder $paymentOrder): string
     {
+        if ($paymentOrder->getDepartment() === null) {
+            throw new \LogicException('$paymentOrder must have an associated department!');
+        }
+
         $pdf = new SturaPDF();
         $pdf->setAuthor('StuRa FSU Jena');
         $pdf->setTitle('Zahlungsauftrag #' . $paymentOrder->getId());
@@ -67,7 +71,7 @@ class PaymentOrderPDFGenerator
                 und mit dem Jahresabschluss beim StuRa abgegeben!');
         $pdf->writeHTML('Mit meiner Unterschrift erkläre ich, dass die Angaben hier korrekt sind und ich alle Belege vorliegen habe.');
 
-        if($paymentOrder->getDepartment()->getType() == 'fsr') {
+        if ($paymentOrder->getDepartment()->isFSR()) {
             $pdf->Ln(20);
             $this->addSignatureField($pdf, 'Datum, Unterschrift FSR Verantwortliche', false);
         }
