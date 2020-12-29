@@ -24,7 +24,7 @@ use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
-use App\Services\PaymentEmailMailToGenerator;
+use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -61,7 +61,7 @@ class PaymentOrderCrudController extends AbstractCrudController
     private $request;
     private $entityManager;
 
-    public function __construct(PaymentEmailMailToGenerator $mailToGenerator,
+    public function __construct(PaymentOrderMailLinkGenerator $mailToGenerator,
         DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
         ConfirmationEmailSender $confirmationEmailSender, RequestStack $requestStack)
     {
@@ -183,13 +183,13 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
             ->linkToUrl(function(PaymentOrder $paymentOrder) {
-                return $this->mailToGenerator->generateMailToHref($paymentOrder);
+                return $this->mailToGenerator->generateContactMailLink($paymentOrder);
             })
             ->setCssClass('text-dark');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
-            return $this->mailToGenerator->generateMailToHref($paymentOrder) !== null;
+            return $this->mailToGenerator->generateContactMailLink($paymentOrder) !== null;
         });
 
         $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')

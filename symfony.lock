@@ -302,6 +302,9 @@
     "spomky-labs/otphp": {
         "version": "v10.0.1"
     },
+    "stevegrunwell/mailto-link-formatter": {
+        "version": "v1.0.0"
+    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {

@@ -22,13 +22,14 @@ namespace App\Services;
 use App\Controller\Admin\PaymentOrderCrudController;
 use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
+use SteveGrunwell\MailToLinkFormatter\MailTo;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * This service generates email links for a payment order, including adresses, subject and body
  * @package App\Services
  */
-class PaymentEmailMailToGenerator
+class PaymentOrderMailLinkGenerator
 {
     private $translator;
     private $crudUrlGenerator;
@@ -45,55 +46,66 @@ class PaymentEmailMailToGenerator
     /**
      * Generates a "mailto:" string to contact the HHV for the given payment order. It includes a link to the payment
      * order.
+     * If no payment order is passed (null) only the mailto: link for the HHV email is returned.
      * @param  PaymentOrder|null  $paymentOrder
-     * @return string|null
+     * @return string
      */
-    public function getHHVMailLink(?PaymentOrder $paymentOrder): ?string
+    public function getHHVMailLink(?PaymentOrder $paymentOrder = null): string
     {
-        $string = "mailto:" . urlencode($this->hhv_email);
 
-        //Add subject
-        $subject = $this->translator->trans('payment_order.mail.subject') . ' - '
-            . urlencode($paymentOrder->getDepartment()->getName()) . ': ' . urlencode($paymentOrder->getProjectName())
-            . ' ' . urlencode('[#' . $paymentOrder->getId(). ']');
-        $string .= '?subject=' . $subject;
+        $mailTo = new MailTo();
+        $mailTo->setRecipients($this->hhv_email);
 
-        $content = 'Link: ' . urlencode($this->crudUrlGenerator->build()->setController(PaymentOrderCrudController::class)
-            ->setEntityId($paymentOrder->getId())->setAction('detail'));
+        if ($paymentOrder !== null) {
+            //Add subject
+            $mailTo->setHeader('subject', $this->getSubject($paymentOrder));
 
-        $string .= '&body=' . $content;
+            $content = 'Link: ' .
+                    $this->crudUrlGenerator->build()->setController(PaymentOrderCrudController::class)
+                        ->setEntityId($paymentOrder->getId())->setAction('detail')->removeReferrer()->unset('filters');
 
-        return $string;
+            $mailTo->setBody($content);
+        }
+
+        return $mailTo->getLink();
     }
 
     /**
      * Generates a "mailto:" string to contact the responsible people for the given payment order.
      * Returns null, if no contact emails are associated with the department.
      * @param  PaymentOrder  $paymentOrder
-     * @return string|null
+     * @return string
      */
-    public function generateMailToHref(PaymentOrder $paymentOrder): ?string
+    public function generateContactMailLink(PaymentOrder $paymentOrder): string
     {
-        $emails = $paymentOrder->getDepartment()->getContactEmails();
+        $mailTo = new MailTo();
 
-        $string = "mailto:";
-
-        if(!empty($paymentOrder->getContactEmail())) {
-            $string .= urlencode($paymentOrder->getContactEmail());
+        if (!empty($paymentOrder->getContactEmail())) {
+            $mailTo->setRecipients($paymentOrder->getContactEmail());
         } elseif (!empty($paymentOrder->getDepartment()->getContactEmails())) {
-            $string .= urlencode(implode(';', $emails));
+            $mailTo->setRecipients($paymentOrder->getDepartment()->getContactEmails());
         } else {
-            return null;
+            throw new \LogicException("No recipeint could be determined for this payment order!");
         }
 
+        $mailTo->setHeader('subject', $this->getSubject($paymentOrder));
 
+        return $mailTo->getLink();
+    }
 
-        //Determine a good email subject
-        $subject = $this->translator->trans('payment_order.mail.subject') . ': ' . urlencode($paymentOrder->getProjectName());
-
-        $string .= '?subject=' . $subject;
-
-
-        return $string;
+    /**
+     * Determines a good subject for an email
+     * @param  PaymentOrder  $paymentOrder
+     * @return string
+     */
+    protected function getSubject(PaymentOrder $paymentOrder): string
+    {
+        return sprintf(
+            "%s - %s: %s [%s]",
+            $this->translator->trans('payment_order.mail.subject'),
+            $paymentOrder->getDepartment()->getName(),
+            $paymentOrder->getProjectName(),
+            $paymentOrder->getIDString()
+        );
     }
 }

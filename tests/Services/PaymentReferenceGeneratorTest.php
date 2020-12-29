@@ -27,7 +27,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaymentReferenceGeneratorTest extends WebTestCase
 {
-
     /**
      * @var PaymentReferenceGenerator
      */

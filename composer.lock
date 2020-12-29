@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7156ed95cc9b495be40b98faa24429d0",
+    "content-hash": "00a2b4bec8d12fd35644a3803162fc44",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4234,6 +4234,55 @@
                 "source": "https://github.com/Spomky-Labs/otphp/tree/v10.0.1"
             },
             "time": "2020-01-28T09:24:19+00:00"
+        },
+        {
+            "name": "stevegrunwell/mailto-link-formatter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevegrunwell/mailto-link-formatter.git",
+                "reference": "2002e3bcd33733ee9a8ee53f16cd1f1d694191e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevegrunwell/mailto-link-formatter/zipball/2002e3bcd33733ee9a8ee53f16cd1f1d694191e5",
+                "reference": "2002e3bcd33733ee9a8ee53f16cd1f1d694191e5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SteveGrunwell\\MailToLinkFormatter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Grunwell",
+                    "email": "steve@stevegrunwell.com",
+                    "homepage": "https://stevegrunwell.com"
+                }
+            ],
+            "description": "Formatter for creating complex mailto: links",
+            "keywords": [
+                "email",
+                "formatting",
+                "mailto"
+            ],
+            "support": {
+                "issues": "https://github.com/stevegrunwell/mailto-link-formatter/issues",
+                "source": "https://github.com/stevegrunwell/mailto-link-formatter"
+            },
+            "time": "2018-04-16T01:11:22+00:00"
         },
         {
             "name": "symfony/apache-pack",
