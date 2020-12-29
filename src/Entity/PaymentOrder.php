@@ -88,6 +88,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @var string "Projektbezeichnung"
      * @Assert\NotBlank()
+     * @Assert\Length(max=70, maxMessage="validator.project_name.too_long")
      * @ORM\Column(type="string")
      */
     private $project_name = "";

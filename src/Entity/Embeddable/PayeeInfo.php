@@ -82,6 +82,7 @@ class PayeeInfo
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\Length(max="140")
      */
     private $reference = "";
 
