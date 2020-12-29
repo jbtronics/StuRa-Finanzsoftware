@@ -124,4 +124,44 @@ class PaymentOrderTest extends TestCase
         $payment_order->setConfirm1Timestamp(null);
         static::assertFalse($payment_order->isConfirmed());
     }
+
+    /**
+     * @dataProvider fundingIDRegexDataProvider
+     * @param  bool  $expected
+     * @param  string  $funding_id
+     */
+    public function testFundingIDRegex(bool $expected, string $funding_id): void
+    {
+        if ($expected) {
+            self::assertRegExp(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
+        } else {
+            self::assertNotRegExp(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
+        }
+    }
+
+    public function fundingIDRegexDataProvider(): array
+    {
+        return [
+            //Simple cases
+            [true, 'M-001-2020'],
+            [true, 'M-123-2020'],
+            [true, 'FA-001-2020'],
+            [true, 'FA-123-2020'],
+            //Higher years must be allowed
+            [true, 'FA-123-2022'],
+            [true, 'FA-123-2099'],
+            //Number must have 3 digits
+            [false, 'FA-1-2020'],
+            [false, 'M-01-2020'],
+            //4 digits are allowed too (though we will not need it)
+            [true, 'M-1234-2020'],
+            [true, 'FA-1234-2020'],
+            //Other prefixes are not allowed
+            [false, 'PA-123-2020'],
+            //Additonal chars are not allowed
+            [false, 'FA--123-2020'],
+            [false, 'FA-1a2-2020'],
+            [false, 'FA-123-20a20'],
+        ];
+    }
 }

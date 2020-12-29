@@ -46,7 +46,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 {
     use TimestampTrait;
 
-    public const FUNDING_REGEX = '/^(FA|M)-\d{3}-20\d{2}$/';
+    public const FUNDING_ID_REGEX = '/^(FA|M)-\d{3,4}-20\d{2}$/';
 
     /**
      * @ORM\Id()
@@ -126,7 +126,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @var string "Mittelfreigabe / Finanzantrag"
      * @ORM\Column(type="string")
-     * @Assert\Regex(PaymentOrder::FUNDING_REGEX)
+     * @Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)
      */
     private $funding_id = "";
 
