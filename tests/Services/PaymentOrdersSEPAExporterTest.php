@@ -25,6 +25,7 @@ use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Services\PaymentOrderMailLinkGenerator;
 use App\Services\PaymentOrdersSEPAExporter;
 use App\Tests\PaymentOrderTestingHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Xml;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -44,7 +45,24 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(PaymentOrdersSEPAExporter::class);
+
+        $em = self::$container->get(EntityManagerInterface::class);
+
+        //Create a exporter with a fake FSRKom bank account, so we dont need to rely on database
+        $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter
+        {
+            public function getFSRKomBankAccount(): BankAccount
+            {
+                $bank_account = new BankAccount();
+
+                $bank_account->setName('FSR Kom')
+                ->setIban("DE84 6605 0101 0000 1299 95")
+                ->setBic('KARSDE66XXX');
+
+                return $bank_account;
+            }
+        };
+
 
         $this->data_dir = realpath(__DIR__ . '/../data/sepa-xml');
     }
@@ -165,6 +183,35 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
     }
 
+    public function testAutoSingleModeFSRKom(): void
+    {
+        $payment_orders = $this->getTestPaymentOrders();
+
+        //Same as testAutoSingleMode but one payment order is from the FSR Kom
+        $payment_orders[0]->setFsrKomResolution(true);
+
+        $options = [
+            'iban' => null,
+            'bic' => null,
+            'name' => 'Test',
+            'mode' => 'auto_single'
+        ];
+
+        $xml_array = $this->service->export($payment_orders, $options);
+
+        //Array must contain 3 entries / XML files (one for each payment order)
+        static::assertCount(3, $xml_array);
+
+        $this->assertSEPAXMLSchema($xml_array['ZA0001']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001_fsrkom.xml', $xml_array['ZA0001']);
+
+        $this->assertSEPAXMLSchema($xml_array['ZA0002']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0002.xml', $xml_array['ZA0002']);
+
+        $this->assertSEPAXMLSchema($xml_array['ZA0003']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
+    }
+
     public function testAutoMode(): void
     {
         $payment_orders = $this->getTestPaymentOrders();
@@ -188,7 +235,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_bank_account_2.xml', $xml_array['Bank Account 2']);
     }
 
-    public function exportSinglePaymentOrderManual(): void
+    public function testExportSinglePaymentOrderManual(): void
     {
         [$payment_order,] = $this->getTestPaymentOrders();
 
@@ -203,7 +250,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_manual_single_payment.xml', $xml);
     }
 
-    public function exportSinglePaymentOrderAuto(): void
+    public function testExportSinglePaymentOrderAuto(): void
     {
         [$payment_order,] = $this->getTestPaymentOrders();
         $xml = $this->service->exportSinglePaymentOrder($payment_order);
@@ -211,6 +258,19 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         //We use the same input data as in testAutoSingleMode() so it must produce the same data
         $this->assertSEPAXMLSchema($xml);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001.xml', $xml);
+    }
+
+    public function testExportSinglePaymentOrderAutoFSRKom(): void
+    {
+        [$payment_order,] = $this->getTestPaymentOrders();
+
+        $payment_order->setFsrKomResolution(true);
+
+        $xml = $this->service->exportSinglePaymentOrder($payment_order);
+
+        //We use the same input data as in testAutoSingleMode() so it must produce the same data
+        $this->assertSEPAXMLSchema($xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001_fsrkom.xml', $xml);
     }
 
     /**
