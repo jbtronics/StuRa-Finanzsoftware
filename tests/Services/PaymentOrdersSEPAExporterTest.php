@@ -152,7 +152,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
         $xml_array = $this->service->export($payment_orders, $options);
 
-        //Array must contain 3 entries / XML files
+        //Array must contain 3 entries / XML files (one for each payment order)
         static::assertCount(3, $xml_array);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0001']);
@@ -163,6 +163,29 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
         $this->assertSEPAXMLSchema($xml_array['ZA0003']);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
+    }
+
+    public function testAutoMode(): void
+    {
+        $payment_orders = $this->getTestPaymentOrders();
+
+        $options = [
+            'iban' => null,
+            'bic' => null,
+            'name' => 'Test',
+            'mode' => 'auto'
+        ];
+
+        $xml_array = $this->service->export($payment_orders, $options);
+
+        //Array must contain 2 entries / XML files (one for each bank account)
+        static::assertCount(2, $xml_array);
+
+        $this->assertSEPAXMLSchema($xml_array['Max Mustermann']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_max_mustermann.xml', $xml_array['Max Mustermann']);
+
+        $this->assertSEPAXMLSchema($xml_array['Bank Account 2']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_bank_account_2.xml', $xml_array['Bank Account 2']);
     }
 
     /**
@@ -239,13 +262,24 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
      */
     private function getTestBankAccounts(): array
     {
-        $bank_account1 = new BankAccount();
+        //Bank accounts must have an ID or grouping will not work...
+        $bank_account1 = new class extends BankAccount {
+            public function getId(): ?int
+            {
+                return 1;
+            }
+        };
         $bank_account1->setName('Bank Account 1')
             ->setIban('DE97 6605 0101 0000 1234 56')
             ->setBic('KARSDE66XXX')
             ->setAccountName('Max Mustermann');
 
-        $bank_account2 = new BankAccount();
+        $bank_account2 = new class extends BankAccount {
+            public function getId(): ?int
+            {
+                return 2;
+            }
+        };
         $bank_account2->setName('Bank Account 2')
             ->setIban('DE84 6605 0101 0000 1299 95')
             ->setBic('KARSDE66XXX')

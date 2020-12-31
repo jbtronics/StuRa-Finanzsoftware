@@ -185,6 +185,12 @@ class PaymentOrdersSEPAExporter
 
             $bank_account = $this->getResolvedBankAccount($payment_order);
 
+            //That case should never really happen in reality (except for testing purposes)
+            //But as it leads silently to wrong behavior it should throw an exception.
+            if($bank_account->getId() === null) {
+                throw new \RuntimeException('The associated bank account must be persisted in DB / have an ID to be groupable!');
+            }
+
             //Create entry for bank account if not existing yet
             if (!isset($tmp[$bank_account->getId()])) {
                 $tmp[$bank_account->getId()] = [
