@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03 pain.001.001.03.xsd">
+    <CstmrCdtTrfInitn>
+        <GrpHdr>
+            <MsgId>StuRa Export 5fed1231696fe</MsgId>
+            <CreDtTm>2020-12-30T23:50:09Z</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <CtrlSum>1.23</CtrlSum>
+            <InitgPty>
+                <Nm>StuRa FSU Jena</Nm>
+            </InitgPty>
+        </GrpHdr>
+        <PmtInf>
+            <PmtInfId>ZA0003 5fed123169712</PmtInfId>
+            <PmtMtd>TRF</PmtMtd>
+            <BtchBookg>false</BtchBookg>
+            <NbOfTxs>1</NbOfTxs>
+            <CtrlSum>1.23</CtrlSum>
+            <PmtTpInf>
+                <SvcLvl>
+                    <Cd>SEPA</Cd>
+                </SvcLvl>
+            </PmtTpInf>
+            <ReqdExctnDt>2020-12-30</ReqdExctnDt>
+            <Dbtr>
+                <Nm>Max Mustermann</Nm>
+            </Dbtr>
+            <DbtrAcct>
+                <Id>
+                    <IBAN>DE97660501010000123456</IBAN>
+                </Id>
+                <Ccy>EUR</Ccy>
+            </DbtrAcct>
+            <DbtrAgt>
+                <FinInstnId>
+                    <BIC>KARSDE66XXX</BIC>
+                </FinInstnId>
+            </DbtrAgt>
+            <ChrgBr>SLEV</ChrgBr>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <EndToEndId>ZA0003</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="EUR">1.23</InstdAmt>
+                </Amt>
+                <Cdtr>
+                    <Nm>Max Musterman</Nm>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>AT773400024643535933</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>Test payment  3</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+        </PmtInf>
+    </CstmrCdtTrfInitn>
+</Document>

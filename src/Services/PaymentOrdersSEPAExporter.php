@@ -209,18 +209,19 @@ class PaymentOrdersSEPAExporter
      */
     protected function getResolvedBankAccount(PaymentOrder $payment_order): BankAccount
     {
+        //Try to resolve FSRKom transactions if possible
         if ($payment_order->isFsrKomResolution()) {
             return $this->getFSRKomBankAccount();
-        } else {
-            $bank_account = $payment_order->getDepartment()->getBankAccount();
-
-            //Throw an error if auto mode is not possible (as bank account definitions are missing)
-            if ($bank_account === null) {
-                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
-            }
-
-            return $bank_account;
         }
+
+        $bank_account = $payment_order->getDepartment()->getBankAccount();
+
+        //Throw an error if auto mode is not possible (as bank account definitions are missing)
+        if ($bank_account === null) {
+            throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
+        }
+
+        return $bank_account;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void

@@ -58,7 +58,7 @@
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
-                    <Ustrd>Payment reference</Ustrd>
+                    <Ustrd>Test payment  1</Ustrd>
                 </RmtInf>
             </CdtTrfTxInf>
         </PmtInf>
