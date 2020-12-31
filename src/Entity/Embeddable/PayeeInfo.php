@@ -183,6 +183,16 @@ class PayeeInfo
     }
 
     /**
+     * Returns the IBAN of the receivers bank account without spaces.
+     * This is useful for SEPA exporter and other places where a IBAN in a machine-readable form is needed.
+     * @return string
+     */
+    public function getIbanWithoutSpaces(): string
+    {
+        return str_replace(' ', '', $this->getIban());
+    }
+
+    /**
      * Sets the IBAN of the receivers bank account.
      * The IBAN will be formatted with spaces after it was validated by IBAN constraint.
      * @param  string  $iban

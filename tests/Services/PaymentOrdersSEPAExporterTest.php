@@ -188,6 +188,31 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_bank_account_2.xml', $xml_array['Bank Account 2']);
     }
 
+    public function exportSinglePaymentOrderManual(): void
+    {
+        [$payment_order,] = $this->getTestPaymentOrders();
+
+        $xml = $this->service->exportSinglePaymentOrder($payment_order,
+                                                        'Max Mustermann',
+                                                        'DE97 6605 0101 0000 1234 56',
+                                                        'KARSDE66XXX'
+        );
+
+        //We use the same input data as in testManualSinglePayment() so it must produce the same data
+        $this->assertSEPAXMLSchema($xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_manual_single_payment.xml', $xml);
+    }
+
+    public function exportSinglePaymentOrderAuto(): void
+    {
+        [$payment_order,] = $this->getTestPaymentOrders();
+        $xml = $this->service->exportSinglePaymentOrder($payment_order);
+
+        //We use the same input data as in testAutoSingleMode() so it must produce the same data
+        $this->assertSEPAXMLSchema($xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001.xml', $xml);
+    }
+
     /**
      * Returns an array of 3 PaymentOrders that can be used for testing.
      * They have associated departments and bank accounts.
@@ -226,7 +251,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $payment_order3->getBankInfo()
             ->setAccountOwner('Max Musterman')
             //Test foreign IBAN
-            ->setIban('AT773400024643535933')
+            ->setIban('AT77 3400 0246 4353 5933')
             ->setBic('')
             ->setReference('Test payment #3');
 

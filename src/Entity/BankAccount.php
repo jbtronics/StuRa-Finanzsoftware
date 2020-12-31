@@ -110,6 +110,16 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     }
 
     /**
+     * Returns the IBAN of the bank account without spaces.
+     * This is useful for SEPA exporter and other places where a IBAN in a machine-readable form is needed.
+     * @return string
+     */
+    public function getIbanWithoutSpaces(): string
+    {
+        return str_replace(' ', '', $this->getIban());
+    }
+
+    /**
      * Sets the IBAN associated with this bank account and which will be used in XML exports.
      * Must be unique for all bank accounts.
      * @param  string  $iban

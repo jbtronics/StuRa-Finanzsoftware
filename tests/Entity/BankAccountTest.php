@@ -19,6 +19,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\BankAccount;
+use App\Entity\Embeddable\PayeeInfo;
 use App\Entity\PaymentOrder;
 use PHPUnit\Framework\TestCase;
 
@@ -51,5 +52,18 @@ class BankAccountTest extends TestCase
         //Ensure that it works if name and IBAN are empty (it is ugly however)
         $bank_account = new BankAccount();
         self::assertSame(" []", (string) $bank_account);
+    }
+
+    public function testGetIBANWithoutSpaces(): void
+    {
+        $payeeInfo = new BankAccount();
+
+        //If IBAN already contains no spaces it should not be changed
+        $payeeInfo->setIban("NL93ABNA6055981262");
+        self::assertSame("NL93ABNA6055981262", $payeeInfo->getIbanWithoutSpaces());
+
+        //If it contains spaces, they must be removed
+        $payeeInfo->setIban("NL93 ABNA 6055 9812 62");
+        self::assertSame("NL93ABNA6055981262", $payeeInfo->getIbanWithoutSpaces());
     }
 }
