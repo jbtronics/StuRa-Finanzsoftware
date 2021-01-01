@@ -18,7 +18,6 @@
 
 namespace App\Admin\Filter;
 
-
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Filter\FilterInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -42,7 +41,7 @@ class ConfirmedFilter implements FilterInterface
 
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        if($filterDataDto->getValue() === false) {
+        if (false === $filterDataDto->getValue()) {
             $comparison = 'IS NULL';
             $queryBuilder
                 ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirm1_timestamp', $comparison))

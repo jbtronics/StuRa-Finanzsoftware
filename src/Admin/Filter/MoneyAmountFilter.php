@@ -18,18 +18,16 @@
 
 namespace App\Admin\Filter;
 
-
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Filter\FilterInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterDataDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterDataDto;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\FilterTrait;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\ComparisonType;
 
 /**
- * Similar to default Numeric filter, but ibput will be
- * @package App\Admin\Filter
+ * Similar to default Numeric filter, but ibput will be.
  */
 class MoneyAmountFilter implements FilterInterface
 {

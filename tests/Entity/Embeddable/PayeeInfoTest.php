@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
 
 class PayeeInfoTest extends TestCase
 {
-
     public function testGetAddress(): void
     {
         $payout_info = new PayeeInfo();
@@ -39,11 +38,11 @@ class PayeeInfoTest extends TestCase
         $payeeInfo = new PayeeInfo();
 
         //If IBAN already contains no spaces it should not be changed
-        $payeeInfo->setIban("NL93ABNA6055981262");
-        self::assertSame("NL93ABNA6055981262", $payeeInfo->getIbanWithoutSpaces());
+        $payeeInfo->setIban('NL93ABNA6055981262');
+        self::assertSame('NL93ABNA6055981262', $payeeInfo->getIbanWithoutSpaces());
 
         //If it contains spaces, they must be removed
-        $payeeInfo->setIban("NL93 ABNA 6055 9812 62");
-        self::assertSame("NL93ABNA6055981262", $payeeInfo->getIbanWithoutSpaces());
+        $payeeInfo->setIban('NL93 ABNA 6055 9812 62');
+        self::assertSame('NL93ABNA6055981262', $payeeInfo->getIbanWithoutSpaces());
     }
 }

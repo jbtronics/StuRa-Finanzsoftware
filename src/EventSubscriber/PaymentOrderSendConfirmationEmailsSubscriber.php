@@ -18,7 +18,6 @@
 
 namespace App\EventSubscriber;
 
-
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -44,8 +43,8 @@ class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInt
     {
         return [
             PaymentOrderSubmittedEvent::NAME => [
-                ['sendConfirmationEmails', 5]
-            ]
+                ['sendConfirmationEmails', 5],
+            ],
         ];
     }
 }

@@ -18,9 +18,10 @@
 
 namespace App\Services\EmailConfirmation;
 
+use InvalidArgumentException;
+
 /**
- * A service to generate a verification token
- * @package App\Services\EmailConfirmation
+ * A service to generate a verification token.
  */
 class ConfirmationTokenGenerator
 {
@@ -29,7 +30,7 @@ class ConfirmationTokenGenerator
     public function __construct(int $bytes_length = 16)
     {
         if ($bytes_length < 10) {
-            throw new \InvalidArgumentException('$bytes_length must be greater than 10 to be secure!');
+            throw new InvalidArgumentException('$bytes_length must be greater than 10 to be secure!');
         }
 
         $this->bytes_length = $bytes_length;
@@ -38,11 +39,11 @@ class ConfirmationTokenGenerator
     /**
      * Returns a truly random token with a configured length.
      * It returns a hex encoded 16 random bytes.
-     * @return string
      */
     public function getToken(): string
     {
         $bytes = random_bytes($this->bytes_length);
+
         return bin2hex($bytes);
     }
 }

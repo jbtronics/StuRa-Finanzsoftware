@@ -23,15 +23,14 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-
     public function testGetRoles(): void
     {
         $user = new User();
         //Ensure that a user always has ROLE_USER
         $user->setRoles([]);
-        static::assertContains("ROLE_USER", $user->getRoles());
+        static::assertContains('ROLE_USER', $user->getRoles());
         //Ensure that all roles are unique
-        $user->setRoles(["ROLE_TEST", "ROLE_TEST"]);
+        $user->setRoles(['ROLE_TEST', 'ROLE_TEST']);
         static::assertSame(array_unique($user->getRoles()), $user->getRoles());
     }
 
@@ -40,19 +39,19 @@ class UserTest extends TestCase
         $user = new User();
         $user->setRoles([]);
         //Ensure that roles are empty
-        static::assertSame(["ROLE_USER"], $user->getRoles());
+        static::assertSame(['ROLE_USER'], $user->getRoles());
 
         //Add a new role and ensure it was added
-        $user->addRole("ROLE_TEST");
-        static::assertContains("ROLE_TEST", $user->getRoles());
+        $user->addRole('ROLE_TEST');
+        static::assertContains('ROLE_TEST', $user->getRoles());
     }
 
     public function testEraseCredentials(): void
     {
         //Ensure that test erase credentials remove the plaintext password
         $user = new User();
-        $user->setPlainPassword("secret_password");
-        static::assertSame("secret_password", $user->getPlainPassword());
+        $user->setPlainPassword('secret_password');
+        static::assertSame('secret_password', $user->getPlainPassword());
         $user->eraseCredentials();
         static::assertNull($user->getPlainPassword());
     }
@@ -63,7 +62,8 @@ class UserTest extends TestCase
     public function testGetFullName(string $expected, string $first_name, string $last_name): void
     {
         $user = new User();
-        $user->setFirstName($first_name)->setLastName($last_name);
+        $user->setFirstName($first_name)
+            ->setLastName($last_name);
         static::assertSame($expected, $user->getFullName());
     }
 
@@ -73,36 +73,36 @@ class UserTest extends TestCase
             ['John Doe', 'John', 'Doe'],
             ['Admin', 'Admin', ''],
             ['Admin', '', 'Admin'],
-            ['John Jane Doe', 'John Jane', 'Doe']
+            ['John Jane Doe', 'John Jane', 'Doe'],
         ];
     }
 
     public function testGoogleAuthenticatorUsername(): void
     {
         $user = new User();
-        $user->setUsername("test_user");
+        $user->setUsername('test_user');
         static::assertSame('test_user', $user->getGoogleAuthenticatorUsername());
     }
 
     public function testIsGoogleAuthenticatorEnabled(): void
     {
         $user = new User();
-        $user->setGoogleAuthenticatorSecret("google_secret");
+        $user->setGoogleAuthenticatorSecret('google_secret');
         static::assertTrue($user->isGoogleAuthenticatorEnabled());
         $user->setGoogleAuthenticatorSecret(null);
         static::assertFalse($user->isGoogleAuthenticatorEnabled());
-        $user->setGoogleAuthenticatorSecret("");
+        $user->setGoogleAuthenticatorSecret('');
         static::assertFalse($user->isGoogleAuthenticatorEnabled());
     }
 
     public function testIsTFAEnabled(): void
     {
         $user = new User();
-        $user->setGoogleAuthenticatorSecret("google_secret");
+        $user->setGoogleAuthenticatorSecret('google_secret');
         static::assertTrue($user->isTFAEnabled());
         $user->setGoogleAuthenticatorSecret(null);
         static::assertFalse($user->isTFAEnabled());
-        $user->setGoogleAuthenticatorSecret("");
+        $user->setGoogleAuthenticatorSecret('');
         static::assertFalse($user->isTFAEnabled());
     }
 
@@ -165,16 +165,17 @@ class UserTest extends TestCase
     {
         $user = new User();
         $user->setUsername($username);
-        $user->setFirstName($first_name)->setLastName($last_name);
+        $user->setFirstName($first_name)
+            ->setLastName($last_name);
         static::assertSame($expected, (string) $user);
     }
 
     public function toStringDataProvider(): array
     {
         return [
-            ["John Doe (test)", "John", "Doe", "test"],
-            ["John (test)", "John", "", "test"],
-            ["John (test)", "", "John", "test"]
+            ['John Doe (test)', 'John', 'Doe', 'test'],
+            ['John (test)', 'John', '', 'test'],
+            ['John (test)', '', 'John', 'test'],
         ];
     }
 }

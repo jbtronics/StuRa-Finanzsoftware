@@ -18,7 +18,6 @@
 
 namespace App\Tests\Services\TFA;
 
-
 use App\Services\TFA\BackupCodeGenerator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

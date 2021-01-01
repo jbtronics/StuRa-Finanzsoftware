@@ -20,6 +20,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use App\Validator\NoLockout;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
@@ -55,14 +56,14 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      * @var string
      * @ORM\Column(type="string")
      */
-    private $role_description = "";
+    private $role_description = '';
 
     /**
      * @var string
      * @Assert\Email()
      * @ORM\Column(type="string")
      */
-    private $email = "";
+    private $email = '';
 
     /**
      * @ORM\Column(type="json")
@@ -72,12 +73,12 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     /**
      * @ORM\Column(type="string")
      */
-    private $first_name = "";
+    private $first_name = '';
 
     /**
      * @ORM\Column(type="string")
      */
-    private $last_name = "";
+    private $last_name = '';
 
     /**
      * @var string The hashed password
@@ -127,19 +128,22 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the username for this user.
-     * @param  string  $username
+     *
      * @return $this
      */
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
         return $this;
     }
 
     /**
      * Returns all roles for this user.
      * Every user has at least the ROLE_USER role.
+     *
      * @return string[]
+     *
      * @see UserInterface
      */
     public function getRoles(): array
@@ -153,29 +157,34 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Add the given role to this user.
-     * @param  string  $new_role
+     *
      * @return $this
      */
     public function addRole(string $new_role): self
     {
         $this->roles[] = $new_role;
         $this->roles = array_unique($this->roles);
+
         return $this;
     }
 
     /**
      * Sets all roles for this user.
-     * @param  string[]  $roles
+     *
+     * @param string[] $roles
+     *
      * @return $this
      */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
 
     /**
      * Returns the (hashed) password for this user.
+     *
      * @see UserInterface
      */
     public function getPassword(): string
@@ -185,8 +194,8 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the (hashed) password for this user.
-     * Should be generated with UserPasswordEncryptorInterface
-     * @param  string  $password
+     * Should be generated with UserPasswordEncryptorInterface.
+     *
      * @return $this
      */
     public function setPassword(string $password): self
@@ -197,7 +206,8 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * Not used
+     * Not used.
+     *
      * @see UserInterface
      */
     public function getSalt(): ?string
@@ -217,7 +227,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Returns the description of what this user does or why he needs an account (the function of the user).
-     * @return string
      */
     public function getRoleDescription(): string
     {
@@ -226,18 +235,16 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the description of what this user does or why he needs an account (the function of the user).
-     * @param  string  $role_description
-     * @return User
      */
     public function setRoleDescription(string $role_description): User
     {
         $this->role_description = $role_description;
+
         return $this;
     }
 
     /**
      * Returns the email of this user.
-     * @return string
      */
     public function getEmail(): string
     {
@@ -246,18 +253,16 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the email of this user.
-     * @param  string  $email
-     * @return User
      */
     public function setEmail(string $email): User
     {
         $this->email = $email;
+
         return $this;
     }
 
     /**
      * Return the first name of this user.
-     * @return string|null
      */
     public function getFirstName(): ?string
     {
@@ -266,18 +271,16 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the first name of this user.
-     * @param string  $first_name
-     * @return User
      */
     public function setFirstName(string $first_name): User
     {
         $this->first_name = $first_name;
+
         return $this;
     }
 
     /**
      * Returns the last name of this user.
-     * @return string|null
      */
     public function getLastName(): ?string
     {
@@ -286,18 +289,18 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the last name of this user.
-     * @param  string  $last_name
+     *
      * @return User
      */
     public function setLastName(string $last_name)
     {
         $this->last_name = $last_name;
+
         return $this;
     }
 
     /**
-     * Returns the full name of this user (in the format "first_name last_name")
-     * @return string
+     * Returns the full name of this user (in the format "first_name last_name").
      */
     public function getFullName(): string
     {
@@ -307,12 +310,14 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
         if (empty($this->getLastName())) {
             return $this->getFirstName();
         }
+
         return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
      * Returns the temporary saved plain password. We need this to set a password via EasyAdmin interface.
      * A value is only available shortly after it was set via setPlainPassword() and is deleted by eraseCredentials().
+     *
      * @return string
      */
     public function getPlainPassword(): ?string
@@ -323,18 +328,18 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     /**
      * Sets the temporary saved plain password. We need this to set a password via EasyAdmin interface.
      * The value is deleted by eraseCredentials().
-     * @param  string  $plainPassword
-     * @return User
+     *
+     * @param string $plainPassword
      */
     public function setPlainPassword(?string $plainPassword): User
     {
         $this->plain_password = $plainPassword;
+
         return $this;
     }
 
     /**
-     * Returns true if this user has any Two-Factor method enabled
-     * @return bool
+     * Returns true if this user has any Two-Factor method enabled.
      */
     public function isTFAEnabled(): bool
     {
@@ -343,7 +348,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Returns true if this user has google authentication 2FA enabled.
-     * @return bool
      */
     public function isGoogleAuthenticatorEnabled(): bool
     {
@@ -353,7 +357,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     /**
      * Returns the username that should be shown to the user for this service, when using google authenticator.
      * Here the standard username is used.
-     * @return string
      */
     public function getGoogleAuthenticatorUsername(): string
     {
@@ -362,7 +365,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Returns the secret used for google authenticator 2FA.
-     * @return string|null
      */
     public function getGoogleAuthenticatorSecret(): ?string
     {
@@ -371,18 +373,18 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     /**
      * Sets the secred used for google authenticator 2FA.
-     * @param  string|null  $googleAuthenticatorSecret
+     *
      * @return $this
      */
     public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): self
     {
         $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+
         return $this;
     }
 
     /**
      * Returns the trusted token version used to implement trusted device 2FA.
-     * @return int
      */
     public function getTrustedTokenVersion(): int
     {
@@ -390,21 +392,19 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * Invalidate all trusted devices used by this user
+     * Invalidate all trusted devices used by this user.
+     *
      * @return $this
      */
     public function invalidateTrustedDevices(): self
     {
-        $this->trustedVersion++;
+        ++$this->trustedVersion;
+
         return $this;
     }
 
     /**
      * Check if it is a valid backup code.
-     *
-     * @param string $code
-     *
-     * @return bool
      */
     public function isBackupCode(string $code): bool
     {
@@ -417,42 +417,41 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     }
 
     /**
-     * Invalidate a backup code
-     *
-     * @param string $code
+     * Invalidate a backup code.
      */
     public function invalidateBackupCode(string $code): void
     {
         $key = array_search($code, $this->backupCodes, true);
-        if ($key !== false){
+        if (false !== $key) {
             unset($this->backupCodes[$key]);
         }
     }
 
     /**
-     * Set all backup codes of this user. BackupCodeDate will be updated
-     * @param  array  $codes
+     * Set all backup codes of this user. BackupCodeDate will be updated.
+     *
      * @return $this
      */
     public function setBackupCodes(array $codes): self
     {
         $this->backupCodes = $codes;
-        $this->backupCodesDate = new \DateTime();
+        $this->backupCodesDate = new DateTime();
+
         return $this;
     }
 
     /**
      * Returns the date when the backup codes where generated.
-     * @return \DateTime
+     *
+     * @return DateTime
      */
-    public function getBackupCodesDate(): ?\DateTime
+    public function getBackupCodesDate(): ?DateTime
     {
         return $this->backupCodesDate;
     }
 
     /**
-     * Returns all backup codes of this user
-     * @return array
+     * Returns all backup codes of this user.
      */
     public function getBackupCodes(): array
     {
@@ -461,6 +460,6 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
 
     public function __toString(): string
     {
-        return $this->getFullName() . ' (' . $this->username . ')';
+        return $this->getFullName().' ('.$this->username.')';
     }
 }

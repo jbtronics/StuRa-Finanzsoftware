@@ -18,8 +18,6 @@
 
 namespace App\Entity\Embeddable;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,67 +30,68 @@ class PayeeInfo
 {
     /**
      * @Assert\NotBlank()
+     *
      * @var string
      * @ORM\Column(type="string")
      */
-    private $account_owner = "";
+    private $account_owner = '';
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $street = "";
+    private $street = '';
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $zip_code = "";
+    private $zip_code = '';
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $city = "";
+    private $city = '';
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Iban()
      */
-    private $iban = "";
+    private $iban = '';
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Bic(ibanPropertyPath="iban")
      */
-    private $bic = "";
+    private $bic = '';
 
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
-    private $bank_name = "";
+    private $bank_name = '';
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Length(max="140")
      */
-    private $reference = "";
+    private $reference = '';
 
     public function __construct()
     {
-
     }
 
     /**
-     * Returns the name of the account owner / payment receiver
+     * Returns the name of the account owner / payment receiver.
+     *
      * @return string
      */
     public function getAccountOwner(): ?string
@@ -101,18 +100,18 @@ class PayeeInfo
     }
 
     /**
-     * Sets the name of account owner / payment receiver
-     * @param  string  $account_owner
-     * @return PayeeInfo
+     * Sets the name of account owner / payment receiver.
      */
     public function setAccountOwner(string $account_owner): PayeeInfo
     {
         $this->account_owner = $account_owner;
+
         return $this;
     }
 
     /**
      * Returns the street and house no. where the payment receiver lives.
+     *
      * @return string
      */
     public function getStreet(): ?string
@@ -122,17 +121,17 @@ class PayeeInfo
 
     /**
      * Sets the street and house no. where the payment receiver lives.
-     * @param  string  $street
-     * @return PayeeInfo
      */
     public function setStreet(string $street): PayeeInfo
     {
         $this->street = $street;
+
         return $this;
     }
 
     /**
      * Returns the zip code where the payment receiver lives.
+     *
      * @return string
      */
     public function getZipCode(): ?string
@@ -142,17 +141,17 @@ class PayeeInfo
 
     /**
      * Sets the zip code where the payment receiver lives.
-     * @param  string  $zip_code
-     * @return PayeeInfo
      */
     public function setZipCode(string $zip_code): PayeeInfo
     {
         $this->zip_code = $zip_code;
+
         return $this;
     }
 
     /**
      * Returns the city name where the payment receiver lives.
+     *
      * @return string
      */
     public function getCity(): ?string
@@ -162,12 +161,11 @@ class PayeeInfo
 
     /**
      * Sets the city name where the payment receiver lives.
-     * @param  string  $city
-     * @return PayeeInfo
      */
     public function setCity(string $city): PayeeInfo
     {
         $this->city = $city;
+
         return $this;
     }
 
@@ -175,6 +173,7 @@ class PayeeInfo
      * Returns the IBAN of the receivers bank account.
      * The IBAN is formatted with spaces after it was validated by IBAN constraint, so the returned value containes
      * spaces.
+     *
      * @return string
      */
     public function getIban(): ?string
@@ -185,7 +184,6 @@ class PayeeInfo
     /**
      * Returns the IBAN of the receivers bank account without spaces.
      * This is useful for SEPA exporter and other places where a IBAN in a machine-readable form is needed.
-     * @return string
      */
     public function getIbanWithoutSpaces(): string
     {
@@ -195,18 +193,18 @@ class PayeeInfo
     /**
      * Sets the IBAN of the receivers bank account.
      * The IBAN will be formatted with spaces after it was validated by IBAN constraint.
-     * @param  string  $iban
-     * @return PayeeInfo
      */
     public function setIban(string $iban): PayeeInfo
     {
         $this->iban = $iban;
+
         return $this;
     }
 
     /**
      * Returns the BIC of the receivers bank account.
-     * Can be left empty for national payments (IBAN-only transaction)
+     * Can be left empty for national payments (IBAN-only transaction).
+     *
      * @return string
      */
     public function getBic(): ?string
@@ -216,18 +214,18 @@ class PayeeInfo
 
     /**
      * Sets the BIC of the receivers bank account.
-     * Can be left empty for national payments (IBAN-only transaction)
-     * @param  string  $bic
-     * @return PayeeInfo
+     * Can be left empty for national payments (IBAN-only transaction).
      */
     public function setBic(string $bic): PayeeInfo
     {
         $this->bic = $bic;
+
         return $this;
     }
 
     /**
      * Returns the name of the receivers bank.
+     *
      * @return string
      */
     public function getBankName(): ?string
@@ -237,17 +235,17 @@ class PayeeInfo
 
     /**
      * Sets the name of the receivers bank.
-     * @param  string  $bank_name
-     * @return PayeeInfo
      */
     public function setBankName(string $bank_name): PayeeInfo
     {
         $this->bank_name = $bank_name;
+
         return $this;
     }
 
     /**
      * Returns the transaction reference that is used for the payment.
+     *
      * @return string
      */
     public function getReference(): ?string
@@ -257,21 +255,21 @@ class PayeeInfo
 
     /**
      * Sets the transaction reference that is used for the payment.
-     * @param  string  $reference
-     * @return PayeeInfo
+     *
+     * @param string $reference
      */
     public function setReference(?string $reference): PayeeInfo
     {
         $this->reference = $reference;
+
         return $this;
     }
 
     /**
-     * Returns the whole address of the payment receiver as a single line (in the format "Street 1, 12345 City"
-     * @return string
+     * Returns the whole address of the payment receiver as a single line (in the format "Street 1, 12345 City".
      */
     public function getAddress(): string
     {
-        return $this->getStreet() . ', ' . $this->getZipCode() . ' ' . $this->getCity();
+        return $this->getStreet().', '.$this->getZipCode().' '.$this->getCity();
     }
 }

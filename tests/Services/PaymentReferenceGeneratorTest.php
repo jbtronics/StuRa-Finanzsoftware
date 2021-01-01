@@ -19,10 +19,9 @@
 namespace App\Tests\Services;
 
 use App\Entity\Department;
-use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentReferenceGenerator;
 use App\Tests\PaymentOrderTestingHelper;
-use PHPUnit\Framework\TestCase;
+use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaymentReferenceGeneratorTest extends WebTestCase
@@ -42,13 +41,13 @@ class PaymentReferenceGeneratorTest extends WebTestCase
     {
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder(1);
         $department = new Department();
-        $department->setName("Test");
-        $payment_order->setProjectName("Test")
+        $department->setName('Test');
+        $payment_order->setProjectName('Test')
             ->setDepartment($department)
-            ->setFundingId("FA-123-2020");
+            ->setFundingId('FA-123-2020');
 
         $this->service->setPaymentReference($payment_order);
-        static::assertSame("Test Test FA-123-2020 ZA0001", $payment_order->getBankInfo()->getReference());
+        static::assertSame('Test Test FA-123-2020 ZA0001', $payment_order->getBankInfo()->getReference());
     }
 
     /**
@@ -67,7 +66,7 @@ class PaymentReferenceGeneratorTest extends WebTestCase
         static::assertSame($expected, $tmp);
     }
 
-    public function generatePaymentReferenceDataProvider(): ?\Generator
+    public function generatePaymentReferenceDataProvider(): ?Generator
     {
         //Simple tests
         yield ['Test Physik ZA0001', 'Test', 'Physik', '', 1];
@@ -84,7 +83,7 @@ class PaymentReferenceGeneratorTest extends WebTestCase
             'veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890123456',
             'PhysikLongLongLongLongLongLongLongLongLongLong',
             'FA-999-2020',
-            123456789
+            123456789,
         ];
     }
 }

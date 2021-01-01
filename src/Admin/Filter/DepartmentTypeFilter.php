@@ -18,7 +18,6 @@
 
 namespace App\Admin\Filter;
 
-
 use App\Entity\Department;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Filter\FilterInterface;
@@ -36,8 +35,8 @@ class DepartmentTypeFilter implements FilterInterface
     {
         $choices = [];
 
-        foreach(Department::ALLOWED_TYPES as $type) {
-            $choices['department.type.' . $type ] = $type;
+        foreach (Department::ALLOWED_TYPES as $type) {
+            $choices['department.type.'.$type] = $type;
         }
 
         $choices['department.type.section_misc'] = 'section_misc';
@@ -56,20 +55,20 @@ class DepartmentTypeFilter implements FilterInterface
         ?FieldDto $fieldDto,
         EntityDto $entityDto
     ): void {
-
         $value = $filterDataDto->getValue();
 
-        if ($value === 'section_misc') {
+        if ('section_misc' === $value) {
             $queryBuilder->andWhere('department.type = :misc')
                 ->setParameter('misc', 'misc');
             $queryBuilder->orWhere('department.type = :section')
                 ->setParameter('section', 'section');
         } else {
-            $queryBuilder->andWhere('department.type = :department_type')->setParameter(
-                'department_type',
-                $filterDataDto->getValue()
-            );
+            $queryBuilder->andWhere('department.type = :department_type')
+                ->setParameter(
+                    'department_type',
+                    $filterDataDto->getValue()
+                );
         }
-        $queryBuilder->leftJoin($filterDataDto->getEntityAlias() . '.department', 'department');
+        $queryBuilder->leftJoin($filterDataDto->getEntityAlias().'.department', 'department');
     }
 }

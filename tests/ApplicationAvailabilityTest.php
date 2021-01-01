@@ -18,11 +18,12 @@
 
 namespace App\Tests;
 
+use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Just a simple test to ensure that different pages are available (and do not throw an exception)
- * @package App\Tests
+ * Just a simple test to ensure that different pages are available (and do not throw an exception).
+ *
  * @group DB
  */
 class ApplicationAvailabilityTest extends WebTestCase
@@ -42,11 +43,10 @@ class ApplicationAvailabilityTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful(), 'Request not successful. Status code is '.$client->getResponse()->getStatusCode());
     }
 
-    public function publicPagesProvider(): ?\Generator
+    public function publicPagesProvider(): ?Generator
     {
         //Homepage
         yield ['/payment_order/new'];
         yield ['/'];
     }
-
 }

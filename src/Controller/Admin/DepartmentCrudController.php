@@ -18,7 +18,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\BankAccount;
 use App\Entity\Department;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -30,13 +29,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use LogicException;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class DepartmentCrudController extends AbstractCrudController
@@ -57,12 +56,12 @@ class DepartmentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $actions->setPermissions([
-                                     Action::EDIT => 'ROLE_EDIT_ORGANISATIONS',
-                                     Action::DELETE => 'ROLE_EDIT_ORGANISATIONS',
-                                     Action::NEW => 'ROLE_EDIT_ORGANISATIONS',
-                                     Action::INDEX => 'ROLE_READ_ORGANISATIONS',
-                                     Action::DETAIL => 'ROLE_READ_ORGANISATIONS',
-                                 ]);
+            Action::EDIT => 'ROLE_EDIT_ORGANISATIONS',
+            Action::DELETE => 'ROLE_EDIT_ORGANISATIONS',
+            Action::NEW => 'ROLE_EDIT_ORGANISATIONS',
+            Action::INDEX => 'ROLE_READ_ORGANISATIONS',
+            Action::DETAIL => 'ROLE_READ_ORGANISATIONS',
+        ]);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -78,8 +77,8 @@ class DepartmentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $choices = [];
-        foreach(Department::ALLOWED_TYPES as $type) {
-            $choices['department.type.' . $type ] = $type;
+        foreach (Department::ALLOWED_TYPES as $type) {
+            $choices['department.type.'.$type] = $type;
         }
 
         $name = TextField::new('name', 'department.name.label');
@@ -93,7 +92,8 @@ class DepartmentCrudController extends AbstractCrudController
         $email_hhv = CollectionField::new('email_hhv', 'department.email_hhv.label')
             ->setHelp('department.contact_emails.help')
             ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()->allowDelete()
+            ->allowAdd()
+            ->allowDelete()
             ->setFormTypeOption('delete_empty', true)
             ->setFormTypeOption('entry_options.required', false)
             ->setFormTypeOption('entry_options.empty_data', '')
@@ -102,7 +102,8 @@ class DepartmentCrudController extends AbstractCrudController
         $email_treasurer = CollectionField::new('email_treasurer', 'department.email_treasurer.label')
             ->setHelp('department.contact_emails.help')
             ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()->allowDelete()
+            ->allowAdd()
+            ->allowDelete()
             ->setFormTypeOption('delete_empty', true)
             ->setFormTypeOption('entry_options.required', false)
             ->setFormTypeOption('entry_options.empty_data', '')
@@ -115,7 +116,8 @@ class DepartmentCrudController extends AbstractCrudController
         $contact_emails = CollectionField::new('contact_emails', 'department.contact_emails.label')
             ->setHelp('department.contact_emails.help')
             ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()->allowDelete()
+            ->allowAdd()
+            ->allowDelete()
             ->setFormTypeOption('delete_empty', true)
             ->setFormTypeOption('entry_options.required', false)
             ->setEntryType(EmailType::class);
@@ -133,6 +135,6 @@ class DepartmentCrudController extends AbstractCrudController
             return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];
         }
 
-        throw new \LogicException('Invalid $pageName encountered!');
+        throw new LogicException('Invalid $pageName encountered!');
     }
 }

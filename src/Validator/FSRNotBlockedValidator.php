@@ -34,7 +34,7 @@ class FSRNotBlockedValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        /* @var $constraint \App\Validator\FSRNotBlocked */
+        /** @var FSRNotBlocked $constraint */
 
         if (!$constraint instanceof FSRNotBlocked) {
             throw new UnexpectedTypeException($constraint, FSRNotBlocked::class);
@@ -47,8 +47,6 @@ class FSRNotBlockedValidator extends ConstraintValidator
         if (!$value instanceof Department) {
             throw new UnexpectedTypeException($value, Department::class);
         }
-
-
 
         if ($value->isBlocked()) {
             $this->context->buildViolation($constraint->message)

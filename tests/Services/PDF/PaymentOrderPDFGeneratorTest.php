@@ -20,9 +20,7 @@ namespace App\Tests\Services\PDF;
 
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
-use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PDF\PaymentOrderPDFGenerator;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaymentOrderPDFGeneratorTest extends WebTestCase

@@ -19,13 +19,14 @@
 namespace App\Tests\Services\EmailConfirmation;
 
 use App\Services\EmailConfirmation\ConfirmationTokenGenerator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ConfirmationTokenGeneratorTest extends TestCase
 {
     public function testLengthCheck(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $service = new ConfirmationTokenGenerator(5);
     }
 
@@ -33,7 +34,7 @@ class ConfirmationTokenGeneratorTest extends TestCase
     {
         $service = new ConfirmationTokenGenerator();
         //Ensure that only hex strings are returned
-        self::assertRegExp("/[a-f0-9]+/", $service->getToken());
+        self::assertRegExp('/[a-f0-9]+/', $service->getToken());
         //Ensure length
         self::assertSame(32, strlen($service->getToken()));
 

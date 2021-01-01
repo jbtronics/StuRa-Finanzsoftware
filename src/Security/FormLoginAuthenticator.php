@@ -67,10 +67,11 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['username']
-        );
+        $request->getSession()
+            ->set(
+                Security::LAST_USERNAME,
+                $credentials['username']
+            );
 
         return $credentials;
     }
@@ -82,9 +83,9 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
-
-        return $user;
+        return $this->entityManager->getRepository(User::class)->findOneBy([
+            'username' => $credentials['username'],
+        ]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)

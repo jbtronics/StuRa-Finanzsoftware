@@ -19,21 +19,19 @@
 namespace App\Tests\Entity;
 
 use App\Entity\PaymentOrder;
-use App\EventSubscriber\PaymentOrderNotificationSubscriber;
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class PaymentOrderTest extends TestCase
 {
-
     /**
      * @dataProvider GetIDStringDataProvider
-     * @param  string  $expected
-     * @param  int  $id
      */
     public function testGetIDString(string $expected, int $id): void
     {
         $payment_order = new PaymentOrder();
-        $reflection = new \ReflectionClass(PaymentOrder::class);
+        $reflection = new ReflectionClass(PaymentOrder::class);
         $property = $reflection->getProperty('id');
         $property->setAccessible(true);
         $property->setValue($payment_order, $id);
@@ -57,7 +55,8 @@ class PaymentOrderTest extends TestCase
     public function testGetFullName(string $expected, string $first_name, string $last_name): void
     {
         $payment_order = new PaymentOrder();
-        $payment_order->setFirstName($first_name)->setLastName($last_name);
+        $payment_order->setFirstName($first_name)
+            ->setLastName($last_name);
         static::assertSame($expected, $payment_order->getFullName());
     }
 
@@ -67,14 +66,12 @@ class PaymentOrderTest extends TestCase
             ['John Doe', 'John', 'Doe'],
             ['Admin', 'Admin', ''],
             ['Admin', '', 'Admin'],
-            ['John Jane Doe', 'John Jane', 'Doe']
+            ['John Jane Doe', 'John Jane', 'Doe'],
         ];
     }
 
     /**
      * @dataProvider getAmountStringDataProvider
-     * @param  string|null  $expected
-     * @param  int|null  $cent_amount
      */
     public function testGetAmountStringNull(?string $expected, ?int $cent_amount): void
     {
@@ -84,8 +81,6 @@ class PaymentOrderTest extends TestCase
 
     /**
      * @dataProvider getAmountStringDataProvider
-     * @param  string|null  $expected
-     * @param  int|null  $cent_amount
      */
     public function testGetAmountString(?string $expected, ?int $cent_amount): void
     {
@@ -113,11 +108,11 @@ class PaymentOrderTest extends TestCase
         static::assertFalse($payment_order->isConfirmed());
 
         //A single confirmation must not be sufficient
-        $payment_order->setConfirm1Timestamp(new \DateTime());
+        $payment_order->setConfirm1Timestamp(new DateTime());
         static::assertFalse($payment_order->isConfirmed());
 
         //With both timestamps set the payment order is confirmed
-        $payment_order->setConfirm2Timestamp(new \DateTime());
+        $payment_order->setConfirm2Timestamp(new DateTime());
         static::assertTrue($payment_order->isConfirmed());
 
         //Test the case with the other timestamp missing
@@ -127,8 +122,6 @@ class PaymentOrderTest extends TestCase
 
     /**
      * @dataProvider fundingIDRegexDataProvider
-     * @param  bool  $expected
-     * @param  string  $funding_id
      */
     public function testFundingIDRegex(bool $expected, string $funding_id): void
     {

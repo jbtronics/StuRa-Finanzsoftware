@@ -45,7 +45,7 @@ class TFAGoogleSettingsType extends AbstractType
             $user = $event->getData();
 
             //Only show setup fields, when google authenticator is not enabled
-            if (! $user->isGoogleAuthenticatorEnabled()) {
+            if (!$user->isGoogleAuthenticatorEnabled()) {
                 $form->add(
                     'google_confirmation',
                     TextType::class,
@@ -74,7 +74,7 @@ class TFAGoogleSettingsType extends AbstractType
                     'label' => 'tfa_google.enable',
                     'attr' => [
                         'class' => 'btn-danger offset-sm-3',
-                    ]
+                    ],
                 ]);
             } else {
                 $form->add('submit', SubmitType::class, [

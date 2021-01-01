@@ -19,16 +19,13 @@
 namespace App\Tests\Services\EmailConfirmation;
 
 use App\Entity\Department;
-use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
-use App\Services\TFA\BackupCodeManager;
 use App\Tests\PaymentOrderTestingHelper;
-use PHPUnit\Framework\TestCase;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group slow
- * @package App\Tests\Services\EmailConfirmation
  */
 class ConfirmationEmailSenderTest extends WebTestCase
 {
@@ -138,9 +135,10 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         //Confirm payment order and set tokens
-        $payment_order->setConfirm1Timestamp(new \DateTime())
-            ->setConfirm2Timestamp(new \DateTime());
-        $payment_order->setConfirm1Token('test')->setConfirm2Token('test');
+        $payment_order->setConfirm1Timestamp(new DateTime())
+            ->setConfirm2Timestamp(new DateTime());
+        $payment_order->setConfirm1Token('test')
+            ->setConfirm2Token('test');
 
         $this->service->resendConfirmations($payment_order);
 
@@ -174,8 +172,9 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         //Confirm payment order and set tokens
-        $payment_order->setConfirm1Timestamp(new \DateTime());
-        $payment_order->setConfirm1Token('test')->setConfirm2Token('test');
+        $payment_order->setConfirm1Timestamp(new DateTime());
+        $payment_order->setConfirm1Token('test')
+            ->setConfirm2Token('test');
 
         $this->service->resendConfirmations($payment_order);
 
@@ -186,5 +185,4 @@ class ConfirmationEmailSenderTest extends WebTestCase
         //Token must change as a new one is generated
         self::assertNotSame('test', $payment_order->getConfirm2Token());
     }
-
 }

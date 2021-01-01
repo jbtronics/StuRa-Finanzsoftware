@@ -18,36 +18,31 @@
 
 namespace App\Controller;
 
-
 use App\Entity\PaymentOrder;
-use App\Entity\User;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
 use App\Form\PaymentOrderType;
 use App\Services\PaymentReferenceGenerator;
-use App\Services\PDF\PaymentOrderPDFGenerator;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * This controller handles the payment order submit form
+ * This controller handles the payment order submit form.
+ *
  * @Route("/payment_order")
- * @package App\Controller
  */
 class PaymentOrderController extends AbstractController
 {
-
     /**
      * @Route("/new", name="payment_order_new")
-     * @return Response
      */
     public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher, PaymentReferenceGenerator $paymentReferenceGenerator): Response
     {
@@ -55,22 +50,20 @@ class PaymentOrderController extends AbstractController
 
         $form = $this->createForm(PaymentOrderType::class, $new_order);
 
-        if(!$form instanceof Form) {
-            throw new \InvalidArgumentException('$form must be a Form object!');
+        if (!$form instanceof Form) {
+            throw new InvalidArgumentException('$form must be a Form object!');
         }
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-
                 $entityManager->persist($new_order);
                 $entityManager->flush();
 
                 //We have to do this after the first flush, as we need to know the ID
                 $paymentReferenceGenerator->setPaymentReference($new_order);
                 $entityManager->flush();
-
 
                 $this->addFlash('success', 'flash.saved_successfully');
 
@@ -80,9 +73,9 @@ class PaymentOrderController extends AbstractController
 
                 //Redirect to homepage, if no further paymentOrders should be submitted
                 //Otherwise create a new form for further ones
-                if($form->getClickedButton()->getName() === "submit") {
+                if ('submit' === $form->getClickedButton()->getName()) {
                     return $this->redirectToRoute('homepage');
-                } else if($form->getClickedButton()->getName() === "submit_new") {
+                } elseif ('submit_new' === $form->getClickedButton()->getName()) {
                     $old_order = $new_order;
                     $new_order = new PaymentOrder();
                     $this->copyProperties($old_order, $new_order);
@@ -111,49 +104,48 @@ class PaymentOrderController extends AbstractController
 
     /**
      * @Route("/{id}/confirm", name="payment_order_confirm")
-     * @return Response
      */
     public function confirmation(PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
     {
         //Check if we have one of the valid confirm numbers
         $confirm_step = $request->query->getInt('confirm', 0);
-        if ($confirm_step !== 1 && $confirm_step !== 2) {
+        if (1 !== $confirm_step && 2 !== $confirm_step) {
             //$this->createNotFoundException('Invalid confirmation step! Only 1 or 2 are allowed.');
             $this->addFlash('error', 'payment_order.confirmation.invalid_step');
+
             return $this->redirectToRoute('homepage');
         }
 
-
         //Check if given token is correct for this step
-        $correct_token = $confirm_step === 1 ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
-        if ($correct_token === null) {
-            throw new \RuntimeException("This payment_order can not be confirmed! No token is set.");
+        $correct_token = 1 === $confirm_step ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
+        if (null === $correct_token) {
+            throw new RuntimeException('This payment_order can not be confirmed! No token is set.');
         }
 
         $given_token = (string) $request->query->get('token');
-        if(!password_verify($given_token, $correct_token)) {
+        if (!password_verify($given_token, $correct_token)) {
             $this->addFlash('error', 'payment_order.confirmation.invalid_token');
+
             return $this->redirectToRoute('homepage');
         }
 
         //Check if it was already confirmed from this side and disable form if needed
-        $confirm_timestamp = $confirm_step === 1 ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
-        if($confirm_timestamp !== null) {
+        $confirm_timestamp = 1 === $confirm_step ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
+        if (null !== $confirm_timestamp) {
             $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
         }
         $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
-            'disabled' => $confirm_timestamp !== null
+            'disabled' => null !== $confirm_timestamp,
         ]);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'payment_order.confirmation.success');
             //Write confirmation to DB
-            if($confirm_step === 1) {
-                $paymentOrder->setConfirm1Timestamp(new \DateTime());
-            } elseif ($confirm_step === 2) {
-                $paymentOrder->setConfirm2Timestamp(new \DateTime());
+            if (1 === $confirm_step) {
+                $paymentOrder->setConfirm1Timestamp(new DateTime());
+            } elseif (2 === $confirm_step) {
+                $paymentOrder->setConfirm2Timestamp(new DateTime());
             }
             $em->flush();
         }
@@ -161,7 +153,7 @@ class PaymentOrderController extends AbstractController
         return $this->render('PaymentOrder/confirm/confirm.html.twig', [
             'entity' => $paymentOrder,
             'confirmation_nr' => $confirm_step,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

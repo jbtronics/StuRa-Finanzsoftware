@@ -18,16 +18,12 @@
 
 namespace App\Tests;
 
-
 use App\Entity\PaymentOrder;
 
 class PaymentOrderTestingHelper
 {
-
     /**
-     * Generates an PaymentOrder from the given array data
-     * @param  array  $data
-     * @return PaymentOrder
+     * Generates an PaymentOrder from the given array data.
      */
     public static function arrayToPaymentOrder(array $data): PaymentOrder
     {
@@ -41,7 +37,8 @@ class PaymentOrderTestingHelper
             ->setResolutionDate($data['resolution_date'] ?? null)
             ->setComment($data['comment'] ?? null)
             ->setDepartment($data['department'])
-            ->getBankInfo()->setAccountOwner($data['account_owner'])
+            ->getBankInfo()
+            ->setAccountOwner($data['account_owner'])
             ->setStreet($data['street'])
             ->setCity($data['city'])
             ->setZipCode($data['zip'])
@@ -54,8 +51,6 @@ class PaymentOrderTestingHelper
 
     /**
      * Returns a PaymentOrder that has the given ID (that should behave like a DB registered one in many cases).
-     * @param  int  $id
-     * @return PaymentOrder
      */
     public static function getDummyPaymentOrder(int $id = 1): PaymentOrder
     {

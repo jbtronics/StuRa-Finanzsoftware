@@ -18,31 +18,27 @@
 
 namespace App\Controller;
 
-
 use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Form\SepaExportType;
 use App\Services\PaymentOrdersSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use ZipArchive;
 
 /**
  * @Route("/admin/payment_order")
- * @package App\Controller
  */
 class ExportController extends AbstractController
 {
-
     protected $sepaExporter;
     protected $translator;
     protected $entityManager;
@@ -57,12 +53,12 @@ class ExportController extends AbstractController
     /**
      * @Route("/export", name="payment_order_export")
      */
-    public function export(Request $request, EntityManagerInterface  $entityManager)
+    public function export(Request $request, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 
         $ids = $request->query->get('ids');
-        $id_array = explode(",", $ids);
+        $id_array = explode(',', $ids);
         //Retrieve all payment orders which should be retrieved from DB:
         $payment_orders = [];
         foreach ($id_array as $id) {
@@ -73,8 +69,7 @@ class ExportController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             //Determine the Values to use
             $data = $form->getData();
             //If user has selected a bank account preset, then use the data from it
@@ -95,53 +90,51 @@ class ExportController extends AbstractController
                         'iban' => $iban,
                         'bic' => $bic,
                         'name' => $name,
-                        'mode' => $data['mode']
+                        'mode' => $data['mode'],
                     ]
                 );
 
                 $response = null;
 
                 //Download as file
-                if (count($xml_files) === 1) {
+                if (1 === count($xml_files)) {
                     $xml_string = array_values($xml_files)[0];
-                    $filename = "export_" . date("Y-m-d_H-i-s") . ".xml";
+                    $filename = 'export_'.date('Y-m-d_H-i-s').'.xml';
                     $response = $this->getDownloadResponse($xml_string, $filename);
                 } else {
-                    $zip = new \ZipArchive();
+                    $zip = new ZipArchive();
                     $file_path = tempnam(sys_get_temp_dir(), 'stura');
-                    if ($zip->open($file_path, \ZipArchive::CREATE) === TRUE) {
+                    if (true === $zip->open($file_path, ZipArchive::CREATE)) {
                         foreach ($xml_files as $name => $content) {
-                            $name = $name . '.xml';
+                            $name .= '.xml';
                             $zip->addFromString($name, $content);
                         }
                         $zip->close();
                         $response = new BinaryFileResponse($file_path);
                         $response->deleteFileAfterSend();
                         $response->setPrivate();
-                        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "export_" . date("Y-m-d_H-i-s") . ".zip");
+                        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'export_'.date('Y-m-d_H-i-s').'.zip');
                     } else {
-                        throw new \RuntimeException("Could not create a ZIP Archive.");
+                        throw new RuntimeException('Could not create a ZIP Archive.');
                     }
                 }
 
-
                 //Set export flag
-                foreach($payment_orders as $paymentOrder) {
+                foreach ($payment_orders as $paymentOrder) {
                     $paymentOrder->setExported(true);
                 }
                 $this->entityManager->flush();
 
                 return $response;
-
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',
                                 $this->translator->trans('sepa_export.error.department_missing_account')
-                                . ': ' . $exception->getWrongDepartment()->getName());
+                                .': '.$exception->getWrongDepartment()->getName());
             }
         }
 
-        return $this->render("admin/payment_order/export/export.html.twig", [
+        return $this->render('admin/payment_order/export/export.html.twig', [
             'payment_orders' => $payment_orders,
             'form' => $form->createView(),
         ]);
@@ -151,10 +144,11 @@ class ExportController extends AbstractController
     {
         $response = new Response();
         $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type',  $mime_type);
-        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '";');
-        $response->headers->set('Content-length',  strlen($content));
-        $response->setContent( $content);
+        $response->headers->set('Content-type', $mime_type);
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
+        $response->headers->set('Content-length', strlen($content));
+        $response->setContent($content);
+
         return $response;
     }
 }

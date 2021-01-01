@@ -48,10 +48,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
-use Symfony\Component\HttpFoundation\Request;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\Date;
 
 class PaymentOrderCrudController extends AbstractCrudController
 {
@@ -85,7 +84,7 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         return $this->redirectToRoute('payment_order_export', [
             'eaContext' => $context_id,
-            'ids' => implode(",", $ids)
+            'ids' => implode(',', $ids),
         ]);
     }
 
@@ -113,14 +112,13 @@ class PaymentOrderCrudController extends AbstractCrudController
     }
 
     /**
-     * Handler for action if user click "resend" button in admin page
-     * @param  AdminContext  $context
-     * @return Response
+     * Handler for action if user click "resend" button in admin page.
      */
     public function resendConfirmationEmail(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_EDIT_PAYMENT_ORDERS');
-        $payment_order = $context->getEntity()->getInstance();
+        $payment_order = $context->getEntity()
+            ->getInstance();
 
         $this->confirmationEmailSender->resendConfirmations($payment_order);
 
@@ -130,36 +128,36 @@ class PaymentOrderCrudController extends AbstractCrudController
     }
 
     /**
-     * Handler for action if user click "check mathematically" button in admin page
-     * @param  AdminContext  $context
-     * @return Response
+     * Handler for action if user click "check mathematically" button in admin page.
      */
     public function checkMathematicallyCorrect(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
 
         /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()->getInstance();
+        $payment_order = $context->getEntity()
+            ->getInstance();
         $payment_order->setMathematicallyCorrect(true);
         $this->entityManager->flush();
         $this->addFlash('success', 'payment_order.action.mathematically_correct.success');
+
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
     /**
-     * Handler for action if user click "check factually" button in admin page
-     * @param  AdminContext  $context
-     * @return Response
+     * Handler for action if user click "check factually" button in admin page.
      */
     public function checkFactuallyCorrect(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
 
         /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()->getInstance();
+        $payment_order = $context->getEntity()
+            ->getInstance();
         $payment_order->setFactuallyCorrect(true);
         $this->entityManager->flush();
         $this->addFlash('success', 'payment_order.action.factually_correct.success');
+
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
@@ -174,26 +172,26 @@ class PaymentOrderCrudController extends AbstractCrudController
         );
 
         $actions->setPermissions([
-                                     Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
-                                     Action::DETAIL => 'ROLE_SHOW_PAYMENT_ORDERS',
-                                     Action::EDIT => 'ROLE_EDIT_PAYMENT_ORDERS',
-                                     Action::DELETE => 'ROLE_EDIT_PAYMENT_ORDERS',
-                                     Action::NEW => 'ROLE_EDIT_PAYMENT_ORDERS',
-                                 ]);
+            Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
+            Action::DETAIL => 'ROLE_SHOW_PAYMENT_ORDERS',
+            Action::EDIT => 'ROLE_EDIT_PAYMENT_ORDERS',
+            Action::DELETE => 'ROLE_EDIT_PAYMENT_ORDERS',
+            Action::NEW => 'ROLE_EDIT_PAYMENT_ORDERS',
+        ]);
 
         $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
-            ->linkToUrl(function(PaymentOrder $paymentOrder) {
+            ->linkToUrl(function (PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->generateContactMailLink($paymentOrder);
             })
             ->setCssClass('text-dark');
 
         //Hide action if no contact emails are associated with department
-        $emailAction->displayIf(function(PaymentOrder $paymentOrder) {
-            return $this->mailToGenerator->generateContactMailLink($paymentOrder) !== null;
+        $emailAction->displayIf(function (PaymentOrder $paymentOrder) {
+            return null !== $this->mailToGenerator->generateContactMailLink($paymentOrder);
         });
 
         $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')
-            ->linkToUrl(function(PaymentOrder $paymentOrder) {
+            ->linkToUrl(function (PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->getHHVMailLink($paymentOrder);
             })
             ->setCssClass('mr-2 text-dark');
@@ -201,7 +199,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && ($paymentOrder->getConfirm2Timestamp() === null || $paymentOrder->getConfirm1Timestamp() === null);
+                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && (null === $paymentOrder->getConfirm2Timestamp() || null === $paymentOrder->getConfirm1Timestamp());
             })
             ->setCssClass('mr-2 text-dark');
 
@@ -232,13 +230,11 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->disable(Crud::PAGE_NEW);
 
-
         $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
         $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
 
         $actions->add(Crud::PAGE_DETAIL, $mathematically_correct_action);
         $actions->add(Crud::PAGE_DETAIL, $factually_correct_action);
-
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -249,7 +245,9 @@ class PaymentOrderCrudController extends AbstractCrudController
         $firstName = TextField::new('first_name', 'payment_order.first_name.label');
         $lastName = TextField::new('last_name', 'payment_order.last_name.label');
         $contact_email = EmailField::new('contact_email', 'payment_order.contact_email.label')->setFormTypeOption('empty_data', '')->setRequired(false);
-        $department = AssociationField::new('department', 'payment_order.department.label')->setFormTypeOption('attr', ['data-widget' => "select2"]);
+        $department = AssociationField::new('department', 'payment_order.department.label')->setFormTypeOption('attr', [
+            'data-widget' => 'select2',
+        ]);
         $amount = MoneyField::new('amount', 'payment_order.amount.label')->setCurrency('EUR')->setStoredAsCents(true);
         $projectName = TextField::new('project_name', 'payment_order.project_name.label');
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')->setRequired(false)->setFormTypeOption('empty_data', '');
@@ -303,7 +301,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             return [$panel_documents, $printed_form, $references, $panel1, $references, $firstName, $lastName, $contact_email, $department, $amount, $projectName, $funding_id, $resolution_date, $fsr_kom,  $panel2, $mathematicallyCorrect, $exported, $factuallyCorrect, $comment, $panel3, $bankInfoAccountOwner, $bankInfoStreet, $bankInfoZipCode, $bankInfoCity, $panel4, $bankInfoIban, $bankInfoBic, $bankInfoBankName, $bankInfoReference];
         }
 
-        throw new \RuntimeException("It should not be possible to reach this point...");
+        throw new RuntimeException('It should not be possible to reach this point...');
     }
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -313,7 +311,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         if ($entityInstance->isExported()
             || $entityInstance->isMathematicallyCorrect()
             || $entityInstance->isFactuallyCorrect()) {
-            $this->addFlash('warning','payment_order.flash.can_not_delete_checked_payment_order');
+            $this->addFlash('warning', 'payment_order.flash.can_not_delete_checked_payment_order');
             //Return early
             return;
         }

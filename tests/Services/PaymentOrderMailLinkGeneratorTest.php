@@ -20,9 +20,7 @@ namespace App\Tests\Services;
 
 use App\Entity\Department;
 use App\Services\PaymentOrderMailLinkGenerator;
-use App\Services\PaymentReferenceGenerator;
 use App\Tests\PaymentOrderTestingHelper;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaymentOrderMailLinkGeneratorTest extends WebTestCase
@@ -43,11 +41,12 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
         $department = new Department();
         $department->setName('Physik');
-        $payment_order->setDepartment($department)->setProjectName('Test project');
+        $payment_order->setDepartment($department)
+            ->setProjectName('Test project');
 
         $hhv_link = $this->service->getHHVMailLink($payment_order);
 
-        self::assertStringStartsWith("mailto:hhv@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D&body=", $hhv_link);
+        self::assertStringStartsWith('mailto:hhv@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D&body=', $hhv_link);
     }
 
     public function testGenerateContactMailLinkWithContactMail(): void
@@ -55,11 +54,12 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
         $department = new Department();
         $department->setName('Physik');
-        $payment_order->setDepartment($department)->setProjectName('Test project');
-        $payment_order->setContactEmail("test@invalid.com");
+        $payment_order->setDepartment($department)
+            ->setProjectName('Test project');
+        $payment_order->setContactEmail('test@invalid.com');
 
         $contact_link = $this->service->generateContactMailLink($payment_order);
-        self::assertSame("mailto:test@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D", $contact_link);
+        self::assertSame('mailto:test@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D', $contact_link);
     }
 
     public function testGenerateContactMailLinkWithoutContactMail(): void
@@ -70,11 +70,11 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
         $department = new Department();
         $department->setContactEmails(['test1@invalid.com', 'test2@invalid.com']);
         $department->setName('Physik');
-        $payment_order->setDepartment($department)->setProjectName('Test project');
-        $payment_order->setContactEmail("");
+        $payment_order->setDepartment($department)
+            ->setProjectName('Test project');
+        $payment_order->setContactEmail('');
 
         $contact_link = $this->service->generateContactMailLink($payment_order);
-        self::assertSame("mailto:test1@invalid.com,test2@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D", $contact_link);
-
+        self::assertSame('mailto:test1@invalid.com,test2@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D', $contact_link);
     }
 }

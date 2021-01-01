@@ -18,26 +18,21 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\PaymentOrderController;
 use App\Entity\PaymentOrder;
 use App\Repository\PaymentOrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Form;
 
 /**
  * @group DB
- * @package App\Tests\Controller
  */
 class PaymentOrderControllerTest extends WebTestCase
 {
-
     protected $data_dir;
 
     public function setUp(): void
     {
-        $this->data_dir = realpath(__DIR__ . '/../data/form');
+        $this->data_dir = realpath(__DIR__.'/../data/form');
     }
 
     public function testNewFormSubmit()
@@ -55,7 +50,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $client->submit($form);
 
         //Success submit returns to homepage
-        self::assertTrue($client->getResponse()->isRedirect("/"));
+        self::assertTrue($client->getResponse()->isRedirect('/'));
 
         //Assert that 3 emails are sent (2 confirmation + 1 notification email)
         self::assertEmailCount(3);
@@ -63,16 +58,18 @@ class PaymentOrderControllerTest extends WebTestCase
         //Check if an element was created
         $repo = self::$container->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $new_payment_order */
-        $new_payment_order = $repo->findOneBy(['project_name' => 'Form Test']);
+        $new_payment_order = $repo->findOneBy([
+            'project_name' => 'Form Test',
+        ]);
 
         //Do some basic validation
         self::assertSame('John', $new_payment_order->getFirstName());
-        self::assertSame("DE68500105175596424738", $new_payment_order->getBankInfo()->getIbanWithoutSpaces());
+        self::assertSame('DE68500105175596424738', $new_payment_order->getBankInfo()->getIbanWithoutSpaces());
 
         //Test if file was uploaded and put into correct place
         $references_file = $new_payment_order->getReferencesFile();
         self::assertNotNull($references_file);
-        self::assertStringContainsString("/uploads/payment_orders", str_replace("\\", '/', $references_file->getRealPath()));
+        self::assertStringContainsString('/uploads/payment_orders', str_replace('\\', '/', $references_file->getRealPath()));
 
         //Test if a form was created
         self::assertNotNull($new_payment_order->getPrintedFormFile());
@@ -112,7 +109,9 @@ class PaymentOrderControllerTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
 
         //We have to set the department field or we will run into many exceptions...
-        $form->setValues(['payment_order[department]' => '3']);
+        $form->setValues([
+            'payment_order[department]' => '3',
+        ]);
 
         $client->submit($form);
 
@@ -139,11 +138,11 @@ class PaymentOrderControllerTest extends WebTestCase
             'payment_order[bank_info][city]' => 'City',
             'payment_order[bank_info][iban]' => 'DE68500105175596424738',
             'payment_order[bank_info][bic]' => '',
-            'payment_order[bank_info][bank_name]' => 'Bank'
+            'payment_order[bank_info][bank_name]' => 'Bank',
         ]);
 
         //Upload a PDF
-        $form['payment_order[references_file][file]']->upload($this->data_dir . '/upload.pdf');
+        $form['payment_order[references_file][file]']->upload($this->data_dir.'/upload.pdf');
     }
 
     public function testConfirmation()

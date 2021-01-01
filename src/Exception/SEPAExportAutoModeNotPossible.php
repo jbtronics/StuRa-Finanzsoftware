@@ -18,23 +18,21 @@
 
 namespace App\Exception;
 
-
 use App\Entity\Department;
-use Throwable;
+use RuntimeException;
 
-final class SEPAExportAutoModeNotPossible extends \RuntimeException
+final class SEPAExportAutoModeNotPossible extends RuntimeException
 {
     private $wrong_department;
 
     public function __construct(?Department $department = null)
     {
         $this->wrong_department = $department;
-        parent::__construct("Auto Mode not possible as a department is missing a default bank account", 0, null);
+        parent::__construct('Auto Mode not possible as a department is missing a default bank account', 0, null);
     }
 
     /**
-     * Returns the Department which is missing the default account definition
-     * @return Department|null
+     * Returns the Department which is missing the default account definition.
      */
     public function getWrongDepartment(): ?Department
     {

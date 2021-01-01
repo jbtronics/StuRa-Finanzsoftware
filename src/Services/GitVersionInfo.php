@@ -18,7 +18,6 @@
 
 namespace App\Services;
 
-
 namespace App\Services;
 
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -26,8 +25,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 /**
- * This service allows to extract informations about the current git commit (useful for version info)
- * @package App\Services
+ * This service allows to extract informations about the current git commit (useful for version info).
  */
 class GitVersionInfo
 {
@@ -48,18 +46,18 @@ class GitVersionInfo
      */
     public function getGitBranchName(): ?string
     {
-        return $this->cache->get('git_branch', function(ItemInterface $item) {
+        return $this->cache->get('git_branch', function (ItemInterface $item) {
             $item->expiresAfter(4320); //Recache every 12h
             if (is_file($this->project_dir.'/.git/HEAD')) {
-            $git = file($this->project_dir.'/.git/HEAD');
-            $head = explode('/', $git[0], 3);
+                $git = file($this->project_dir.'/.git/HEAD');
+                $head = explode('/', $git[0], 3);
 
-            if (!isset($head[2])) {
-                return null;
+                if (!isset($head[2])) {
+                    return null;
+                }
+
+                return trim($head[2]);
             }
-
-            return trim($head[2]);
-        }
 
             return null; // this is not a Git installation
         });
@@ -77,7 +75,7 @@ class GitVersionInfo
      */
     public function getGitCommitHash(int $length = 7): ?string
     {
-        return $this->cache->get('git_hash', function(ItemInterface $item) use ($length) {
+        return $this->cache->get('git_hash', function (ItemInterface $item) use ($length) {
             $item->expiresAfter(4320); //Recache every 12h
 
             $filename = $this->project_dir.'/.git/refs/remotes/origin/'.$this->getGitBranchName();
@@ -95,6 +93,5 @@ class GitVersionInfo
 
             return null; // this is not a Git installation
         });
-
     }
 }

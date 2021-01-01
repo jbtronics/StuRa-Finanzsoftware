@@ -18,14 +18,12 @@
 
 namespace App\Admin\Field;
 
-
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 /**
  * An custom input to allow file upload in EasyAdmin. Compatible with VichyUpload Bundle.
- * @package App\Admin\Field
  */
 class VichyFileField implements FieldInterface
 {
@@ -43,6 +41,6 @@ class VichyFileField implements FieldInterface
             ->setFormTypeOption('required', false)
             //->addCssClass('field-image')
             ->setTextAlign('center');
-            //->setCustomOption(self::OPTION_BASE_PATH, null);
+        //->setCustomOption(self::OPTION_BASE_PATH, null);
     }
 }

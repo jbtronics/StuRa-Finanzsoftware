@@ -22,11 +22,12 @@ use App\Entity\BankAccount;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
-use App\Services\PaymentOrderMailLinkGenerator;
 use App\Services\PaymentOrdersSEPAExporter;
 use App\Tests\PaymentOrderTestingHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
 use PHPUnit\Util\Xml;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -49,29 +50,31 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $em = self::$container->get(EntityManagerInterface::class);
 
         //Create a exporter with a fake FSRKom bank account, so we dont need to rely on database
-        $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter
-        {
+        $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter {
             public function getFSRKomBankAccount(): BankAccount
             {
                 $bank_account = new BankAccount();
 
                 $bank_account->setName('FSR Kom')
-                ->setIban("DE84 6605 0101 0000 1299 95")
-                ->setBic('KARSDE66XXX');
+                    ->setIban('DE84 6605 0101 0000 1299 95')
+                    ->setBic('KARSDE66XXX');
 
                 return $bank_account;
             }
         };
 
-
-        $this->data_dir = realpath(__DIR__ . '/../data/sepa-xml');
+        $this->data_dir = realpath(__DIR__.'/../data/sepa-xml');
     }
 
     public function testMessageAndPaymentID(): void
     {
         [$payment_order,] = $this->getTestPaymentOrders();
 
-        $options = ['iban' => 'DE97 6605 0101 0000 1234 56', 'bic' => 'KARSDE66XXX', 'name' => 'Max Mustermann'];
+        $options = [
+            'iban' => 'DE97 6605 0101 0000 1234 56',
+            'bic' => 'KARSDE66XXX',
+            'name' => 'Max Mustermann',
+        ];
 
         $xml_array = $this->service->export([$payment_order], $options);
         $xml = $xml_array['Max Mustermann'];
@@ -79,7 +82,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $dom = XML::load($xml);
 
         //Extract message ID from DOM and assert its contents
-        /** @var \DOMElement $msg_id */
+        /** @var DOMElement $msg_id */
         $msg_id = $dom->getElementsByTagName('MsgId')[0];
         static::assertRegExp('/StuRa Export \w{13}/', $msg_id->nodeValue);
 
@@ -96,7 +99,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => 'DE97 6605 0101 0000 1234 56',
             'bic' => 'KARSDE66XXX',
             'name' => 'Max Mustermann',
-            'mode' => 'manual'
+            'mode' => 'manual',
         ];
 
         $xml_array = $this->service->export([$payment_order], $options);
@@ -105,7 +108,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $xml = $xml_array['Max Mustermann'];
 
         $this->assertSEPAXMLSchema($xml);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_manual_single_payment.xml', $xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_manual_single_payment.xml', $xml);
     }
 
     public function testExportManualMultiplePayments(): void
@@ -116,13 +119,14 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => 'DE97 6605 0101 0000 1234 56',
             'bic' => 'KARSDE66XXX',
             'name' => 'Max Mustermann',
-            'mode' => 'manual'
+            'mode' => 'manual',
         ];
 
         $payment_orders = [$payment_order1, $payment_order2, $payment_order3];
 
         //It must also work if a payment order has a department without bank account
-        $payment_order1->getDepartment()->setBankAccount(null);
+        $payment_order1->getDepartment()
+            ->setBankAccount(null);
 
         $xml_array = $this->service->export($payment_orders, $options);
         //Exactly 1 XML file should be generated
@@ -130,7 +134,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $xml = $xml_array['Max Mustermann'];
 
         $this->assertSEPAXMLSchema($xml);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_manual_multiple_payments.xml', $xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_manual_multiple_payments.xml', $xml);
     }
 
     public function testAutoModeNotPossibleException(): void
@@ -139,7 +143,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         [$payment_order,] = $this->getTestPaymentOrders();
 
         $department = new Department();
-        $department->setName("Test Department");
+        $department->setName('Test Department');
         //No default bank account is defined
         $department->setBankAccount(null);
         $payment_order->setDepartment($department);
@@ -148,7 +152,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => null,
             'bic' => null,
             'name' => 'Test',
-            'mode' => 'auto'
+            'mode' => 'auto',
         ];
 
         //The export attempt must throw an exception
@@ -165,7 +169,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => null,
             'bic' => null,
             'name' => 'Test',
-            'mode' => 'auto_single'
+            'mode' => 'auto_single',
         ];
 
         $xml_array = $this->service->export($payment_orders, $options);
@@ -174,13 +178,13 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         static::assertCount(3, $xml_array);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0001']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001.xml', $xml_array['ZA0001']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001.xml', $xml_array['ZA0001']);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0002']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0002.xml', $xml_array['ZA0002']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml_array['ZA0002']);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0003']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
     }
 
     public function testAutoSingleModeFSRKom(): void
@@ -194,7 +198,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => null,
             'bic' => null,
             'name' => 'Test',
-            'mode' => 'auto_single'
+            'mode' => 'auto_single',
         ];
 
         $xml_array = $this->service->export($payment_orders, $options);
@@ -203,13 +207,13 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         static::assertCount(3, $xml_array);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0001']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001_fsrkom.xml', $xml_array['ZA0001']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001_fsrkom.xml', $xml_array['ZA0001']);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0002']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0002.xml', $xml_array['ZA0002']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml_array['ZA0002']);
 
         $this->assertSEPAXMLSchema($xml_array['ZA0003']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml_array['ZA0003']);
     }
 
     public function testAutoMode(): void
@@ -220,7 +224,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             'iban' => null,
             'bic' => null,
             'name' => 'Test',
-            'mode' => 'auto'
+            'mode' => 'auto',
         ];
 
         $xml_array = $this->service->export($payment_orders, $options);
@@ -229,10 +233,10 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         static::assertCount(2, $xml_array);
 
         $this->assertSEPAXMLSchema($xml_array['Max Mustermann']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_max_mustermann.xml', $xml_array['Max Mustermann']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_max_mustermann.xml', $xml_array['Max Mustermann']);
 
         $this->assertSEPAXMLSchema($xml_array['Bank Account 2']);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_bank_account_2.xml', $xml_array['Bank Account 2']);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_bank_account_2.xml', $xml_array['Bank Account 2']);
     }
 
     public function testExportSinglePaymentOrderManual(): void
@@ -240,14 +244,14 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         [$payment_order,] = $this->getTestPaymentOrders();
 
         $xml = $this->service->exportSinglePaymentOrder($payment_order,
-                                                        'Max Mustermann',
-                                                        'DE97 6605 0101 0000 1234 56',
-                                                        'KARSDE66XXX'
+            'Max Mustermann',
+            'DE97 6605 0101 0000 1234 56',
+            'KARSDE66XXX'
         );
 
         //We use the same input data as in testManualSinglePayment() so it must produce the same data
         $this->assertSEPAXMLSchema($xml);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_manual_single_payment.xml', $xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_manual_single_payment.xml', $xml);
     }
 
     public function testExportSinglePaymentOrderAuto(): void
@@ -257,7 +261,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
         //We use the same input data as in testAutoSingleMode() so it must produce the same data
         $this->assertSEPAXMLSchema($xml);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001.xml', $xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001.xml', $xml);
     }
 
     public function testExportSinglePaymentOrderAutoFSRKom(): void
@@ -270,12 +274,13 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
         //We use the same input data as in testAutoSingleMode() so it must produce the same data
         $this->assertSEPAXMLSchema($xml);
-        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir . '/export_auto_single_ZA0001_fsrkom.xml', $xml);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001_fsrkom.xml', $xml);
     }
 
     /**
      * Returns an array of 3 PaymentOrders that can be used for testing.
      * They have associated departments and bank accounts.
+     *
      * @return PaymentOrder[]
      */
     private function getTestPaymentOrders(): array
@@ -320,6 +325,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
     /**
      * Returns an array of 3 Departments that have an bankAccount associated.
+     *
      * @return Department[]
      */
     private function getTestDepartments(): array
@@ -343,12 +349,13 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
     /**
      * Returns an array of 3 BankAccounts that can be used for testing.
+     *
      * @return BankAccount[]
      */
     private function getTestBankAccounts(): array
     {
         //Bank accounts must have an ID or grouping will not work...
-        $bank_account1 = new class extends BankAccount {
+        $bank_account1 = new class() extends BankAccount {
             public function getId(): ?int
             {
                 return 1;
@@ -359,7 +366,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             ->setBic('KARSDE66XXX')
             ->setAccountName('Max Mustermann');
 
-        $bank_account2 = new class extends BankAccount {
+        $bank_account2 = new class() extends BankAccount {
             public function getId(): ?int
             {
                 return 2;
@@ -378,15 +385,15 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     {
         $actual = Xml::load($actualXml);
         static::assertTrue(
-            $actual->schemaValidate($this->data_dir . '/pain.001.001.03.xsd'),
-            "Generated output does not match pain.001.001.03 schema!"
+            $actual->schemaValidate($this->data_dir.'/pain.001.001.03.xsd'),
+            'Generated output does not match pain.001.001.03 schema!'
         );
     }
 
     protected static function assertSEPAXMLStringEqualsXMLFile(string $expectedFile, string $actualXml, string $message = ''): void
     {
         $expected = Xml::loadFile($expectedFile);
-        $actual   = Xml::load($actualXml);
+        $actual = Xml::load($actualXml);
 
         self::normalizeSEPAXML($expected);
         self::normalizeSEPAXML($actual);
@@ -397,35 +404,34 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     /**
      * Normalizes the given SEPA-XML by changing MsgID, PmtInfId and ReqdExctnDt to a common value.
      * This way SEPA XML files can be compared.
-     * @param  \DOMDocument  $sepaXML
      */
-    protected static function normalizeSEPAXML(\DOMDocument $sepaXML): void
+    protected static function normalizeSEPAXML(DOMDocument $sepaXML): void
     {
         //Normalize MessageID
-        $msg_ids = $sepaXML->getElementsByTagName("MsgId");
+        $msg_ids = $sepaXML->getElementsByTagName('MsgId');
         foreach ($msg_ids as $msg_id) {
-            /** @var \DOMNode $msg_id */
-            $msg_id->nodeValue = "Message ID";
+            /** @var DOMNode $msg_id */
+            $msg_id->nodeValue = 'Message ID';
         }
 
         //Normalize Creation date
-        $dates = $sepaXML->getElementsByTagName("CreDtTm");
+        $dates = $sepaXML->getElementsByTagName('CreDtTm');
         foreach ($dates as $date) {
-            /** @var \DOMNode $date */
-            $date->nodeValue = "2020-12-29T14:15:09Z";
+            /** @var DOMNode $date */
+            $date->nodeValue = '2020-12-29T14:15:09Z';
         }
 
         //Normalize execution date
-        $dates = $sepaXML->getElementsByTagName("ReqdExctnDt");
+        $dates = $sepaXML->getElementsByTagName('ReqdExctnDt');
         foreach ($dates as $date) {
-            /** @var \DOMNode $date */
-            $date->nodeValue = "2020-12-29";
+            /** @var DOMNode $date */
+            $date->nodeValue = '2020-12-29';
         }
 
         //Payment Info ID
         $pmts = $sepaXML->getElementsByTagName('PmtInfId');
         foreach ($pmts as $pmt) {
-            /** @var \DOMNode $pmt */
+            /** @var DOMNode $pmt */
             $pmt->nodeValue = 'Payment';
         }
     }

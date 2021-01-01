@@ -18,11 +18,14 @@
 
 namespace App\Services\PDF;
 
+use DateTime;
+use IntlDateFormatter;
+use TCPDF;
+
 /**
  * A TCPDF class configured to create a PDF document with StuRa header.
- * @package App\Services\PDF
  */
-class SturaPDF extends \TCPDF
+class SturaPDF extends TCPDF
 {
     public function Header()
     {
@@ -34,15 +37,13 @@ class SturaPDF extends \TCPDF
         // Set font
         $this->SetFont('helvetica', '', 9);
         $this->setY(35);
-        $this->writeHTMLCell(0,0, 100, 50, '<h2>Studierendenrat</h2>');
-        $this->writeHTMLCell(0,0, 145, 55, 'Carl-Zeiss-Straße 3');
-        $this->writeHTMLCell(0,0, 145, 60, '07747 Jena');
-
+        $this->writeHTMLCell(0, 0, 100, 50, '<h2>Studierendenrat</h2>');
+        $this->writeHTMLCell(0, 0, 145, 55, 'Carl-Zeiss-Straße 3');
+        $this->writeHTMLCell(0, 0, 145, 60, '07747 Jena');
 
         // Title
         //$this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
         //$this->writeHTML($image_file);
-
     }
 
     public function Footer()
@@ -54,9 +55,9 @@ class SturaPDF extends \TCPDF
         // Page number
         $this->Cell(0, 10, 'Seite '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'L');
 
-        $formatter = new \IntlDateFormatter('de-DE', \IntlDateFormatter::SHORT, \IntlDateFormatter::MEDIUM);
+        $formatter = new IntlDateFormatter('de-DE', IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
 
-        $this->Cell(0, 10, 'Erzeugt ' . $formatter->format(new \DateTime()), 0, false, 'R');
+        $this->Cell(0, 10, 'Erzeugt '.$formatter->format(new DateTime()), 0, false, 'R');
 
         //$this->Cell(0, 0, 'Seite '.$this->getAliasNumPage().'/'.$this->getAliasNbPages());
     }

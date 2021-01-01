@@ -18,7 +18,6 @@
 
 namespace App\Tests\Services\TFA;
 
-
 use App\Entity\User;
 use App\Services\TFA\BackupCodeManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

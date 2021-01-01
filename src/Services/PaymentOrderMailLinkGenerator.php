@@ -18,16 +18,15 @@
 
 namespace App\Services;
 
-
 use App\Controller\Admin\PaymentOrderCrudController;
 use App\Entity\PaymentOrder;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
+use LogicException;
 use SteveGrunwell\MailToLinkFormatter\MailTo;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * This service generates email links for a payment order, including adresses, subject and body
- * @package App\Services
+ * This service generates email links for a payment order, including adresses, subject and body.
  */
 class PaymentOrderMailLinkGenerator
 {
@@ -47,22 +46,23 @@ class PaymentOrderMailLinkGenerator
      * Generates a "mailto:" string to contact the HHV for the given payment order. It includes a link to the payment
      * order.
      * If no payment order is passed (null) only the mailto: link for the HHV email is returned.
-     * @param  PaymentOrder|null  $paymentOrder
-     * @return string
      */
     public function getHHVMailLink(?PaymentOrder $paymentOrder = null): string
     {
-
         $mailTo = new MailTo();
         $mailTo->setRecipients($this->hhv_email);
 
-        if ($paymentOrder !== null) {
+        if (null !== $paymentOrder) {
             //Add subject
             $mailTo->setHeader('subject', $this->getSubject($paymentOrder));
 
-            $content = 'Link: ' .
-                    $this->crudUrlGenerator->build()->setController(PaymentOrderCrudController::class)
-                        ->setEntityId($paymentOrder->getId())->setAction('detail')->removeReferrer()->unset('filters');
+            $content = 'Link: '.
+                $this->crudUrlGenerator->build()
+                    ->setController(PaymentOrderCrudController::class)
+                    ->setEntityId($paymentOrder->getId())
+                    ->setAction('detail')
+                    ->removeReferrer()
+                    ->unset('filters');
 
             $mailTo->setBody($content);
         }
@@ -73,8 +73,6 @@ class PaymentOrderMailLinkGenerator
     /**
      * Generates a "mailto:" string to contact the responsible people for the given payment order.
      * Returns null, if no contact emails are associated with the department.
-     * @param  PaymentOrder  $paymentOrder
-     * @return string
      */
     public function generateContactMailLink(PaymentOrder $paymentOrder): string
     {
@@ -85,7 +83,7 @@ class PaymentOrderMailLinkGenerator
         } elseif (!empty($paymentOrder->getDepartment()->getContactEmails())) {
             $mailTo->setRecipients($paymentOrder->getDepartment()->getContactEmails());
         } else {
-            throw new \LogicException("No recipeint could be determined for this payment order!");
+            throw new LogicException('No recipeint could be determined for this payment order!');
         }
 
         $mailTo->setHeader('subject', $this->getSubject($paymentOrder));
@@ -94,16 +92,15 @@ class PaymentOrderMailLinkGenerator
     }
 
     /**
-     * Determines a good subject for an email
-     * @param  PaymentOrder  $paymentOrder
-     * @return string
+     * Determines a good subject for an email.
      */
     protected function getSubject(PaymentOrder $paymentOrder): string
     {
         return sprintf(
-            "%s - %s: %s [%s]",
+            '%s - %s: %s [%s]',
             $this->translator->trans('payment_order.mail.subject'),
-            $paymentOrder->getDepartment()->getName(),
+            $paymentOrder->getDepartment()
+                ->getName(),
             $paymentOrder->getProjectName(),
             $paymentOrder->getIDString()
         );

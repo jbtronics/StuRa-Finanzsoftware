@@ -37,7 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/tests',
     ]);
 
-    /*$parameters->set(Option::SKIP, [
+    $parameters->set(Option::SKIP, [
         LineLengthFixer::class => null
-    ]);*/
+    ]);
 };

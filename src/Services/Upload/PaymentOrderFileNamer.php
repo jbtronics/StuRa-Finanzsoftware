@@ -18,8 +18,10 @@
 
 namespace App\Services\Upload;
 
-
 use App\Entity\PaymentOrder;
+use InvalidArgumentException;
+use function pathinfo;
+use function strtolower;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
@@ -28,43 +30,37 @@ use Vich\UploaderBundle\Naming\NamerInterface;
 /**
  * Use a custom namer to create file names which are useful when viewing the directory structure.
  * It contains the department, current date and the project name all in slugged form.
- * @package App\Services\Upload
  */
 class PaymentOrderFileNamer implements NamerInterface
 {
-
     public function name($object, PropertyMapping $mapping): string
     {
         if (!$object instanceof PaymentOrder) {
-            throw new \InvalidArgumentException('$object must be an PaymentOrder!');
+            throw new InvalidArgumentException('$object must be an PaymentOrder!');
         }
 
         $file = $mapping->getFile($object);
-        if($file instanceof UploadedFile) {
+        if ($file instanceof UploadedFile) {
             $originalName = $file->getClientOriginalName();
         } else {
-            throw new \InvalidArgumentException('$file must be an UploadedFile instance!');
+            throw new InvalidArgumentException('$file must be an UploadedFile instance!');
         }
-        $originalExtension = \strtolower(\pathinfo($originalName, PATHINFO_EXTENSION));
-        $originalBasename = \pathinfo($originalName, PATHINFO_FILENAME);
+        $originalExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $originalBasename = pathinfo($originalName, PATHINFO_FILENAME);
 
         $slugger = new AsciiSlugger();
 
-        $filename = mb_strimwidth($slugger->slug($object->getDepartment()->getName() ?? 'unknown'),0, 16);
+        $filename = mb_strimwidth($slugger->slug($object->getDepartment()->getName() ?? 'unknown'), 0, 16);
 
-        $filename .= '_' . mb_strimwidth($slugger->slug($object->getProjectName()), 0, 16);
+        $filename .= '_'.mb_strimwidth($slugger->slug($object->getProjectName()), 0, 16);
 
-        $filename .= '_' . date('ymd-His');
+        $filename .= '_'.date('ymd-His');
 
-
-        $filename .= '_' . bin2hex(random_bytes(5));
-
+        $filename .= '_'.bin2hex(random_bytes(5));
 
         //Add original extension
-        $filename .= '.' . $originalExtension;
+        $filename .= '.'.$originalExtension;
 
         return $filename;
     }
-
-
 }
