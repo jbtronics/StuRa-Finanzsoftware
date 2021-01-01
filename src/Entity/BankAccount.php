@@ -198,7 +198,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
 
     /**
      * Return a comment that can be used to describe this bank account more detailed.
-     * @param  null  $new_comment
+     * @param  string  $new_comment
      * @return $this
      */
     public function setComment(string $new_comment): BankAccount

@@ -22,6 +22,7 @@ namespace App\Services;
 use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
+use Digitick\Sepa\DomBuilder\BaseDomBuilder;
 use Digitick\Sepa\DomBuilder\DomBuilderFactory;
 use Digitick\Sepa\GroupHeader;
 use Digitick\Sepa\PaymentInformation;
@@ -105,6 +106,10 @@ class PaymentOrdersSEPAExporter
             // Or if you want to use the format 'pain.001.001.03' instead
             $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
 
+            if(!$domBuilder instanceof BaseDomBuilder) {
+                throw new \InvalidArgumentException('$domBuilder must be an BaseDomBuilder instance!');
+            }
+
             $return[$account_info['name']] = $domBuilder->asXml();
         }
 
@@ -154,6 +159,10 @@ class PaymentOrdersSEPAExporter
         // Or if you want to use the format 'pain.001.001.03' instead
         $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
 
+        if(!$domBuilder instanceof BaseDomBuilder) {
+            throw new \InvalidArgumentException('$domBuilder must be an BaseDomBuilder instance!');
+        }
+
         return $domBuilder->asXml();
     }
 
@@ -182,8 +191,8 @@ class PaymentOrdersSEPAExporter
 
     /**
      * Add the given PaymentOrders as transactions to the SEPA PaymentInformation group
-     * @param  PaymentInformation  $paymentInformation
-     * @param  PaymentOrder[]  $payment_orderss
+     * @param  PaymentInformation  $payment
+     * @param  PaymentOrder[]  $payment_orders
      */
     protected function addPaymentOrderTransactions(PaymentInformation $payment, array $payment_orders): void
     {
@@ -244,7 +253,7 @@ class PaymentOrdersSEPAExporter
 
     /**
      * Get Bank account for PaymentOrder and resolve FSR-Kom bank account if needed.
-     * @param  PaymentOrder  $paymentOrder
+     * @param  PaymentOrder  $payment_order
      * @return BankAccount
      */
     protected function getResolvedBankAccount(PaymentOrder $payment_order): BankAccount

@@ -57,7 +57,7 @@ class UserChangePasswordCommand extends Command
         $username = $input->getArgument('username');
 
         $repo = $this->entityManager->getRepository(User::class);
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $repo->findOneBy(['username' => $username]);
 
         if ($user === null) {

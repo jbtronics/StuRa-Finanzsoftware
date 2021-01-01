@@ -86,7 +86,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
     private $password;
 
     /**
-     * @var string
+     * @var string|null
      * @Assert\Length(min=6)
      */
     private $plain_password = null;
@@ -200,9 +200,10 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      * Not used
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**

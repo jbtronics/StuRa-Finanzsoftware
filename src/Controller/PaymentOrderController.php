@@ -29,6 +29,7 @@ use App\Services\PDF\PaymentOrderPDFGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,6 +54,10 @@ class PaymentOrderController extends AbstractController
         $new_order = new PaymentOrder();
 
         $form = $this->createForm(PaymentOrderType::class, $new_order);
+
+        if(!$form instanceof Form) {
+            throw new \InvalidArgumentException('$form must be a Form object!');
+        }
 
         $form->handleRequest($request);
 

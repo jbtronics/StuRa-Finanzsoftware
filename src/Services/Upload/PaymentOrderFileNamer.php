@@ -20,6 +20,7 @@ namespace App\Services\Upload;
 
 
 use App\Entity\PaymentOrder;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\NamerInterface;
@@ -39,7 +40,11 @@ class PaymentOrderFileNamer implements NamerInterface
         }
 
         $file = $mapping->getFile($object);
-        $originalName = $file->getClientOriginalName();
+        if($file instanceof UploadedFile) {
+            $originalName = $file->getClientOriginalName();
+        } else {
+            throw new \InvalidArgumentException('$file must be an UploadedFile instance!');
+        }
         $originalExtension = \strtolower(\pathinfo($originalName, PATHINFO_EXTENSION));
         $originalBasename = \pathinfo($originalName, PATHINFO_FILENAME);
 

@@ -42,7 +42,7 @@ class Fail2BanSubscriber implements EventSubscriberInterface
     private $request;
 
     /**
-     * @param LoggerInterface $logger
+     * @param LoggerInterface $fail2banLogger
      * @param RequestStack $request
      */
     public function __construct(LoggerInterface $fail2banLogger, RequestStack $request)
