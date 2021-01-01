@@ -135,6 +135,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "ekino/phpstan-banned-code": {
+        "version": "v0.3.1"
+    },
     "endroid/qr-code": {
         "version": "3.8.2"
     },
@@ -233,6 +236,18 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.1.0"
+    },
+    "phpstan/extension-installer": {
+        "version": "1.1.0"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.64"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.26"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.12"
     },
     "psr/cache": {
         "version": "1.0.1"

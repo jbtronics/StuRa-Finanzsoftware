@@ -57,14 +57,19 @@
         "vich/uploader-bundle": "^1.15"
     },
     "require-dev": {
+        "ext-dom": "*",
         "dama/doctrine-test-bundle": "^6.5",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "ekino/phpstan-banned-code": "^0.3.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.64",
+        "phpstan/phpstan-doctrine": "^0.12.26",
+        "phpstan/phpstan-symfony": "^0.12.12",
         "roave/security-advisories": "dev-master",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
-        "ext-dom": "*"
+        "symfony/test-pack": "*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -107,7 +112,8 @@
         "post-update-cmd": [
             "@auto-scripts",
             "SlowProg\\CopyFile\\ScriptHandler::copy"
-        ]
+        ],
+        "phpstan": "vendor/bin/phpstan analyse src --level 2 --memory-limit 1G"
     },
     "conflict": {
         "symfony/symfony": "*"
