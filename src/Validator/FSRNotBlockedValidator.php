@@ -40,13 +40,14 @@ class FSRNotBlockedValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, FSRNotBlocked::class);
         }
 
+        if (null === $value || '' === $value) {
+            return;
+        }
+
         if (!$value instanceof Department) {
             throw new UnexpectedTypeException($value, Department::class);
         }
 
-        if (null === $value || '' === $value) {
-            return;
-        }
 
 
         if ($value->isBlocked()) {

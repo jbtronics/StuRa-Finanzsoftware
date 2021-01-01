@@ -31,6 +31,7 @@ class PayeeInfoType extends AbstractType
     {
         $builder->add('account_owner', TextType::class, [
             'label' => 'bank_info.account_owner.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.account_owner.placeholder',
                 'autocomplete' => 'name',
@@ -39,6 +40,7 @@ class PayeeInfoType extends AbstractType
 
         $builder->add('street', TextType::class, [
             'label' => 'bank_info.street.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.street.placeholder',
                 'autocomplete' => 'street-address',
@@ -47,6 +49,7 @@ class PayeeInfoType extends AbstractType
 
         $builder->add('zip_code', TextType::class, [
             'label' => 'bank_info.zip_code.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.zip_code.placeholder',
                 'autocomplete' => 'postal_code',
@@ -55,6 +58,7 @@ class PayeeInfoType extends AbstractType
 
         $builder->add('city', TextType::class, [
             'label' => 'bank_info.city.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.city.placeholder',
                 'autocomplete' => 'address-level2',
@@ -63,6 +67,7 @@ class PayeeInfoType extends AbstractType
 
         $builder->add('iban', TextType::class, [
             'label' => 'bank_info.iban.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.iban.placeholder'
             ]

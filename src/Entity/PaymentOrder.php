@@ -201,7 +201,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     /**
      * @Vich\UploadableField(mapping="payment_orders_references", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
      * @var \Symfony\Component\HttpFoundation\File\File|null
-     *
+     * @Assert\NotBlank(groups={"frontend"})
      * @Assert\File(
      *     maxSize = "10M",
      *     mimeTypes = {"application/pdf", "application/x-pdf"},
@@ -212,7 +212,6 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
     /**
      * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
-     *
      * @var File
      */
     private $references;

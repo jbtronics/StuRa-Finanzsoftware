@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\BankAccount;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class BankAccountFixture extends Fixture
@@ -12,8 +13,18 @@ class BankAccountFixture extends Fixture
     public const BANK_ACCOUNT2_REFERENCE = "bank_account2";
     public const BANK_ACCOUNT3_REFERENCE = "bank_account3";
 
+    protected $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
     public function load(ObjectManager $manager)
     {
+        //Reset autoincrement
+        $this->em->getConnection()->exec('ALTER TABLE `departments` AUTO_INCREMENT = 1;');
+
         $account = new BankAccount();
         $account->setName('Bank Account 1');
         $account->setIban("DE56500105174413384824");

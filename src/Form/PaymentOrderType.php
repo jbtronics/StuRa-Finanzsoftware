@@ -40,6 +40,7 @@ class PaymentOrderType extends AbstractType
     {
         $builder->add('first_name', TextType::class, [
             'label' => 'payment_order.first_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.first_name.placeholder',
                 'autocomplete' => 'given_name',
@@ -48,6 +49,7 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('last_name', TextType::class, [
             'label' => 'payment_order.last_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.last_name.placeholder',
                 'autocomplete' => 'family_name',
@@ -56,6 +58,7 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('contact_email', EmailType::class, [
             'label' => 'payment_order.contact_email.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.contact_email.placeholder',
                 'autocomplete' => 'email',
@@ -64,6 +67,7 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('project_name', TextType::class, [
             'label' => 'payment_order.project_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.project_name.placeholder',
             ],
@@ -151,5 +155,6 @@ class PaymentOrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('data_class', PaymentOrder::class);
+        $resolver->setDefault('validation_groups', ['Default', 'frontend']);
     }
 }
