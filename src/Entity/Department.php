@@ -211,7 +211,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName() ?? 'unknown';
     }
@@ -242,11 +242,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function getContactEmails(): array
     {
         //Handle empty fields from older migrations
-        if (null === $this->contact_emails) {
-            return [];
-        }
-
-        return $this->contact_emails;
+        return $this->contact_emails ?? [];
     }
 
     /**
@@ -291,11 +287,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function getEmailHhv(): array
     {
         //Handle empty fields from older migrations
-        if (null === $this->email_hhv) {
-            return [];
-        }
-
-        return $this->email_hhv;
+        return $this->email_hhv ?? [];
     }
 
     /**
@@ -318,11 +310,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function getEmailTreasurer(): array
     {
         //Handle empty fields from older migrations
-        if (null === $this->email_treasurer) {
-            return [];
-        }
-
-        return $this->email_treasurer;
+        return $this->email_treasurer ?? [];
     }
 
     /**

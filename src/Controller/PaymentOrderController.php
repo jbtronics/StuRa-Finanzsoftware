@@ -75,7 +75,9 @@ class PaymentOrderController extends AbstractController
                 //Otherwise create a new form for further ones
                 if ('submit' === $form->getClickedButton()->getName()) {
                     return $this->redirectToRoute('homepage');
-                } elseif ('submit_new' === $form->getClickedButton()->getName()) {
+                }
+
+                if ('submit_new' === $form->getClickedButton()->getName()) {
                     $old_order = $new_order;
                     $new_order = new PaymentOrder();
                     $this->copyProperties($old_order, $new_order);
@@ -108,7 +110,7 @@ class PaymentOrderController extends AbstractController
     public function confirmation(PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
     {
         //Check if we have one of the valid confirm numbers
-        $confirm_step = $request->query->getInt('confirm', 0);
+        $confirm_step = $request->query->getInt('confirm');
         if (1 !== $confirm_step && 2 !== $confirm_step) {
             //$this->createNotFoundException('Invalid confirmation step! Only 1 or 2 are allowed.');
             $this->addFlash('error', 'payment_order.confirmation.invalid_step');

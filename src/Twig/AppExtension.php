@@ -23,7 +23,7 @@ use Twig\TwigFilter;
 
 class AppExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('formatBytes', [$this, 'formatBytes']),
@@ -40,6 +40,6 @@ class AppExtension extends AbstractExtension
         $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$precision}f", $bytes / pow(1024, $factor)).@$size[$factor];
+        return sprintf("%.{$precision}f", $bytes / (1024 ** $factor)).@$size[$factor];
     }
 }

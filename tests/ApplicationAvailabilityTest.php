@@ -40,7 +40,7 @@ class ApplicationAvailabilityTest extends WebTestCase
 
         $client->request('GET', $url);
 
-        $this->assertTrue($client->getResponse()->isSuccessful(), 'Request not successful. Status code is '.$client->getResponse()->getStatusCode());
+        self::assertTrue($client->getResponse()->isSuccessful(), 'Request not successful. Status code is '.$client->getResponse()->getStatusCode());
     }
 
     public function publicPagesProvider(): ?Generator

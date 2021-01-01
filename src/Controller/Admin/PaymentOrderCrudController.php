@@ -62,13 +62,12 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function __construct(PaymentOrderMailLinkGenerator $mailToGenerator,
         DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
-        ConfirmationEmailSender $confirmationEmailSender, RequestStack $requestStack)
+        ConfirmationEmailSender $confirmationEmailSender)
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
         $this->confirmationEmailSender = $confirmationEmailSender;
 
-        $this->request = $requestStack->getCurrentRequest();
         $this->entityManager = $entityManager;
     }
 

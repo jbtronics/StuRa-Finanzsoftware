@@ -126,7 +126,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertEmailCount(0);
     }
 
-    public function testResendConfirmationsAlreadyConfirmed()
+    public function testResendConfirmationsAlreadyConfirmed(): void
     {
         $department = new Department();
         $department
@@ -149,7 +149,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertSame('test', $payment_order->getConfirm2Token());
     }
 
-    public function testResendConfirmationsSend2Emails()
+    public function testResendConfirmationsSend2Emails(): void
     {
         $department = new Department();
         $department
@@ -163,7 +163,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertEmailCount(2);
     }
 
-    public function testResendConfirmationsSend1Email()
+    public function testResendConfirmationsSend1Email(): void
     {
         $department = new Department();
         $department

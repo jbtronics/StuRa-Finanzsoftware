@@ -42,10 +42,9 @@ class DashboardController extends AbstractDashboardController
     private $crud_url_generator;
     private $gitVersionInfo;
 
-    public function __construct(string $app_version, CrudUrlGenerator $crudUrlGenerator, GitVersionInfo $gitVersionInfo)
+    public function __construct(string $app_version, GitVersionInfo $gitVersionInfo)
     {
         $this->app_version = $app_version;
-        $this->crud_url_generator = $crudUrlGenerator;
         $this->gitVersionInfo = $gitVersionInfo;
     }
 

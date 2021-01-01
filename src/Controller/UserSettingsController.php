@@ -112,7 +112,7 @@ class UserSettingsController extends AbstractController
     /**
      * @Route("/2fa_backup_codes", name="show_backup_codes")
      */
-    public function showBackupCodes()
+    public function showBackupCodes(): Response
     {
         $user = $this->getUser();
 
@@ -137,7 +137,7 @@ class UserSettingsController extends AbstractController
     /**
      * @Route("/regenerate_backup_codes", name="tfa_regenerate_backup_codes", methods={"DELETE"})
      */
-    public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager)
+    public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
 
@@ -164,7 +164,7 @@ class UserSettingsController extends AbstractController
      *
      * RedirectResponse
      */
-    public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager)
+    public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
 

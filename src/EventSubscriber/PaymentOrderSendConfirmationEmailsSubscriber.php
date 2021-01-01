@@ -39,7 +39,7 @@ class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInt
         $this->confirmationSender->sendConfirmation2($paymentOrder);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             PaymentOrderSubmittedEvent::NAME => [

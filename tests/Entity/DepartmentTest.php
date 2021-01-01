@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class DepartmentTest extends TestCase
 {
-    public function testIsFSR()
+    public function testIsFSR(): void
     {
         $department = new Department();
         $department->setType(Department::TYPE_FSR);
@@ -36,7 +36,7 @@ class DepartmentTest extends TestCase
         self::assertFalse($department->isFSR());
     }
 
-    public function testIsAdministrative()
+    public function testIsAdministrative(): void
     {
         $department = new Department();
         $department->setType(Department::TYPE_FSR);
@@ -49,7 +49,7 @@ class DepartmentTest extends TestCase
         self::assertFalse($department->isAdministrative());
     }
 
-    public function testIsSection()
+    public function testIsSection(): void
     {
         $department = new Department();
         $department->setType(Department::TYPE_FSR);

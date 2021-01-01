@@ -35,7 +35,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $this->data_dir = realpath(__DIR__.'/../data/form');
     }
 
-    public function testNewFormSubmit()
+    public function testNewFormSubmit(): void
     {
         $client = self::createClient();
         $client->catchExceptions(false);
@@ -75,7 +75,7 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertNotNull($new_payment_order->getPrintedFormFile());
     }
 
-    public function testNewFormSubmitAndNew()
+    public function testNewFormSubmitAndNew(): void
     {
         $client = self::createClient();
         $client->catchExceptions(false);
@@ -96,7 +96,7 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertEmailCount(3);
     }
 
-    public function testNewFormEmptySubmit()
+    public function testNewFormEmptySubmit(): void
     {
         $client = self::createClient();
         $client->catchExceptions(false);
@@ -145,7 +145,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $form['payment_order[references_file][file]']->upload($this->data_dir.'/upload.pdf');
     }
 
-    public function testConfirmation()
+    public function testConfirmation(): void
     {
     }
 }

@@ -189,7 +189,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     /**
@@ -292,7 +292,7 @@ class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, Tr
      *
      * @return User
      */
-    public function setLastName(string $last_name)
+    public function setLastName(string $last_name): User
     {
         $this->last_name = $last_name;
 

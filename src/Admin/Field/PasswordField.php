@@ -30,7 +30,7 @@ class PasswordField implements FieldInterface
 {
     use FieldTrait;
 
-    public static function new(string $propertyName, ?string $label = null)
+    public static function new(string $propertyName, ?string $label = null): PasswordField
     {
         return (new self())
             ->setProperty($propertyName)

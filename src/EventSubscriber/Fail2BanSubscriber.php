@@ -52,7 +52,7 @@ class Fail2BanSubscriber implements EventSubscriberInterface
         $this->logger->error('Authentication failed for IP: '.$ipAddress);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             AuthenticationEvents::AUTHENTICATION_FAILURE => [

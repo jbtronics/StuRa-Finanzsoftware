@@ -288,7 +288,7 @@ class PaymentOrdersSEPAExporter
 
         $resolver->setNormalizer('iban', function (Options $options, $value) {
             if (null === $value) {
-                return $value;
+                return null;
             }
             //Return spaces from IBAN
             return str_replace(' ', '', $value);

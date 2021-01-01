@@ -89,7 +89,7 @@ class PaymentOrderPDFGenerator
         return $pdf->Output('doc.pdf', 'S');
     }
 
-    private function addSignatureField(TCPDF $pdf, string $content, bool $ln = true, string $align = 'L')
+    private function addSignatureField(TCPDF $pdf, string $content, bool $ln = true, string $align = 'L'): void
     {
         $pdf->writeHTML('_____________________________________________<br><small>'.$content.'</small>', $ln, false, false, false, $align);
     }

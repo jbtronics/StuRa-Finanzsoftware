@@ -127,7 +127,9 @@ class DepartmentCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $type, $blocked, $contact_emails];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        }
+
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $name, $type, $blocked, $comment, $contact_emails, $bank_account, $creationDate, $lastModified, $section, $email_hhv, $email_treasurer];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];

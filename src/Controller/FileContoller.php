@@ -68,7 +68,7 @@ class FileContoller extends AbstractController
         //Check if a valid confirmation token was given, then give access without proper role
         if ($request->query->has('token') && $request->query->has('confirm')) {
             //Check if we have one of the valid confirm numbers
-            $confirm_step = $request->query->getInt('confirm', 0);
+            $confirm_step = $request->query->getInt('confirm');
             if (1 !== $confirm_step && 2 !== $confirm_step) {
                 throw new RuntimeException('Invalid value for confirm! Expected 1 or 2');
             }

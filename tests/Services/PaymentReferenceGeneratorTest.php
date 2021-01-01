@@ -37,7 +37,7 @@ class PaymentReferenceGeneratorTest extends WebTestCase
         $this->service = self::$container->get(PaymentReferenceGenerator::class);
     }
 
-    public function testSetPaymentReference()
+    public function testSetPaymentReference(): void
     {
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder(1);
         $department = new Department();

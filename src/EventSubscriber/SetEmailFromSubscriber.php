@@ -70,7 +70,7 @@ final class SetEmailFromSubscriber implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             // should be the last one to allow header changes by other listeners first
