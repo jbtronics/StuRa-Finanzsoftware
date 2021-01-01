@@ -1837,16 +1837,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.24",
+            "version": "2.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "ca90a3291eee1538cd48ff25163240695bd95448"
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ca90a3291eee1538cd48ff25163240695bd95448",
-                "reference": "ca90a3291eee1538cd48ff25163240695bd95448",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0dbf5d78455d4d6a41d186da50adc1122ec066f4",
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4",
                 "shasum": ""
             },
             "require": {
@@ -1893,7 +1893,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/2.1.24"
+                "source": "https://github.com/egulias/EmailValidator/tree/2.1.25"
             },
             "funding": [
                 {
@@ -1901,7 +1901,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-14T15:56:27+00:00"
+            "time": "2020-12-29T14:50:06+00:00"
         },
         {
             "name": "endroid/qr-code",
@@ -2049,20 +2049,20 @@
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/proxy-manager-lts.git",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15"
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
+                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-code": "^3.4.1",
+                "laminas/laminas-code": "^3.4.1|^4.0",
                 "php": ">=7.1",
                 "symfony/filesystem": "^4.4.17|^5.0"
             },
@@ -2115,7 +2115,7 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/proxy-manager-lts/issues",
-                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.0"
+                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -2127,7 +2127,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-22T15:47:11+00:00"
+            "time": "2020-12-28T10:50:10+00:00"
         },
         {
             "name": "jms/metadata",
@@ -3710,16 +3710,16 @@
         },
         {
             "name": "scheb/2fa-backup-code",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-backup-code.git",
-                "reference": "808bee99119329773f348fd7011466234fd3e25c"
+                "reference": "0564df71684a006181166e730e1322043e9336ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-backup-code/zipball/808bee99119329773f348fd7011466234fd3e25c",
-                "reference": "808bee99119329773f348fd7011466234fd3e25c",
+                "url": "https://api.github.com/repos/scheb/2fa-backup-code/zipball/0564df71684a006181166e730e1322043e9336ca",
+                "reference": "0564df71684a006181166e730e1322043e9336ca",
                 "shasum": ""
             },
             "require": {
@@ -3752,22 +3752,22 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-backup-code/tree/v5.2.1"
+                "source": "https://github.com/scheb/2fa-backup-code/tree/v5.3.0"
             },
-            "time": "2020-10-27T19:05:19+00:00"
+            "time": "2020-12-31T11:27:00+00:00"
         },
         {
             "name": "scheb/2fa-bundle",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-bundle.git",
-                "reference": "9defda6e5f39ab3ea542de5b7be07eaeb9c78da7"
+                "reference": "cff2d902a24afa89a15e6702855de79e41a3dcac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/9defda6e5f39ab3ea542de5b7be07eaeb9c78da7",
-                "reference": "9defda6e5f39ab3ea542de5b7be07eaeb9c78da7",
+                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/cff2d902a24afa89a15e6702855de79e41a3dcac",
+                "reference": "cff2d902a24afa89a15e6702855de79e41a3dcac",
                 "shasum": ""
             },
             "require": {
@@ -3816,22 +3816,22 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-bundle/tree/v5.2.1"
+                "source": "https://github.com/scheb/2fa-bundle/tree/v5.3.0"
             },
-            "time": "2020-12-02T18:47:00+00:00"
+            "time": "2020-12-31T11:27:00+00:00"
         },
         {
             "name": "scheb/2fa-google-authenticator",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-google-authenticator.git",
-                "reference": "95b0fb6a1279f5ef114a7fda74437026566d096b"
+                "reference": "7fe0494c8edd432605829e5b4403bb84eb6ac842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-google-authenticator/zipball/95b0fb6a1279f5ef114a7fda74437026566d096b",
-                "reference": "95b0fb6a1279f5ef114a7fda74437026566d096b",
+                "url": "https://api.github.com/repos/scheb/2fa-google-authenticator/zipball/7fe0494c8edd432605829e5b4403bb84eb6ac842",
+                "reference": "7fe0494c8edd432605829e5b4403bb84eb6ac842",
                 "shasum": ""
             },
             "require": {
@@ -3866,22 +3866,22 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-google-authenticator/tree/v5.2.1"
+                "source": "https://github.com/scheb/2fa-google-authenticator/tree/v5.3.0"
             },
-            "time": "2020-10-27T19:05:19+00:00"
+            "time": "2020-12-31T11:27:00+00:00"
         },
         {
             "name": "scheb/2fa-qr-code",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-qr-code.git",
-                "reference": "1bad342d231a12963d00358f36cdd275b0b7f434"
+                "reference": "ccacde1d24646aa3b0890459b9050344a26b4e8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-qr-code/zipball/1bad342d231a12963d00358f36cdd275b0b7f434",
-                "reference": "1bad342d231a12963d00358f36cdd275b0b7f434",
+                "url": "https://api.github.com/repos/scheb/2fa-qr-code/zipball/ccacde1d24646aa3b0890459b9050344a26b4e8c",
+                "reference": "ccacde1d24646aa3b0890459b9050344a26b4e8c",
                 "shasum": ""
             },
             "require": {
@@ -3915,26 +3915,26 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-qr-code/tree/v5.2.1"
+                "source": "https://github.com/scheb/2fa-qr-code/tree/v5.3.0"
             },
-            "time": "2020-10-27T19:05:19+00:00"
+            "time": "2020-12-31T11:27:00+00:00"
         },
         {
             "name": "scheb/2fa-trusted-device",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-trusted-device.git",
-                "reference": "9f5f8b258f6c102b132ad6846a3b8914b3e2044c"
+                "reference": "55d912ee2c5c6ed873be445b301eabdac821219a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-trusted-device/zipball/9f5f8b258f6c102b132ad6846a3b8914b3e2044c",
-                "reference": "9f5f8b258f6c102b132ad6846a3b8914b3e2044c",
+                "url": "https://api.github.com/repos/scheb/2fa-trusted-device/zipball/55d912ee2c5c6ed873be445b301eabdac821219a",
+                "reference": "55d912ee2c5c6ed873be445b301eabdac821219a",
                 "shasum": ""
             },
             "require": {
-                "lcobucci/jwt": "^3.2",
+                "lcobucci/jwt": "^3.4|^4.0",
                 "scheb/2fa-bundle": "self.version"
             },
             "type": "library",
@@ -3964,9 +3964,9 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-trusted-device/tree/v5.2.1"
+                "source": "https://github.com/scheb/2fa-trusted-device/tree/v5.3.0"
             },
-            "time": "2020-10-27T19:05:19+00:00"
+            "time": "2020-12-31T11:27:00+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -10699,12 +10699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "49da07b20a780d3fca9fe12e1db27975a2910c18"
+                "reference": "a2c04f857299a7119e96448249a9dd5954e099c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/49da07b20a780d3fca9fe12e1db27975a2910c18",
-                "reference": "49da07b20a780d3fca9fe12e1db27975a2910c18",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a2c04f857299a7119e96448249a9dd5954e099c1",
+                "reference": "a2c04f857299a7119e96448249a9dd5954e099c1",
                 "shasum": ""
             },
             "conflict": {
@@ -10838,7 +10838,7 @@
                 "phpmussel/phpmussel": ">=1,<1.6",
                 "phpmyadmin/phpmyadmin": "<4.9.6|>=5,<5.0.3",
                 "phpoffice/phpexcel": "<1.8.2",
-                "phpoffice/phpspreadsheet": "<1.8",
+                "phpoffice/phpspreadsheet": "<1.16",
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpwhois/phpwhois": "<=4.2.5",
                 "phpxmlrpc/extras": "<0.6.1",
@@ -11012,7 +11012,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-21T18:11:20+00:00"
+            "time": "2020-12-31T19:24:22+00:00"
         },
         {
             "name": "symfony/browser-kit",
