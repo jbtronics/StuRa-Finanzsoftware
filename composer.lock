@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3b4044013180c298d392552d224d17e",
+    "content-hash": "4cd676e36238c25e2e329d171fc902c6",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -370,28 +370,29 @@
         },
         {
             "name": "digitick/sepa-xml",
-            "version": "1.6.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sepa-xml/php-sepa-xml.git",
-                "reference": "460072d2804c26d0b80da02fecd304e587e6c2b1"
+                "reference": "5a6c363f5072f6461bae4544bcab317f54b7f83e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sepa-xml/php-sepa-xml/zipball/460072d2804c26d0b80da02fecd304e587e6c2b1",
-                "reference": "460072d2804c26d0b80da02fecd304e587e6c2b1",
+                "url": "https://api.github.com/repos/php-sepa-xml/php-sepa-xml/zipball/5a6c363f5072f6461bae4544bcab317f54b7f83e",
+                "reference": "5a6c363f5072f6461bae4544bcab317f54b7f83e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "ext-dom": "*",
+                "php": ">=7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.3|~5.0"
+                "phpunit/phpunit": "^8.0 | ^9.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Digitick\\Sepa": "lib/"
+                "psr-4": {
+                    "Digitick\\Sepa\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -419,9 +420,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-sepa-xml/php-sepa-xml/issues",
-                "source": "https://github.com/php-sepa-xml/php-sepa-xml/tree/1.6.2"
+                "source": "https://github.com/php-sepa-xml/php-sepa-xml/tree/master"
             },
-            "time": "2020-02-13T14:18:47+00:00"
+            "time": "2020-09-02T19:17:59+00:00"
         },
         {
             "name": "doctrine/annotations",

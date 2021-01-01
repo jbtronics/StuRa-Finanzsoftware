@@ -8,7 +8,7 @@
         "ext-mbstring": "*",
         "ext-zip": "*",
         "components/jquery": "^3.5",
-        "digitick/sepa-xml": "^1.6",
+        "digitick/sepa-xml": "^2.0.0",
         "doctrine/doctrine-migrations-bundle": "^2.1.2",
         "easycorp/easyadmin-bundle": "dev-master",
         "fortawesome/font-awesome": "^5.14",

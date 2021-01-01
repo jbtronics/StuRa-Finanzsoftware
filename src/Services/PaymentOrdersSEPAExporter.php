@@ -192,7 +192,7 @@ class PaymentOrdersSEPAExporter
             /** @var PaymentOrder $payment_order */
 
             $transfer = new CustomerCreditTransferInformation(
-                $payment_order->getAmountString(),
+                $payment_order->getAmount(),
                 //We need a IBAN without spaces
                 str_replace(' ', '',$payment_order->getBankInfo()->getIban()),
                 $payment_order->getBankInfo()->getAccountOwner()
