@@ -53,5 +53,5 @@ jobs:
       - name: Generate prod container
         run: ./bin/console cache:clear --env prod
 
-      #- name: Run PHPstan
-      #  run: composer phpstan
+      - name: Run PHPstan
+        run: composer phpstan
