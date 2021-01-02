@@ -20,6 +20,7 @@ namespace App\Services;
 
 use App\Controller\Admin\PaymentOrderCrudController;
 use App\Entity\PaymentOrder;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use LogicException;
 use SteveGrunwell\MailToLinkFormatter\MailTo;
@@ -35,11 +36,11 @@ class PaymentOrderMailLinkGenerator
 
     private $hhv_email;
 
-    public function __construct(TranslatorInterface $translator, CrudUrlGenerator $crudUrlGenerator, string $hhv_email)
+    public function __construct(TranslatorInterface $translator, AdminUrlGenerator $adminUrlGenerator, string $hhv_email)
     {
         $this->translator = $translator;
         $this->hhv_email = $hhv_email;
-        $this->crudUrlGenerator = $crudUrlGenerator;
+        $this->adminURLGenerator = $adminUrlGenerator;
     }
 
     /**
@@ -57,8 +58,7 @@ class PaymentOrderMailLinkGenerator
             $mailTo->setHeader('subject', $this->getSubject($paymentOrder));
 
             $content = 'Link: '.
-                $this->crudUrlGenerator->build()
-                    ->setController(PaymentOrderCrudController::class)
+                $this->adminURLGenerator->setController(PaymentOrderCrudController::class)
                     ->setEntityId($paymentOrder->getId())
                     ->setAction('detail')
                     ->removeReferrer()
