@@ -6,6 +6,7 @@ use App\Entity\PaymentOrder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PaymentOrderFixture extends Fixture
 {
@@ -44,6 +45,8 @@ class PaymentOrderFixture extends Fixture
             ->setZipCode('12345');
         $payment_order->getBankInfo()
             ->setCity('Jena');
+
+        $this->addFiles($payment_order);
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
@@ -68,6 +71,8 @@ class PaymentOrderFixture extends Fixture
             ->setZipCode('12345');
         $payment_order->getBankInfo()
             ->setCity('Jena');
+
+        $this->addFiles($payment_order);
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
@@ -92,6 +97,8 @@ class PaymentOrderFixture extends Fixture
             ->setZipCode('12345');
         $payment_order->getBankInfo()
             ->setCity('Jena');
+
+        $this->addFiles($payment_order);
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
@@ -114,8 +121,31 @@ class PaymentOrderFixture extends Fixture
             ->setZipCode('12345');
         $payment_order->getBankInfo()
             ->setCity('Jena');
+
+        $this->addFiles($payment_order);
         $manager->persist($payment_order);
 
         $manager->flush();
+    }
+
+    private function addFiles(PaymentOrder $paymentOrder): void
+    {
+        $source_file = realpath(__DIR__ . '/../../tests/data/form/upload.pdf');
+        //We have to create a copy of our source, or the file will be deleted when the files are uploaded...
+        $target_file = tempnam(sys_get_temp_dir(), 'stura');
+        copy($source_file, $target_file);
+
+        $file = new UploadedFile($target_file, 'form.pdf', null, null, true);
+        $paymentOrder->setPrintedFormFile($file);
+
+        //Do the same thing for References
+
+        $source_file = realpath(__DIR__ . '/../../tests/data/form/upload.pdf');
+        //We have to create a copy of our source, or the file will be deleted when the files are uploaded...
+        $target_file = tempnam(sys_get_temp_dir(), 'stura');
+        copy($source_file, $target_file);
+
+        $file = new UploadedFile($target_file, 'form.pdf', null, null, true);
+        $paymentOrder->setReferencesFile($file);
     }
 }

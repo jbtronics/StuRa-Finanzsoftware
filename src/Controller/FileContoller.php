@@ -38,6 +38,10 @@ class FileContoller extends AbstractController
     {
         $this->checkPermission($paymentOrder, $request);
 
+        if ($paymentOrder->getPrintedFormFile() === null) {
+            throw new RuntimeException('The passed paymentOrder does not have an associated form file!');
+        }
+
         return $downloadHandler->downloadObject(
             $paymentOrder,
             'printed_form_file',
@@ -53,6 +57,10 @@ class FileContoller extends AbstractController
     public function paymentOrderReferences(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler, Request $request): Response
     {
         $this->checkPermission($paymentOrder, $request);
+
+        if ($paymentOrder->getReferencesFile() === null) {
+            throw new RuntimeException('The passed paymentOrder does not have an associated references file!');
+        }
 
         return $downloadHandler->downloadObject(
             $paymentOrder,
