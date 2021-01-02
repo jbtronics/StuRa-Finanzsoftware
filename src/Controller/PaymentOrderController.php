@@ -119,7 +119,7 @@ class PaymentOrderController extends AbstractController
         }
 
         //Check if given token is correct for this step
-        $correct_token = 1 === $confirm_step ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
+        $correct_token = (1 === $confirm_step) ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
         if (null === $correct_token) {
             throw new RuntimeException('This payment_order can not be confirmed! No token is set.');
         }
@@ -132,7 +132,7 @@ class PaymentOrderController extends AbstractController
         }
 
         //Check if it was already confirmed from this side and disable form if needed
-        $confirm_timestamp = 1 === $confirm_step ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
+        $confirm_timestamp = (1 === $confirm_step) ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
         if (null !== $confirm_timestamp) {
             $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
         }

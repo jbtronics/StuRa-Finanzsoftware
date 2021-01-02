@@ -4,12 +4,24 @@ namespace App\DataFixtures;
 
 use App\Entity\PaymentOrder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class PaymentOrderFixture extends Fixture
 {
+    protected $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
     public function load(ObjectManager $manager)
     {
+        //Reset autoincrement
+        $this->em->getConnection()
+            ->exec('ALTER TABLE `payment_orders` AUTO_INCREMENT = 1;');
+
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');
@@ -20,6 +32,8 @@ class PaymentOrderFixture extends Fixture
         $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT3_REFERENCE));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
+        $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
+        $payment_order->setConfirm2Token(password_hash('token2', PASSWORD_DEFAULT));
         $payment_order->getBankInfo()
             ->setAccountOwner('John Doe');
         $payment_order->getBankInfo()
@@ -42,6 +56,8 @@ class PaymentOrderFixture extends Fixture
         $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT2_REFERENCE));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
+        $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
+        $payment_order->setConfirm2Token(null);
         $payment_order->getBankInfo()
             ->setAccountOwner('John Doe');
         $payment_order->getBankInfo()

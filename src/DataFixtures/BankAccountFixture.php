@@ -24,7 +24,7 @@ class BankAccountFixture extends Fixture
     {
         //Reset autoincrement
         $this->em->getConnection()
-            ->exec('ALTER TABLE `departments` AUTO_INCREMENT = 1;');
+            ->exec('ALTER TABLE `bank_accounts` AUTO_INCREMENT = 1;');
 
         $account = new BankAccount();
         $account->setName('Bank Account 1');

@@ -50,7 +50,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $client->submit($form);
 
         //Success submit returns to homepage
-        self::assertTrue($client->getResponse()->isRedirect('/'));
+        self::assertResponseRedirects('/');
 
         //Assert that 3 emails are sent (2 confirmation + 1 notification email)
         self::assertEmailCount(3);
@@ -82,7 +82,7 @@ class PaymentOrderControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/payment_order/new');
 
-        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertResponseIsSuccessful();
 
         $buttonCrawlerNode = $crawler->selectButton('Absenden und weiteren Auftrag erstellen');
         $form = $buttonCrawlerNode->form();
@@ -90,10 +90,18 @@ class PaymentOrderControllerTest extends WebTestCase
         $client->submit($form);
 
         //Success submit does not redirect but returns a new form
-        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertResponseIsSuccessful();
 
         //Assert that 3 emails are sent (2 confirmation + 1 notification email)
         self::assertEmailCount(3);
+
+        $buttonCrawlerNode = $crawler->selectButton('Absenden und weiteren Auftrag erstellen');
+        $form = $buttonCrawlerNode->form();
+        //Most inputs should stay the same...
+        self::assertInputValueSame('payment_order[first_name]', 'John');
+        //Except project_name, amount and other fields
+        self::assertInputValueSame('payment_order[amount]', '');
+        self::assertInputValueSame('payment_order[project_name]', '');
     }
 
     public function testNewFormEmptySubmit(): void
@@ -117,7 +125,7 @@ class PaymentOrderControllerTest extends WebTestCase
 
         //The form should return successfully (without exceptions) as form errors are rendered
         //But the form is not redirected.
-        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertResponseIsSuccessful();
         self::assertEmailCount(0);
     }
 
@@ -145,7 +153,105 @@ class PaymentOrderControllerTest extends WebTestCase
         $form['payment_order[references_file][file]']->upload($this->data_dir.'/upload.pdf');
     }
 
-    public function testConfirmation(): void
+    public function testConfirmationInvalidToken(): void
     {
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        //Invalid token must redirect
+        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=invalid');
+        self::assertResponseRedirects('/');
+
+        //Same must be true for second confirmation
+        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=invalid');
+        self::assertResponseRedirects('/');
+
+        //And for an invalid confirm step
+        $client->request('GET', '/payment_order/1/confirm?confirm=3&token=invalid');
+        self::assertResponseRedirects('/');
+
+        //Or if we just call the route without params
+        $client->request('GET', '/payment_order/1/confirm');
+        self::assertResponseRedirects('/');
+    }
+
+    public function testConfirmation1(): void
+    {
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=token1');
+
+        //With correct token page must be rendered successfully
+        self::assertResponseIsSuccessful();
+
+        $client->submitForm('Zahlungsauftrag bestätigen', [
+            'payment_order_confirmation[check_1]' => '1',
+            'payment_order_confirmation[check_2]' => '1',
+            'payment_order_confirmation[check_3]' => '1',
+        ]);
+
+        self::assertResponseIsSuccessful();
+
+        $repo = self::$container->get(PaymentOrderRepository::class);
+        /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
+        $payment_order = $repo->find(1);
+
+        //And check if it was marked as confirmed
+        self::assertNotNull($payment_order->getConfirm1Timestamp());
+    }
+
+    public function testConfirmation2(): void
+    {
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $client->request('GET', '/payment_order/1/confirm?confirm=2&token=token2');
+
+        //With correct token page must be rendered successfully
+        self::assertResponseIsSuccessful();
+
+        $client->submitForm('Zahlungsauftrag bestätigen', [
+            'payment_order_confirmation[check_1]' => '1',
+            'payment_order_confirmation[check_2]' => '1',
+            'payment_order_confirmation[check_3]' => '1',
+        ]);
+
+        self::assertResponseIsSuccessful();
+
+        $repo = self::$container->get(PaymentOrderRepository::class);
+        /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
+        $payment_order = $repo->find(1);
+
+        //And check if it was marked as confirmed
+        self::assertNotNull($payment_order->getConfirm2Timestamp());
+    }
+
+    public function testConfirmation1WithoutAllCheckboxesChecked(): void
+    {
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $repo = self::$container->get(PaymentOrderRepository::class);
+        /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
+        $payment_order = $repo->find(1);
+
+        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=token1');
+
+        //With correct token page must be rendered successfully
+        self::assertResponseIsSuccessful();
+
+        //Submit form with one check mark missing
+        $client->submitForm('Zahlungsauftrag bestätigen', [
+            'payment_order_confirmation[check_1]' => '1',
+            'payment_order_confirmation[check_2]' => '1',
+            //'payment_order_confirmation[check_3]' => null,
+        ]);
+
+        self::assertResponseIsSuccessful();
+
+
+        //If a check mark was missing the payment order must not be confirmed
+        self::assertNull($payment_order->getConfirm1Timestamp());
     }
 }

@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Department;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class DepartmentFixture extends Fixture
@@ -14,8 +15,19 @@ class DepartmentFixture extends Fixture
     public const DEPARTMENT4_REFERENCE = 'department4';
     public const DEPARTMENT5_REFERENCE = 'department5';
 
+    protected $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
     public function load(ObjectManager $manager)
     {
+        //Reset autoincrement
+        $this->em->getConnection()
+            ->exec('ALTER TABLE `departments` AUTO_INCREMENT = 1;');
+
         $department = new Department();
         $department->setName('Department 1');
         $department->setType('fsr');
