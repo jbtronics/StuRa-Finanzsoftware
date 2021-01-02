@@ -150,6 +150,12 @@ class PaymentOrderController extends AbstractController
                 $paymentOrder->setConfirm2Timestamp(new DateTime());
             }
             $em->flush();
+
+            //Rerender form if it was confirmed, to apply the disabled state
+            $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
+                'disabled' => true,
+            ]);
+            $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
         }
 
         return $this->render('PaymentOrder/confirm/confirm.html.twig', [
