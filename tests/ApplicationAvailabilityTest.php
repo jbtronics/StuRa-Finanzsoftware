@@ -18,8 +18,15 @@
 
 namespace App\Tests;
 
+use App\Controller\Admin\BankAccountCrudController;
+use App\Controller\Admin\DepartmentCrudController;
+use App\Controller\Admin\PaymentOrderCrudController;
+use App\Controller\Admin\UserCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Just a simple test to ensure that different pages are available (and do not throw an exception).
@@ -31,11 +38,15 @@ class ApplicationAvailabilityTest extends WebTestCase
     /**
      * @dataProvider publicPagesProvider
      */
-    public function testPublicPages(string $url): void
+    public function testPages(string $url): void
     {
+        self::ensureKernelShutdown();
+
         //Try to access pages with admin, because he should be able to view every page!
-        static::ensureKernelShutdown();
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW' => '1234',
+        ]);
         $client->catchExceptions(false);
 
         $client->request('GET', $url);
@@ -43,10 +54,71 @@ class ApplicationAvailabilityTest extends WebTestCase
         self::assertTrue($client->getResponse()->isSuccessful(), 'Request not successful. Status code is '.$client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @dataProvider adminPagesProvider
+     * @param  string  $url
+     */
+    public function testEnsureAdminProtection(string $url): void
+    {
+        self::ensureKernelShutdown();
+
+        //Ensure that admin backendend can not be accessed without protections
+
+        $client = static::createClient();
+        $client->catchExceptions(false);
+
+        $this->expectException(AccessDeniedException::class);
+
+        //This line must throw an exception
+        $client->request('GET', $url);
+    }
+
     public function publicPagesProvider(): ?Generator
     {
         //Homepage
         yield ['/payment_order/new'];
         yield ['/'];
+
+        yield from $this->adminPagesProvider();
     }
+
+    public function adminPagesProvider(): ?Generator
+    {
+        //We need access to AdminUrlGenerator, so we have to boot kernel... This is a bit hacky...
+        self::bootKernel();
+        /** @var AdminUrlGenerator $adminURL */
+        $adminURL = self::$container->get(AdminUrlGenerator::class);
+
+        yield ['/admin'];
+
+        //User admin pages
+        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::INDEX)->generateUrl()];
+        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::NEW)->generateUrl()];
+        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
+        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+
+        //BankAccount admin pages
+        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::INDEX)->generateUrl()];
+        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::NEW)->generateUrl()];
+        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
+        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+
+        //Department admin pages
+        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::INDEX)->generateUrl()];
+        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::NEW)->generateUrl()];
+        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
+        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+
+        //Payment order admin pages
+        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::INDEX)->generateUrl()];
+        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
+        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+
+        //User settings
+        yield [$adminURL->setRoute('user_settings')->generateUrl()];
+
+        //Export page
+        yield [$adminURL->setRoute('payment_order_export')->set('ids', '1,2,4')->generateUrl()];
+    }
+
 }
