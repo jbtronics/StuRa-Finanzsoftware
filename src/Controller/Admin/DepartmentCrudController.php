@@ -81,62 +81,65 @@ class DepartmentCrudController extends AbstractCrudController
             $choices['department.type.'.$type] = $type;
         }
 
-        $name = TextField::new('name', 'department.name.label');
-        $type = ChoiceField::new('type', 'department.type.label')->setChoices($choices)->autocomplete();
-        $blocked = BooleanField::new('blocked', 'department.blocked.label')->renderAsSwitch(true)->setHelp('department.blocked.help');
-        $comment = TextEditorField::new('comment', 'department.comment.label')->setRequired(false)->setFormTypeOption('empty_data', '');
-        $id = IntegerField::new('id', 'department.id.label');
-        $lastModified = DateTimeField::new('last_modified', 'last_modified');
-        $creationDate = DateTimeField::new('creation_date', 'creation_date');
+        return [
+            //Basic informations
+            TextField::new('name', 'department.name.label'),
+            ChoiceField::new('type', 'department.type.label')
+                ->setChoices($choices)
+                ->autocomplete(),
+            BooleanField::new('blocked', 'department.blocked.label')
+                ->renderAsSwitch(true)
+                ->setHelp('department.blocked.help'),
+            TextEditorField::new('comment', 'department.comment.label')
+                ->setRequired(false)
+                ->setFormTypeOption('empty_data', '')
+                ->hideOnIndex(),
+            IntegerField::new('id', 'department.id.label')
+                ->onlyOnDetail(),
+            DateTimeField::new('last_modified', 'last_modified')
+                ->onlyOnDetail(),
+            DateTimeField::new('creation_date', 'creation_date')
+                ->onlyOnDetail(),
 
-        $email_hhv = CollectionField::new('email_hhv', 'department.email_hhv.label')
-            ->setHelp('department.contact_emails.help')
-            ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()
-            ->allowDelete()
-            ->setFormTypeOption('delete_empty', true)
-            ->setFormTypeOption('entry_options.required', false)
-            ->setFormTypeOption('entry_options.empty_data', '')
-            ->setEntryType(EmailType::class);
+            AssociationField::new('bank_account', 'department.bank_account.label')
+                ->setHelp('department.bank_account.help')
+                ->setRequired(false)
+                ->hideOnDetail(),
 
-        $email_treasurer = CollectionField::new('email_treasurer', 'department.email_treasurer.label')
-            ->setHelp('department.contact_emails.help')
-            ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()
-            ->allowDelete()
-            ->setFormTypeOption('delete_empty', true)
-            ->setFormTypeOption('entry_options.required', false)
-            ->setFormTypeOption('entry_options.empty_data', '')
-            ->setEntryType(EmailType::class);
+            CollectionField::new('contact_emails', 'department.contact_emails.label')
+                ->setHelp('department.contact_emails.help')
+                ->setTemplatePath('admin/field/email_collection.html.twig')
+                ->allowAdd()
+                ->allowDelete()
+                ->setFormTypeOption('delete_empty', true)
+                ->setFormTypeOption('entry_options.required', false)
+                ->setEntryType(EmailType::class),
 
-        $bank_account = AssociationField::new('bank_account', 'department.bank_account.label')
-            ->setHelp('department.bank_account.help')
-            ->setRequired(false);
 
-        $contact_emails = CollectionField::new('contact_emails', 'department.contact_emails.label')
-            ->setHelp('department.contact_emails.help')
-            ->setTemplatePath('admin/field/email_collection.html.twig')
-            ->allowAdd()
-            ->allowDelete()
-            ->setFormTypeOption('delete_empty', true)
-            ->setFormTypeOption('entry_options.required', false)
-            ->setEntryType(EmailType::class);
+            //FSR contact info panel
+            FormField::addPanel('department.fsr_email_panel.label')
+                ->setHelp('department.fsr_email_panel.help'),
+            CollectionField::new('email_hhv', 'department.email_hhv.label')
+                ->setHelp('department.email_hhv.help')
+                ->setTemplatePath('admin/field/email_collection.html.twig')
+                ->allowAdd()
+                ->allowDelete()
+                ->setFormTypeOption('delete_empty', true)
+                ->setFormTypeOption('entry_options.required', false)
+                ->setFormTypeOption('entry_options.empty_data', '')
+                ->setEntryType(EmailType::class)
+                ->hideOnIndex(),
 
-        $section = FormField::addPanel('department.fsr_email_panel.label')
-            ->setHelp('department.fsr_email_panel.help');
-
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $name, $type, $blocked, $contact_emails];
-        }
-
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $type, $blocked, $comment, $contact_emails, $bank_account, $creationDate, $lastModified, $section, $email_hhv, $email_treasurer];
-        } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $type, $blocked, $contact_emails, $bank_account, $comment, $section, $email_hhv, $email_treasurer];
-        }
-
-        throw new LogicException('Invalid $pageName encountered!');
+            CollectionField::new('email_treasurer', 'department.email_treasurer.label')
+                ->setHelp('department.email_hhv.help')
+                ->setTemplatePath('admin/field/email_collection.html.twig')
+                ->allowAdd()
+                ->allowDelete()
+                ->setFormTypeOption('delete_empty', true)
+                ->setFormTypeOption('entry_options.required', false)
+                ->setFormTypeOption('entry_options.empty_data', '')
+                ->setEntryType(EmailType::class)
+                ->hideOnIndex(),
+            ];
     }
 }

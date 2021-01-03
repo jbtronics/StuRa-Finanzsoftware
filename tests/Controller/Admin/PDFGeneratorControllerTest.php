@@ -18,7 +18,7 @@
 
 namespace App\Tests\Controller\Admin;
 
-use App\Controller\Admin\PDFGeneratorController;
+use App\Controller\PDFGeneratorController;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;

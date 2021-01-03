@@ -88,35 +88,50 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $username = TextField::new('username', 'user.username.label');
-        $firstName = TextField::new('first_name', 'user.first_name.label')->setRequired(false)->setFormTypeOption('empty_data', '');
-        $lastName = TextField::new('last_name', 'user.last_name.label')->setRequired(false)->setFormTypeOption('empty_data', '');
-        $email = EmailField::new('email', 'user.email.label')->setRequired(false)->setFormTypeOption('empty_data', '');
-        $roleDescription = TextField::new('role_description', 'user.role_description.label')->setRequired(false)->setFormTypeOption('empty_data', '');
-        $plainPassword = PasswordField::new('plain_password')->setRequired(Crud::PAGE_NEW === $pageName);
-        $id = IntegerField::new('id', 'user.id.label');
-        $roles = ChoiceField::new('roles')->allowMultipleChoices()->setChoices($this->getRoleChoices())->renderExpanded()->renderAsNativeWidget()->setLabel('user.roles.label');
-        $fullName = TextField::new('fullName', 'user.fullName.label');
+        return [
+            //Basic info
+            IntegerField::new('id', 'user.id.label')
+                ->hideOnForm(),
+            TextField::new('username', 'user.username.label'),
+            TextField::new('fullName', 'user.fullName.label')
+                ->onlyOnIndex(),
+            TextField::new('first_name', 'user.first_name.label')
+                ->setRequired(false)
+                ->setFormTypeOption('empty_data', '')
+                ->hideOnIndex(),
+            TextField::new('last_name', 'user.last_name.label')
+                ->setRequired(false)
+                ->setFormTypeOption('empty_data', '')
+                ->hideOnIndex(),
+            EmailField::new('email', 'user.email.label')
+                ->setRequired(false)
+                ->setFormTypeOption('empty_data', ''),
+            TextField::new('role_description', 'user.role_description.label')
+                ->setRequired(false)
+                ->setFormTypeOption('empty_data', ''),
+            ChoiceField::new('roles', 'user.roles.label')
+                ->allowMultipleChoices()
+                ->setChoices($this->getRoleChoices())
+                ->renderExpanded()
+                ->renderAsNativeWidget()
+                ->hideOnIndex(),
 
-        $password_panel = FormField::addPanel('user.section.password')->setHelp('user.section.password.help');
 
-        $tfa_panel = FormField::addPanel('user.section.tfa')->setHelp('user.section.tfa.help');
-        $tfa_enabled = BooleanField::new('tfa_enabled', 'user.tfa_enabled.label')
-            ->setHelp('user.tfa_enabled.help')
-            ->renderAsSwitch(false)
-            ->setFormTypeOption('disabled', true);
+            //Passowrd panel
+            FormField::addPanel('user.section.password')
+                ->setHelp('user.section.password.help')
+                ->onlyOnForms(),
+            PasswordField::new('plain_password')
+                ->setRequired(Crud::PAGE_NEW === $pageName)
+                ->onlyOnForms(),
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $username, $fullName, $roleDescription, $email, $tfa_enabled];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $username, $roleDescription, $email, $roles, $firstName, $lastName, $roles, $tfa_enabled];
-        } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword, $tfa_panel, $tfa_enabled];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$username, $firstName, $lastName, $email, $roleDescription, $roles, $password_panel, $plainPassword, $tfa_panel, $tfa_enabled];
-        }
-
-        throw new LogicException('Invalid $pageName encountered!');
+            //2FA panel
+            FormField::addPanel('user.section.tfa')->setHelp('user.section.tfa.help'),
+            BooleanField::new('tfa_enabled', 'user.tfa_enabled.label')
+                ->setHelp('user.tfa_enabled.help')
+                ->renderAsSwitch(false)
+                ->setFormTypeOption('disabled', true),
+        ];
     }
 
     private function setUserPlainPassword(User $user): void

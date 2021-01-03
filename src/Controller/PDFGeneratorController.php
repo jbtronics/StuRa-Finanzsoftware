@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\PaymentOrder;
 use App\Services\PDF\PaymentOrderPDFGenerator;
