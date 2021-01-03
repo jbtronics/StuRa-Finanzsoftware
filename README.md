@@ -1,3 +1,10 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jbtronics/StuRa-Finanzsoftware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jbtronics/StuRa-Finanzsoftware/?branch=master)
+![PHPUnit Tests](https://github.com/jbtronics/StuRa-Finanzsoftware/workflows/PHPUnit%20Tests/badge.svg)
+![Static analysis](https://github.com/jbtronics/StuRa-Finanzsoftware/workflows/Static%20analysis/badge.svg)
+[![codecov](https://codecov.io/gh/jbtronics/StuRa-Finanzsoftware/branch/master/graph/badge.svg)](https://codecov.io/gh/jbtronics/StuRa-Finanzsoftware)
+![GitHub License](https://img.shields.io/github/license/Part-DB/Part-DB-symfony)
+![PHP Version](https://img.shields.io/badge/PHP-%3E%3D%207.2-green)
+
 # StuRa-Finanzsoftware
 
 ## Einführung
