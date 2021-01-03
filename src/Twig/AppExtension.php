@@ -18,30 +18,28 @@
 
 namespace App\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class AppExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
-        return array(
-            new TwigFilter('formatBytes', array($this, 'formatBytes')),
-        );
+        return [
+            new TwigFilter('formatBytes', [$this, 'formatBytes']),
+        ];
     }
 
     /**
-     * Convert a bytes count into a human-readable form (10000 -> 10K)
-     * @param $bytes
+     * Convert a bytes count into a human-readable form (10000 -> 10K).
+     *
      * @param int $precision
-     * @return string
      */
-    public function formatBytes($bytes, $precision = 2): string
+    public function formatBytes(int $bytes, $precision = 2): string
     {
-        $size = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
+        $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$precision}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-    }
 
+        return sprintf("%.{$precision}f", $bytes / (1024 ** $factor)).@$size[$factor];
+    }
 }

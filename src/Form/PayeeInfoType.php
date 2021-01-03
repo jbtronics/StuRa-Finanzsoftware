@@ -18,54 +18,58 @@
 
 namespace App\Form;
 
-
-use App\Entity\Embeddable\BankAccountInfo;
+use App\Entity\Embeddable\PayeeInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BankAccountInfoType extends AbstractType
+class PayeeInfoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('account_owner', TextType::class, [
             'label' => 'bank_info.account_owner.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.account_owner.placeholder',
                 'autocomplete' => 'name',
-            ]
+            ],
         ]);
 
         $builder->add('street', TextType::class, [
             'label' => 'bank_info.street.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.street.placeholder',
                 'autocomplete' => 'street-address',
-            ]
+            ],
         ]);
 
         $builder->add('zip_code', TextType::class, [
             'label' => 'bank_info.zip_code.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.zip_code.placeholder',
                 'autocomplete' => 'postal_code',
-            ]
+            ],
         ]);
 
         $builder->add('city', TextType::class, [
             'label' => 'bank_info.city.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.city.placeholder',
                 'autocomplete' => 'address-level2',
-            ]
+            ],
         ]);
 
         $builder->add('iban', TextType::class, [
             'label' => 'bank_info.iban.label',
+            'empty_data' => '',
             'attr' => [
-                'placeholder' => 'bank_info.iban.placeholder'
-            ]
+                'placeholder' => 'bank_info.iban.placeholder',
+            ],
         ]);
 
         $builder->add('bic', TextType::class, [
@@ -73,16 +77,16 @@ class BankAccountInfoType extends AbstractType
             'required' => false,
             'empty_data' => '',
             'attr' => [
-                'placeholder' => 'bank_info.bic.placeholder'
-            ]
+                'placeholder' => 'bank_info.bic.placeholder',
+            ],
         ]);
 
         $builder->add('bank_name', TextType::class, [
             'label' => 'bank_info.bank_name.label',
             'empty_data' => '',
             'attr' => [
-                'placeholder' => 'bank_info.bank_name.placeholder'
-            ]
+                'placeholder' => 'bank_info.bank_name.placeholder',
+            ],
         ]);
 
         /*$builder->add('reference', TextType::class, [
@@ -97,6 +101,6 @@ class BankAccountInfoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('data_class', BankAccountInfo::class);
+        $resolver->setDefault('data_class', PayeeInfo::class);
     }
 }

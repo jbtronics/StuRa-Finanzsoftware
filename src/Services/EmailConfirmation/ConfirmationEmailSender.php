@@ -18,14 +18,19 @@
 
 namespace App\Services\EmailConfirmation;
 
-
 use App\Entity\PaymentOrder;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * This service is responsible for sending the confirmation emails for a payment_order.
+ */
 class ConfirmationEmailSender
 {
     private $mailer;
@@ -51,6 +56,14 @@ class ConfirmationEmailSender
         $this->notifications_bcc = $notifications_bcc;
     }
 
+    /**
+     * Send the confirmation email to the first verification person for the given payment_order.
+     * Email addresses are taken from department (and are added as BCC)
+     * A token is generated, send via email and saved in hashed form in the payment order.
+     * Calling this function will flush database.
+     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
+     * no email is sent.
+     */
     public function sendConfirmation1(PaymentOrder $paymentOrder): void
     {
         $token = $this->tokenGenerator->getToken();
@@ -58,30 +71,54 @@ class ConfirmationEmailSender
         $email = $paymentOrder->getDepartment()->getEmailHhv();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
         if (!empty($email) && $this->send_notifications) {
-            $this->sendConfirmation($paymentOrder, $email , $token, 1);
+            $this->sendConfirmation($paymentOrder, $email, $token, 1);
         } else {
-            $paymentOrder->setConfirm1Timestamp(new \DateTime());
+            $paymentOrder->setConfirm1Timestamp(new DateTime());
         }
 
         $this->entityManager->flush();
     }
 
+    /**
+     * Send the confirmation email to the second verification person for the given payment_order.
+     * Email addresses are taken from department (and are added as BCC)
+     * A token is generated, send via email and saved in hashed form in the payment order.
+     * Calling this function will flush database.
+     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
+     * no email is sent.
+     */
     public function sendConfirmation2(PaymentOrder $paymentOrder): void
     {
         $token = $this->tokenGenerator->getToken();
         $paymentOrder->setConfirm2Token($this->hash_token($token));
-        $email = $paymentOrder->getDepartment()->getEmailTreasurer();
+        $email = $paymentOrder->getDepartment()
+            ->getEmailTreasurer();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
         if (!empty($email) && $this->send_notifications) {
-            $this->sendConfirmation($paymentOrder, $email , $token, 2);
+            $this->sendConfirmation($paymentOrder, $email, $token, 2);
         } else {
-            $paymentOrder->setConfirm2Timestamp(new \DateTime());
+            $paymentOrder->setConfirm2Timestamp(new DateTime());
         }
         $this->entityManager->flush();
     }
 
+    /**
+     * Sents a confirmation email for the given payment order for a plaintext token.
+     *
+     * @param PaymentOrder $paymentOrder        The paymentOrder for which the email should be generated
+     * @param string[]     $email_addresses     The mail addresses that should be added as BCC
+     * @param string       $token               The plaintext token to access confirmation page.
+     * @param int          $verification_number The verification step (1 or 2)
+     *
+     * @throws TransportExceptionInterface
+     */
     private function sendConfirmation(PaymentOrder $paymentOrder, array $email_addresses, string $token, int $verification_number): void
     {
+        //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
+        if (null === $paymentOrder->getId()) {
+            throw new InvalidArgumentException('$paymentOrder must be serialized / have an ID so than an confirmation URL can be generated!');
+        }
+
         $email = new TemplatedEmail();
         //$email->addBcc(...$email_address);
         //$email->addTo($email_address);
@@ -92,30 +129,35 @@ class ConfirmationEmailSender
         $email->subject(
             $this->translator->trans(
                 'payment_order.confirmation_email.subject',
-                ['%project%' => $paymentOrder->getProjectName()]
+                [
+                    '%project%' => $paymentOrder->getProjectName(),
+                ]
             ));
 
         $email->htmlTemplate('mails/confirmation.html.twig');
         $email->context([
-                            'payment_order' => $paymentOrder,
-                            'token' => $token,
-                            'verification_number' => $verification_number
-                        ]);
-
+            'payment_order' => $paymentOrder,
+            'token' => $token,
+            'verification_number' => $verification_number,
+        ]);
 
         $email->addBcc(...$email_addresses);
         $this->mailer->send($email);
-
     }
 
+    /**
+     * Resend all confirmation emails for cases where a confirmation is missing.
+     * If some part is already confirmed this confirmation is not sent again.
+     * If a confirmation is missing a new token will be generated and sent via email.
+     */
     public function resendConfirmations(PaymentOrder $paymentOrder): void
     {
         //Resend emails that not already were confirmed
-        if ($paymentOrder->getConfirm1Timestamp() === null) {
+        if (null === $paymentOrder->getConfirm1Timestamp()) {
             $this->sendConfirmation1($paymentOrder);
         }
 
-        if ($paymentOrder->getConfirm2Timestamp() === null) {
+        if (null === $paymentOrder->getConfirm2Timestamp()) {
             $this->sendConfirmation2($paymentOrder);
         }
     }

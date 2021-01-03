@@ -18,7 +18,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\BankAccount;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +25,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Bic;
 use Symfony\Component\Validator\Constraints\Iban;
 
@@ -58,17 +56,17 @@ class SepaExportType extends AbstractType
                 'data-mode-manual' => true,
             ],
             'placeholder' => 'sepa_export.bank_account.placeholder',
-            'choice_label' => function( BankAccount $account) {
-                return $account->getExportAccountName() . ' [' . $account->getIban() . ']';
+            'choice_label' => function (BankAccount $account) {
+                return $account->getExportAccountName().' ['.$account->getIban().']';
             },
         ]);
 
-        $builder->add('name',TextType::class, [
+        $builder->add('name', TextType::class, [
             'label' => 'sepa_export.name.label',
             'attr' => [
                 'data-manual-input' => true,
                 'data-mode-manual' => true,
-            ]
+            ],
         ]);
         $builder->add('iban', TextType::class, [
             'label' => 'sepa_export.iban.label',
@@ -76,7 +74,7 @@ class SepaExportType extends AbstractType
             'attr' => [
                 'data-manual-input' => true,
                 'data-mode-manual' => true,
-            ]
+            ],
         ]);
         $builder->add('bic', TextType::class, [
             'label' => 'sepa_export.bic.label',
@@ -84,12 +82,11 @@ class SepaExportType extends AbstractType
             'attr' => [
                 'data-manual-input' => true,
                 'data-mode-manual' => true,
-            ]
+            ],
         ]);
 
-        $builder->add("submit",SubmitType::class, [
+        $builder->add('submit', SubmitType::class, [
             'label' => 'sepa_export.submit',
         ]);
     }
-
 }

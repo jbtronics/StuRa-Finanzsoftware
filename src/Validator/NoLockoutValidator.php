@@ -35,7 +35,7 @@ class NoLockoutValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        /* @var $constraint \App\Validator\NoLockout */
+        /** @var NoLockout $constraint */
 
         if (null === $value || '' === $value) {
             return;
@@ -57,8 +57,8 @@ class NoLockoutValidator extends ConstraintValidator
                 $value->getRoles(),
                 true
             )) {
-                $this->context->buildViolation($constraint->message)
+            $this->context->buildViolation($constraint->message)
                     ->addViolation();
-            }
+        }
     }
 }

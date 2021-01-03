@@ -18,26 +18,30 @@
 
 namespace App\Services;
 
-
 use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
+use Digitick\Sepa\DomBuilder\BaseDomBuilder;
 use Digitick\Sepa\DomBuilder\DomBuilderFactory;
 use Digitick\Sepa\GroupHeader;
 use Digitick\Sepa\PaymentInformation;
 use Digitick\Sepa\TransferFile\CustomerCreditTransferFile;
-use Digitick\Sepa\TransferFile\Factory\TransferFileFacadeFactory;
 use Digitick\Sepa\TransferInformation\CustomerCreditTransferInformation;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\String\UnicodeString;
 
+/**
+ * This service allows to create a SEPA-XML file from a payment order that can be used to import it in an online
+ * banking system.
+ */
 class PaymentOrdersSEPAExporter
 {
-    protected const PARTY_NAME = "StuRa FSU Jena";
-    protected const ID_PREFIX = "StuRa Export";
-    protected const PAYMENT_PREFIX = "Payment";
+    protected const PARTY_NAME = 'StuRa FSU Jena';
+    protected const ID_PREFIX = 'StuRa Export';
+    protected const PAYMENT_PREFIX = 'Payment';
 
     protected $fsr_kom_bank_account_id;
     protected $entityManager;
@@ -48,6 +52,11 @@ class PaymentOrdersSEPAExporter
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Exports the given paymentOrders as SEPA-XML files.
+     *
+     * @throws \Digitick\Sepa\Exception\InvalidArgumentException
+     */
     public function export(array $payment_orders, array $options): array
     {
         $resolver = new OptionsResolver();
@@ -57,26 +66,28 @@ class PaymentOrdersSEPAExporter
         $accounts = [];
         $return = [];
 
-        if ($options['mode'] === "manual") {
+        if ('manual' === $options['mode']) {
             $accounts[0] = [
                 'iban' => $options['iban'],
                 'bic' => $options['bic'],
                 'name' => $options['name'],
                 'entries' => $payment_orders,
             ];
-        } elseif ($options['mode'] === "auto") {
+        } elseif ('auto' === $options['mode']) {
             $accounts = $this->groupByBankAccounts($payment_orders);
-        } elseif ($options['mode'] === "auto_single") {
-            return $this->exportAutoSingle($payment_orders);
+        } elseif ('auto_single' === $options['mode']) {
+            //Export every payment order separately and return early
+            foreach ($payment_orders as $payment_order) {
+                $return[$payment_order->getIDString()] = $this->exportSinglePaymentOrder($payment_order);
+            }
+
+            return $return;
         } else {
-            throw new \RuntimeException("Unknown mode");
+            throw new RuntimeException('Unknown mode');
         }
 
         foreach ($accounts as $account_info) {
-            $groupHeader = new GroupHeader(
-                static::ID_PREFIX.' '.uniqid('', false),
-                static::PARTY_NAME
-            );
+            $groupHeader = $this->getGroupHeader();
             $sepaFile = new CustomerCreditTransferFile($groupHeader);
 
             // A single payment info where all PaymentOrders are added as transactions
@@ -94,64 +105,103 @@ class PaymentOrdersSEPAExporter
             // Or if you want to use the format 'pain.001.001.03' instead
             $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
 
+            if (!$domBuilder instanceof BaseDomBuilder) {
+                throw new InvalidArgumentException('$domBuilder must be an BaseDomBuilder instance!');
+            }
+
             $return[$account_info['name']] = $domBuilder->asXml();
         }
 
         return $return;
     }
 
-    protected function exportAutoSingle(array $payment_orders): array
+    /**
+     * Generates the SEPA-XML file from a single PaymentOrder.
+     *
+     * @param PaymentOrder $paymentOrder The payment order that should be exported
+     * @param string|null  $account_name The name of the debitor account that should be used in export. Set to null to determine automatically
+     * @param string|null  $iban         The IBAN of the debitor account that should be used in export. Set to null to determine automatically
+     * @param string|null  $bic          The BIC of the debitor account that should be used in export. Set to null to determine automatically
+     */
+    public function exportSinglePaymentOrder(PaymentOrder $paymentOrder, ?string $account_name = null, ?string $iban = null, ?string $bic = null): string
     {
-        $return = [];
+        //If null values were passed determine them from default bank account
+        if (null === $account_name || null === $iban || null === $bic) {
+            $bank_account = $this->getResolvedBankAccount($paymentOrder);
 
-        //Export every payment order separately
-        foreach($payment_orders as $payment_order) {
-            /** @var PaymentOrder $payment_order */
-            $bank_account = $this->getResolvedBankAccount($payment_order);
-
-            $groupHeader = new GroupHeader(
-                static::ID_PREFIX . ' ' . uniqid('', false),
-                static::PARTY_NAME
-            );
-            $sepaFile = new CustomerCreditTransferFile($groupHeader);
-
-            // A single payment info where all PaymentOrders are added as transactions
-            $payment = new PaymentInformation(
-                $payment_order->getIDString() . ' '.uniqid('', false),
-                str_replace(' ', '', $bank_account->getIban()),
-                $bank_account->getBic(),
-                $bank_account->getExportAccountName()
-            );
-
-            $this->addPaymentOrderTransactions($payment, [$payment_order]);
-            $payment->setBatchBooking(false);
-            $sepaFile->addPaymentInformation($payment);
-
-            // Or if you want to use the format 'pain.001.001.03' instead
-            $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
-
-            $return[$payment_order->getIDString()] = $domBuilder->asXml();
+            $account_name = $bank_account->getExportAccountName();
+            $iban = $bank_account->getIban();
+            $bic = $bank_account->getBic();
+        } elseif (!($account_name && $iban && $bic)) {
+            throw new RuntimeException('You have to pass $account_name, $iban and $bic if you want manually select a debitor account!');
         }
 
-        return $return;
+        //Strip spaces from IBAN or we will run into problems
+        $iban = str_replace(' ', '', $iban);
+
+        $groupHeader = $this->getGroupHeader();
+        $sepaFile = new CustomerCreditTransferFile($groupHeader);
+
+        // A single payment info where all PaymentOrders are added as transactions
+        $payment = new PaymentInformation(
+            $paymentOrder->getIDString().' '.uniqid('', false),
+            $iban,
+            $bic,
+            $account_name
+        );
+
+        $this->addPaymentOrderTransactions($payment, [$paymentOrder]);
+        //This line is important
+        $payment->setBatchBooking(false);
+        $sepaFile->addPaymentInformation($payment);
+
+        // Or if you want to use the format 'pain.001.001.03' instead
+        $domBuilder = DomBuilderFactory::createDomBuilder($sepaFile, 'pain.001.001.03');
+
+        if (!$domBuilder instanceof BaseDomBuilder) {
+            throw new InvalidArgumentException('$domBuilder must be an BaseDomBuilder instance!');
+        }
+
+        return $domBuilder->asXml();
     }
 
     /**
-     * Add the given PaymentOrders as transactions to the SEPA PaymentInformation group
-     * @param  PaymentInformation  $paymentInformation
-     * @param  PaymentOrder[]  $payment_orderss
+     * Generates a group header for a SEPA file.
+     */
+    protected function getGroupHeader(): GroupHeader
+    {
+        return new GroupHeader(
+            static::ID_PREFIX.' '.uniqid('', false),
+            static::PARTY_NAME
+        );
+    }
+
+    /**
+     * Generates a payment info ID for the given PaymentOrder.
+     * Please not that the results change between calls, as the ID contains a random part to be unique.
+     */
+    protected function getPaymentInfoID(PaymentOrder $paymentOrder): string
+    {
+        return $paymentOrder->getIDString().' '.uniqid('', false);
+    }
+
+    /**
+     * Add the given PaymentOrders as transactions to the SEPA PaymentInformation group.
+     *
+     * @param PaymentOrder[] $payment_orders
      */
     protected function addPaymentOrderTransactions(PaymentInformation $payment, array $payment_orders): void
     {
         //We only have one SEPA-Payment but it contains multiple transactions (each for one PaymentOrder)
-        foreach($payment_orders as $payment_order) {
+        foreach ($payment_orders as $payment_order) {
             /** @var PaymentOrder $payment_order */
 
             $transfer = new CustomerCreditTransferInformation(
-                $payment_order->getAmountString(),
+                $payment_order->getAmount(),
                 //We need a IBAN without spaces
-                str_replace(' ', '',$payment_order->getBankInfo()->getIban()),
-                $payment_order->getBankInfo()->getAccountOwner()
+                str_replace(' ', '', $payment_order->getBankInfo()->getIban()),
+                $payment_order->getBankInfo()
+->getAccountOwner()
             );
             if (!empty($payment_order->getBankInfo()->getBic())) {
                 $transfer->setBic($payment_order->getBankInfo()->getBic());
@@ -164,24 +214,29 @@ class PaymentOrdersSEPAExporter
 
     /**
      * This function groups the paymentOrders by bank accounts.
-     * @param  PaymentOrder[]  $payment_orders
-     * @return array
+     *
+     * @param PaymentOrder[] $payment_orders
      */
     protected function groupByBankAccounts(array $payment_orders): array
     {
         $tmp = [];
 
         foreach ($payment_orders as $payment_order) {
-
             $bank_account = $this->getResolvedBankAccount($payment_order);
+
+            //That case should never really happen in reality (except for testing purposes)
+            //But as it leads silently to wrong behavior it should throw an exception.
+            if (null === $bank_account->getId()) {
+                throw new RuntimeException('The associated bank account must be persisted in DB / have an ID to be groupable!');
+            }
 
             //Create entry for bank account if not existing yet
             if (!isset($tmp[$bank_account->getId()])) {
                 $tmp[$bank_account->getId()] = [
-                    'iban' => str_replace(' ', '', $bank_account->getIban()),
+                    'iban' => $bank_account->getIbanWithoutSpaces(),
                     'bic' => $bank_account->getBic(),
                     'name' => $bank_account->getExportAccountName(),
-                    'entries' => []
+                    'entries' => [],
                 ];
             }
 
@@ -194,23 +249,23 @@ class PaymentOrdersSEPAExporter
 
     /**
      * Get Bank account for PaymentOrder and resolve FSR-Kom bank account if needed.
-     * @param  PaymentOrder  $paymentOrder
-     * @return BankAccount
      */
     protected function getResolvedBankAccount(PaymentOrder $payment_order): BankAccount
     {
+        //Try to resolve FSRKom transactions if possible
         if ($payment_order->isFsrKomResolution()) {
             return $this->getFSRKomBankAccount();
-        } else {
-            $bank_account = $payment_order->getDepartment()->getBankAccount();
-
-            //Throw an error if auto mode is not possible (as bank account definitions are missing)
-            if ($bank_account === null) {
-                throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
-            }
-
-            return $bank_account;
         }
+
+        $bank_account = $payment_order->getDepartment()
+->getBankAccount();
+
+        //Throw an error if auto mode is not possible (as bank account definitions are missing)
+        if (null === $bank_account) {
+            throw new SEPAExportAutoModeNotPossible($payment_order->getDepartment());
+        }
+
+        return $bank_account;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
@@ -231,15 +286,18 @@ class PaymentOrdersSEPAExporter
         $resolver->setDefault('mode', 'manual');
         $resolver->setAllowedValues('mode', ['auto', 'manual', 'auto_single']);
 
-        $resolver->setNormalizer('iban', function(Options  $options, $value) {
-            if ($value === null ){
-                return $value;
+        $resolver->setNormalizer('iban', function (Options $options, $value) {
+            if (null === $value) {
+                return null;
             }
             //Return spaces from IBAN
             return str_replace(' ', '', $value);
         });
     }
 
+    /**
+     * Returns the bank account associated with FSR-Kom (this is configured by FSR_KOM_ACCOUNT_ID env).
+     */
     public function getFSRKomBankAccount(): BankAccount
     {
         return $this->entityManager->find(BankAccount::class, $this->fsr_kom_bank_account_id);

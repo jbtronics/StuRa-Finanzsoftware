@@ -49,5 +49,11 @@
         <target>Datum liegt zu weit in der Vergangenheit!</target>
       </segment>
     </unit>
+    <unit id="YeRg79b" name="validator.project_name.too_long">
+      <segment>
+        <source>validator.project_name.too_long</source>
+        <target>Der Projektname darf maximal {{ limit }} Zeichen haben, damit er korrekt im Verwendungszweck auftauchen kann. Für detailiertere Angaben (die nicht für den Verwendungszweck nötig sind) nutze bitte das Anmerkungsfeld.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -18,9 +18,7 @@
 
 namespace App\Form;
 
-
 use App\Entity\PaymentOrder;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -40,30 +38,34 @@ class PaymentOrderType extends AbstractType
     {
         $builder->add('first_name', TextType::class, [
             'label' => 'payment_order.first_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.first_name.placeholder',
                 'autocomplete' => 'given_name',
-            ]
+            ],
         ]);
 
         $builder->add('last_name', TextType::class, [
             'label' => 'payment_order.last_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.last_name.placeholder',
                 'autocomplete' => 'family_name',
-            ]
+            ],
         ]);
 
         $builder->add('contact_email', EmailType::class, [
             'label' => 'payment_order.contact_email.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.contact_email.placeholder',
                 'autocomplete' => 'email',
-            ]
+            ],
         ]);
 
         $builder->add('project_name', TextType::class, [
             'label' => 'payment_order.project_name.label',
+            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.project_name.placeholder',
             ],
@@ -75,7 +77,7 @@ class PaymentOrderType extends AbstractType
             'required' => false,
             'empty_data' => '',
             'attr' => [
-                'placeholder' => 'payment_order.funding_id.placeholder'
+                'placeholder' => 'payment_order.funding_id.placeholder',
             ],
         ]);
 
@@ -100,12 +102,12 @@ class PaymentOrderType extends AbstractType
             'divisor' => 100,
             'currency' => 'EUR',
             'attr' => [
-                'placeholder' => 'payment_order.amount.placeholder'
-            ]
+                'placeholder' => 'payment_order.amount.placeholder',
+            ],
         ]);
 
-        $builder->add('bank_info', BankAccountInfoType::class, [
-            'label' => false
+        $builder->add('bank_info', PayeeInfoType::class, [
+            'label' => false,
         ]);
 
         /*
@@ -117,11 +119,11 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('references_file', VichFileType::class, [
             'label' => 'payment_order.references.label',
-            'help' => 'payment_order.references.help'
+            'help' => 'payment_order.references.help',
         ]);
 
         $builder->add('comment', TextareaType::class, [
-           'label' => 'payment_order.comment.label',
+            'label' => 'payment_order.comment.label',
             'empty_data' => '',
             'required' => false,
         ]);
@@ -129,27 +131,28 @@ class PaymentOrderType extends AbstractType
         $builder->add('submit', SubmitType::class, [
             'label' => 'payment_order.submit',
             'attr' => [
-                'class' => 'btn btn-primary'
-            ]
+                'class' => 'btn btn-primary',
+            ],
         ]);
 
         $builder->add('submit_new', SubmitType::class, [
             'label' => 'payment_order.submit_new',
             'attr' => [
-                'class' => 'btn btn-secondary'
-            ]
+                'class' => 'btn btn-secondary',
+            ],
         ]);
 
         $builder->add('reset', ResetType::class, [
             'label' => 'payment_order.discard',
             'attr' => [
-                'class' => 'btn btn-danger'
-            ]
+                'class' => 'btn btn-danger',
+            ],
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('data_class', PaymentOrder::class);
+        $resolver->setDefault('validation_groups', ['Default', 'frontend']);
     }
 }

@@ -18,13 +18,11 @@
 
 namespace App\Entity;
 
-
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\HasLifecycleCallbacks()
- * @package App\Entity
  */
 trait TimestampTrait
 {
@@ -56,18 +54,16 @@ trait TimestampTrait
 
     /**
      * Returns the datetime this element was created. Returns null, if it was not persisted yet.
-     * @return \DateTime|null
      */
-    public function getCreationDate(): ?\DateTime
+    public function getCreationDate(): ?DateTime
     {
         return $this->creation_date;
     }
 
     /**
      * Returns the datetime this element was last time modified. Returns null, if it was not persisted yet.
-     * @return \DateTime|null
      */
-    public function getLastModified(): ?\DateTime
+    public function getLastModified(): ?DateTime
     {
         return $this->last_modified;
     }

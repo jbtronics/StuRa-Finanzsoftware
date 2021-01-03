@@ -18,7 +18,6 @@
 
 namespace App\EventSubscriber;
 
-
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,11 +25,10 @@ use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 
 /**
- * This event subscriber
+ * This event subscriber.
  */
 class Fail2BanSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var LoggerInterface
      */
@@ -41,10 +39,6 @@ class Fail2BanSubscriber implements EventSubscriberInterface
      */
     private $request;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param RequestStack $request
-     */
     public function __construct(LoggerInterface $fail2banLogger, RequestStack $request)
     {
         $this->logger = $fail2banLogger;
@@ -53,16 +47,17 @@ class Fail2BanSubscriber implements EventSubscriberInterface
 
     public function logFail2Ban(AuthenticationFailureEvent $event): void
     {
-        $ipAddress = $this->request->getCurrentRequest()->getClientIp();
-        $this->logger->error('Authentication failed for IP: ' . $ipAddress);
+        $ipAddress = $this->request->getCurrentRequest()
+            ->getClientIp();
+        $this->logger->error('Authentication failed for IP: '.$ipAddress);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             AuthenticationEvents::AUTHENTICATION_FAILURE => [
-                'logFail2Ban'
-            ]
+                'logFail2Ban',
+            ],
         ];
     }
 }

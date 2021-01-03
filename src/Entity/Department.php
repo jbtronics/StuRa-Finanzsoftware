@@ -27,7 +27,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres"
+ * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres".
+ * It can has a associated bank account which is used to choose the correct bank account in SEPA exports.
+ *
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  * @ORM\Table("departments")
  * @ORM\HasLifecycleCallbacks()
@@ -35,7 +37,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Department implements DBElementInterface, NamedElementInterface, TimestampedElementInterface
 {
-    public const ALLOWED_TYPES = ["fsr", "section", "misc"];
+    /**
+     * A department with this type is an FSR ("Fachschaftsrat").
+     */
+    public const TYPE_FSR = 'fsr';
+    /**
+     * A department with this type is an section ("Referat").
+     */
+    public const TYPE_SECTION = 'section';
+    /**
+     * A department with this type is an administrative structure.
+     */
+    public const TYPE_ADMINISTRATIVE = 'misc';
+
+    public const ALLOWED_TYPES = [self::TYPE_FSR, self::TYPE_SECTION, self::TYPE_ADMINISTRATIVE];
 
     use TimestampTrait;
 
@@ -48,16 +63,18 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
-    private $name;
+    private $name = '';
 
     /**
      * @ORM\Column(type="string")
      * @Assert\Choice(choices=Department::ALLOWED_TYPES)
+     *
      * @var string|null
      */
-    private $type;
+    private $type = self::TYPE_FSR;
 
     /**
      * @var bool If an FSR is blocked it can not submit new payment orders
@@ -68,7 +85,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     /**
      * @ORM\Column(type="text")
      */
-    private $comment = "";
+    private $comment = '';
 
     /**
      * @var string[]
@@ -85,7 +102,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", inversedBy="associated_departments")
      * @ORM\JoinColumn(name="bank_account_id", referencedColumnName="id", nullable=true)
      */
-    private $bank_account;
+    private $bank_account = null;
 
     /**
      * @var string[]
@@ -97,7 +114,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
      * })
      */
-    private $email_hhv;
+    private $email_hhv = [];
 
     /**
      * @var string[]
@@ -108,10 +125,12 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Email()
      * })
      */
-    private $email_treasurer;
+    private $email_treasurer = [];
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
+     * Allowed types can be found in Department::ALLOWED_TYPES, or the Department::TYPE_* consts.
+     *
      * @return string
      */
     public function getType(): ?string
@@ -120,30 +139,52 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     }
 
     /**
-     *
-     * @param  string  $type
+     * Sets the type of this department (whether it is an FSR, an section or something else)
+     * Allowed types can be found in Department::ALLOWED_TYPES, or the Department::TYPE_* consts.
      */
     public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
     /**
+     * Returns true if this department is an FSR ("Fachschaftsrat") and false if not.
+     */
+    public function isFSR(): bool
+    {
+        return self::TYPE_FSR === $this->type;
+    }
+
+    /**
+     * Returns true if this department is an section ("Referat") and false if not.
+     */
+    public function isSection(): bool
+    {
+        return self::TYPE_SECTION === $this->type;
+    }
+
+    /**
+     * Returns true if this department is an administrative section and false if not.
+     */
+    public function isAdministrative(): bool
+    {
+        return self::TYPE_ADMINISTRATIVE === $this->type;
+    }
+
+    /**
      * Checks if this department is blocked. If it is blocked it can not create new PaymentOrders...
-     * @return bool
      */
     public function isBlocked(): bool
     {
         return $this->blocked;
     }
 
-    /**
-     * @param  bool  $is_blocked
-     */
     public function setBlocked(bool $is_blocked): self
     {
         $this->blocked = $is_blocked;
+
         return $this;
     }
 
@@ -157,6 +198,12 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         return $this->name;
     }
 
+    /**
+     * Sets the name of this department that is used to identify this department internally.
+     * The name must be unique for all departments.
+     *
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -164,13 +211,13 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName() ?? 'unknown';
     }
 
     /**
-     * @return string
+     * Returns a comment that can be used to describe this department further.
      */
     public function getComment(): string
     {
@@ -178,40 +225,43 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     }
 
     /**
-     * @param  string  $comment
-     * @return Department
+     * Sets a comment that can be used to describe this department further.
      */
     public function setComment(string $comment): Department
     {
         $this->comment = $comment;
+
         return $this;
     }
 
     /**
+     * Returns the list of email addresses that should be notified if a payment order is submitted for this department.
+     *
      * @return string[]
      */
     public function getContactEmails(): array
     {
         //Handle empty fields from older migrations
-        if ($this->contact_emails === null) {
-            return [];
-        }
-
-        return $this->contact_emails;
+        return $this->contact_emails ?? [];
     }
 
     /**
-     * @param  string[]  $contact_emails
+     * Sets the list of email addresses that should be notified if a payment order is submitted for this department.
+     *
+     * @param string[] $contact_emails
+     *
      * @return $this
      */
     public function setContactEmails(array $contact_emails): self
     {
         $this->contact_emails = $contact_emails;
+
         return $this;
     }
 
     /**
-     * @return BankAccount|null
+     * Return the bank account associated with this department.
+     * This can be null, but then no automatic association for SEPA exports is possible.
      */
     public function getBankAccount(): ?BankAccount
     {
@@ -219,60 +269,59 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     }
 
     /**
-     * @param  BankAccount|null  $bank_account
-     * @return Department
+     * Set the bank account associated with this department.
+     * This can be null, but then no automatic association for SEPA exports is possible.
      */
     public function setBankAccount(?BankAccount $bank_account): Department
     {
         $this->bank_account = $bank_account;
+
         return $this;
     }
 
     /**
+     * Returns the list of email addresses that should receive a confirmation email for the first confirmation.
+     *
      * @return string[]
      */
     public function getEmailHhv(): array
     {
         //Handle empty fields from older migrations
-        if ($this->email_hhv === null) {
-            return [];
-        }
-        return $this->email_hhv;
+        return $this->email_hhv ?? [];
     }
 
     /**
-     * @param  array  $email_hhv
-     * @return Department
+     * Sets the list of email addresses that should receive a confirmation email for the first confirmation.
+     *
+     * @param string[] $email_hhv
      */
     public function setEmailHhv(array $email_hhv): Department
     {
         $this->email_hhv = $email_hhv;
+
         return $this;
     }
 
     /**
+     * Returns the list of email addresses that should receive a confirmation email for the second confirmation.
+     *
      * @return string[]
      */
     public function getEmailTreasurer(): array
     {
         //Handle empty fields from older migrations
-        if ($this->email_treasurer === null) {
-            return [];
-        }
-        return $this->email_treasurer;
+        return $this->email_treasurer ?? [];
     }
 
     /**
-     * @param  string[]  $email_treasurer
-     * @return Department
+     * Sets the list of email addresses that should receive a confirmation email for the second confirmation.
+     *
+     * @param string[] $email_treasurer
      */
     public function setEmailTreasurer(array $email_treasurer): Department
     {
         $this->email_treasurer = $email_treasurer;
+
         return $this;
     }
-
-
-
-
 }

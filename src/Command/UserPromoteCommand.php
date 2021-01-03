@@ -54,18 +54,21 @@ class UserPromoteCommand extends Command
         $username = $input->getArgument('username');
 
         $repo = $this->entityManager->getRepository(User::class);
-        $user = $repo->findOneBy(['username' => $username]);
+        $user = $repo->findOneBy([
+            'username' => $username,
+        ]);
 
-        if($user) {
+        if ($user) {
             $io->note(sprintf('You are about to change the following user: %s', $user->getUsername()));
         } else {
             $io->error('User not found!');
+
             return self::FAILURE;
         }
 
         $new_role = $input->getOption('role');
-        if ($new_role === null) {
-            while(empty($new_role)) {
+        if (null === $new_role) {
+            while (empty($new_role)) {
                 $new_role = $io->ask('Input the ROLE that should be added (e.g. ROLE_EDIT_USER)');
             }
         }

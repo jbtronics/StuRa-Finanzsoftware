@@ -18,7 +18,6 @@
 
 namespace App\EventSubscriber;
 
-
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\PDF\PaymentOrderPDFGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +32,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * This subscriber send notification emails to the responsible people if a payment order is submitted (and the event was
  * triggered).
- * @package App\EventSubscriber
  */
 final class PaymentOrderNotificationSubscriber implements EventSubscriberInterface
 {
@@ -46,7 +44,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     private $notifications_bcc;
 
     public function __construct(MailerInterface $mailer, TranslatorInterface $translator,
-         PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager, string $fsb_email,
+        PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager, string $fsb_email,
         bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
@@ -63,19 +61,19 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     public function sendUserEmail(PaymentOrderSubmittedEvent $event): void
     {
         //Do nothing if notifications are disabled
-        if(!$this->send_notifications) {
+        if (!$this->send_notifications) {
             return;
         }
 
         $payment_order = $event->getPaymentOrder();
-        if ($payment_order->getDepartment() === null || empty($payment_order->getDepartment()->getContactEmails())) {
+        if (null === $payment_order->getDepartment() || empty($payment_order->getDepartment()->getContactEmails())) {
             return;
         }
         $department = $payment_order->getDepartment();
 
         $email = new TemplatedEmail();
 
-        if(!empty($this->notifications_bcc) && $this->notifications_bcc[0] !== null) {
+        if (!empty($this->notifications_bcc) && null !== $this->notifications_bcc[0]) {
             $email->addBcc(...$this->notifications_bcc);
         }
 
@@ -84,19 +82,21 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
         $email->priority(Email::PRIORITY_HIGH);
         $email->subject($this->translator->trans(
             'payment_order.notification_user.subject',
-            ['%project%' => $payment_order->getProjectName()]
+            [
+                '%project%' => $payment_order->getProjectName(),
+            ]
         ));
 
         $email->htmlTemplate('mails/user_notification.html.twig');
         $email->context([
-                            'payment_order' => $payment_order
-                        ]);
+            'payment_order' => $payment_order,
+        ]);
 
         $email->addBcc(...$department->getContactEmails());
         $this->mailer->send($email);
     }
 
-    public function generatePDF(PaymentOrderSubmittedEvent $event ): void
+    public function generatePDF(PaymentOrderSubmittedEvent $event): void
     {
         $payment_order = $event->getPaymentOrder();
         $pdf_content = $this->paymentOrderPDFGenerator->generatePDF($payment_order);
@@ -118,8 +118,8 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
         return [
             PaymentOrderSubmittedEvent::NAME => [
                 ['generatePDF', 10],
-                ['sendUserEmail', 0]
-            ]
+                ['sendUserEmail', 0],
+            ],
         ];
     }
 }

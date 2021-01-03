@@ -1,0 +1,80 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - '*'
+      - "!i10n_*" # Dont test localization branches
+  pull_request:
+    branches:
+      - '*'
+      - "!i10n_*"
+
+jobs:
+  phpunit:
+    name: PHPUnit and coverage Test (${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+
+    env:
+      APP_ENV: test
+      SYMFONY_DEPRECATIONS_HELPER: disabled
+      DATABASE_URL: 'mysql://root:root@127.0.0.1:3306/test'
+      PHP_VERSION: ${{ matrix.php-versions }}
+
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: pcov
+          extensions: mbstring, intl, xsl, zip
+
+      - name: Start MySQL
+        run: sudo systemctl start mysql.service
+
+        #- name: Setup MySQL
+        #  uses: mirromutth/mysql-action@v1.1
+        #  with:
+        #    mysql version: 5.7
+        #    mysql database: 'part-db'
+        #    mysql root password: '1234'
+
+      ## Setup caches
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Create DB
+        run: php bin/console --env test doctrine:database:create --if-not-exists -n
+
+      - name: Do migrations
+        run: php bin/console --env test doctrine:migrations:migrate -n
+
+      - name: Load fixtures
+        run: php bin/console --env test doctrine:fixtures:load -n
+
+      - name: Run PHPunit and generate coverage
+        run: ./bin/phpunit --coverage-clover=coverage.xml
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          env_vars: PHP_VERSION

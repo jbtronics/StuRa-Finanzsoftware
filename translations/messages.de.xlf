@@ -1041,13 +1041,13 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="a6nTYRh" name="department.contact_emails.help">
       <segment>
         <source>department.contact_emails.help</source>
-        <target>Feld leeren, um es zu entfernen</target>
+        <target>Die hier angegebenen Email-Addressen werden beim Einreichen eines Zahlungsauftrags für diese Struktur eine Benachrichtigung erhalten, dass ein Auftrag eingereicht wurde. Über diese Email kann keine Bestätigung vorgenommen werden. Feld leeren, um es zu entfernen.</target>
       </segment>
     </unit>
     <unit id="EnQXMLD" name="department.contact_emails.label">
       <segment>
         <source>department.contact_emails.label</source>
-        <target>Kontakt Emails</target>
+        <target>Benachrichtigungsemails</target>
       </segment>
     </unit>
     <unit id="eg9gnb0" name="payment_order.action.email">
@@ -1433,25 +1433,25 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="zEDlHBE" name="department.email_hhv.label">
       <segment>
         <source>department.email_hhv.label</source>
-        <target>Email Haushaltsverantwortlicher</target>
+        <target>Email Haushaltsverantwortlicher / Bestätigung 1</target>
       </segment>
     </unit>
     <unit id="dncGr0X" name="department.email_treasurer.label">
       <segment>
         <source>department.email_treasurer.label</source>
-        <target>Email Kassenverantwortlicher</target>
+        <target>Email Kassenverantwortlicher / Bestätigung 2</target>
       </segment>
     </unit>
     <unit id="Iqm.ffE" name="department.fsr_email_panel.label">
       <segment>
         <source>department.fsr_email_panel.label</source>
-        <target>Kontaktdaten Haushalts- und Kassenverantwortliche</target>
+        <target>Kontaktdaten Bestätigungspersonen</target>
       </segment>
     </unit>
     <unit id="y3CZ3z_" name="department.fsr_email_panel.help">
       <segment>
         <source>department.fsr_email_panel.help</source>
-        <target>Nur für FSRe erforderlich.</target>
+        <target>Die hier angegebenen Personen erhalten eine Email worüber sie den eingereichten Zahlungsauftrag bestätigen können. Bei FSRen sollten dies der Haushalts und Kassenverantwortliche sein, bei Referaten die Referatsleitung (dann nur in einem Feld). Wenn ein Feld leer gelassen wird, wird keine Bestätigung benötigt. So kann eine Organisation nur eine oder gar keine Bestätigungen erfordern.</target>
       </segment>
     </unit>
     <unit id="fGGGpZ1" name="payment_order.confirmation.invalid_step">
@@ -1878,6 +1878,12 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>payment_order.department.label_short</source>
         <target>Struktur</target>
+      </segment>
+    </unit>
+    <unit id="G59lboS" name="department.email_hhv.help">
+      <segment>
+        <source>department.email_hhv.help</source>
+        <target>Die angegebenen Personen erhalten eine Email worüber sie einen Zahlungsauftrag bestätigen können.</target>
       </segment>
     </unit>
   </file>

@@ -1,0 +1,10 @@
+parameters:
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: false
+
+    symfony:
+        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+
+    excludes_analyse:
+        #- src/DataTables/Adapter/*
+        #- src/Configuration/*

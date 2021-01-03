@@ -18,32 +18,32 @@
 
 namespace App\Admin\Field;
 
-
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 /**
- * Custom field for a Password and Repeat password input in EasyAdmin
- * @package App\Admin\Field
+ * Custom field for a Password and Repeat password input in EasyAdmin.
  */
 class PasswordField implements FieldInterface
 {
-
     use FieldTrait;
 
-
-    public static function new(string $propertyName, ?string $label = null)
+    public static function new(string $propertyName, ?string $label = null): PasswordField
     {
         return (new self())
             ->setProperty($propertyName)
             ->setFormType(RepeatedType::class)
             ->setTemplateName('crud/field/text')
             ->setFormTypeOptions([
-                                     'type' => PasswordType::class,
-                                     'first_options' =>  ['label' => 'password.new'],
-                                     'second_options' => ['label' => 'password.repeat'],
-                                 ]);
+                'type' => PasswordType::class,
+                                     'first_options' => [
+                                        'label' => 'password.new',
+                                    ],
+                                     'second_options' => [
+                                        'label' => 'password.repeat',
+                                    ],
+            ]);
     }
 }

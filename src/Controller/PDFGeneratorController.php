@@ -16,8 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace App\Controller\Admin;
-
+namespace App\Controller;
 
 use App\Entity\PaymentOrder;
 use App\Services\PDF\PaymentOrderPDFGenerator;
@@ -27,13 +26,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/pdf")
- * @package App\Controller\Admin
  */
 class PDFGeneratorController extends AbstractController
 {
     /**
      * @Route("/payment_order/{id}")
-     * @return Response
      */
     public function pdf(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
     {
@@ -43,10 +40,9 @@ class PDFGeneratorController extends AbstractController
         $response = new Response($data);
 
         $response->headers->set('Content-type', 'application/pdf');
-        $response->headers->set('Content-length',  strlen($data));
+        $response->headers->set('Content-length', strlen($data));
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-Disposition', 'inline');
-
 
         return $response;
     }

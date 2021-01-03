@@ -18,18 +18,17 @@
 
 namespace App\Entity\Contracts;
 
+use DateTime;
 
 interface TimestampedElementInterface
 {
     /**
      * Returns the datetime this element was created. Returns null, if it was not persisted yet.
-     * @return \DateTime|null
      */
-    public function getCreationDate(): ?\DateTime;
+    public function getCreationDate(): ?DateTime;
 
     /**
      * Returns the datetime this element was last time modified. Returns null, if it was not persisted yet.
-     * @return \DateTime|null
      */
-    public function getLastModified(): ?\DateTime;
+    public function getLastModified(): ?DateTime;
 }

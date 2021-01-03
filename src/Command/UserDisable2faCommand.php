@@ -55,14 +55,17 @@ class UserDisable2faCommand extends Command
         $username = $input->getArgument('username');
 
         $repo = $this->entityManager->getRepository(User::class);
-        $user = $repo->findOneBy(['username' => $username]);
+        $user = $repo->findOneBy([
+            'username' => $username,
+        ]);
 
-        if(!$user) {
+        if (!$user) {
             $io->error('User not found!');
+
             return self::FAILURE;
         }
 
-        $io->warning('You are about to remove all Two-Factor-Authentication methods of following user: ' . $user->getUsername());
+        $io->warning('You are about to remove all Two-Factor-Authentication methods of following user: '.$user->getUsername());
         $io->warning('Only continue if you are sure about the identity of the person that asked you to do this!');
 
         $continue = false;

@@ -56,7 +56,7 @@ class UserNewCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $username = $input->getArgument('username');
 
-        $io->confirm('You are about to create a new user with username: ' . $username . ' Continue?');
+        $io->confirm('You are about to create a new user with username: '.$username.' Continue?');
 
         $user = new User();
         $user->setUsername($username);

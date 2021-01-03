@@ -62,14 +62,15 @@ final class SetEmailFromSubscriber implements EventSubscriberInterface
     public function onMessage(MessageEvent $event): void
     {
         $address = new Address($this->email, $this->name);
-        $event->getEnvelope()->setSender($address);
+        $event->getEnvelope()
+            ->setSender($address);
         $email = $event->getMessage();
         if ($email instanceof Email) {
             $email->from($address);
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             // should be the last one to allow header changes by other listeners first

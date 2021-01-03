@@ -30,7 +30,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\CrudMenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,33 +38,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DashboardController extends AbstractDashboardController
 {
     private $app_version;
-    private $crud_url_generator;
     private $gitVersionInfo;
 
-    public function __construct(string $app_version, CrudUrlGenerator $crudUrlGenerator, GitVersionInfo $gitVersionInfo)
+    public function __construct(string $app_version, GitVersionInfo $gitVersionInfo)
     {
         $this->app_version = $app_version;
-        $this->crud_url_generator = $crudUrlGenerator;
         $this->gitVersionInfo = $gitVersionInfo;
     }
 
     public function configureDashboard(): Dashboard
     {
-        $dashboard = Dashboard::new()
+        return Dashboard::new()
             ->setTitle('StuRa Finanzen');
-
-        return $dashboard;
     }
 
     /**
      * @Route("/admin", name="admin_dashboard", )
-     * @return Response
      */
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig');
     }
-
 
     private function addFiltersToMenuItem(CrudMenuItem $menuItem, array $filters): CrudMenuItem
     {
@@ -75,7 +68,7 @@ class DashboardController extends AbstractDashboardController
         //$menuItem->setQueryParameter('referrer', $referrer);
 
         foreach ($filters as $filter => $value) {
-            $menuItem->setQueryParameter('filters[' . $filter . ']', $value);
+            $menuItem->setQueryParameter('filters['.$filter.']', $value);
         }
 
         $menuItem->setQueryParameter('crudAction', 'index');
@@ -85,25 +78,29 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-
         $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'ASC']);
+            ->setDefaultSort([
+                'creation_date' => 'ASC',
+            ]);
         $this->addFiltersToMenuItem($mathematically_checking, [
             'mathematically_correct' => 0,
             'confirmed' => 1,
         ]);
 
-        $ready_for_export_section = MenuItem::linkToCrud('payment_order.ready_for_export.section', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'ASC']);
+        $ready_for_export_section = MenuItem::linkToCrud('payment_order.ready_for_export.section', '', PaymentOrder::class)
+            ->setDefaultSort([
+                'creation_date' => 'ASC',
+            ]);
         $this->addFiltersToMenuItem($ready_for_export_section, [
             'mathematically_correct' => 1,
             'exported' => 0,
             'confirmed' => 1,
         ]);
 
-
-        $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'ASC']);
+        $factually_checking_fsr = MenuItem::linkToCrud('payment_order.factually_checking_needed.fsr', '', PaymentOrder::class)
+            ->setDefaultSort([
+                'creation_date' => 'ASC',
+            ]);
         $this->addFiltersToMenuItem($factually_checking_fsr, [
             'factually_correct' => 0,
             'department_type' => 'fsr',
@@ -111,8 +108,10 @@ class DashboardController extends AbstractDashboardController
             'confirmed' => 1,
         ]);
 
-        $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '',PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'ASC']);
+        $factually_checking_section = MenuItem::linkToCrud('payment_order.factually_checking_needed.section', '', PaymentOrder::class)
+            ->setDefaultSort([
+                'creation_date' => 'ASC',
+            ]);
         $this->addFiltersToMenuItem($factually_checking_section, [
             'factually_correct' => 0,
             'department_type' => 'section_misc',
@@ -121,7 +120,9 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         $finished = MenuItem::linkToCrud('payment_order.finished', '', PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'DESC']);
+            ->setDefaultSort([
+                'creation_date' => 'DESC',
+            ]);
         $this->addFiltersToMenuItem($finished, [
             'factually_correct' => 1,
             'mathematically_correct' => 1,
@@ -130,11 +131,12 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         $unconfirmed = MenuItem::linkToCrud('payment_order.unconfirmed', '', PaymentOrder::class)
-            ->setDefaultSort(['creation_date' => 'ASC']);
+            ->setDefaultSort([
+                'creation_date' => 'ASC',
+            ]);
         $this->addFiltersToMenuItem($unconfirmed, [
             'confirmed' => 0,
         ]);
-
 
         $items = [
             $mathematically_checking,
@@ -144,7 +146,7 @@ class DashboardController extends AbstractDashboardController
             $finished,
             $unconfirmed,
             MenuItem::linkToCrud('payment_order.all', '', PaymentOrder::class),
-            ];
+        ];
 
         yield MenuItem::subMenu('payment_order.labelp', 'fas fa-file-invoice-dollar')
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
@@ -157,8 +159,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class)
             ->setPermission('ROLE_READ_USER');
 
-        $version = $this->app_version . '-' . $this->gitVersionInfo->getGitCommitHash() ?? '';
-        yield MenuItem::section('Version ' . $version, 'fas fa-info');
+        $version = $this->app_version.'-'.$this->gitVersionInfo->getGitCommitHash() ?? '';
+        yield MenuItem::section('Version '.$version, 'fas fa-info');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
         yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
@@ -172,10 +174,10 @@ class DashboardController extends AbstractDashboardController
             ->setName((string) $user)
             ->displayUserName(true)
             ->addMenuItems([
-                               MenuItem::linktoRoute('user.settings.title', 'fas fa-user-cog', 'user_settings'),
-                               MenuItem::linktoRoute(Languages::getName('de', 'de') . ' (DE)', '', 'admin_dashboard.de'),
-                               MenuItem::linktoRoute(Languages::getName('en', 'en') . ' (EN)', '', 'admin_dashboard.en'),
-                           ]);
+                MenuItem::linktoRoute('user.settings.title', 'fas fa-user-cog', 'user_settings'),
+                MenuItem::linktoRoute(Languages::getName('de', 'de').' (DE)', '', 'admin_dashboard.de'),
+                MenuItem::linktoRoute(Languages::getName('en', 'en').' (EN)', '', 'admin_dashboard.en'),
+            ]);
     }
 
     public function configureCrud(): Crud

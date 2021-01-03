@@ -18,14 +18,15 @@
 
 namespace App\Services;
 
-
 namespace App\Services;
 
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
+/**
+ * This service allows to extract informations about the current git commit (useful for version info).
+ */
 class GitVersionInfo
 {
     protected $project_dir;
@@ -39,23 +40,24 @@ class GitVersionInfo
 
     /**
      * Get the Git branch name of the installed system.
+     * The information is cached.
      *
      * @return string|null The current git branch name. Null, if this is no Git installation
      */
     public function getGitBranchName(): ?string
     {
-        return $this->cache->get('git_branch', function(ItemInterface $item) {
+        return $this->cache->get('git_branch', function (ItemInterface $item) {
             $item->expiresAfter(4320); //Recache every 12h
             if (is_file($this->project_dir.'/.git/HEAD')) {
-            $git = file($this->project_dir.'/.git/HEAD');
-            $head = explode('/', $git[0], 3);
+                $git = file($this->project_dir.'/.git/HEAD');
+                $head = explode('/', $git[0], 3);
 
-            if (!isset($head[2])) {
-                return null;
+                if (!isset($head[2])) {
+                    return null;
+                }
+
+                return trim($head[2]);
             }
-
-            return trim($head[2]);
-        }
 
             return null; // this is not a Git installation
         });
@@ -63,6 +65,7 @@ class GitVersionInfo
 
     /**
      * Get hash of the last git commit (on remote "origin"!).
+     * The information is cached.
      *
      * If this method does not work, try to make a "git pull" first!
      *
@@ -72,7 +75,7 @@ class GitVersionInfo
      */
     public function getGitCommitHash(int $length = 7): ?string
     {
-        return $this->cache->get('git_hash', function(ItemInterface $item) use ($length) {
+        return $this->cache->get('git_hash', function (ItemInterface $item) use ($length) {
             $item->expiresAfter(4320); //Recache every 12h
 
             $filename = $this->project_dir.'/.git/refs/remotes/origin/'.$this->getGitBranchName();
@@ -90,6 +93,5 @@ class GitVersionInfo
 
             return null; // this is not a Git installation
         });
-
     }
 }

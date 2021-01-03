@@ -18,12 +18,10 @@
 
 namespace App\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PaymentOrderConfirmationType extends AbstractType
@@ -31,17 +29,17 @@ class PaymentOrderConfirmationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('check_1', CheckboxType::class, [
-            'label' => 'payment_order.confirm.check1.label'
+            'label' => 'payment_order.confirm.check1.label',
         ]);
         $builder->add('check_2', CheckboxType::class, [
-            'label' => 'payment_order.confirm.check2.label'
+            'label' => 'payment_order.confirm.check2.label',
         ]);
         $builder->add('check_3', CheckboxType::class, [
-            'label' => 'payment_order.confirm.check3.label'
+            'label' => 'payment_order.confirm.check3.label',
         ]);
 
         $builder->add('submit', SubmitType::class, [
-            'label' => 'payment_order.confirm.submit.label'
+            'label' => 'payment_order.confirm.submit.label',
         ]);
     }
 

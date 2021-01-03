@@ -18,12 +18,12 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Form\TFA\TFAGoogleSettingsType;
 use App\Form\User\PasswordChangeType;
 use App\Services\TFA\BackupCodeManager;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,23 +34,20 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/admin/user")
- * @package App\Controller
  */
 class UserSettingsController extends AbstractController
 {
     /**
      * @Route("/settings", name="user_settings")
-     * @return Response
      */
     public function userSettings(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,
         GoogleAuthenticator $googleAuthenticator, QrCodeGenerator $qrCodeGenerator, BackupCodeManager $backupCodeManager): Response
     {
-
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
         if (!$user instanceof User) {
-            throw new \RuntimeException('This controller can only manage App\Entity\User objects!');
+            throw new RuntimeException('This controller can only manage App\Entity\User objects!');
         }
 
         $pw_form = $this->createForm(PasswordChangeType::class);
@@ -69,14 +66,15 @@ class UserSettingsController extends AbstractController
         //Handle 2FA things
         $google_form = $this->createForm(TFAGoogleSettingsType::class, $user);
         $google_enabled = $user->isGoogleAuthenticatorEnabled();
-        if (! $google_enabled && ! $google_form->isSubmitted()) {
+        if (!$google_enabled && !$google_form->isSubmitted()) {
             $user->setGoogleAuthenticatorSecret($googleAuthenticator->generateSecret());
-            $google_form->get('googleAuthenticatorSecret')->setData($user->getGoogleAuthenticatorSecret());
+            $google_form->get('googleAuthenticatorSecret')
+                ->setData($user->getGoogleAuthenticatorSecret());
         }
         $google_form->handleRequest($request);
 
         if ($google_form->isSubmitted() && $google_form->isValid()) {
-            if (! $google_enabled) {
+            if (!$google_enabled) {
                 //Save 2FA settings (save secrets)
                 $user->setGoogleAuthenticatorSecret($google_form->get('googleAuthenticatorSecret')->getData());
                 $backupCodeManager->enableBackupCodes($user);
@@ -104,31 +102,31 @@ class UserSettingsController extends AbstractController
                 'enabled' => $google_enabled,
                 'qrContent' => $googleAuthenticator->getQRContent($user),
                 'secret' => $user->getGoogleAuthenticatorSecret(),
-                'qrImageDataUri' => $qrCodeGenerator->getGoogleAuthenticatorQrCode($user)->writeDataUri(),
+                'qrImageDataUri' => $qrCodeGenerator->getGoogleAuthenticatorQrCode($user)
+                    ->writeDataUri(),
                 'username' => $user->getGoogleAuthenticatorUsername(),
             ],
         ]);
     }
 
-
     /**
      * @Route("/2fa_backup_codes", name="show_backup_codes")
      */
-    public function showBackupCodes()
+    public function showBackupCodes(): Response
     {
         $user = $this->getUser();
 
         //When user change its settings, he should be logged  in fully.
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (! $user instanceof User) {
-            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        if (!$user instanceof User) {
+            throw new RuntimeException('This controller only works only for Part-DB User objects!');
         }
 
         if (empty($user->getBackupCodes())) {
             $this->addFlash('error', 'tfa_backup.no_codes_enabled');
 
-            throw new \RuntimeException('You do not have any backup codes enabled, therefore you can not view them!');
+            throw new RuntimeException('You do not have any backup codes enabled, therefore you can not view them!');
         }
 
         return $this->render('admin/user/backup_codes.html.twig', [
@@ -136,19 +134,18 @@ class UserSettingsController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/regenerate_backup_codes", name="tfa_regenerate_backup_codes", methods={"DELETE"})
      */
-    public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager)
+    public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
 
         //When user change its settings, he should be logged  in fully.
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (! $user instanceof User) {
-            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        if (!$user instanceof User) {
+            throw new RuntimeException('This controller only works only for Part-DB User objects!');
         }
 
         if ($this->isCsrfTokenValid('regenerate_backup_codes'.$user->getId(), $request->request->get('_token'))) {
@@ -167,15 +164,15 @@ class UserSettingsController extends AbstractController
      *
      * RedirectResponse
      */
-    public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager)
+    public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
 
         //When user change its settings, he should be logged  in fully.
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (! $user instanceof User) {
-            throw new \RuntimeException('This controller only works only for Part-DB User objects!');
+        if (!$user instanceof User) {
+            throw new RuntimeException('This controller only works only for Part-DB User objects!');
         }
 
         if ($this->isCsrfTokenValid('devices_reset'.$user->getId(), $request->request->get('_token'))) {
