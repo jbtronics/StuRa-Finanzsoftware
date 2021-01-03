@@ -32,7 +32,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PaymentOrderMailLinkGenerator
 {
     private $translator;
-    private $crudUrlGenerator;
+    private $adminURLGenerator;
 
     private $hhv_email;
 
