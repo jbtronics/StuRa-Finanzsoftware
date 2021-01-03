@@ -65,6 +65,7 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('project_name', TextType::class, [
             'label' => 'payment_order.project_name.label',
+            'help' => 'payment_order.project_name.help',
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.project_name.placeholder',

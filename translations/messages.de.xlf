@@ -1673,7 +1673,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="O2OBLv0" name="payment_order.new.name_hint">
       <segment>
         <source>payment_order.new.name_hint</source>
-        <target>Gib hier den Namen und Kontaktdaten des Auftraggebers (also deine) an.</target>
+        <target>Gib hier den Namen und Kontaktdaten der Auftraggeber*in (also deine) an.</target>
       </segment>
     </unit>
     <unit id="ugc7GXB" name="payment_order.action.mathematically_correct">
@@ -1721,7 +1721,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="Oa9DYsQ" name="payment_order.contact_email.label">
       <segment>
         <source>payment_order.contact_email.label</source>
-        <target>Email Auftraggeber</target>
+        <target>Email Auftraggeber*in</target>
       </segment>
     </unit>
     <unit id="NAo.TOd" name="payment_order.contact_email.placeholder">
@@ -1884,6 +1884,12 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>department.email_hhv.help</source>
         <target>Die angegebenen Personen erhalten eine Email worüber sie einen Zahlungsauftrag bestätigen können.</target>
+      </segment>
+    </unit>
+    <unit id="qeYIgbp" name="payment_order.project_name.help">
+      <segment>
+        <source>payment_order.project_name.help</source>
+        <target>Der Projektname erscheint im Verwendungszweck. Wenn du eine Rechnungsnummer o.Ä. hast, trage sie hier ein.</target>
       </segment>
     </unit>
   </file>

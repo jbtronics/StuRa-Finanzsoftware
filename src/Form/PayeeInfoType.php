@@ -33,7 +33,7 @@ class PayeeInfoType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.account_owner.placeholder',
-                'autocomplete' => 'name',
+                'autocomplete' => 'off',
             ],
         ]);
 
@@ -42,7 +42,7 @@ class PayeeInfoType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.street.placeholder',
-                'autocomplete' => 'street-address',
+                'autocomplete' => 'off',
             ],
         ]);
 
@@ -51,7 +51,7 @@ class PayeeInfoType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.zip_code.placeholder',
-                'autocomplete' => 'postal_code',
+                'autocomplete' => 'off',
             ],
         ]);
 
@@ -60,7 +60,7 @@ class PayeeInfoType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.city.placeholder',
-                'autocomplete' => 'address-level2',
+                'autocomplete' => 'off',
             ],
         ]);
 
