@@ -73,6 +73,9 @@
         "symfony/test-pack": "*",
         "symplify/easy-coding-standard": "^8.3"
     },
+    "suggest": {
+        "ext-posix": "Used to determine the CLI username."
+    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {

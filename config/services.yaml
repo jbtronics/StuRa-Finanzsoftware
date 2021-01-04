@@ -77,5 +77,16 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    dh_auditor.anonymized_security_provider:
+        class: 'App\Audit\AnonymizedIPSecurityProvider'
+        arguments:
+            $firewallMap: '@security.firewall.map'
+
+    dh_auditor.user_provider: '@App\Audit\UserProvider'
+
+    App\Audit\UserProvider:
+        tags:
+            - {name: 'doctrine.event_subscriber' }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

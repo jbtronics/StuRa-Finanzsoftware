@@ -3,6 +3,9 @@
 dh_auditor:
     enabled: true
     timezone: 'Europe/Berlin'
+    security_provider: 'dh_auditor.anonymized_security_provider'
+    user_provider: 'dh_auditor.user_provider'
+
     providers:
         doctrine:
             table_prefix: null

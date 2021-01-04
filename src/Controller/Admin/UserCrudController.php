@@ -36,6 +36,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserCrudController extends AbstractCrudController
 {
+
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
