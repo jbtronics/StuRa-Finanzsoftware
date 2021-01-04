@@ -1,4 +1,6 @@
 monolog:
+    channels: ['fail2ban']
+
     handlers:
         main:
             type: fingers_crossed
@@ -20,5 +22,6 @@ monolog:
             # log to var/log/(environment).log
             path: "%kernel.logs_dir%/fail2ban_%kernel.environment%.log"
             level: error
+            channels: [fail2ban]
 
 
