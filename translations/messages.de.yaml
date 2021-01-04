@@ -14,7 +14,7 @@ audit:
     old_value: Alter Wert
     new_value: Neuer Wert
     transaction: Transaktion
-    entity_per_entity: (Entität pro Entität)
+    entity_per_entity: (Objekt pro Objekt)
   pager:
     first: Erste
     previous: Vorherige
