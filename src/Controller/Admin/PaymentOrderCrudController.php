@@ -49,6 +49,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,17 +59,17 @@ class PaymentOrderCrudController extends AbstractCrudController
     private $mailToGenerator;
     private $dashboardControllerRegistry;
     private $confirmationEmailSender;
-    private $request;
+    private $adminURLGenerator;
     private $entityManager;
 
     public function __construct(PaymentOrderMailLinkGenerator $mailToGenerator,
         DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
-        ConfirmationEmailSender $confirmationEmailSender)
+        ConfirmationEmailSender $confirmationEmailSender, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
         $this->confirmationEmailSender = $confirmationEmailSender;
-
+        $this->adminURLGenerator = $adminUrlGenerator;
         $this->entityManager = $entityManager;
     }
 
@@ -82,10 +83,11 @@ class PaymentOrderCrudController extends AbstractCrudController
         //We must add an eaContext Parameter or we will run into an error...
         $context_id = $this->dashboardControllerRegistry->getContextIdByControllerFqcn($context->getDashboardControllerFqcn());
 
-        return $this->redirectToRoute('payment_order_export', [
-            'eaContext' => $context_id,
-            'ids' => implode(',', $ids),
-        ]);
+        return $this->redirect(
+            $this->adminURLGenerator->setRoute('payment_order_export')
+                ->set('ids', implode(',', $ids))
+                ->generateUrl()
+        );
     }
 
     public function referencesExport(array $ids, AdminContext $context): Response
