@@ -85,7 +85,7 @@ class DashboardController extends AbstractDashboardController
 
         $showLog = Action::new('showLog', 'action.show_logs', 'fas fa-binoculars')
             ->displayIf(function (DBElementInterface $entity) {
-                $this->isGranted('ROLE_VIEW_AUDITS');
+                return $this->isGranted('ROLE_VIEW_AUDITS');
             })
             ->setCssClass('ml-2 text-dark')
             ->linkToRoute('dh_auditor_show_entity_history', function(DBElementInterface $entity) {
