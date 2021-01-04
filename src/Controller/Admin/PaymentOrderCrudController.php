@@ -23,6 +23,7 @@ use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
+use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,7 +77,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         return PaymentOrder::class;
     }
 
-    public function sepaXMLexport(array $ids, AdminContext $context): Response
+    public function sepaXMLExport(array $ids, AdminContext $context): Response
     {
         //We must add an eaContext Parameter or we will run into an error...
         $context_id = $this->dashboardControllerRegistry->getContextIdByControllerFqcn($context->getDashboardControllerFqcn());
@@ -85,6 +86,22 @@ class PaymentOrderCrudController extends AbstractCrudController
             'eaContext' => $context_id,
             'ids' => implode(',', $ids),
         ]);
+    }
+
+    public function referencesExport(array $ids, AdminContext $context): Response
+    {
+        $data = [];
+        foreach ($ids as $id) {
+            /** @var PaymentOrder $payment_order */
+            $payment_order = $this->entityManager->find(PaymentOrder::class, $id);
+            $path = $payment_order->getReferencesFile()->getPathname();
+            $extension = $payment_order->getReferencesFile()->getExtension();
+            $data[$payment_order->getIDString() . '.' . $extension] = $path;
+        }
+
+        return ZIPBinaryFileResponseFacade::createZIPResponseFromFiles(
+            $data,
+            'Belege_'  .date('Y-m-d_H-i-s').'.zip');
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -162,16 +179,26 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-
-        if($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
+        if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
             // Button with text and icon
             $actions->add(Crud::PAGE_INDEX, Action::new('sepaXMLExport', 'payment_order.action.export_xml')
                 ->createAsBatchAction()
-                ->linkToCrudAction('export')
+                ->linkToCrudAction('sepaXMLExport')
                 ->addCssClass('btn btn-primary')
                 ->setIcon('fas fa-file-export')
             );
         }
+
+        if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
+            $actions->add(Crud::PAGE_INDEX,
+                Action::new('referencesExport', 'payment.order.action.export.export_references')
+                    ->createAsBatchAction()
+                    ->linkToCrudAction('referencesExport')
+                    ->addCssClass('btn btn-primary')
+                    ->setIcon('fas fa-file-invoice')
+            );
+        }
+
 
         $actions->setPermissions([
             Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',

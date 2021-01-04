@@ -22,6 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Form\SepaExportType;
+use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Services\PaymentOrdersSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
@@ -102,21 +103,15 @@ class ExportController extends AbstractController
                     $filename = 'export_'.date('Y-m-d_H-i-s').'.xml';
                     $response = $this->getDownloadResponse($xml_string, $filename);
                 } else {
-                    $zip = new ZipArchive();
-                    $file_path = tempnam(sys_get_temp_dir(), 'stura');
-                    if (true === $zip->open($file_path, ZipArchive::CREATE)) {
-                        foreach ($xml_files as $name => $content) {
-                            $name .= '.xml';
-                            $zip->addFromString($name, $content);
-                        }
-                        $zip->close();
-                        $response = new BinaryFileResponse($file_path);
-                        $response->deleteFileAfterSend();
-                        $response->setPrivate();
-                        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'export_'.date('Y-m-d_H-i-s').'.zip');
-                    } else {
-                        throw new RuntimeException('Could not create a ZIP Archive.');
+                    $data = [];
+                    foreach ($xml_files as $key => $content) {
+                        $data[$key . '.xml'] = $content;
                     }
+
+                    return ZIPBinaryFileResponseFacade::createZIPResponseFromData(
+                        $data,
+                        'export_'.date('Y-m-d_H-i-s').'.zip'
+                    );
                 }
 
                 //Set export flag

@@ -2030,5 +2030,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bank Export</target>
       </segment>
     </unit>
+    <unit id="jD70BKg" name="payment.order.action.export.export_references">
+      <segment>
+        <source>payment.order.action.export.export_references</source>
+        <target>Exportiere Rechnungen</target>
+      </segment>
+    </unit>
+    <unit id="eyeR_qz" name="user.role.export_references">
+      <segment>
+        <source>user.role.export_references</source>
+        <target>Belegexport</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
