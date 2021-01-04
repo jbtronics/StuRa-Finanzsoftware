@@ -13,7 +13,10 @@ dh_auditor:
             entities:
                 App\Entity\BankAccount: ~
                 App\Entity\Department: ~
-                App\Entity\PaymentOrder: ~
+                App\Entity\PaymentOrder:
+                    ignored_columns:
+                        - confirm1_token
+                        - confirm2_token
                 App\Entity\User:
                     ignored_columns:
                         - password
