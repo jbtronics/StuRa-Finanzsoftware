@@ -1,4 +1,6 @@
 monolog:
+    channels: ['fail2ban']
+
     handlers:
         main:
             type: fingers_crossed
