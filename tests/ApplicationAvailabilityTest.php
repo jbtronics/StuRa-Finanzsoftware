@@ -90,6 +90,9 @@ class ApplicationAvailabilityTest extends WebTestCase
         $adminURL = self::$container->get(AdminUrlGenerator::class);
 
         yield ['/admin'];
+        yield ['/admin/audit'];
+        yield ['/admin/audit/App-Entity-PaymentOrder'];
+        yield ['/admin/audit/App-Entity-PaymentOrder/1'];
 
         //User admin pages
         yield [$adminURL->setController(UserCrudController::class)->setAction(Action::INDEX)->generateUrl()];
