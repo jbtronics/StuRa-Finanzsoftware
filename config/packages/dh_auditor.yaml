@@ -1,0 +1,39 @@
+# Full configuration reference available at:
+# https://damienharper.github.io/auditor-docs/docs/auditor-bundle/configuration/reference.html
+dh_auditor:
+    enabled: true
+    timezone: 'Europe/Berlin'
+    security_provider: 'dh_auditor.anonymized_security_provider'
+    user_provider: 'dh_auditor.user_provider'
+
+    providers:
+        doctrine:
+            table_prefix: null
+            table_suffix: '_audit'
+            ignored_columns:
+                - last_modified
+                - creation_date
+            entities:
+                App\Entity\BankAccount:
+                    roles:
+                        view:
+                            - 'ROLE_READ_BANK_ACCOUNTS'
+                App\Entity\Department:
+                    roles:
+                        view:
+                            - 'ROLE_READ_ORGANISATIONS'
+                App\Entity\PaymentOrder:
+                    roles:
+                        view:
+                            - 'ROLE_SHOW_PAYMENT_ORDERS'
+                    ignored_columns:
+                        - confirm1_token
+                        - confirm2_token
+                App\Entity\User:
+                    roles:
+                        view:
+                            - 'ROLE_READ_USER'
+                    ignored_columns:
+                        - password
+                        - googleAuthenticatorSecret
+                        - backupCodes

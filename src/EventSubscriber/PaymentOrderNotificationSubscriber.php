@@ -18,6 +18,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Audit\UserProvider;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\PDF\PaymentOrderPDFGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,9 +43,11 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     private $fsb_email;
     private $send_notifications;
     private $notifications_bcc;
+    private $userProvider;
 
     public function __construct(MailerInterface $mailer, TranslatorInterface $translator,
-        PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager, string $fsb_email,
+        PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager,
+        UserProvider $userProvider, string $fsb_email,
         bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
@@ -56,6 +59,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
 
         $this->paymentOrderPDFGenerator = $paymentOrderPDFGenerator;
         $this->entityManager = $entityManager;
+        $this->userProvider = $userProvider;
     }
 
     public function sendUserEmail(PaymentOrderSubmittedEvent $event): void
@@ -108,6 +112,8 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
         $file = new UploadedFile($tmpfname, 'form.pdf', null, null, true);
 
         $payment_order->setPrintedFormFile($file);
+
+        $this->userProvider->setManualUsername('[Automatic form generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
 
         //Save to database and let VichUploadBundle handle everything else (it will also remove the temp file)
         $this->entityManager->flush();

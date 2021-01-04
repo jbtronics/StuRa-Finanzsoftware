@@ -8,6 +8,7 @@
         "ext-mbstring": "*",
         "ext-zip": "*",
         "components/jquery": "^3.5",
+        "damienharper/auditor-bundle": "^4.0",
         "digitick/sepa-xml": "^2.0.0",
         "doctrine/doctrine-migrations-bundle": "^3.0.0",
         "easycorp/easyadmin-bundle": "dev-master",
@@ -71,6 +72,9 @@
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
         "symplify/easy-coding-standard": "^8.3"
+    },
+    "suggest": {
+        "ext-posix": "Used to determine the CLI username."
     },
     "config": {
         "optimize-autoloader": true,

@@ -36,6 +36,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserCrudController extends AbstractCrudController
 {
+
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -83,6 +84,7 @@ class UserCrudController extends AbstractCrudController
             'user.role.edit_po_factually' => 'ROLE_PO_FACTUALLY',
             'user.role.edit_po_mathematically' => 'ROLE_PO_MATHEMATICALLY',
             'user.role.edit_bank_accounts' => 'ROLE_EDIT_BANK_ACCOUNTS',
+            'user.role.view_audit_logs' => 'ROLE_VIEW_AUDITS'
         ];
     }
 

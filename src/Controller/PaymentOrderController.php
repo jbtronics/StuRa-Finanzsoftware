@@ -18,6 +18,7 @@
 
 namespace App\Controller;
 
+use App\Audit\UserProvider;
 use App\Entity\PaymentOrder;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
@@ -41,10 +42,18 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class PaymentOrderController extends AbstractController
 {
+    private $userProvider;
+
+    public function __construct(UserProvider $userProvider)
+    {
+        $this->userProvider = $userProvider;
+    }
+
     /**
      * @Route("/new", name="payment_order_new")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher, PaymentReferenceGenerator $paymentReferenceGenerator): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher,
+        PaymentReferenceGenerator $paymentReferenceGenerator): Response
     {
         $new_order = new PaymentOrder();
 
@@ -59,9 +68,19 @@ class PaymentOrderController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $entityManager->persist($new_order);
+
+                $username = sprintf('%s %s (%s) [New PaymentOrder]',
+                    $new_order->getFirstName(),
+                    $new_order->getLastName(),
+                    $new_order->getContactEmail()
+                );
+                $this->userProvider->setManualUsername($username, $new_order->getContactEmail());
+
                 $entityManager->flush();
 
+
                 //We have to do this after the first flush, as we need to know the ID
+                $this->userProvider->setManualUsername('[Automatic payment reference generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
                 $paymentReferenceGenerator->setPaymentReference($new_order);
                 $entityManager->flush();
 
@@ -149,6 +168,11 @@ class PaymentOrderController extends AbstractController
             } elseif (2 === $confirm_step) {
                 $paymentOrder->setConfirm2Timestamp(new DateTime());
             }
+
+            //Add hintful information about who did this, to audit log
+            $emails = (1 === $confirm_step) ? $paymentOrder->getDepartment()->getEmailHhv() : $paymentOrder->getDepartment()->getEmailTreasurer();
+            $username = sprintf('%s [Confirmation %d]', implode(', ', $emails), $confirm_step);
+            $this->userProvider->setManualUsername($username, implode(',', $emails));
             $em->flush();
 
             //Rerender form if it was confirmed, to apply the disabled state
