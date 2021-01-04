@@ -1,0 +1,17 @@
+{% extends "@!EasyAdmin/crud/form_theme.html.twig" %}
+
+{# Remove the confirmation dialog #}
+{% block ea_batch_action_widget %}
+    {{ form_widget(form.entityIds) }}
+    <button type="button" class="btn btn-link deselect-batch-button">{{ 'action.deselect'|trans(domain = 'EasyAdminBundle') }}</button>
+    {% for action in batch_actions %}
+        <button name="{{ form.crudAction.vars.full_name }}" value="{{ action.name }}"
+                {# No ask-confirm-batch-button class here #}
+                class="{{ action.cssClass }}" {% for name, value in action.htmlAttributes %}{{ name }}="{{ value|e('html_attr') }}" {% endfor %}>
+        <span class="btn-label">
+                {%- if action.icon %}<i class="action-icon {{ action.icon }}"></i> {% endif -%}
+            {%- if action.label is not empty -%}{{ action.label }}{%- endif -%}
+            </span>
+        </button>
+    {% endfor %}
+{% endblock ea_batch_action_widget %}
