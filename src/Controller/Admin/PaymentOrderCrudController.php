@@ -76,7 +76,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         return PaymentOrder::class;
     }
 
-    public function export(array $ids, AdminContext $context): Response
+    public function sepaXMLexport(array $ids, AdminContext $context): Response
     {
         //We must add an eaContext Parameter or we will run into an error...
         $context_id = $this->dashboardControllerRegistry->getContextIdByControllerFqcn($context->getDashboardControllerFqcn());
@@ -162,13 +162,16 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        // Button with text and icon
-        $actions->add(Crud::PAGE_INDEX, Action::new('Export')
-            ->createAsBatchAction()
-            ->linkToCrudAction('export')
-            ->addCssClass('btn btn-primary')
-            ->setIcon('fas fa-file-export')
-        );
+
+        if($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
+            // Button with text and icon
+            $actions->add(Crud::PAGE_INDEX, Action::new('sepaXMLExport', 'payment_order.action.export_xml')
+                ->createAsBatchAction()
+                ->linkToCrudAction('export')
+                ->addCssClass('btn btn-primary')
+                ->setIcon('fas fa-file-export')
+            );
+        }
 
         $actions->setPermissions([
             Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',

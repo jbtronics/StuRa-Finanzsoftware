@@ -2018,5 +2018,17 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Auditlogs anzeigen</target>
       </segment>
     </unit>
+    <unit id="xu6g_aw" name="payment_order.action.export_xml">
+      <segment>
+        <source>payment_order.action.export_xml</source>
+        <target>Bank Export</target>
+      </segment>
+    </unit>
+    <unit id="vT3R0bt" name="XML Export">
+      <segment>
+        <source>XML Export</source>
+        <target>Bank Export</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
