@@ -80,7 +80,7 @@ class PaymentOrderController extends AbstractController
 
 
                 //We have to do this after the first flush, as we need to know the ID
-                $this->userProvider->setManualUsername('Automatic payment reference generation', UserProvider::INTERNAL_USER_IDENTIFIER);
+                $this->userProvider->setManualUsername('[Automatic payment reference generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
                 $paymentReferenceGenerator->setPaymentReference($new_order);
                 $entityManager->flush();
 

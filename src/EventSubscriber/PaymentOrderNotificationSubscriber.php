@@ -113,7 +113,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
 
         $payment_order->setPrintedFormFile($file);
 
-        $this->userProvider->setManualUsername('Automatic form generation', UserProvider::INTERNAL_USER_IDENTIFIER);
+        $this->userProvider->setManualUsername('[Automatic form generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
 
         //Save to database and let VichUploadBundle handle everything else (it will also remove the temp file)
         $this->entityManager->flush();
