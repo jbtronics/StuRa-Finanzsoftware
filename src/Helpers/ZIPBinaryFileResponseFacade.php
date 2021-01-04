@@ -56,7 +56,7 @@ class ZIPBinaryFileResponseFacade
 
     /**
      * Creates a ZIP file as Response from given data.
-     * @param  array  $files The data as associative array of the form ['filename.txt' =>  '/path/on/dir']
+     * @param  array  $data The data as associative array of the form ['filename.txt' =>  '/path/on/dir']
      * @param  string  $disposition_filename The name of the file that will be downloaded.
      * @return BinaryFileResponse
      */
