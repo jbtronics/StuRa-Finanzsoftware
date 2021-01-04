@@ -11,13 +11,25 @@ dh_auditor:
                 - last_modified
                 - creation_date
             entities:
-                App\Entity\BankAccount: ~
-                App\Entity\Department: ~
+                App\Entity\BankAccount:
+                    roles:
+                        view:
+                            - 'ROLE_READ_BANK_ACCOUNTS'
+                App\Entity\Department:
+                    roles:
+                        view:
+                            - 'ROLE_READ_ORGANISATIONS'
                 App\Entity\PaymentOrder:
+                    roles:
+                        view:
+                            - 'ROLE_SHOW_PAYMENT_ORDERS'
                     ignored_columns:
                         - confirm1_token
                         - confirm2_token
                 App\Entity\User:
+                    roles:
+                        view:
+                            - 'ROLE_READ_USER'
                     ignored_columns:
                         - password
                         - googleAuthenticatorSecret

@@ -1,6 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de">
   <file id="messages.de">
+    <unit id="0kY58Gt" name="audit.header.home">
+      <segment>
+        <source>audit.header.home</source>
+        <target>Startseite</target>
+      </segment>
+    </unit>
+    <unit id="LD_yNcZ" name="audit.header.audited_entities">
+      <segment>
+        <source>audit.header.audited_entities</source>
+        <target>Überwachte Objekte</target>
+      </segment>
+    </unit>
+    <unit id="EOMRY6D" name="audit.table_headers.entity">
+      <segment>
+        <source>audit.table_headers.entity</source>
+        <target>Objekt</target>
+      </segment>
+    </unit>
+    <unit id="Xd.vh8w" name="audit.table_headers.table">
+      <segment>
+        <source>audit.table_headers.table</source>
+        <target>Tabelle</target>
+      </segment>
+    </unit>
+    <unit id="KKAj6Ro" name="audit.table_headers.activity">
+      <segment>
+        <source>audit.table_headers.activity</source>
+        <target>Aktivität</target>
+      </segment>
+    </unit>
+    <unit id="yCQ8Lde" name="audit.audit_details.view_audit">
+      <segment>
+        <source>audit.audit_details.view_audit</source>
+        <target>Audits anzeigen</target>
+      </segment>
+    </unit>
+    <unit id="PeWrzGR" name="audit.audit_details.most_recent">
+      <segment>
+        <source>audit.audit_details.most_recent</source>
+        <target>(neueste zuerst)</target>
+      </segment>
+    </unit>
+    <unit id="zM9JcEk" name="audit.audit_details.entry_title">
+      <segment>
+        <source>audit.audit_details.entry_title</source>
+        <target>Alle Operationen dieser Transaktion anzeigen</target>
+      </segment>
+    </unit>
+    <unit id="ljuF9TK" name="audit.audit_details.property">
+      <segment>
+        <source>audit.audit_details.property</source>
+        <target>Eigenschaft</target>
+      </segment>
+    </unit>
+    <unit id="sTX1_j_" name="audit.audit_details.old_value">
+      <segment>
+        <source>audit.audit_details.old_value</source>
+        <target>Alter Wert</target>
+      </segment>
+    </unit>
+    <unit id="Boegl60" name="audit.audit_details.new_value">
+      <segment>
+        <source>audit.audit_details.new_value</source>
+        <target>Neuer Wert</target>
+      </segment>
+    </unit>
+    <unit id="jen1FOv" name="audit.audit_details.transaction">
+      <segment>
+        <source>audit.audit_details.transaction</source>
+        <target>Transaktion</target>
+      </segment>
+    </unit>
+    <unit id="nVItfFI" name="audit.audit_details.entity_per_entity">
+      <segment>
+        <source>audit.audit_details.entity_per_entity</source>
+        <target>(Objekt pro Objekt)</target>
+      </segment>
+    </unit>
+    <unit id="wJ66SL9" name="audit.pager.first">
+      <segment>
+        <source>audit.pager.first</source>
+        <target>Erste</target>
+      </segment>
+    </unit>
+    <unit id="uCB2eZK" name="audit.pager.previous">
+      <segment>
+        <source>audit.pager.previous</source>
+        <target>Vorherige</target>
+      </segment>
+    </unit>
+    <unit id="Gj7QZ65" name="audit.pager.last">
+      <segment>
+        <source>audit.pager.last</source>
+        <target>Letzte</target>
+      </segment>
+    </unit>
+    <unit id="QuAj4Rc" name="audit.pager.next">
+      <segment>
+        <source>audit.pager.next</source>
+        <target>Weiter</target>
+      </segment>
+    </unit>
+    <unit id="3yAf9U1" name="audit.pager.current">
+      <segment>
+        <source>audit.pager.current</source>
+        <target>aktuell</target>
+      </segment>
+    </unit>
     <unit id="E2ncJ4t" name="department.type.fsr">
       <segment>
         <source>department.type.fsr</source>
@@ -1890,6 +1998,24 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>payment_order.project_name.help</source>
         <target>Der Projektname erscheint im Verwendungszweck. Wenn du eine Rechnungsnummer o.Ä. hast, trage sie hier ein.</target>
+      </segment>
+    </unit>
+    <unit id="LXWv5dM" name="dashboard.menu.audits">
+      <segment>
+        <source>dashboard.menu.audits</source>
+        <target>Auditlogs</target>
+      </segment>
+    </unit>
+    <unit id="vOu4_0t" name="action.show_logs">
+      <segment>
+        <source>action.show_logs</source>
+        <target>Änderungslog zeigen</target>
+      </segment>
+    </unit>
+    <unit id="Fhgj3CZ" name="user.role.view_audit_logs">
+      <segment>
+        <source>user.role.view_audit_logs</source>
+        <target>Auditlogs anzeigen</target>
       </segment>
     </unit>
   </file>

@@ -18,6 +18,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\DBElementInterface;
 use App\Repository\UserRepository;
 use App\Validator\NoLockout;
 use DateTime;
@@ -38,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"})
  * @NoLockout(groups={"perm_edit"})
  */
-class User implements UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface
+class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface
 {
     /**
      * @ORM\Id()

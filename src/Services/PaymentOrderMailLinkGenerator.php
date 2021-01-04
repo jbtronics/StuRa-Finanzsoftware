@@ -82,8 +82,6 @@ class PaymentOrderMailLinkGenerator
             $mailTo->setRecipients($paymentOrder->getContactEmail());
         } elseif (!empty($paymentOrder->getDepartment()->getContactEmails())) {
             $mailTo->setRecipients($paymentOrder->getDepartment()->getContactEmails());
-        } else {
-            throw new LogicException('No recipeint could be determined for this payment order!');
         }
 
         $mailTo->setHeader('subject', $this->getSubject($paymentOrder));

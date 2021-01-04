@@ -19,10 +19,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BankAccount;
+use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Services\GitVersionInfo;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -74,6 +77,27 @@ class DashboardController extends AbstractDashboardController
         $menuItem->setQueryParameter('crudAction', 'index');
 
         return $menuItem;
+    }
+
+    public function configureActions(): Actions
+    {
+        $actions = parent::configureActions();
+
+        $showLog = Action::new('showLog', 'action.show_logs', 'fas fa-binoculars')
+            ->displayIf(function (DBElementInterface $entity) {
+                $this->isGranted('ROLE_VIEW_AUDITS');
+            })
+            ->setCssClass('ml-2 text-dark')
+            ->linkToRoute('dh_auditor_show_entity_history', function(DBElementInterface $entity) {
+                return [
+                    'entity' => str_replace('\\', '-', get_class($entity)),
+                    'id' => $entity->getId(),
+                ];
+            });
+
+        return $actions
+            ->add(Crud::PAGE_DETAIL, $showLog)
+            ->add(Crud::PAGE_EDIT, $showLog);
     }
 
     public function configureMenuItems(): iterable
@@ -161,6 +185,8 @@ class DashboardController extends AbstractDashboardController
 
         $version = $this->app_version.'-'.$this->gitVersionInfo->getGitCommitHash() ?? '';
         yield MenuItem::section('Version '.$version, 'fas fa-info');
+        yield MenuItem::linktoRoute('dashboard.menu.audits', 'fas fa-binoculars', 'dh_auditor_list_audits')
+            ->setPermission('ROLE_VIEW_AUDITS');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
         yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
