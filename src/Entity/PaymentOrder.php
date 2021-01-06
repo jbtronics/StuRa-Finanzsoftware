@@ -502,7 +502,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
              otherwise the event listeners won't be called and the file is lost
              But we dont really want to change  the last time value, so just copy it and create a new reference
             so doctrine thinks something has changed, but practically everything looks the same */
-            $this->last_modified = clone $this->last_modified;
+            $this->last_modified = clone ($this->last_modified ?? new \DateTime());
         }
 
         return $this;
@@ -546,7 +546,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
              otherwise the event listeners won't be called and the file is lost
              But we dont really want to change  the last time value, so just copy it and create a new reference
             so doctrine thinks something has changed, but practically everything looks the same */
-            $this->last_modified = clone $this->last_modified;
+            $this->last_modified = clone ($this->last_modified ?? new \DateTime());
         }
 
         return $this;
