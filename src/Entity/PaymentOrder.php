@@ -498,9 +498,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->printed_form_file = $printed_form_file;
 
         if (null !== $printed_form_file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updateTimestamps();
+            /* It is required that at least one field changes if you are using doctrine
+             otherwise the event listeners won't be called and the file is lost
+             But we dont really want to change  the last time value, so just copy it and create a new reference
+            so doctrine thinks something has changed, but practically everything looks the same */
+            $this->last_modified = clone $this->last_modified;
         }
 
         return $this;
@@ -540,9 +542,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         $this->references_file = $references_file;
 
         if (null !== $references_file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updateTimestamps();
+            /* It is required that at least one field changes if you are using doctrine
+             otherwise the event listeners won't be called and the file is lost
+             But we dont really want to change  the last time value, so just copy it and create a new reference
+            so doctrine thinks something has changed, but practically everything looks the same */
+            $this->last_modified = clone $this->last_modified;
         }
 
         return $this;

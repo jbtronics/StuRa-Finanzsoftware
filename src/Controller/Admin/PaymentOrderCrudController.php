@@ -309,6 +309,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setFormTypeOption('empty_data', '');
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date');
+        //$creationDate = TextField::new('creation_date', 'creation_date');
 
         //Status informations
         $statusPanel = FormField::addPanel('payment_order.group.status');
