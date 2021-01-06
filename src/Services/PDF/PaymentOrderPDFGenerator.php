@@ -51,7 +51,7 @@ class PaymentOrderPDFGenerator
 
         $pdf->writeHTML('<h1>Zahlungsauftrag #'.$paymentOrder->getId().'</h1><br>');
 
-        $this->writeRow($pdf, 'Name des Zahlungsempfängers', $paymentOrder->getFullName());
+        $this->writeRow($pdf, 'Name Auftraggeber*in', $paymentOrder->getFullName());
         $this->writeRow($pdf, 'Struktur / Organisation', $paymentOrder->getDepartment()->getName());
         $this->writeRow($pdf, 'Projektbezeichnung', $paymentOrder->getProjectName());
         $this->writeRow($pdf, 'Betrag', $paymentOrder->getAmountString().' €');
