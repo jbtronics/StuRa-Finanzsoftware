@@ -177,6 +177,18 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      */
     private $contact_email = '';
 
+    /**
+     * @var DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $booking_date = null;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $references_exported = false;
+
     /*
      * Associated files
      */
@@ -418,6 +430,13 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
     public function setFactuallyCorrect(bool $factually_correct): PaymentOrder
     {
         $this->factually_correct = $factually_correct;
+
+        //Update the status of booking date
+        if($factually_correct) {
+            $this->booking_date = new \DateTime();
+        } else {
+            $this->booking_date = null;
+        }
 
         return $this;
     }
@@ -719,6 +738,52 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
 
         return $this;
     }
+
+    /**
+     * Returns the datetime when this payment was booked in banking.
+     * Returns null if payment_order was not booked yet.
+     * The value is set automatically to now when the "factually_checked" field is set.
+     * @return DateTime|null
+     */
+    public function getBookingDate(): ?DateTime
+    {
+        return $this->booking_date;
+    }
+
+    /**
+     * Manually set the datetime when this payment was booked in banking.
+     * Set to null if payment_order was not booked yet.
+     * The value is set automatically to now when the "factually_checked" field is set.
+     * @param  DateTime|null  $booking_date
+     * @return PaymentOrder
+     */
+    public function setBookingDate(?DateTime $booking_date): PaymentOrder
+    {
+        $this->booking_date = $booking_date;
+        return $this;
+    }
+
+    /**
+     * Returns whether the references for this payment order were already exported.
+     * @return bool
+     */
+    public function isReferencesExported(): bool
+    {
+        return $this->references_exported;
+    }
+
+    /**
+     * Sets whether the references for this payment order were already exported.
+     * @param  bool  $references_exported
+     * @return PaymentOrder
+     */
+    public function setReferencesExported(bool $references_exported): PaymentOrder
+    {
+        $this->references_exported = $references_exported;
+        return $this;
+    }
+
+
 
     /**
      * Get the ID as string like ZA0005.

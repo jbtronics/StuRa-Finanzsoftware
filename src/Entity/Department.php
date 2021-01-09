@@ -128,6 +128,18 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private $email_treasurer = [];
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $references_export_prefix = null;
+
+    /**
+     * @var string[]
+     * @ORM\Column(type="json")
+     */
+    private $skip_blocked_validation_tokens = [];
+
+    /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
      * Allowed types can be found in Department::ALLOWED_TYPES, or the Department::TYPE_* consts.
      *
@@ -324,4 +336,48 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
         return $this;
     }
+
+    /**
+     * Returns the prefix that is used in filenames when exporting references.
+     * @return string
+     */
+    public function getReferencesExportPrefix(): ?string
+    {
+        return $this->references_export_prefix;
+    }
+
+    /**
+     * Sets the prefix that is used in filenames when exporting references.
+     * @param  string  $references_export_prefix
+     * @return Department
+     */
+    public function setReferencesExportPrefix(?string $references_export_prefix): Department
+    {
+        $this->references_export_prefix = $references_export_prefix;
+        return $this;
+    }
+
+    /**
+     * Returns a list of tokens that can be used to create a payment order even if the department is blocked.
+     * @return string[]
+     */
+    public function getSkipBlockedValidationTokens(): array
+    {
+        return $this->skip_blocked_validation_tokens;
+    }
+
+    /**
+     * Sets the list of tokens that can be used to create a payment order even if the department is blocked.
+     * @param  string[]  $skip_blocked_validation_tokens
+     * @return Department
+     */
+    public function setSkipBlockedValidationTokens(array $skip_blocked_validation_tokens): Department
+    {
+        $this->skip_blocked_validation_tokens = $skip_blocked_validation_tokens;
+        return $this;
+    }
+
+
+
+
 }

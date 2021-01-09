@@ -2042,5 +2042,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Belegexport</target>
       </segment>
     </unit>
+    <unit id="0pVdUr9" name="payment_order.booking_date.label">
+      <segment>
+        <source>payment_order.booking_date.label</source>
+        <target>Datum der Bankfreigabe</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

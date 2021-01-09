@@ -120,6 +120,21 @@ class PaymentOrderTest extends TestCase
         static::assertFalse($payment_order->isConfirmed());
     }
 
+    public function testSetFactuallyCorrect(): void
+    {
+        $payment_order = new PaymentOrder();
+
+        static::assertNull($payment_order->getBookingDate());
+
+        //If a payment order is factually checked, booking date must be set
+        $payment_order->setFactuallyCorrect(true);
+        static::assertNotNull($payment_order->getBookingDate());
+
+        //If factually correct is revoked, then the booking was not done yet.
+        $payment_order->setFactuallyCorrect(false);
+        static::assertNull($payment_order->getBookingDate());
+    }
+
     /**
      * @dataProvider fundingIDRegexDataProvider
      */

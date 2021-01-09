@@ -325,6 +325,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setHelp('payment_order.factually_correct.help')
             ->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'))
             ->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
+        $booking_date = DateTimeField::new('booking_date', 'payment_order.booking_date.label');
         $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
         $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
 
@@ -376,6 +377,7 @@ class PaymentOrderCrudController extends AbstractCrudController
                 $mathematicallyCorrect,
                 $exported,
                 $factuallyCorrect,
+                $booking_date,
                 $confirmed_1,
                 $confirmed_2,
                 //Payee informations
