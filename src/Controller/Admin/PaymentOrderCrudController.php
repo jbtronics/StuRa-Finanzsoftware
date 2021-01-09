@@ -92,14 +92,29 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function referencesExport(array $ids, AdminContext $context): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_EXPORT_REFERENCES');
+
         $data = [];
         foreach ($ids as $id) {
             /** @var PaymentOrder $payment_order */
             $payment_order = $this->entityManager->find(PaymentOrder::class, $id);
             $path = $payment_order->getReferencesFile()->getPathname();
             $extension = $payment_order->getReferencesFile()->getExtension();
-            $data[$payment_order->getIDString() . '.' . $extension] = $path;
+
+            if(empty($payment_order->getDepartment()->getReferencesExportPrefix())) {
+                $prefix = '';
+            } else {
+                $prefix = $payment_order->getDepartment()->getReferencesExportPrefix() . '_';
+            }
+
+            $data[$prefix . $payment_order->getIDString() . '.' . $extension] = $path;
+
+            //Set exported status
+            $payment_order->setReferencesExported(true);
         }
+
+        //Flush changes
+        $this->entityManager->flush();
 
         return ZIPBinaryFileResponseFacade::createZIPResponseFromFiles(
             $data,
@@ -328,6 +343,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $booking_date = DateTimeField::new('booking_date', 'payment_order.booking_date.label');
         $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
         $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
+        $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
 
         //Payee informations
         $payeePanel = FormField::addPanel('payment_order.group.receiver');
@@ -418,6 +434,7 @@ class PaymentOrderCrudController extends AbstractCrudController
                 $mathematicallyCorrect,
                 $exported,
                 $factuallyCorrect,
+                $references_exported,
                 //Payee informations
                 $payeePanel,
                 $bankInfoAccountOwner,

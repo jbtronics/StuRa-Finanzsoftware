@@ -115,6 +115,10 @@ class DepartmentCrudController extends AbstractCrudController
                 ->setFormTypeOption('entry_options.required', false)
                 ->setEntryType(EmailType::class),
 
+            TextField::new('references_export_prefix', 'department.references_export_prefix.label')
+                ->setHelp('department.references_export_prefix.help')
+                ->hideOnIndex(),
+
 
             //FSR contact info panel
             FormField::addPanel('department.fsr_email_panel.label')
@@ -140,6 +144,6 @@ class DepartmentCrudController extends AbstractCrudController
                 ->setFormTypeOption('entry_options.empty_data', '')
                 ->setEntryType(EmailType::class)
                 ->hideOnIndex(),
-            ];
+        ];
     }
 }

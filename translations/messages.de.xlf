@@ -2048,5 +2048,23 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Datum der Bankfreigabe</target>
       </segment>
     </unit>
+    <unit id="vIioR83" name="department.references_export_prefix.label">
+      <segment>
+        <source>department.references_export_prefix.label</source>
+        <target>Prefix bei Belegexport</target>
+      </segment>
+    </unit>
+    <unit id="32kidAL" name="department.references_export_prefix.help">
+      <segment>
+        <source>department.references_export_prefix.help</source>
+        <target>Der hier angegebene Text wird beim Export von Belegen dieser Organisation dem Dateinamen vorangestellt. Man erhält Dateien wie z.B. prefix_ZA0123.pdf.</target>
+      </segment>
+    </unit>
+    <unit id="fxuj6W6" name="payment_order.references_exported.label">
+      <segment>
+        <source>payment_order.references_exported.label</source>
+        <target>Belege exportiert?</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
