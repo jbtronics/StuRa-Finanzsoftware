@@ -129,6 +129,88 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertEmailCount(0);
     }
 
+    public function testNewFormBlockedDepartment(): void
+    {
+        //Form submission must fail if the department is blocked
+
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $crawler = $client->request('GET', '/payment_order/new');
+
+        self::assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Auftrag absenden');
+        $form = $buttonCrawlerNode->form();
+        $this->fillPaymentOrderFormData($form);
+
+        //Department 2 is blocked
+        $form->setValues([
+            'payment_order[department]' => '2',
+        ]);
+
+        $client->submit($form);
+
+        //The form should return successfully (without exceptions) as form errors are rendered
+        self::assertResponseIsSuccessful();
+        self::assertEmailCount(0);
+    }
+
+    public function testNewFormBlockedDepartmentInvalidBlockedToken(): void
+    {
+        //Form submission must fail if the department is blocked
+
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $crawler = $client->request('GET', '/payment_order/new?blocked_token=invalid');
+
+        self::assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Auftrag absenden');
+        $form = $buttonCrawlerNode->form();
+        $this->fillPaymentOrderFormData($form);
+
+        //Department 2 is blocked
+        $form->setValues([
+            'payment_order[department]' => '2',
+        ]);
+
+        $client->submit($form);
+
+        //The form should return successfully (without exceptions) as form errors are rendered
+        self::assertResponseIsSuccessful();
+        self::assertEmailCount(0);
+    }
+
+    public function testNewFormBlockedDepartmentCorrectToken(): void
+    {
+        //With the correct token form must be submittable even if the department is blocked
+
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $crawler = $client->request('GET', '/payment_order/new?blocked_token=token1');
+
+        self::assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Auftrag absenden');
+        $form = $buttonCrawlerNode->form();
+        $this->fillPaymentOrderFormData($form);
+
+        $form->setValues([
+            'payment_order[department]' => '2',
+        ]);
+
+
+        $client->submit($form);
+        //Success submit does not redirect but returns a new form
+        self::assertResponseRedirects('/');
+
+        //Assert that 3 emails are sent (2 confirmation + 1 notification email)
+        self::assertEmailCount(3);
+    }
+
     protected function fillPaymentOrderFormData(Form $form): void
     {
         $form->setValues([

@@ -38,6 +38,10 @@ class DepartmentFixture extends Fixture
         $department->setName('Department 2');
         $department->setType('misc');
         $department->setBlocked(true);
+        $department->setSkipBlockedValidationTokens(['token1', 'token2']);
+        $department->setContactEmails(['test@invalid.com', 'test@invalid.de']);
+        $department->setEmailHhv(['hhv@invalid.com']);
+        $department->setEmailTreasurer(['treasurer@invalid.com', 'treasurer2@invalid.com']);
         $this->addReference(self::DEPARTMENT2_REFERENCE, $department);
         $manager->persist($department);
 

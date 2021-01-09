@@ -57,7 +57,17 @@ class PaymentOrderController extends AbstractController
     {
         $new_order = new PaymentOrder();
 
-        $form = $this->createForm(PaymentOrderType::class, $new_order);
+        $blocked_token = $request->get('blocked_token');
+
+        //Skip fsr blocked validation if a token was given (but it is not validated yet if the token is correct)
+        $validation_groups = ['Default', 'frontend'];
+        if(!$blocked_token) {
+            $validation_groups[] = 'fsr_blocked';
+        }
+        
+        $form = $this->createForm(PaymentOrderType::class, $new_order, [
+            'validation_groups' => $validation_groups
+        ]);
 
         if (!$form instanceof Form) {
             throw new InvalidArgumentException('$form must be a Form object!');
@@ -67,41 +77,54 @@ class PaymentOrderController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $entityManager->persist($new_order);
 
-                $username = sprintf('%s %s (%s) [New PaymentOrder]',
-                    $new_order->getFirstName(),
-                    $new_order->getLastName(),
-                    $new_order->getContactEmail()
-                );
-                $this->userProvider->setManualUsername($username, $new_order->getContactEmail());
+                //We know now the department and can check if token was valid
+                //If it isn't, then show an flash and dont save the payment order
+                if ($blocked_token && !$new_order->getDepartment()->isSkipBlockedValidationToken($blocked_token)) {
+                    $this->addFlash('error', 'payment_order.flash.invalid_blocked_token');
+                } else {
+                    $entityManager->persist($new_order);
 
-                $entityManager->flush();
+                    //Invalidate blocked token if one was given
+                    if($blocked_token) {
+                        $new_order->getDepartment()->invalidateSkipBlockedValidationToken($blocked_token);
+                    }
+
+                    $username = sprintf('%s %s (%s) [New PaymentOrder]',
+                        $new_order->getFirstName(),
+                        $new_order->getLastName(),
+                        $new_order->getContactEmail()
+                    );
+                    $this->userProvider->setManualUsername($username, $new_order->getContactEmail());
+
+                    $entityManager->flush();
 
 
-                //We have to do this after the first flush, as we need to know the ID
-                $this->userProvider->setManualUsername('[Automatic payment reference generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
-                $paymentReferenceGenerator->setPaymentReference($new_order);
-                $entityManager->flush();
+                    //We have to do this after the first flush, as we need to know the ID
+                    $this->userProvider->setManualUsername('[Automatic payment reference generation]',
+                        UserProvider::INTERNAL_USER_IDENTIFIER);
+                    $paymentReferenceGenerator->setPaymentReference($new_order);
+                    $entityManager->flush();
 
-                $this->addFlash('success', 'flash.saved_successfully');
+                    $this->addFlash('success', 'flash.saved_successfully');
 
-                //Dispatch event so an email can be sent
-                $event = new PaymentOrderSubmittedEvent($new_order);
-                $dispatcher->dispatch($event, $event::NAME);
+                    //Dispatch event so an email can be sent
+                    $event = new PaymentOrderSubmittedEvent($new_order);
+                    $dispatcher->dispatch($event, $event::NAME);
 
-                //Redirect to homepage, if no further paymentOrders should be submitted
-                //Otherwise create a new form for further ones
-                if ('submit' === $form->getClickedButton()->getName()) {
-                    return $this->redirectToRoute('homepage');
-                }
+                    //Redirect to homepage, if no further paymentOrders should be submitted
+                    //Otherwise create a new form for further ones
+                    if ('submit' === $form->getClickedButton()->getName()) {
+                        return $this->redirectToRoute('homepage');
+                    }
 
-                if ('submit_new' === $form->getClickedButton()->getName()) {
-                    $old_order = $new_order;
-                    $new_order = new PaymentOrder();
-                    $this->copyProperties($old_order, $new_order);
+                    if ('submit_new' === $form->getClickedButton()->getName()) {
+                        $old_order = $new_order;
+                        $new_order = new PaymentOrder();
+                        $this->copyProperties($old_order, $new_order);
 
-                    $form = $this->createForm(PaymentOrderType::class, $new_order);
+                        $form = $this->createForm(PaymentOrderType::class, $new_order);
+                    }
                 }
             } else {
                 $this->addFlash('error', 'flash.error.check_input');

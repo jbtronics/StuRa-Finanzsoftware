@@ -248,7 +248,7 @@ class PaymentOrderCrudController extends AbstractCrudController
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && (null === $paymentOrder->getConfirm2Timestamp() || null === $paymentOrder->getConfirm1Timestamp());
+                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed();
             })
             ->setCssClass('mr-2 text-dark');
 

@@ -377,7 +377,42 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         return $this;
     }
 
+    /**
+     * Adds the given token to the list of tokens that can be used to create a payment order even if the department is blocked.
+     * @param  string  $token
+     * @return Department
+     */
+    public function addSkipBlockedValidationToken(string $token): Department
+    {
+        $this->skip_blocked_validation_tokens[] = $token;
+        $this->skip_blocked_validation_tokens = array_unique($this->skip_blocked_validation_tokens);
 
+        return $this;
+    }
+
+    /**
+     * Check if it is a valid backup code.
+     */
+    public function isSkipBlockedValidationToken(string $token): bool
+    {
+        //Don't check if no backup codes are defined.
+        if (empty($this->skip_blocked_validation_tokens)) {
+            return false;
+        }
+
+        return in_array($token, $this->skip_blocked_validation_tokens, true);
+    }
+
+    /**
+     * Invalidate a backup code.
+     */
+    public function invalidateSkipBlockedValidationToken(string $token): void
+    {
+        $key = array_search($token, $this->skip_blocked_validation_tokens, true);
+        if (false !== $key) {
+            unset($this->skip_blocked_validation_tokens[$key]);
+        }
+    }
 
 
 }

@@ -19,10 +19,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Department;
+use App\Entity\PaymentOrder;
+use App\Services\EmailConfirmation\ConfirmationTokenGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -37,9 +41,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use LogicException;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\HttpFoundation\Response;
 
 class DepartmentCrudController extends AbstractCrudController
 {
+    private $tokenGenerator;
+    private $entityManager;
+
+    public function __construct(ConfirmationTokenGenerator $tokenGenerator, EntityManagerInterface $entityManager)
+    {
+        $this->tokenGenerator = $tokenGenerator;
+        $this->entityManager = $entityManager;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Department::class;
@@ -53,6 +67,19 @@ class DepartmentCrudController extends AbstractCrudController
             ->setSearchFields(['id', 'name', 'type', 'comment']);
     }
 
+    public function generateSkipToken(AdminContext $context): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_EDIT_ORGANISATIONS');
+
+        /** @var Department $department */
+        $department = $context->getEntity()->getInstance();
+
+        $department->addSkipBlockedValidationToken($this->tokenGenerator->getToken());
+        $this->entityManager->flush();
+
+        return $this->redirect($context->getReferrer() ?? '/admin');
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         $actions->setPermissions([
@@ -62,6 +89,16 @@ class DepartmentCrudController extends AbstractCrudController
             Action::INDEX => 'ROLE_READ_ORGANISATIONS',
             Action::DETAIL => 'ROLE_READ_ORGANISATIONS',
         ]);
+
+        $generateTokenAction = Action::new('generateSkipToken', 'department.action.generate_skip_token', 'fas fa-award')
+            ->displayIf(function (Department $paymentOrder) {
+                return $this->isGranted('ROLE_EDIT_ORGANISATIONS');
+            })
+            ->setCssClass('mr-2 text-dark')
+            ->linkToCrudAction('generateSkipToken');
+
+        $actions->add(Crud::PAGE_DETAIL, $generateTokenAction);
+        $actions->add(Crud::PAGE_EDIT, $generateTokenAction);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -113,12 +150,12 @@ class DepartmentCrudController extends AbstractCrudController
                 ->allowDelete()
                 ->setFormTypeOption('delete_empty', true)
                 ->setFormTypeOption('entry_options.required', false)
+                ->setTemplatePath('admin/field/email_collection.html.twig')
                 ->setEntryType(EmailType::class),
 
             TextField::new('references_export_prefix', 'department.references_export_prefix.label')
                 ->setHelp('department.references_export_prefix.help')
                 ->hideOnIndex(),
-
 
             //FSR contact info panel
             FormField::addPanel('department.fsr_email_panel.label')
@@ -144,6 +181,18 @@ class DepartmentCrudController extends AbstractCrudController
                 ->setFormTypeOption('entry_options.empty_data', '')
                 ->setEntryType(EmailType::class)
                 ->hideOnIndex(),
+
+            FormField::addPanel('department.skip_blocked_validation_tokens.panel.label')
+                ->setHelp('department.skip_blocked_validation_tokens.panel.help'),
+
+            CollectionField::new('skip_blocked_validation_tokens', 'department.skip_blocked_validation_tokens.label')
+                ->allowDelete()
+                ->allowAdd(false)
+                ->setFormTypeOption('delete_empty', false)
+                ->setTemplatePath('admin/field/validation_token_collection.html.twig')
+                ->hideOnIndex(),
+
+
         ];
     }
 }

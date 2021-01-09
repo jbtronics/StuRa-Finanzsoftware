@@ -154,6 +154,6 @@ class PaymentOrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('data_class', PaymentOrder::class);
-        $resolver->setDefault('validation_groups', ['Default', 'frontend']);
+        $resolver->setDefault('validation_groups', ['Default', 'frontend', 'fsr_blocked']);
     }
 }

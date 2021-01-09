@@ -19,6 +19,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Department;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class DepartmentTest extends TestCase
@@ -60,5 +61,39 @@ class DepartmentTest extends TestCase
         self::assertFalse($department->isSection());
         $department->setType('invalid');
         self::assertFalse($department->isSection());
+    }
+
+    public function testIsSkipBlockedValidationToken(): void
+    {
+
+        $department = new Department();
+        $department->setSkipBlockedValidationTokens([]);
+        //Nothing can be a backup code if no codes are defined.
+        static::assertFalse($department->isSkipBlockedValidationToken('code1'));
+
+        //Test if backup codes are set
+        $department->setSkipBlockedValidationTokens(['code1', 'code2', 'code3', 'code4']);
+        static::assertTrue($department->isSkipBlockedValidationToken('code1'));
+        static::assertFalse($department->isSkipBlockedValidationToken('other_code'));
+        //Backup codes are case sensitive
+        static::assertFalse($department->isSkipBlockedValidationToken('Code1'));
+        //Backup codes must not be removed when they are checked
+        static::assertTrue($department->isSkipBlockedValidationToken('code1'));
+    }
+
+    public function testInvalidateSkipBlockedValidationTokenCode(): void
+    {
+        $department = new Department();
+        //Test if backup codes are set
+        $department->setSkipBlockedValidationTokens(['code1', 'code2', 'code3', 'code4']);
+
+        //Test if we can invalidate a single code
+        $department->invalidateSkipBlockedValidationToken('code1');
+        static::assertFalse($department->isSkipBlockedValidationToken('code1'));
+
+        //If we invalidate a non existing code nothing must happen
+        $department->invalidateSkipBlockedValidationToken('Code2');
+        $department->invalidateSkipBlockedValidationToken('invalid');
+        self::assertEqualsCanonicalizing(['code2', 'code3', 'code4'], $department->getSkipBlockedValidationTokens());
     }
 }

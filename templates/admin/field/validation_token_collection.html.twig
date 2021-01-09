@@ -1,0 +1,12 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% set index_view = ea.crud.currentAction == "index" %}
+
+{% for token in field.value %}
+    {% set url = url("payment_order_new", {'blocked_token': token}) %}
+
+    <a class="badge badge-secondary " href="{{ url }}">{{ url }}</a>
+    <br>
+{% endfor %}

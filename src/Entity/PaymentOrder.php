@@ -82,7 +82,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Department")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull()
-     * @FSRNotBlocked()
+     * @FSRNotBlocked(groups={"fsr_blocked"})
      */
     private $department;
 

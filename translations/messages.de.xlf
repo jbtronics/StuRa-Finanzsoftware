@@ -2114,5 +2114,35 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Nicht exportiert (letzter Monat)</target>
       </segment>
     </unit>
+    <unit id="AE9ugu5" name="department.skip_blocked_validation_tokens.panel.label">
+      <segment>
+        <source>department.skip_blocked_validation_tokens.panel.label</source>
+        <target>Einmalige Entsperrtokens</target>
+      </segment>
+    </unit>
+    <unit id="IDD8U4e" name="department.skip_blocked_validation_tokens.label">
+      <segment>
+        <source>department.skip_blocked_validation_tokens.label</source>
+        <target>Entsperrtoken</target>
+      </segment>
+    </unit>
+    <unit id="ESY9QAN" name="department.action.generate_skip_token">
+      <segment>
+        <source>department.action.generate_skip_token</source>
+        <target>Entsperrtoken erzeugen</target>
+      </segment>
+    </unit>
+    <unit id="KMABJ24" name="department.skip_blocked_validation_tokens.panel.help">
+      <segment>
+        <source>department.skip_blocked_validation_tokens.panel.help</source>
+        <target>Mit den untenstehenden Links können gesperrte FSRe einmalig einen Zahlungsauftrag einreichen. Ein Token kann über obenstehenden Button erzeugt werden und über die Ändern-Seite löschen. Ein Token ist nur einmalig zur Einreichung nutzbar.</target>
+      </segment>
+    </unit>
+    <unit id="V6tYZ1q" name="payment_order.flash.invalid_blocked_token">
+      <segment>
+        <source>payment_order.flash.invalid_blocked_token</source>
+        <target>Das gegebene Entsperrtoken war falsch!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
