@@ -2066,5 +2066,53 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Belege exportiert?</target>
       </segment>
     </unit>
+    <unit id="6YsqZ_w" name="accountancy_firm_menu.label">
+      <segment>
+        <source>accountancy_firm_menu.label</source>
+        <target>Steuerbüro</target>
+      </segment>
+    </unit>
+    <unit id="A4HpKsr" name="Exportiere Rechnungen">
+      <segment>
+        <source>Exportiere Rechnungen</source>
+        <target>Exportiere Rechnungen</target>
+      </segment>
+    </unit>
+    <unit id="3RAeBLq" name="accountancy_firm_menu.exported">
+      <segment>
+        <source>accountancy_firm_menu.exported</source>
+        <target>Belege bereits exportiert</target>
+      </segment>
+    </unit>
+    <unit id="h_aerA4" name="accountancy_firm_menu.not_exported.all">
+      <segment>
+        <source>accountancy_firm_menu.not_exported.all</source>
+        <target>Nicht exportiert (alle)</target>
+      </segment>
+    </unit>
+    <unit id="G8F7VmX" name="accountancy_firm_menu.references">
+      <segment>
+        <source>accountancy_firm_menu.references</source>
+        <target>Belege</target>
+      </segment>
+    </unit>
+    <unit id="fqcjh83" name="Bank Export">
+      <segment>
+        <source>Bank Export</source>
+        <target>Bank Export</target>
+      </segment>
+    </unit>
+    <unit id="RX7FN9Y" name="accountancy_firm_menu.exported_this_month">
+      <segment>
+        <source>accountancy_firm_menu.exported_this_month</source>
+        <target>Nicht exportiert (aktueller Monat)</target>
+      </segment>
+    </unit>
+    <unit id="ASpPkzy" name="accountancy_firm_menu.exported_last_month">
+      <segment>
+        <source>accountancy_firm_menu.exported_last_month</source>
+        <target>Nicht exportiert (letzter Monat)</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

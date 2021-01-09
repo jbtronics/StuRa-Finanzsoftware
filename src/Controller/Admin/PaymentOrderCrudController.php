@@ -141,7 +141,10 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(TextFilter::new('funding_id', 'payment_order.funding_id.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
-            ->add(DateTimeFilter::new('last_modified', 'last_modified'));
+            ->add(DateTimeFilter::new('last_modified', 'last_modified'))
+            ->add(DateTimeFilter::new('booking_date', 'payment_order.booking_date.label'))
+            ->add(BooleanFilter::new('references_exported', 'payment_order.references_exported.label'))
+            ;
     }
 
     /**

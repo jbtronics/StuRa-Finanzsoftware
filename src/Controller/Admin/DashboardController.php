@@ -43,6 +43,8 @@ class DashboardController extends AbstractDashboardController
     private $app_version;
     private $gitVersionInfo;
 
+    private const FILTER_DATETIME_FORMAT = 'Y-m-d\TH:i:s';
+
     public function __construct(string $app_version, GitVersionInfo $gitVersionInfo)
     {
         $this->app_version = $app_version;
@@ -71,7 +73,13 @@ class DashboardController extends AbstractDashboardController
         //$menuItem->setQueryParameter('referrer', $referrer);
 
         foreach ($filters as $filter => $value) {
-            $menuItem->setQueryParameter('filters['.$filter.']', $value);
+            if(is_array($value)) {
+                foreach($value as $subfilter => $subvalue)
+                $menuItem->setQueryParameter('filters['.$filter.']['.$subfilter.']', $subvalue);
+            } else {
+                $menuItem->setQueryParameter('filters['.$filter.']', $value);
+            }
+
         }
 
         $menuItem->setQueryParameter('crudAction', 'index');
@@ -102,6 +110,9 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+
+        /* Menu items for payment orders menu */
+
         $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class)
             ->setDefaultSort([
                 'creation_date' => 'ASC',
@@ -171,6 +182,48 @@ class DashboardController extends AbstractDashboardController
             $unconfirmed,
             MenuItem::linkToCrud('payment_order.all', '', PaymentOrder::class),
         ];
+
+        /* Menu items for accountancy firm menu */
+        $accountancy_exported_this_month = MenuItem::linkToCrud('accountancy_firm_menu.exported_this_month', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($accountancy_exported_this_month, [
+            'references_exported' => false,
+            'booking_date' => [
+                'comparison' => 'between',
+                'value' => (new \DateTime('first day of this month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
+                'value2' => (new \DateTime('last day of this month'))->setTime(23,59,59)->format(self::FILTER_DATETIME_FORMAT),
+            ]
+        ]);
+
+        /* Menu items for accountancy firm menu */
+        $accountancy_exported_last_month = MenuItem::linkToCrud('accountancy_firm_menu.exported_last_month', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($accountancy_exported_last_month, [
+            'references_exported' => false,
+            'booking_date' => [
+                'comparison' => 'between',
+                'value' => (new \DateTime('first day of last month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
+                'value2' => (new \DateTime('last day of last month'))->setTime(23,59,59)->format(self::FILTER_DATETIME_FORMAT),
+            ]
+        ]);
+
+        $accountancy_exported = MenuItem::linkToCrud('accountancy_firm_menu.exported', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($accountancy_exported, [
+            'references_exported' => true
+        ]);
+
+        $accountancy_not_exported_all = MenuItem::linkToCrud('accountancy_firm_menu.not_exported.all', '', PaymentOrder::class);
+        $this->addFiltersToMenuItem($accountancy_not_exported_all, [
+            'references_exported' => false
+        ]);
+
+        yield MenuItem::subMenu('accountancy_firm_menu.label', 'fas fa-balance-scale')
+            ->setPermission('ROLE_EXPORT_REFERENCES')
+            ->setSubItems([
+                MenuItem::section('accountancy_firm_menu.references', 'fas fa-file-download'),
+                $accountancy_exported_this_month,
+                $accountancy_exported_last_month,
+                $accountancy_not_exported_all,
+                $accountancy_exported,
+            ]);
 
         yield MenuItem::subMenu('payment_order.labelp', 'fas fa-file-invoice-dollar')
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
