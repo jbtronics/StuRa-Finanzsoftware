@@ -187,6 +187,7 @@ class DashboardController extends AbstractDashboardController
         $accountancy_exported_this_month = MenuItem::linkToCrud('accountancy_firm_menu.exported_this_month', '', PaymentOrder::class);
         $this->addFiltersToMenuItem($accountancy_exported_this_month, [
             'references_exported' => false,
+            'factually_correct' => true,
             'booking_date' => [
                 'comparison' => 'between',
                 'value' => (new \DateTime('first day of this month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
@@ -198,6 +199,7 @@ class DashboardController extends AbstractDashboardController
         $accountancy_exported_last_month = MenuItem::linkToCrud('accountancy_firm_menu.exported_last_month', '', PaymentOrder::class);
         $this->addFiltersToMenuItem($accountancy_exported_last_month, [
             'references_exported' => false,
+            'factually_correct' => true,
             'booking_date' => [
                 'comparison' => 'between',
                 'value' => (new \DateTime('first day of last month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
@@ -207,7 +209,8 @@ class DashboardController extends AbstractDashboardController
 
         $accountancy_exported = MenuItem::linkToCrud('accountancy_firm_menu.exported', '', PaymentOrder::class);
         $this->addFiltersToMenuItem($accountancy_exported, [
-            'references_exported' => true
+            'references_exported' => true,
+            'factually_correct' => true,
         ]);
 
         $accountancy_not_exported_all = MenuItem::linkToCrud('accountancy_firm_menu.not_exported.all', '', PaymentOrder::class);
