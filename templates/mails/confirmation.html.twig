@@ -5,7 +5,7 @@
         <columns>
             <h4>{% trans %}payment_order.confirmation_mail.title{% endtrans %}</h4>
             <br>
-            <p>{% trans with {'%fsb_email%': fsb_email} %}payment_order.confirmation_mail.info{% endtrans %}</p>
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email} %}payment_order.confirmation_mail.info{% endtrans %}</p>
 
             <callout class="secondary">
                 <row>
@@ -39,7 +39,7 @@
 
             <br>
 
-            <p>{% trans with {'%fsb_email%': fsb_email} %}payment_order.confirmation_mail.why{% endtrans %}</p>
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.confirmation_mail.why{% endtrans %}</p>
 
         </columns>
     </row>

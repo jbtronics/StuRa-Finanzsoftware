@@ -41,17 +41,19 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     private $paymentOrderPDFGenerator;
     private $entityManager;
     private $fsb_email;
+    private $hhv_email;
     private $send_notifications;
     private $notifications_bcc;
     private $userProvider;
 
     public function __construct(MailerInterface $mailer, TranslatorInterface $translator,
         PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager,
-        UserProvider $userProvider, string $fsb_email,
+        UserProvider $userProvider, string $fsb_email, string $hhv_email,
         bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
         $this->fsb_email = $fsb_email;
+        $this->hhv_email = $hhv_email;
         $this->translator = $translator;
 
         $this->send_notifications = $send_notifications;
@@ -81,7 +83,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
             $email->addBcc(...$this->notifications_bcc);
         }
 
-        $email->replyTo($this->fsb_email);
+        $email->replyTo($department->isFSR() ? $this->fsb_email : $this->hhv_email);
 
         $email->priority(Email::PRIORITY_HIGH);
         $email->subject($this->translator->trans(

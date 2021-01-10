@@ -478,7 +478,7 @@
     <unit id="f8NZm.9" name="payment_order.new.contact_info">
       <segment>
         <source>payment_order.new.contact_info</source>
-        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:fsb@stura.uni-jena.de">fsb@stura.uni-jena.de</a>]]></target>
+        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:%fsb_email%">%fsb_email%</a> (zuständig für FSRe) oder <a href="mailto:%hhv_email%">%hhv_email%</a> (zuständig für Referate)]]></target>
       </segment>
     </unit>
     <unit id="_eaBSeV" name="footer.impress">
@@ -1303,7 +1303,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
 
 <br>
 
-Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte sofort den FSB (%fsb_email%).
+Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte sofort <a href="mailto:%fsb_email%">%fsb_email</a>.
 
 <br>
 Die eingereichten Daten sind:]]></target>
@@ -1354,7 +1354,7 @@ Die eingereichten Daten sind:]]></target>
     <unit id="tDqikpa" name="payment_order.notification_user.why">
       <segment>
         <source>payment_order.notification_user.why</source>
-        <target><![CDATA[Du erhälst diese Email, da du als Kontaktperson für das oben genannte Referat / FSR benannt bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+        <target><![CDATA[Du erhälst diese Email, da du als Kontaktperson für das oben genannte Referat / FSR benannt bist. Sollte dies nicht stimmen, melde dich bitte bei <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="DRl6loh" name="homepage.welcome">
@@ -1372,7 +1372,7 @@ Die eingereichten Daten sind:]]></target>
     <unit id="6T_xFxC" name="homepage.support">
       <segment>
         <source>homepage.support</source>
-        <target><![CDATA[Bei Fragen wende dich bitte an den <a href="mailto:%fsb_email%"> Fachschaftenbeauftragten (FSB)</a>. Bei Technischen Problemen wende dich an <a href="mailto:%support_email%">%support_email%</a>]]></target>
+        <target><![CDATA[Bei Fragen wende dich bitte an den <a href="mailto:%fsb_email%"> Fachschaftenbeauftragten (FSB)</a> oder den <a href="mailto:%hhv_email%">Haushaltsverantwortlichen (HHV)</a>.<br> Bei Technischen Problemen wende dich an <a href="mailto:%support_email%">%support_email%</a>]]></target>
       </segment>
     </unit>
     <unit id="xoCX8s3" name="sepa_export.submit">
@@ -1583,7 +1583,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="IX2p1z." name="payment_order.confirm.step_1">
       <segment>
         <source>payment_order.confirm.step_1</source>
-        <target>Haushaltsverantwortlicher</target>
+        <target>Haushaltsverantwortlicher / Bestätigung 1</target>
       </segment>
     </unit>
     <unit id="ojac6uH" name="payment_order.name.label">
@@ -1631,7 +1631,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="uXLM_xq" name="payment_order.confirm.step_2">
       <segment>
         <source>payment_order.confirm.step_2</source>
-        <target>Kassenverantwortlicher</target>
+        <target>Kassenverantwortlicher / Bestätigung 2</target>
       </segment>
     </unit>
     <unit id="V7ptdOw" name="payment_order.confirmed_1.label">
@@ -1679,7 +1679,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
       <segment>
         <source>payment_order.confirm.hint_1</source>
-        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, bestätige den Auftrag keinesfalls und melde dich bitte ungehend beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, bestätige den Auftrag keinesfalls und melde dich bitte ungehend bei <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
@@ -1739,7 +1739,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="2DBB98l" name="payment_order.confirmation_mail.info">
       <segment>
         <source>payment_order.confirmation_mail.info</source>
-        <target>Jemand (hoffentlich einer von euch) hat für euren FSR einen Zahlungsauftrag eingereicht. Der Antrag muss noch von euch geprüft und bestätigt werden, klicke dafür auf den untenstehenden Button/Link. Bei Fehlern oder Fragen kontaktiere den FSB (%fsb_email%).</target>
+        <target><![CDATA[Jemand (hoffentlich einer von euch) hat für euren FSR / Referat einen Zahlungsauftrag eingereicht. Der Antrag muss noch von euch geprüft und bestätigt werden, klicke dafür auf den untenstehenden Button/Link. Bei Fehlern oder Fragen kontaktiere <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="ym_gxms" name="payment_order.confirmation_email.vpn_hint">
@@ -1757,7 +1757,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="nnZjLCg" name="payment_order.confirmation_mail.why">
       <segment>
         <source>payment_order.confirmation_mail.why</source>
-        <target><![CDATA[Du erhälst diese Email, da du als Haushaltsverantwortlicher/Kassenverantwortlicher für den oben genannten FSR eingetragen bist. Sollte dies nicht stimmen, melde dich bitte beim <a href="mailto:%fsb_email%">FSB</a>.]]></target>
+        <target><![CDATA[Du erhälst diese Email, da du als Haushaltsverantwortlicher/Kassenverantwortlicher für den oben genannten FSR / Referat eingetragen bist. Sollte dies nicht stimmen, melde dich bitte bei <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="pb8wrse" name="payment_order.action.resend_confirmation">
@@ -1937,7 +1937,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="uD9OTtF" name="payment_order.fsr_kom.label">
       <segment>
         <source>payment_order.fsr_kom.label</source>
-        <target>FSR-Kom Beschluss?</target>
+        <target>Umbuchung vom FSR-Kom Konto auf FSR-Konto?</target>
       </segment>
     </unit>
     <unit id="UHwgUW." name="payment_order.resolution_date.label">

@@ -39,12 +39,13 @@ class ConfirmationEmailSender
     private $translator;
 
     private $fsb_email;
+    private $hhv_email;
     private $send_notifications;
     private $notifications_bcc;
 
     public function __construct(MailerInterface $mailer, ConfirmationTokenGenerator $tokenGenerator,
         EntityManagerInterface $entityManager, TranslatorInterface $translator,
-        string $fsb_email, bool $send_notifications, array $notifications_bcc)
+        string $fsb_email, string $hhv_email, bool $send_notifications, array $notifications_bcc)
     {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
@@ -52,6 +53,7 @@ class ConfirmationEmailSender
         $this->translator = $translator;
 
         $this->fsb_email = $fsb_email;
+        $this->hhv_email = $hhv_email;
         $this->send_notifications = $send_notifications;
         $this->notifications_bcc = $notifications_bcc;
     }
@@ -120,11 +122,9 @@ class ConfirmationEmailSender
         }
 
         $email = new TemplatedEmail();
-        //$email->addBcc(...$email_address);
-        //$email->addTo($email_address);
 
         $email->priority(Email::PRIORITY_HIGH);
-        $email->replyTo($this->fsb_email);
+        $email->replyTo($paymentOrder->getDepartment()->isFSR() ? $this->fsb_email : $this->hhv_email);
 
         $email->subject(
             $this->translator->trans(

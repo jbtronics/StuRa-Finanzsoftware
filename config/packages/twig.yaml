@@ -4,6 +4,7 @@ twig:
     globals:
         support_email: '%app.support_email%'
         fsb_email: '%app.fsb_email%'
+        hhv_email: '%app.hhv_email%'
         locale_menu: ['de', 'en']
 
     paths:
