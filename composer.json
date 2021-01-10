@@ -41,6 +41,7 @@
         "symfony/notifier": "5.2.*",
         "symfony/orm-pack": "*",
         "symfony/process": "5.2.*",
+        "symfony/rate-limiter": "5.2.*",
         "symfony/security-bundle": "5.2.*",
         "symfony/serializer-pack": "*",
         "symfony/string": "5.2.*",

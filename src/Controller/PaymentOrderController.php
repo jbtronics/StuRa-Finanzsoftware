@@ -32,6 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -53,8 +54,10 @@ class PaymentOrderController extends AbstractController
      * @Route("/new", name="payment_order_new")
      */
     public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher,
-        PaymentReferenceGenerator $paymentReferenceGenerator): Response
+        PaymentReferenceGenerator $paymentReferenceGenerator, RateLimiterFactory $paymentOrderSubmitLimiter): Response
     {
+        $limiter = $paymentOrderSubmitLimiter->create($request->getClientIp());
+
         $new_order = new PaymentOrder();
 
         $blocked_token = $request->get('blocked_token');
@@ -77,6 +80,11 @@ class PaymentOrderController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+
+                /* Limit the amount of how many payment orders can be submitted by one user in an hour
+                    This prevents automatic mass creation of payment orders and also prevents that skip token can
+                    guessed by brute force */
+                $limiter->consume(1)->ensureAccepted();
 
                 //We know now the department and can check if token was valid
                 //If it isn't, then show an flash and dont save the payment order
@@ -131,10 +139,22 @@ class PaymentOrderController extends AbstractController
             }
         }
 
-        return $this->render('PaymentOrder/form.html.twig', [
+        $limit = $limiter->consume(0);
+
+        $response = $this->render('PaymentOrder/form.html.twig', [
             'form' => $form->createView(),
             'entity' => $new_order,
         ]);
+
+        $response->headers->add(
+            [
+                'X-RateLimit-Remaining' => $limit->getRemainingTokens(),
+                'X-RateLimit-Retry-After' => $limit->getRetryAfter()->getTimestamp(),
+                'X-RateLimit-Limit' => $limit->getLimit(),
+            ]
+        );
+
+        return $response;
     }
 
     private function copyProperties(PaymentOrder $source, PaymentOrder $target): void
