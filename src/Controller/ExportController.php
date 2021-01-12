@@ -108,7 +108,8 @@ class ExportController extends AbstractController
                         $data[$key . '.xml'] = $content;
                     }
 
-                    return ZIPBinaryFileResponseFacade::createZIPResponseFromData(
+                    //Dont return already here... We need to set the exported flags first
+                    $response = ZIPBinaryFileResponseFacade::createZIPResponseFromData(
                         $data,
                         'export_'.date('Y-m-d_H-i-s').'.zip'
                     );
