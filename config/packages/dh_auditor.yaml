@@ -37,3 +37,5 @@ dh_auditor:
                         - password
                         - googleAuthenticatorSecret
                         - backupCodes
+
+                App\Entity\FundingApplication:

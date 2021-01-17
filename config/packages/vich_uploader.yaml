@@ -18,3 +18,13 @@ vich_uploader:
             namer:  App\Services\Upload\PaymentOrderFileNamer
 
             inject_on_load: true
+
+        funding_application_explanation:
+            upload_destination: '%kernel.project_dir%/uploads/funding_application/explanations'
+            #namer: App\Services\Upload\PaymentOrderFileNamer
+            inject_on_load: true
+
+        funding_application_finance_plan:
+            upload_destination: '%kernel.project_dir%/uploads/funding_application/finance_plans'
+            #namer: App\Services\Upload\PaymentOrderFileNamer
+            inject_on_load: true

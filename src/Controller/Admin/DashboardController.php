@@ -21,6 +21,7 @@ namespace App\Controller\Admin;
 use App\Entity\BankAccount;
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Department;
+use App\Entity\FundingApplication;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Services\GitVersionInfo;
@@ -231,6 +232,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('payment_order.labelp', 'fas fa-file-invoice-dollar')
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
             ->setSubItems($items);
+
+        yield MenuItem::linkToCrud('funding_application.labelp', '', FundingApplication::class);
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
             ->setPermission('ROLE_READ_ORGANISATIONS');

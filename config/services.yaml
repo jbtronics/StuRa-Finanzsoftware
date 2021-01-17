@@ -97,5 +97,9 @@ services:
         arguments:
             $timezone: '%app.timezone%'
 
+    App\Doctrine\FundingIDGeneratorListener:
+        tags:
+            - {name: doctrine.orm.entity_listener, lazy: true}
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
