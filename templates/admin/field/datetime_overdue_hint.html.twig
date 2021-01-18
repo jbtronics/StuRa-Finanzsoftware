@@ -21,4 +21,4 @@
 {% endif %}
 
 {% set days_ago = field.value.diff(date('now')).format('%a') %}
-<time title="{% trans with {'{{ days }}': days_ago} %}field.datetime.days_ago{% endtrans %}" datetime="{{ field.value|date('c') }}" title="{{ field.value|date('r') }}">{{ field.formattedValue }}</time>
+<time title="{{ field.value | format_datetime_diff }}" datetime="{{ field.value|date('c') }}">{{ field.formattedValue }}</time>

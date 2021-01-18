@@ -15,6 +15,7 @@
         "fortawesome/font-awesome": "^5.14",
         "league/html-to-markdown": "^4.10",
         "nelmio/security-bundle": "^2.10",
+        "nesbot/carbon": "^2.43",
         "php-translation/symfony-bundle": "^0.12.1",
         "scheb/2fa-backup-code": "^5.0",
         "scheb/2fa-bundle": "^5.0",

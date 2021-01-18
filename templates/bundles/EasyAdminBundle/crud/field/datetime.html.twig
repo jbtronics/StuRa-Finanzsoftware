@@ -1,0 +1,4 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+<time title="{{ field.value | format_datetime_diff }}" datetime="{{ field.value|date('c') }}">{{ field.formattedValue }}</time>
