@@ -17,4 +17,5 @@
 
 $("*[data-row-class]").each(function(index) {
    $(this).closest('tr').addClass($(this).data('row-class'));
+   $(this).closest('table').addClass('table-hover');
 });
