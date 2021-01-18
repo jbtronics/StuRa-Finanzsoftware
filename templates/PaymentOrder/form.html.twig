@@ -147,7 +147,10 @@
     <p class="text-muted">
         {% trans %}payment_order.new.hint{% endtrans %}<br>
         {% trans with {'%fsb_email%': fsb_email, '%support_email%': support_email, '%hhv_email%': hhv_email} %}payment_order.new.contact_info{% endtrans %}
+        <br>
+        {% trans %}payment_order.new.fsrkom_hint{% endtrans %}
     </p>
+    <p class="text-muted"></p>
 
     {{ form_start(form) }}
 

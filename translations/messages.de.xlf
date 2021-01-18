@@ -2150,5 +2150,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Vor {{ days }} Tagen</target>
       </segment>
     </unit>
+    <unit id="CadwOgG" name="payment_order.new.fsrkom_hint">
+      <segment>
+        <source>payment_order.new.fsrkom_hint</source>
+        <target>Bitte beachte, dass bei FSR-Kom Mittelfreigaben (mindestens) 2 Zahlungsaufträge benötigt werden: Einmal die Zahlungen vom FSR-Konto an Privatpersonen und einmal der Umbuchungsauftrag vom FSR-Kom Konto auf das FSR-Konto. Bei letztem aktiviere bitte die Option "Umbuchung vom FSR-Kom Konto auf FSR-Konto?".</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
