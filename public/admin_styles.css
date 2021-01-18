@@ -18,3 +18,7 @@
 .treeview .treeview-icon {
     position: unset;
 }
+
+:root {
+    --body-max-width: 2000px;
+}
