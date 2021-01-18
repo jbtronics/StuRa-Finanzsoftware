@@ -2144,5 +2144,11 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Das gegebene Entsperrtoken war falsch!</target>
       </segment>
     </unit>
+    <unit id="rp7ZYlt" name="field.datetime.days_ago">
+      <segment>
+        <source>field.datetime.days_ago</source>
+        <target>Vor {{ days }} Tagen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
