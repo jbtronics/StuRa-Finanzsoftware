@@ -109,11 +109,11 @@ class ManualConfirmationHelper
         ]);
 
         //Add confirmation 1 people
-        $email->addTo(...$paymentOrder->getDepartment()->getEmailHhv());
+        $email->addBcc(...$paymentOrder->getDepartment()->getEmailHhv());
         //Add confirmation 2 people
-        $email->addTo(...$paymentOrder->getDepartment()->getEmailTreasurer());
+        $email->addBcc(...$paymentOrder->getDepartment()->getEmailTreasurer());
         //Add risky notification people
-        $email->addTo(...$this->notifications_risky);
+        $email->addBcc(...$this->notifications_risky);
 
 
         $this->mailer->send($email);
