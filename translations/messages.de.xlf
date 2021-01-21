@@ -2156,5 +2156,101 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Bitte beachte, dass bei FSR-Kom Mittelfreigaben (mindestens) 2 Zahlungsaufträge benötigt werden: Einmal die Zahlungen vom FSR-Konto an Privatpersonen und einmal der Umbuchungsauftrag vom FSR-Kom Konto auf das FSR-Konto. Bei letztem aktiviere bitte die Option "Umbuchung vom FSR-Kom Konto auf FSR-Konto?".</target>
       </segment>
     </unit>
+    <unit id="m9Twe4k" name="payment_order.action.manual_confirmation">
+      <segment>
+        <source>payment_order.action.manual_confirmation</source>
+        <target>Manuell bestätigen</target>
+      </segment>
+    </unit>
+    <unit id="nJP6lrE" name="payment_order.manual_confirmation.reason.label">
+      <segment>
+        <source>payment_order.manual_confirmation.reason.label</source>
+        <target>Grund für die manuelle Bestätigung</target>
+      </segment>
+    </unit>
+    <unit id="LvQCUCO" name="payment_order.action.manual_confirmation.password.label">
+      <segment>
+        <source>payment_order.action.manual_confirmation.password.label</source>
+        <target>Aktuelles Nutzerpasswort</target>
+      </segment>
+    </unit>
+    <unit id="Y4ftTws" name="payment_order.action.manual_confirmation.confirm.label">
+      <segment>
+        <source>payment_order.action.manual_confirmation.confirm.label</source>
+        <target>payment_order.action.manual_confirmation.confirm.label</target>
+      </segment>
+    </unit>
+    <unit id="DO1s_sV" name="payment_order.manual_confirmation.title">
+      <segment>
+        <source>payment_order.manual_confirmation.title</source>
+        <target>Manuelle Bestätigung:</target>
+      </segment>
+    </unit>
+    <unit id="XuU5UZs" name="payment_order.manual_confirmation.explanation1">
+      <segment>
+        <source>payment_order.manual_confirmation.explanation1</source>
+        <target>Achtung diese Funktion ist sollte nur in Ausnahmefällen benutzt werden, wenn die regulären Bestätigungspersonen nicht den Zahlungsauftrag nicht bestätigen wollen und/oder können!</target>
+      </segment>
+    </unit>
+    <unit id="zqaxqTc" name="payment_order.manual_confirmation.explanation2">
+      <segment>
+        <source>payment_order.manual_confirmation.explanation2</source>
+        <target>Die manuelle Bestätigung wird im Log und als Kommentar im Bestätigungslog vermerkt. Zusätzlich erhalten die regulären Bestätigungspersonen eine Benachrichtigung eine Email, dass du eine manuelle Bestätigung dieses Zahlungsauftrages vorgenommen hast!</target>
+      </segment>
+    </unit>
+    <unit id="uJLtAuE" name="payment_order.manual_confirmation.explanation3">
+      <segment>
+        <source>payment_order.manual_confirmation.explanation3</source>
+        <target>Wenn die angaben korrekt sind, gebe bitte den Grund an, wieso die manuelle Bestätigung notwendig war (diese wird im Kommentar eingefügt und an die normalen Bestätigungspersonen geschickt) und bestätige die Aktion durch Eingabe deines Passworts.</target>
+      </segment>
+    </unit>
+    <unit id="rd5bz_I" name="payment_order.manual_confirm.success">
+      <segment>
+        <source>payment_order.manual_confirm.success</source>
+        <target>Zahlungsauftrag erfolgreich bestätigt!</target>
+      </segment>
+    </unit>
+    <unit id="eUrtlWI" name="payment_order.manual_confirmation.additional_notifications_receiver">
+      <segment>
+        <source>payment_order.manual_confirmation.additional_notifications_receiver</source>
+        <target>Zusätzlich erhalten folgende Personen eine Benachrichtigung über deine Aktion:</target>
+      </segment>
+    </unit>
+    <unit id="P6Q.YlJ" name="payment_order.manual_confirmation.email.subject">
+      <segment>
+        <source>payment_order.manual_confirmation.email.subject</source>
+        <target>Zahlungsauftrag von StuRa-Finanzern bestätigt: %project%</target>
+      </segment>
+    </unit>
+    <unit id="3WuFawD" name="payment_order.manual_confirmation.mail.title">
+      <segment>
+        <source>payment_order.manual_confirmation.mail.title</source>
+        <target>Ein Zahlungsauftrag wurde von einem StuRa-Finanzern bestätigt</target>
+      </segment>
+    </unit>
+    <unit id="gA826.e" name="payment_order.manual_confirmation.mail.info">
+      <segment>
+        <source>payment_order.manual_confirmation.mail.info</source>
+        <target><![CDATA[Der untenstehende Zahlungsauftrag wurde von einem StuRa-Finanzer bestätigt und nicht wie regulär durch die Verantwortlichen eurers FSRs. Bei Fragen kontaktiere bitte <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
+      </segment>
+    </unit>
+    <unit id="o95fw3s" name="payment_order.manual_confirmation.mail.confirmed_by">
+      <segment>
+        <source>payment_order.manual_confirmation.mail.confirmed_by</source>
+        <target><![CDATA[Der Zahlungsauftrag wurde am <b>%datetime%</b> von <b>%user%</b> bestätigt.]]></target>
+      </segment>
+    </unit>
+    <unit id="vLKreDl" name="payment_order.manual_confirmation.mail.reason">
+      <segment>
+        <source>payment_order.manual_confirmation.mail.reason</source>
+        <target>Grund für die Bestätigung:</target>
+      </segment>
+    </unit>
+    <unit id="j0Y4T9t" name="user.role.manual_confirmation">
+      <segment>
+        <source>user.role.manual_confirmation</source>
+        <target>Manuelle Bestätigung von Zahlungsaufträgen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

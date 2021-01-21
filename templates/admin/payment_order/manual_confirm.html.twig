@@ -1,0 +1,44 @@
+{% extends "@EasyAdmin/page/content.html.twig" %}
+{% form_theme form "@EasyAdmin/crud/form_theme.html.twig" %}
+
+{% block page_title %}{% trans %}payment_order.manual_confirmation.title{% endtrans %} {{ entity.iDString }}{% endblock %}
+
+{% block page_content %}
+
+    <h5><p class="text-danger"><b>{% trans %}payment_order.manual_confirmation.explanation1{% endtrans %}</b></p></h5>
+
+    <b>{% trans %}payment_order.manual_confirmation.explanation2{% endtrans %}</b>
+    {% if notifications_risky is not empty %}
+        <p>{% trans %}payment_order.manual_confirmation.additional_notifications_receiver{% endtrans %} <code>{{ notifications_risky | join(', ') }}</code></p>
+    {% endif %}
+
+    <table class="table table-sm table-striped table-bordered mt-2">
+        <tbody>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.department{% endtrans %}:</td>
+            <td>{{ entity.department.name }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </td>
+            <td>{{ entity.projectName }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.amount{% endtrans %}: </td>
+            <td>{{ entity.amountString }} €</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.datetime{% endtrans %}</td>
+            <td>{{ entity.creationDate | format_datetime }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.id{% endtrans %}: </td>
+            <td>{{ entity.iDString }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>{% trans %}payment_order.manual_confirmation.explanation3{% endtrans %}</p>
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "mails/base_mail.html.twig" %}
+
+{% block content %}
+    <row>
+        <columns>
+            <h4>{% trans %}payment_order.manual_confirmation.mail.title{% endtrans %}</h4>
+            <br>
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email} %}payment_order.manual_confirmation.mail.info{% endtrans %}</p>
+
+            <hr>
+
+            <p>{% trans with {'%datetime%':  date()|format_datetime(), '%user%': user.fullName} %}payment_order.manual_confirmation.mail.confirmed_by{% endtrans %}</p>
+            <p><b>{% trans %}payment_order.manual_confirmation.mail.reason{% endtrans %}</b>
+            {{ reason }}
+            </p>
+
+            <hr>
+            <br>
+
+            <callout class="secondary">
+                <row>
+                    <columns>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.department{% endtrans %}: </b> {{ payment_order.department.name }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </b> {{ payment_order.projectName }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amountString }} €
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
+                        </p>
+                        <p>
+                            <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> #{{ payment_order.id}}
+                        </p>
+                    </columns>
+                </row>
+            </callout>
+
+            <br>
+
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.confirmation_mail.why{% endtrans %}</p>
+
+        </columns>
+    </row>
+
+{% endblock %}

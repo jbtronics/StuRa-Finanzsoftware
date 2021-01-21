@@ -12,6 +12,7 @@ parameters:
     app.from_name: '%env(FROM_NAME)%'
     app.send_notifications: '%env(bool:SEND_NOTIFICATIONS)%'
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
+    app.notifications_risky: '%env(csv:NOTIFICATIONS_RISKY)%'
     app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
     app.timezone: 'Europe/Berlin'
 
@@ -24,6 +25,7 @@ services:
             string $app_version: '%app.version%'
             string $fsb_email: '%app.fsb_email%'
             string $hhv_email: '%app.hhv_email%'
+            array $notifications_risky: '%app.notifications_risky%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

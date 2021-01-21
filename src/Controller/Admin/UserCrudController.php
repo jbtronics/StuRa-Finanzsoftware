@@ -86,6 +86,7 @@ class UserCrudController extends AbstractCrudController
             'user.role.edit_bank_accounts' => 'ROLE_EDIT_BANK_ACCOUNTS',
             'user.role.view_audit_logs' => 'ROLE_VIEW_AUDITS',
             'user.role.export_references' => 'ROLE_EXPORT_REFERENCES',
+            'user.role.manual_confirmation' => 'ROLE_MANUAL_CONFIRMATION',
         ];
     }
 

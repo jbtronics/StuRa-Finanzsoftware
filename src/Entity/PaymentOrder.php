@@ -43,7 +43,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @ORM\HasLifecycleCallbacks()
  */
-class PaymentOrder implements DBElementInterface, TimestampedElementInterface
+class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \Serializable
 {
     use TimestampTrait;
 
@@ -783,6 +783,15 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface
         return $this;
     }
 
+    public function serialize()
+    {
+        return serialize($this->getId());
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+    }
 
 
     /**

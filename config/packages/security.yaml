@@ -47,6 +47,7 @@ security:
         ROLE_PO_FACTUALLY: ROLE_EDIT_PAYMENT_ORDERS
         ROLE_PO_MATHEMATICALLY: ROLE_EDIT_PAYMENT_ORDERS
         ROLE_EDIT_BANK_ACCOUNTS: ROLE_ADMIN
+        ROLE_MANUAL_CONFIRMATION: ROLE_ADMIN
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

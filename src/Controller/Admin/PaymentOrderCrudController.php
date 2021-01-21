@@ -279,6 +279,18 @@ class PaymentOrderCrudController extends AbstractCrudController
             })
             ->setCssClass('mr-2 btn btn-success');
 
+        $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
+            ->setCssClass('mr-1 text-dark')
+            ->linkToRoute('payment_order_manual_confirm', function(PaymentOrder $paymentOrder) {
+                return [
+                    'id' => $paymentOrder->getId()
+                ];
+            })
+            ->displayIf(function(PaymentOrder $paymentOrder) {
+               return $this->isGranted('ROLE_MANUAL_CONFIRMATION')
+                && ! $paymentOrder->isConfirmed();
+            });
+
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
@@ -292,6 +304,9 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->add(Crud::PAGE_DETAIL, $mathematically_correct_action);
         $actions->add(Crud::PAGE_DETAIL, $factually_correct_action);
+
+        $actions->add(Crud::PAGE_DETAIL, $manual_confirmation);
+        $actions->add(Crud::PAGE_EDIT, $manual_confirmation);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
