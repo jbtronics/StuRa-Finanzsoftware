@@ -52,11 +52,15 @@ final class SetEmailFromSubscriber implements EventSubscriberInterface
 {
     private $email;
     private $name;
+    private $envelope_sender;
 
-    public function __construct(string $email, string $name)
+
+    public function __construct(string $email, string $name, string $envelope_sender)
     {
         $this->email = $email;
         $this->name = $name;
+
+        $this->envelope_sender = $envelope_sender;
     }
 
     public function onMessage(MessageEvent $event): void
@@ -65,6 +69,13 @@ final class SetEmailFromSubscriber implements EventSubscriberInterface
         $event->getEnvelope()
             ->setSender($address);
         $email = $event->getMessage();
+
+        //Set envelope sender if one was specified
+        if (!empty($this->envelope_sender)) {
+            $sender_address = new Address($this->envelope_sender);
+            $event->getEnvelope()->setSender($sender_address);
+        }
+
         if ($email instanceof Email) {
             $email->from($address);
         }
