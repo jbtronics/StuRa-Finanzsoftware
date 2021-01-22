@@ -70,3 +70,7 @@ legend {
     right: -2px;
     z-index: var(--zindex-700);
 }
+
+.custom-file-label {
+    z-index: 0;
+}

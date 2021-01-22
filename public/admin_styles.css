@@ -22,3 +22,7 @@
 :root {
     --body-max-width: 2000px;
 }
+
+.custom-file-label {
+    z-index: 0;
+}

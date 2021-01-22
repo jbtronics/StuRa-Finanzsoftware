@@ -271,6 +271,8 @@ class DashboardController extends AbstractDashboardController
 
     public function configureAssets(): Assets
     {
-        return Assets::new()->addCssFile('admin_styles.css');
+        return Assets::new()
+            ->addJsFile('configurable-date-input-polyfill.dist.js')
+            ->addCssFile('admin_styles.css');
     }
 }
