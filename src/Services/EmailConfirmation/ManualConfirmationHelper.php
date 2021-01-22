@@ -41,7 +41,7 @@ class ManualConfirmationHelper
         array $notifications_risky, string $fsb_email, string $hhv_email)
     {
         $this->security = $security;
-        $this->notifications_risky = $notifications_risky;
+        $this->notifications_risky = array_filter($notifications_risky);
         $this->fsb_email = $fsb_email;
         $this->hhv_email = $hhv_email;
         $this->translator = $translator;
@@ -49,10 +49,25 @@ class ManualConfirmationHelper
         $this->mailer = $mailer;
     }
 
-    public function confirmManually(PaymentOrder $paymentOrder, string $reason): void
+    /**
+     * Confirm the given PaymentOrder manually. The user, datetime and reason for this is logged.
+     * Generates an comment, sends an email to confirmation people and confirm the payment order.
+     * The DB is not flushed, so you have to do this outside.
+     * @param  PaymentOrder  $paymentOrder
+     * @param  string  $reason
+     * @param  User|null  $user Specify the user that should be shown in email/comment. If null the current user is used.
+     */
+    public function confirmManually(PaymentOrder $paymentOrder, string $reason, ?User $user = null): void
     {
         if ($paymentOrder->isConfirmed()) {
             throw new \RuntimeException('You can not manually confirm an already confirmed payment order!');
+        }
+
+        if ($user === null) {
+            if (!$this->security->getUser() instanceof User) {
+                throw new \RuntimeException('$user must be an User entity object!');
+            }
+            $user = $this->security->getUser();
         }
 
         //Add a comment about the manual confirmation
@@ -61,11 +76,11 @@ class ManualConfirmationHelper
         if(!empty($tmp)) {
             $tmp .= '<br><br>';
         }
-        $tmp .= $this->generateComment($paymentOrder, $reason);
+        $tmp .= $this->generateComment($paymentOrder, $reason, $user);
         $paymentOrder->setComment($tmp);
 
         //Send emails that payment order we manually confirmed
-        $this->sendNotification($paymentOrder, $reason);
+        $this->sendNotification($paymentOrder, $reason, $user);
 
         //Do the confirmation process where it was not needed
         if($paymentOrder->getConfirm1Timestamp() === null) {
@@ -76,7 +91,7 @@ class ManualConfirmationHelper
         }
     }
 
-    private function sendNotification(PaymentOrder $paymentOrder, string $reason): void
+    private function sendNotification(PaymentOrder $paymentOrder, string $reason, User $user): void
     {
         //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
         if (null === $paymentOrder->getId()) {
@@ -96,10 +111,6 @@ class ManualConfirmationHelper
                 ]
             ));
 
-        $user = $this->security->getUser();
-        if (!$user instanceof User) {
-            throw new \RuntimeException('$user must be an User entity object!');
-        }
 
         $email->htmlTemplate('mails/manual_confirmation.html.twig');
         $email->context([
@@ -112,21 +123,15 @@ class ManualConfirmationHelper
         $email->addBcc(...$paymentOrder->getDepartment()->getEmailHhv());
         //Add confirmation 2 people
         $email->addBcc(...$paymentOrder->getDepartment()->getEmailTreasurer());
+
         //Add risky notification people
         $email->addBcc(...$this->notifications_risky);
-
 
         $this->mailer->send($email);
     }
 
-    private function generateComment(PaymentOrder $paymentOrder, string $reason): string
+    private function generateComment(PaymentOrder $paymentOrder, string $reason, User $user): string
     {
-        $user = $this->security->getUser();
-
-        if (!$user instanceof User) {
-            throw new \RuntimeException('$user must be an User entity object!');
-        }
-
         $date = Carbon::now()->toDateTimeLocalString();
 
         return '<h4>Manuelle Bestätigung</h4>'

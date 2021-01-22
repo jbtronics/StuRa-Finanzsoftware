@@ -65,7 +65,7 @@ class PaymentOrderManualConfirmController extends AbstractController
 
         return $this->render('admin/payment_order/manual_confirm.html.twig', [
             'entity' => $paymentOrder,
-            'notifications_risky' => $notifications_risky,
+            'notifications_risky' => array_filter($notifications_risky),
             'form' => $form->createView(),
         ]);
     }

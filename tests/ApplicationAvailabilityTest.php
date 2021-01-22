@@ -117,6 +117,9 @@ class ApplicationAvailabilityTest extends WebTestCase
         yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
         yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
 
+        //Manually confirm page
+        yield [$adminURL->setRoute('payment_order_manual_confirm', ['id' => 1])->generateUrl()];
+
         //User settings
         yield [$adminURL->setRoute('user_settings')->generateUrl()];
 

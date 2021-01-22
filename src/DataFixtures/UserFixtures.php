@@ -45,6 +45,7 @@ class UserFixtures extends Fixture
             'ROLE_PO_MATHEMATICALLY',
             'ROLE_EDIT_BANK_ACCOUNTS',
             'ROLE_VIEW_AUDITS',
+            'ROLE_MANUAL_CONFIRMATION',
         ]);
         $this->addReference(self::USER_ADMIN_REFERENCE, $user);
         $manager->persist($user);
