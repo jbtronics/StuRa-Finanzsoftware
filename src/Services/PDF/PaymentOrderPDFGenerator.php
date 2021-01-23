@@ -49,14 +49,14 @@ class PaymentOrderPDFGenerator
         $pdf->setY(80);
         $pdf->setMargins(25, 10);
 
-        $pdf->writeHTML('<h1>Zahlungsauftrag #'.$paymentOrder->getId().'</h1><br>');
+        $pdf->writeHTML('<h1>Zahlungsauftrag '.$paymentOrder->getIDString().'</h1><br>');
 
         $this->writeRow($pdf, 'Name Auftraggeber*in', $paymentOrder->getFullName());
         $this->writeRow($pdf, 'Struktur / Organisation', $paymentOrder->getDepartment()->getName());
         $this->writeRow($pdf, 'Projektbezeichnung', $paymentOrder->getProjectName());
         $this->writeRow($pdf, 'Betrag', $paymentOrder->getAmountString().' €');
         $this->writeRow($pdf, 'Mittelfreigabe / Finanzantrag', !empty($paymentOrder->getFundingId()) ? $paymentOrder->getFundingId() : '<i>Nicht angegeben</i>');
-        $this->writeRow($pdf, 'FSR-Kom Antrag', $paymentOrder->isFsrKomResolution() ? 'Ja' : 'Nein');
+        $this->writeRow($pdf, 'FSR-Kom Umbuchung', $paymentOrder->isFsrKomResolution() ? 'Ja' : 'Nein');
         $formatter = new IntlDateFormatter('de_DE', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
         $this->writeRow($pdf, 'Beschlussdatum', null === $paymentOrder->getResolutionDate() ? '<i>Nicht angegeben</i>' : $formatter->format($paymentOrder->getResolutionDate()));
 
