@@ -1,0 +1,26 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{#
+<span style="visibility: hidden" data-row-class="table-warning font-weight-bold"></span>
+#}
+
+{# @var instance \App\Entity\PaymentOrder #}
+{% set instance = entity.instance %}
+
+{# Dont color rows for unconfirmed or finished payment orders #}
+{% if instance.confirmed is defined and instance.confirmed and instance.bookingDate is defined and instance.bookingDate is null %}
+    {% set start_date = max(instance.confirm1Timestamp, instance.confirm2Timestamp) %}
+
+    {% if start_date < date('-14days')  %}
+        <span style="visibility: hidden" data-row-class="table-danger"></span>
+    {% elseif start_date < date('-10days') %}
+        <span style="visibility: hidden" data-row-class="table-warning"></span>
+    {% elseif start_date < date('-7days') %}
+        <span style="visibility: hidden" data-row-class="table-info"></span>
+    {% endif %}
+{% endif %}
+
+{% set days_ago = field.value.diff(date('now')).format('%a') %}
+<time title="{{ field.value | format_datetime_diff }}" datetime="{{ field.value|date('c') }}">{{ field.formattedValue }}</time>

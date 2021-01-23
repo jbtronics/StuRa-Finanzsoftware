@@ -4,16 +4,18 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    app.version: '1.4.1'
+    app.version: '1.6.2'
+    app.timezone: 'Europe/Berlin'
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
     app.hhv_email: '%env(HHV_EMAIL)%'
-    app.from_email: '%env(FROM_EMAIL)%'
-    app.from_name: '%env(FROM_NAME)%'
+    app.mail.from_email: '%env(FROM_EMAIL)%'
+    app.mail.from_name: '%env(FROM_NAME)%'
+    app.mail.envelope_sender: '%env(string:ENVELOPE_SENDER)%'
     app.send_notifications: '%env(bool:SEND_NOTIFICATIONS)%'
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
+    app.notifications_risky: '%env(csv:NOTIFICATIONS_RISKY)%'
     app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
-    app.timezone: 'Europe/Berlin'
 
 services:
     # default configuration for services in *this* file
@@ -24,6 +26,7 @@ services:
             string $app_version: '%app.version%'
             string $fsb_email: '%app.fsb_email%'
             string $hhv_email: '%app.hhv_email%'
+            array $notifications_risky: '%app.notifications_risky%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -51,8 +54,9 @@ services:
 
     App\EventSubscriber\SetEmailFromSubscriber:
         arguments:
-            $email: '%app.from_email%'
-            $name: '%app.from_name%'
+            $email: '%app.mail.from_email%'
+            $name: '%app.mail.from_name%'
+            $envelope_sender: '%app.mail.envelope_sender%'
 
     App\EventSubscriber\PaymentOrderNotificationSubscriber:
         arguments:

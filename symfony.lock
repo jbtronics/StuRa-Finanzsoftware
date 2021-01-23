@@ -229,6 +229,9 @@
             "./config/packages/nelmio_security.yaml"
         ]
     },
+    "nesbot/carbon": {
+        "version": "2.43.0"
+    },
     "nette/finder": {
         "version": "v2.5.2"
     },

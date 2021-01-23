@@ -26,6 +26,7 @@ use App\Form\PaymentOrderType;
 use App\Services\PaymentReferenceGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -15,14 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-.treeview .treeview-icon {
-    position: unset;
-}
-
-:root {
-    --body-max-width: 2000px;
-}
-
-.custom-file-label {
-    z-index: 0;
-}
+$("*[data-row-class]").each(function(index) {
+   $(this).closest('tr').addClass($(this).data('row-class'));
+   $(this).closest('table').addClass('table-hover');
+});

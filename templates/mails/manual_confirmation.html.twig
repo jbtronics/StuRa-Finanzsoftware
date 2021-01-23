@@ -5,9 +5,19 @@
 {% block content %}
     <row>
         <columns>
-            <h4>{% trans %}payment_order.notification_user.title{% endtrans %}</h4>
+            <h4>{% trans %}payment_order.manual_confirmation.mail.title{% endtrans %}</h4>
             <br>
-            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.notification_user.info{% endtrans %}</p>
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email} %}payment_order.manual_confirmation.mail.info{% endtrans %}</p>
+
+            <hr>
+
+            <p>{% trans with {'%datetime%':  date()|format_datetime(), '%user%': user.fullName} %}payment_order.manual_confirmation.mail.confirmed_by{% endtrans %}</p>
+            <p><b>{% trans %}payment_order.manual_confirmation.mail.reason{% endtrans %}</b>
+            {{ reason }}
+            </p>
+
+            <hr>
+            <br>
 
             <callout class="secondary">
                 <row>
@@ -31,7 +41,9 @@
                 </row>
             </callout>
 
-            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.notification_user.why{% endtrans %}</p>
+            <br>
+
+            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.confirmation_mail.why{% endtrans %}</p>
 
         </columns>
     </row>

@@ -29,6 +29,7 @@ use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -197,6 +198,13 @@ class PaymentOrderCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile('js/admin/apply_row_color.js');
+    }
+
+
     public function configureActions(Actions $actions): Actions
     {
         if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
@@ -271,6 +279,18 @@ class PaymentOrderCrudController extends AbstractCrudController
             })
             ->setCssClass('mr-2 btn btn-success');
 
+        $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
+            ->setCssClass('mr-1 text-dark')
+            ->linkToRoute('payment_order_manual_confirm', function(PaymentOrder $paymentOrder) {
+                return [
+                    'id' => $paymentOrder->getId()
+                ];
+            })
+            ->displayIf(function(PaymentOrder $paymentOrder) {
+               return $this->isGranted('ROLE_MANUAL_CONFIRMATION')
+                && ! $paymentOrder->isConfirmed();
+            });
+
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
@@ -284,6 +304,9 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->add(Crud::PAGE_DETAIL, $mathematically_correct_action);
         $actions->add(Crud::PAGE_DETAIL, $factually_correct_action);
+
+        $actions->add(Crud::PAGE_DETAIL, $manual_confirmation);
+        $actions->add(Crud::PAGE_EDIT, $manual_confirmation);
 
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -326,7 +349,8 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setRequired(false)
             ->setFormTypeOption('empty_data', '');
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
-        $creationDate = DateTimeField::new('creation_date', 'creation_date');
+        $creationDate = DateTimeField::new('creation_date', 'creation_date')
+            ->setTemplatePath('admin/field/datetime_overdue_hint.html.twig');
         //$creationDate = TextField::new('creation_date', 'creation_date');
 
         //Status informations
