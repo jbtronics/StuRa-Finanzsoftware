@@ -1,5 +1,7 @@
 {% extends "mails/base_mail.html.twig" %}
 
+{# @var payment_order \App\Entity\PaymentOrder #}
+
 {% block content %}
     <row>
         <columns>
@@ -23,7 +25,7 @@
                             <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
                         </p>
                         <p>
-                            <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> #{{ payment_order.id}}
+                            <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> {{ payment_order.iDString}}
                         </p>
                     </columns>
                 </row>
