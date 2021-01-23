@@ -19,17 +19,40 @@
 namespace App\Doctrine;
 
 
+use App\Entity\Embeddable\FundingID;
 use App\Entity\FundingApplication;
+use App\Services\FundingApplications\FundingIDGenerator;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Mapping\PostPersist;
 use Doctrine\ORM\Mapping\PrePersist;
 
+/**
+ * This Entity listerner inserts funding IDs when a funding application is created.
+ * @package App\Doctrine
+ */
 class FundingIDGeneratorListener
 {
+    private $fundingIDGenerator;
+
+    public function __construct(FundingIDGenerator $fundingIDGenerator)
+    {
+        $this->fundingIDGenerator = $fundingIDGenerator;
+    }
+
     /** @PrePersist */
     public function prePersistHandler(FundingApplication $fundingApplication, LifecycleEventArgs $event): void
     {
-        //TODO
-        //For now just insert a dummy value, so we can persist the value properly
-        $fundingApplication->setFundingId(uniqid('', true));
+        $fundingID = $this->fundingIDGenerator->getNextAvailableFundingID(
+            $fundingApplication->isExternalFunding(),
+            $fundingApplication->getCreationDate()
+        );
+        $fundingApplication->setFundingId($fundingID);
+    }
+
+    /** @PostPersist */
+    public function postPersistHandler(FundingApplication $fundingApplication, LifecycleEventArgs $event)
+    {
+        //Release the acquired lock
+        $this->fundingIDGenerator->releaseLock();
     }
 }

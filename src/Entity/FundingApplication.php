@@ -22,15 +22,16 @@ namespace App\Entity;
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Entity\Embeddable\Address;
+use App\Entity\Embeddable\FundingID;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Repository\FundingApplicationRepository;
 
 /**
- * @ORM\Entity
- * //@ORM\Table(name="funding_applications", uniqueConstraints={@ORM\UniqueConstraint(name="funding_id_idx", columns={"funding_id"})})
- * @ORM\Table(name="funding_applications")
+ * @ORM\Entity(repositoryClass=FundingApplicationRepository::class)
+ * @ORM\Table(name="funding_applications", uniqueConstraints={@ORM\UniqueConstraint(name="funding_id_idx", columns={"funding_id_external_funding", "funding_id_number", "funding_id_year_part"})})
  * @ORM\EntityListeners({"App\Doctrine\FundingIDGeneratorListener"})
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
@@ -49,16 +50,15 @@ class FundingApplication implements DBElementInterface, TimestampedElementInterf
     /**
      * The assigned funding ID of this application (e.g. M-123-21/22 or FA-123-21/22).
      * This value is filled by an entity listener before persist.
-     * @ORM\Column(type="string", nullable=false, name="funding_id", length=64, unique=true)
-     * @var string|null
+     * @ORM\Embedded(class="App\Entity\Embeddable\FundingID", columnPrefix="funding_id_")
+     * @var FundingID|null
      */
-    private $funding_id;
+    private $funding_id = null;
 
     /**
-     * @var bool True if this is an external funding application, false if otherwise.
-     * @ORM\Column(type="boolean", nullable=false)
+     * @var bool This is used to store that this is an external funding, until we fill in the funding ID in onPersist.
      */
-    private $external_funding = false;
+    private $tmp_external_funding = false;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -168,9 +168,9 @@ class FundingApplication implements DBElementInterface, TimestampedElementInterf
      * Returns the funding ID assigned to this funding ID (e.g. M-123-21/22 or FA-123-21/22).
      * This is the ID shown to users instead of our internal databse ID.
      * The ID is set in an EntityListener before persisting.
-     * @return string|null
+     * @return FundingID|null
      */
-    public function getFundingId(): ?string
+    public function getFundingId(): ?FundingID
     {
         return $this->funding_id;
     }
@@ -179,10 +179,10 @@ class FundingApplication implements DBElementInterface, TimestampedElementInterf
      * Sets the funding ID assigned to this funding ID (e.g. M-123-21/22 or FA-123-21/22).
      * This is the ID shown to users instead of our internal databse ID.
      * The ID is set in an EntityListener before persisting, you can not call this function after the ID was already set.
-     * @param  string  $funding_id
+     * @param  FundingID  $funding_id
      * @return FundingApplication
      */
-    public function setFundingId(string $funding_id): FundingApplication
+    public function setFundingId(FundingID $funding_id): FundingApplication
     {
         if ($this->funding_id !== null) {
             throw new \LogicException("You can not change the funding ID after it was set!");
@@ -198,7 +198,10 @@ class FundingApplication implements DBElementInterface, TimestampedElementInterf
      */
     public function isExternalFunding(): bool
     {
-        return $this->external_funding;
+        if ($this->funding_id) {
+            return $this->funding_id->isExternalFunding();
+        }
+        return $this->tmp_external_funding;
     }
 
     /**
@@ -208,7 +211,11 @@ class FundingApplication implements DBElementInterface, TimestampedElementInterf
      */
     public function setExternalFunding(bool $external_funding): FundingApplication
     {
-        $this->external_funding = $external_funding;
+        if ($this->funding_id !== null) {
+            throw new \LogicException("You can not change the funding type after it was set!");
+        }
+
+        $this->tmp_external_funding = $external_funding;
         return $this;
     }
 
