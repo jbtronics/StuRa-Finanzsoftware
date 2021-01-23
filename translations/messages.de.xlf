@@ -2225,7 +2225,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="3WuFawD" name="payment_order.manual_confirmation.mail.title">
       <segment>
         <source>payment_order.manual_confirmation.mail.title</source>
-        <target>Ein Zahlungsauftrag wurde von einem StuRa-Finanzern bestätigt</target>
+        <target>Ein Zahlungsauftrag wurde von einem StuRa-Finanzer bestätigt</target>
       </segment>
     </unit>
     <unit id="gA826.e" name="payment_order.manual_confirmation.mail.info">
