@@ -5,3 +5,8 @@ framework:
       policy: 'fixed_window'
       limit: 30
       interval: '60 minutes'
+
+    funding_application_submit:
+      policy: 'fixed_window'
+      limit: 30
+      interval: '60 minutes'

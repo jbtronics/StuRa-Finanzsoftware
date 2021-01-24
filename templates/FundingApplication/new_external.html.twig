@@ -1,0 +1,13 @@
+{% extends "FundingApplication/new_base.html.twig" %}
+
+{% block card_title %}<i class="fas fa-money-check-alt fa-fw"></i> {% trans %}funding_application.external.new{% endtrans %}{% endblock %}
+
+{% block funding_hints %}
+    {% trans %}funding_application.external.new.hint{% endtrans %}<br>
+{% endblock %}
+
+{% block additional_applicant %}
+    {{ form_row(form.applicant_organisation_name) }}
+    {{ form_row(form.applicant_phone) }}
+    {{ form_widget(form.applicant_address) }}
+{% endblock %}

@@ -7,3 +7,15 @@
     col-sm-9
 {%- endblock form_group_class %}
 #}
+
+{% block address_widget %}
+    {{ form_row(form.streetNumber) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.zipCode) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.city) }}
+        </div>
+    </div>
+{% endblock %}

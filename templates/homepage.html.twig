@@ -7,5 +7,7 @@
         <hr class="my-4">
         <p>{% trans with {'%fsb_email%': fsb_email, '%support_email%': support_email, '%hhv_email%': hhv_email} %}homepage.support{% endtrans %}</p>
         <a class="btn btn-primary btn-lg" href="{{ path("payment_order_new") }}" role="button">{% trans %}payment_order.new{% endtrans %}</a>
+        <a class="btn btn-primary btn-lg" href="{{ path("funding_application_internal_new") }}" role="button">{% trans %}funding_application.internal.new{% endtrans %}</a>
+        <a class="btn btn-primary btn-lg" href="{{ path("funding_application_external_new") }}" role="button">{% trans %}funding_application.external.new{% endtrans %}</a>
     </div>
 {% endblock %}

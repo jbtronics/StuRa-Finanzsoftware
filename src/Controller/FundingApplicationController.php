@@ -20,11 +20,14 @@ namespace App\Controller;
 
 
 use App\Entity\FundingApplication;
+use App\Entity\PaymentOrder;
+use App\Form\FundingApplication\ExternalFundingApplicationType;
 use App\Form\FundingApplication\InternalFundingApplicationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -33,27 +36,140 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FundingApplicationController extends AbstractController
 {
+    private $rateLimiter;
+    private $entityManager;
+
+    public function __construct(RateLimiterFactory $fundingApplicationSubmitLimiter, EntityManagerInterface $entityManager)
+    {
+        $this->rateLimiter = $fundingApplicationSubmitLimiter;
+        $this->entityManager = $entityManager;
+    }
+
     /**
-     * @Route("/internal/new")
+     * @Route("/internal/new", name="funding_application_internal_new")
      * @return Response
      */
-    public function newInternal(Request $request, EntityManagerInterface $entityManager): Response
+    public function newInternal(Request $request): Response
     {
+        $limiter = $this->rateLimiter->create($request->getClientIp());
+
         $funding_application = new FundingApplication();
+        $funding_application->setExternalFunding(false);
 
         $form = $this->createForm(InternalFundingApplicationType::class, $funding_application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($funding_application);
-            $entityManager->flush();
+            /* Limit the amount of how many payment orders can be submitted by one user in an hour
+                    This prevents automatic mass creation of payment orders and also prevents that skip token can
+                    guessed by brute force */
+            $limiter->consume(1)->ensureAccepted();
 
-            return $this->redirectToRoute('homepage');
+
+            $this->entityManager->persist($funding_application);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'flash.saved_successfully');
+
+            //Redirect to homepage, if no further paymentOrders should be submitted
+            //Otherwise create a new form for further ones
+            if ('submit' === $form->getClickedButton()->getName()) {
+                return $this->redirectToRoute('homepage');
+            }
+
+            if ('submit_new' === $form->getClickedButton()->getName()) {
+                $old_application = $funding_application;
+                $funding_application = new FundingApplication();
+                $this->copyProperties($old_application, $funding_application);
+
+                $form = $this->createForm(InternalFundingApplicationType::class, $funding_application);
+            }
         }
 
-        return $this->render('FundingApplication/new_internal.html.twig', [
+        $limit = $limiter->consume(0);
+
+        $response = $this->render('FundingApplication/new_internal.html.twig', [
             'form' => $form->createView(),
             'entity' => $funding_application
         ]);
+
+        $response->headers->add(
+            [
+                'X-RateLimit-Remaining' => $limit->getRemainingTokens(),
+                'X-RateLimit-Retry-After' => $limit->getRetryAfter()->getTimestamp(),
+                'X-RateLimit-Limit' => $limit->getLimit(),
+            ]
+        );
+
+        return $response;
+    }
+
+    /**
+     * @Route("/external/new", name="funding_application_external_new")
+     * @return Response
+     */
+    public function newExternal(Request $request): Response
+    {
+        $limiter = $this->rateLimiter->create($request->getClientIp());
+
+        $funding_application = new FundingApplication();
+        $funding_application->setExternalFunding(true);
+
+        $form = $this->createForm(ExternalFundingApplicationType::class, $funding_application);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /* Limit the amount of how many payment orders can be submitted by one user in an hour
+                    This prevents automatic mass creation of payment orders and also prevents that skip token can
+                    guessed by brute force */
+            $limiter->consume(1)->ensureAccepted();
+
+
+            $this->entityManager->persist($funding_application);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'flash.saved_successfully');
+
+            //Redirect to homepage, if no further paymentOrders should be submitted
+            //Otherwise create a new form for further ones
+            if ('submit' === $form->getClickedButton()->getName()) {
+                return $this->redirectToRoute('homepage');
+            }
+
+            if ('submit_new' === $form->getClickedButton()->getName()) {
+                $old_application = $funding_application;
+                $funding_application = new FundingApplication();
+                $this->copyProperties($old_application, $funding_application);
+
+                $form = $this->createForm(ExternalFundingApplicationType::class, $funding_application);
+            }
+        }
+
+        $limit = $limiter->consume(0);
+
+        $response = $this->render('FundingApplication/new_external.html.twig', [
+            'form' => $form->createView(),
+            'entity' => $funding_application
+        ]);
+
+        $response->headers->add(
+            [
+                'X-RateLimit-Remaining' => $limit->getRemainingTokens(),
+                'X-RateLimit-Retry-After' => $limit->getRetryAfter()->getTimestamp(),
+                'X-RateLimit-Limit' => $limit->getLimit(),
+            ]
+        );
+
+        return $response;
+    }
+
+    private function copyProperties(FundingApplication $source, FundingApplication $target): void
+    {
+        $target->setApplicantName($source->getApplicantName());
+        $target->setApplicantEmail($source->getApplicantEmail());
+        $target->setApplicantDepartment($source->getApplicantDepartment());
+        $target->setApplicantOrganisationName($source->getApplicantOrganisationName());
+        $target->setApplicantPhone($source->getApplicantPhone());
+        $target->setApplicantAddress($source->getApplicantAddress());
     }
 }

@@ -51,7 +51,8 @@ class BaseFundingApplicationType extends AbstractType
         ]);
 
         $builder->add('funding_intention', TextareaType::class, [
-           'label' => 'funding_application.funding_intention.label'
+           'label' => 'funding_application.funding_intention.label',
+            'attr' => ['rows' => 4]
         ]);
 
         $builder->add('explanation_file', VichFileType::class, [
@@ -68,6 +69,13 @@ class BaseFundingApplicationType extends AbstractType
             'label' => 'payment_order.submit',
             'attr' => [
                 'class' => 'btn btn-primary',
+            ],
+        ]);
+
+        $builder->add('submit_new', SubmitType::class, [
+            'label' => 'payment_order.submit_new',
+            'attr' => [
+                'class' => 'btn btn-secondary',
             ],
         ]);
 

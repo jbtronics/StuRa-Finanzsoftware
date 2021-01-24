@@ -2,6 +2,9 @@
     "bacon/bacon-qr-code": {
         "version": "2.0.0"
     },
+    "barbieswimcrew/zip-code-validator": {
+        "version": "v1.3.5"
+    },
     "beberlei/assert": {
         "version": "v3.2.7"
     },

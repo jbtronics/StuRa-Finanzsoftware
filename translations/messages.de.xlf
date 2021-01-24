@@ -2252,5 +2252,149 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Manuelle Bestätigung von Zahlungsaufträgen</target>
       </segment>
     </unit>
+    <unit id="8tqkPb9" name="funding_application.internal.new">
+      <segment>
+        <source>funding_application.internal.new</source>
+        <target>Neue Mittelfreigabe</target>
+      </segment>
+    </unit>
+    <unit id="UzjJs0P" name="funding_application.external.new">
+      <segment>
+        <source>funding_application.external.new</source>
+        <target>Neuer Finanzantrag</target>
+      </segment>
+    </unit>
+    <unit id="hRXu0a2" name="funding_application.applicant_name.label">
+      <segment>
+        <source>funding_application.applicant_name.label</source>
+        <target>Name Antragssteller*in</target>
+      </segment>
+    </unit>
+    <unit id="Y.6Jf4q" name="funding_application.applicant_email.label">
+      <segment>
+        <source>funding_application.applicant_email.label</source>
+        <target>E-Mail Antragssteller*in</target>
+      </segment>
+    </unit>
+    <unit id="SloejNZ" name="funding_application.requested_amount.label">
+      <segment>
+        <source>funding_application.requested_amount.label</source>
+        <target>Höhe der beantragten Summe</target>
+      </segment>
+    </unit>
+    <unit id="ZRAqjzY" name="funding_application.funding_intention.label">
+      <segment>
+        <source>funding_application.funding_intention.label</source>
+        <target>Zweck der beantragten Mittel</target>
+      </segment>
+    </unit>
+    <unit id="P0yD.2T" name="funding_application.explanation.label">
+      <segment>
+        <source>funding_application.explanation.label</source>
+        <target>Begründung für den Antrag</target>
+      </segment>
+    </unit>
+    <unit id="iSIxa91" name="funding_application.explanation.help">
+      <segment>
+        <source>funding_application.explanation.help</source>
+        <target>Begründung wieso die Studierendenschaft die gewünschten Mittel gewehren sollte.</target>
+      </segment>
+    </unit>
+    <unit id="oXay9Sv" name="funding_application.finance_plan.label">
+      <segment>
+        <source>funding_application.finance_plan.label</source>
+        <target>Finanzplan / Angebote</target>
+      </segment>
+    </unit>
+    <unit id="95b7AvG" name="funding_application.finance_plan.help">
+      <segment>
+        <source>funding_application.finance_plan.help</source>
+        <target>Bei Käufen müssen hier die drei vergleichbaren Angebote eingereicht werden. Bei Veranstaltungen wird ein Finanzplan benötigt, der eine Aufstellung der geplanten Einnahmen und Ausgaben enthält.</target>
+      </segment>
+    </unit>
+    <unit id="8yPK79T" name="funding_application.department.label">
+      <segment>
+        <source>funding_application.department.label</source>
+        <target>Organisation / Struktur</target>
+      </segment>
+    </unit>
+    <unit id="iX2DHC2" name="funding_application.internal.new.hint">
+      <segment>
+        <source>funding_application.internal.new.hint</source>
+        <target>Mittelfreigaben sind für interne Strukturen (z.B. Referate und FSRe) gedacht. Wenn für externe Organsisationen Geld beantragt werden soll, erstelle einen Finanzantrag.</target>
+      </segment>
+    </unit>
+    <unit id="evBS3Ox" name="payment_order.new.applicant">
+      <segment>
+        <source>payment_order.new.applicant</source>
+        <target>Antragssteller*in</target>
+      </segment>
+    </unit>
+    <unit id="bs_u0Pp" name="payment_order.new.application_info">
+      <segment>
+        <source>payment_order.new.application_info</source>
+        <target>Antragsinfo</target>
+      </segment>
+    </unit>
+    <unit id="nqNMYzI" name="funding_application.external.new.hint">
+      <segment>
+        <source>funding_application.external.new.hint</source>
+        <target>Finanzanträge sind für externe Organisationen gedacht. Wenn für interne Strukturen (Referate, FSRe, etc.) Geld beantragt werden soll, erstelle eine Mittelfreigabe.</target>
+      </segment>
+    </unit>
+    <unit id="YYlfVc3" name="funding_application.applicant_organisation_name.label">
+      <segment>
+        <source>funding_application.applicant_organisation_name.label</source>
+        <target>Name der beantragenden (externen) Organisation</target>
+      </segment>
+    </unit>
+    <unit id="liGm4.F" name="funding_application.applicant_phone.label">
+      <segment>
+        <source>funding_application.applicant_phone.label</source>
+        <target>Telefonnummer</target>
+      </segment>
+    </unit>
+    <unit id="4Wo0B1k" name="funding_application.applicant_address.label">
+      <segment>
+        <source>funding_application.applicant_address.label</source>
+        <target>Anschrift der Organisation</target>
+      </segment>
+    </unit>
+    <unit id="D3ZGl8T" name="address.streetNumber.label">
+      <segment>
+        <source>address.streetNumber.label</source>
+        <target><![CDATA[Straße & HausNr.]]></target>
+      </segment>
+    </unit>
+    <unit id="SrAZnJZ" name="address.streetNumber.placeholder">
+      <segment>
+        <source>address.streetNumber.placeholder</source>
+        <target>Carl-Zeiss-Straße 3</target>
+      </segment>
+    </unit>
+    <unit id="77pTaJ8" name="address.zipCode.label">
+      <segment>
+        <source>address.zipCode.label</source>
+        <target>PLZ</target>
+      </segment>
+    </unit>
+    <unit id="nsLoeAg" name="address.zipCode.placeholder">
+      <segment>
+        <source>address.zipCode.placeholder</source>
+        <target>07743</target>
+      </segment>
+    </unit>
+    <unit id="CAkerPR" name="address.city.label">
+      <segment>
+        <source>address.city.label</source>
+        <target>Ort</target>
+      </segment>
+    </unit>
+    <unit id="9BSNZBZ" name="address.city.placeholder">
+      <segment>
+        <source>address.city.placeholder</source>
+        <target>Jena</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

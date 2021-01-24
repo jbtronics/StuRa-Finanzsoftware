@@ -21,6 +21,7 @@ namespace App\Entity\Embeddable;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ZipCodeValidator\Constraints\ZipCode;
 
 /**
  * This embeddable contains informations about a postal address.
@@ -39,6 +40,7 @@ class Address
     /**
      * @var string
      * @Assert\NotBlank()
+     * @ZipCode(iso="DE")
      * @ORM\Column(type="string")
      */
     private $zip_code = '';

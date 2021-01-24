@@ -76,8 +76,11 @@ class ApplicationAvailabilityTest extends WebTestCase
     public function publicPagesProvider(): ?Generator
     {
         //Homepage
-        yield ['/payment_order/new'];
         yield ['/'];
+        yield ['/payment_order/new'];
+        yield ['/funding_application/internal/new'];
+        yield ['/funding_application/external/new'];
+
 
         yield from $this->adminPagesProvider();
     }
