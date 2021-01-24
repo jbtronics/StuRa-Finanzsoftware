@@ -129,6 +129,15 @@ class Address
      */
     public function formatAddressMultiLine(): string
     {
+        if (empty($this->getCity()) && ($this->getZipCode())) {
+            return $this->getStreetNumber();
+        }
+
         return sprintf("%s\n%s %s", $this->getStreetNumber(), $this->getZipCode(), $this->getCity());
+    }
+
+    public function __toString(): string
+    {
+        return $this->formatAddressMultiLine();
     }
 }

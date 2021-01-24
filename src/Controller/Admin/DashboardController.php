@@ -233,7 +233,7 @@ class DashboardController extends AbstractDashboardController
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
             ->setSubItems($items);
 
-        yield MenuItem::linkToCrud('funding_application.labelp', '', FundingApplication::class);
+        yield MenuItem::linkToCrud('funding_application.labelp', 'fas fa-money-check', FundingApplication::class);
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
             ->setPermission('ROLE_READ_ORGANISATIONS');
@@ -246,7 +246,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Version '.$version, 'fas fa-info');
         yield MenuItem::linktoRoute('dashboard.menu.audits', 'fas fa-binoculars', 'dh_auditor_list_audits')
             ->setPermission('ROLE_VIEW_AUDITS');
-        yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
+        yield MenuItem::linkToUrl('dashboard.menu.homepage', 'fas fa-home', '/');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
         yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
     }

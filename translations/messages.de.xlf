@@ -2396,5 +2396,41 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Jena</target>
       </segment>
     </unit>
+    <unit id="5v._l.w" name="funding_application.labelp">
+      <segment>
+        <source>funding_application.labelp</source>
+        <target>Mittelfreigaben</target>
+      </segment>
+    </unit>
+    <unit id="Dy69rYz" name="funding_application.funding_id.label">
+      <segment>
+        <source>funding_application.funding_id.label</source>
+        <target>M / FA</target>
+      </segment>
+    </unit>
+    <unit id="KI3NdeE" name="funding_application.label">
+      <segment>
+        <source>funding_application.label</source>
+        <target>Mittelfreigabe</target>
+      </segment>
+    </unit>
+    <unit id="7HGu2RL" name="funding_application.requested_amount.short_label">
+      <segment>
+        <source>funding_application.requested_amount.short_label</source>
+        <target>Beantragte Summe</target>
+      </segment>
+    </unit>
+    <unit id="9HLeOgX" name="funding_application.panel.application">
+      <segment>
+        <source>funding_application.panel.application</source>
+        <target>Antrag</target>
+      </segment>
+    </unit>
+    <unit id="aoUmSOb" name="funding_application.department.extern">
+      <segment>
+        <source>funding_application.department.extern</source>
+        <target>Externe Organisation</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

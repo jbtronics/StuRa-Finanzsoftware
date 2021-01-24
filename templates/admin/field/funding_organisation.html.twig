@@ -1,0 +1,17 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{# @var instance \App\Entity\FundingApplication #}
+{% set instance = entity.instance %}
+
+{% if instance.applicantDepartment is not null %}
+    {% set url = ea_url()
+        .setController('App\\Controller\\Admin\\DepartmentCrudController')
+        .setAction('detail')
+        .setEntityId(instance.id)
+    %}
+    <a href="{{ url }}">{{ instance.applicantDepartment.name }}</a>
+{% else %}
+    <span title="{% trans %}funding_application.department.extern{% endtrans %}">{{ instance.applicantOrganisationName }}</span>
+{% endif %}
