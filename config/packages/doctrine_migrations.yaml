@@ -13,5 +13,5 @@ doctrine_migrations:
             executed_at_column_name: 'executed_at'
             execution_time_column_name: 'execution_time'
 
-    all_or_nothing: true
+    all_or_nothing: false
     check_database_platform: true
