@@ -26,3 +26,7 @@
 .custom-file-label {
     z-index: 0;
 }
+
+dl.datalist .data-row {
+    padding: 10px 20px;
+}
