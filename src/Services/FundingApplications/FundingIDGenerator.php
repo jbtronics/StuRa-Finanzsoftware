@@ -112,7 +112,7 @@ class FundingIDGenerator
         if ($dateTime >= $comparision) {
             $two_digit_year = $dateTime->format('y');
         } else { //Otherwise we have to use the year from before
-            $two_digit_year = $dateTime->format('y') - 1;
+            $two_digit_year = ((int) $dateTime->format('y')) - 1;
         }
         //Note that this logic will break for dates before 2000 and and after 2099. But that is nothing we have to worry about now...
 

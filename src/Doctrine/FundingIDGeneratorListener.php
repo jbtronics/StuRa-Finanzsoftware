@@ -42,11 +42,14 @@ class FundingIDGeneratorListener
     /** @PrePersist */
     public function prePersistHandler(FundingApplication $fundingApplication, LifecycleEventArgs $event): void
     {
-        $fundingID = $this->fundingIDGenerator->getNextAvailableFundingID(
-            $fundingApplication->isExternalFunding(),
-            $fundingApplication->getCreationDate()
-        );
-        $fundingApplication->setFundingId($fundingID);
+        //Insert the funding ID only if no one was set yet
+        if ($fundingApplication->getFundingId() === null) {
+            $fundingID = $this->fundingIDGenerator->getNextAvailableFundingID(
+                $fundingApplication->isExternalFunding(),
+                $fundingApplication->getCreationDate()
+            );
+            $fundingApplication->setFundingId($fundingID);
+        }
     }
 
     /** @PostPersist */

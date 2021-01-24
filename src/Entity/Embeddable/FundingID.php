@@ -21,8 +21,12 @@ namespace App\Entity\Embeddable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * This class describes an funding ID like "M-123-20/21".
+ * It consists of three parts:
+ * * Prefix: M ("Mittelfreigabe") for internal funding applications, FA ("FinanzAntrag") for external funding applications
+ * * Number part: The index of the funding application in the budget year. It always has minimum 3 digits
+ * * Budget year part: The budget year which we are in (e.g. "19/20")
  * @ORM\Embeddable
- * @package App\Entity\Embeddable
  */
 class FundingID
 {
@@ -46,6 +50,11 @@ class FundingID
 
     public function __construct(bool $is_external_funding, int $number, string $year_part)
     {
+        if ($number < 1)
+        {
+            throw new \InvalidArgumentException('Number part must be greater than zero!');
+        }
+
         $this->external_funding = $is_external_funding;
         $this->number = $number;
         $this->year_part = $year_part;
@@ -88,6 +97,28 @@ class FundingID
     }
 
     /**
+     * Checks if this funding ID is equal to the given one
+     * @param  FundingID  $other
+     * @return bool
+     */
+    public function equals(FundingID $other): bool
+    {
+        //Funding IDs are the same if their string representation is the same
+        return (string) $this === (string) $other;
+    }
+
+    /**
+     * Checks if the given string equals the given funding ID string.
+     * @param  string  $input
+     * @return bool
+     * @throws \InvalidArgumentException If the given input is not a valid funding ID.
+     */
+    public function equalsString(string $input): bool
+    {
+        return $this->equals(self::fromString($input));
+    }
+
+    /**
      * Returns the funding ID as formatted string. E.g. "FA-123-19/20"
      * @return string
      */
@@ -99,5 +130,43 @@ class FundingID
     public function __toString(): string
     {
         return $this->format();
+    }
+
+    /**
+     * Creates a Funding ID from the given string.
+     * @param  string  $formatted_fundingID
+     * @param  bool  $caseSensitive
+     * @return FundingID
+     * @throws \InvalidArgumentException If the given ID is not an valid funding ID
+     */
+    public static function fromString(string $formatted_fundingID, bool $caseSensitive = false): FundingID
+    {
+        //First split the funding ID on the dashes
+        $parts = explode('-', $formatted_fundingID);
+
+        if (count($parts) !== 3) {
+            throw new \InvalidArgumentException("A funding ID must consist of exactly 3 parts separated by a dash!");
+        }
+
+        [$prefix, $number, $year_part] = $parts;
+
+        //Normalize prefix if needed
+        if (!$caseSensitive) {
+            $prefix = strtoupper($prefix);
+        }
+
+        if ($prefix === 'M') {
+            $external = false;
+        } else if ($prefix === 'FA') {
+            $external = true;
+        } else {
+            throw new \InvalidArgumentException('The prefix must be either FA or M!');
+        }
+
+        if (!ctype_digit($number)) {
+            throw new \InvalidArgumentException('The number part must only consists of numbers!');
+        }
+
+        return new self($external, (int) $number, $year_part);
     }
 }
