@@ -38,4 +38,13 @@ final class Version20200928205725 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_16AEB8D412CB990C ON departments');
         $this->addSql('ALTER TABLE departments DROP bank_account_id');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

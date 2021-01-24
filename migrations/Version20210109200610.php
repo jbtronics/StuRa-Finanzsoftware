@@ -34,4 +34,13 @@ final class Version20210109200610 extends AbstractMigration
         $this->addSql('ALTER TABLE departments DROP references_export_prefix, DROP skip_blocked_validation_tokens');
         $this->addSql('ALTER TABLE payment_orders DROP booking_date, DROP references_exported');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

@@ -48,4 +48,13 @@ final class Version20200806135241 extends AbstractMigration
 
         $this->addSql('ALTER TABLE payment_orders DROP funding_id');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

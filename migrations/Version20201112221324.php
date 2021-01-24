@@ -32,4 +32,13 @@ final class Version20201112221324 extends AbstractMigration
 
         $this->addSql('ALTER TABLE departments DROP email_hhv, DROP email_treasurer');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

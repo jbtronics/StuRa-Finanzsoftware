@@ -32,4 +32,13 @@ final class Version20201121223149 extends AbstractMigration
 
         $this->addSql('ALTER TABLE payment_orders DROP confirm1_token, DROP confirm1_timestamp, DROP confirm2_token, DROP confirm2_timestamp');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

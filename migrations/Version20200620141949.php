@@ -54,4 +54,13 @@ final class Version20200620141949 extends AbstractMigration
         $this->addSql('DROP TABLE payment_orders');
         $this->addSql('DROP TABLE user');
     }
+
+    /**
+     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
+     * MySQL does not support transactions, so this is not a problem if we disable it.
+     */
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
