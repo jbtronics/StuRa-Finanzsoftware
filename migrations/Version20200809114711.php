@@ -48,13 +48,4 @@ final class Version20200809114711 extends AbstractMigration
 
         $this->addSql('ALTER TABLE payment_orders DROP printed_form_name, DROP printed_form_original_name, DROP printed_form_mime_type, DROP printed_form_size, DROP printed_form_dimensions, DROP references_name, DROP references_original_name, DROP references_mime_type, DROP references_size, DROP references_dimensions');
     }
-
-    /**
-     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
-     * MySQL does not support transactions, so this is not a problem if we disable it.
-     */
-    public function isTransactional(): bool
-    {
-        return false;
-    }
 }

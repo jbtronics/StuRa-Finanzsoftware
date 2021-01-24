@@ -32,13 +32,4 @@ final class Version20201128173539 extends AbstractMigration
 
         $this->addSql('ALTER TABLE departments CHANGE email_hhv email_hhv VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE email_treasurer email_treasurer VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`');
     }
-
-    /**
-     * This is a workaround for the error described here: https://github.com/doctrine/migrations/issues/1104
-     * MySQL does not support transactions, so this is not a problem if we disable it.
-     */
-    public function isTransactional(): bool
-    {
-        return false;
-    }
 }
