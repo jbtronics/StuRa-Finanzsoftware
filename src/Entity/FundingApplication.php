@@ -31,7 +31,13 @@ use App\Repository\FundingApplicationRepository;
 
 /**
  * @ORM\Entity(repositoryClass=FundingApplicationRepository::class)
- * @ORM\Table(name="funding_applications", uniqueConstraints={@ORM\UniqueConstraint(name="funding_id_idx", columns={"funding_id_external_funding", "funding_id_number", "funding_id_year_part"})})
+ * @ORM\Table(
+ *      name="funding_applications",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="funding_id_idx", columns={"funding_id_external_funding", "funding_id_number", "funding_id_year_part"})},
+ *      indexes={
+            @ORM\Index(name="search_funding_id_idx", columns={"funding_id_external_funding", "funding_id_year_part"})
+ *     }
+ * )
  * @ORM\EntityListeners({"App\Doctrine\FundingIDGeneratorListener"})
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
