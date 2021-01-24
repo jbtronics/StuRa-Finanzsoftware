@@ -47,20 +47,18 @@ class FundingApplicationRepository extends ServiceEntityRepository
     public function getHighestFundingIDNumber(bool $external_funding_application, string $year_part): ?int
     {
         $tmp = $this->createQueryBuilder('a')
-            ->select('a.funding_id.number')
+            ->select('MAX(a.funding_id.number) as number')
             ->andWhere('a.funding_id.external_funding = :external_funding')
             ->setParameter('external_funding', $external_funding_application)
             ->andWhere('a.funding_id.year_part = :year_part')
             ->setParameter('year_part', $year_part)
-            ->addOrderBy('a.funding_id.number', 'DESC')
-            ->setMaxResults(1)
 
             ->getQuery()
             ->getOneOrNullResult();
 
         //We can only select an element if the return value was not null
         if ($tmp) {
-            return $tmp['funding_id.number'];
+            return $tmp['number'];
         }
 
         return null;
