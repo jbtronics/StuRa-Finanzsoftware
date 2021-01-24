@@ -1909,12 +1909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "d860d4efec8b6d50d8043a703d1a4d557266c784"
+                "reference": "0922422c5004b7cf1100b2ea5a2000ff7ce78965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/d860d4efec8b6d50d8043a703d1a4d557266c784",
-                "reference": "d860d4efec8b6d50d8043a703d1a4d557266c784",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/0922422c5004b7cf1100b2ea5a2000ff7ce78965",
+                "reference": "0922422c5004b7cf1100b2ea5a2000ff7ce78965",
                 "shasum": ""
             },
             "require": {
@@ -1924,7 +1924,7 @@
                 "doctrine/orm": "^2.6,>=2.6.3",
                 "doctrine/persistence": "^1.3.3 || ^2.0",
                 "ext-json": "*",
-                "nikic/php-parser": "^4.3|^4.4",
+                "nikic/php-parser": "^4.3",
                 "php": ">=7.2.5",
                 "symfony/asset": "^4.4|^5.0",
                 "symfony/cache": "^4.4|^5.0",
@@ -2000,7 +2000,7 @@
                     "url": "https://github.com/javiereguiluz"
                 }
             ],
-            "time": "2021-01-02T18:59:52+00:00"
+            "time": "2021-01-24T22:20:23+00:00"
         },
         {
             "name": "egulias/email-validator",
