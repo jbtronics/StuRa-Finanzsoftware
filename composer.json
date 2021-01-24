@@ -1,8 +1,8 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "license": "AGPL-3.0-or-later",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
@@ -84,7 +84,7 @@
             "*": "dist"
         },
         "platform": {
-            "php": "7.2.5"
+            "php": "7.3.0"
         },
         "sort-packages": true
     },
