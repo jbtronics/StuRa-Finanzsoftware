@@ -53,7 +53,7 @@ class BackupCodeGeneratorTest extends TestCase
     public function testGenerateSingleCode(int $code_length): void
     {
         $generator = new BackupCodeGenerator($code_length, 10);
-        self::assertRegExp("/^([a-f0-9]){{$code_length}}\$/", $generator->generateSingleCode());
+        self::assertMatchesRegularExpression("/^([a-f0-9]){{$code_length}}\$/", $generator->generateSingleCode());
     }
 
     public function codeCountDataProvider(): array
