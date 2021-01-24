@@ -67,7 +67,7 @@ class Address
      */
     public function setStreetNumber(string $street): Address
     {
-        $this->street = $street;
+        $this->street_number = $street;
 
         return $this;
     }

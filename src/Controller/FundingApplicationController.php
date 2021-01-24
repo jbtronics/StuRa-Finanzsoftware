@@ -25,6 +25,7 @@ use App\Form\FundingApplication\ExternalFundingApplicationType;
 use App\Form\FundingApplication\InternalFundingApplicationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
@@ -57,6 +58,10 @@ class FundingApplicationController extends AbstractController
         $funding_application->setExternalFunding(false);
 
         $form = $this->createForm(InternalFundingApplicationType::class, $funding_application);
+        if (!$form instanceof Form) {
+            throw new \LogicException('$form must be a Form object!');
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -116,6 +121,10 @@ class FundingApplicationController extends AbstractController
         $funding_application->setExternalFunding(true);
 
         $form = $this->createForm(ExternalFundingApplicationType::class, $funding_application);
+        if (!$form instanceof Form) {
+            throw new \LogicException('$form must be a Form object!');
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
