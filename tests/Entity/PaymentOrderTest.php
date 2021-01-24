@@ -141,9 +141,9 @@ class PaymentOrderTest extends TestCase
     public function testFundingIDRegex(bool $expected, string $funding_id): void
     {
         if ($expected) {
-            self::assertRegExp(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
+            self::assertMatchesRegularExpression(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
         } else {
-            self::assertNotRegExp(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
+            self::assertDoesNotMatchRegularExpression(PaymentOrder::FUNDING_ID_REGEX, $funding_id);
         }
     }
 

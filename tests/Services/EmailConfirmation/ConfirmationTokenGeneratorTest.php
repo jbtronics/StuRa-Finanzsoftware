@@ -34,7 +34,7 @@ class ConfirmationTokenGeneratorTest extends TestCase
     {
         $service = new ConfirmationTokenGenerator();
         //Ensure that only hex strings are returned
-        self::assertRegExp('/[a-f0-9]+/', $service->getToken());
+        self::assertMatchesRegularExpression('/[a-f0-9]+/', $service->getToken());
         //Ensure length
         self::assertSame(32, strlen($service->getToken()));
 
