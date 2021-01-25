@@ -5,17 +5,29 @@ monolog:
         main:
             type: fingers_crossed
             action_level: error
-            handler: nested
+            handler: grouped
             excluded_http_codes: [404, 405]
             buffer_size: 50 # How many messages should be saved? Prevent memory leaks
-        nested:
+        grouped:
+            type: group
+            members: [ streamed, deduplicated ]
+        streamed:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-        console:
-            type: console
-            process_psr_3_messages: false
-            channels: ["!event", "!doctrine"]
+        deduplicated:
+            type: deduplication
+            handler: symfony_mailer
+        symfony_mailer:
+            type: symfony_mailer
+            from_email: '%app.mail.envelope_sender%'
+            to_email: ['email1@invalid.invalid', 'email2@invalid.invalid']
+            subject: 'An Error Occurred! %%message%%'
+            # Uncomment this line and comment the emergency line to enable emails
+            #level: debug
+            level: emergency
+            formatter: monolog.formatter.html
+            content_type: text/html
 
         fail2ban:
             type: stream
@@ -24,4 +36,8 @@ monolog:
             level: error
             channels: [fail2ban]
 
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: [ "!event", "!doctrine" ]
 
