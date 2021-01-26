@@ -20,7 +20,7 @@ monolog:
             handler: symfony_mailer
         symfony_mailer:
             type: symfony_mailer
-            from_email: '%app.mail.envelope_sender%'
+            from_email: '%app.mail.from_email%'
             to_email: ['email1@invalid.invalid', 'email2@invalid.invalid']
             subject: 'An Error Occurred! %%message%%'
             # Uncomment this line and comment the emergency line to enable emails
