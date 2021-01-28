@@ -166,7 +166,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * @ORM\Column(type="date", nullable=true)
      * @Assert\LessThanOrEqual(value="today", message="validator.resolution_must_not_be_in_future")
      * @Assert\GreaterThan(value="-3 years", message="validator.resolution_too_old")
-     * @Assert\Expression("value !== null || (this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message="validator.resolution_date.needed_for_fsr_fsrkom")
+     * @Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message="validator.resolution_date.needed_for_fsr_fsrkom")
      */
     private $resolution_date = null;
 

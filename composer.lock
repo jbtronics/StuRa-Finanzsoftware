@@ -460,16 +460,16 @@
         },
         {
             "name": "damienharper/auditor-bundle",
-            "version": "4.0.3",
+            "version": "4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DamienHarper/auditor-bundle.git",
-                "reference": "36318127f7f33f8544a2b02773a1a4f3984cee34"
+                "reference": "4b302ef1f87b834e02b4bee8d0fbb8ee34dc6811"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DamienHarper/auditor-bundle/zipball/36318127f7f33f8544a2b02773a1a4f3984cee34",
-                "reference": "36318127f7f33f8544a2b02773a1a4f3984cee34",
+                "url": "https://api.github.com/repos/DamienHarper/auditor-bundle/zipball/4b302ef1f87b834e02b4bee8d0fbb8ee34dc6811",
+                "reference": "4b302ef1f87b834e02b4bee8d0fbb8ee34dc6811",
                 "shasum": ""
             },
             "require": {
@@ -535,9 +535,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DamienHarper/auditor-bundle/issues",
-                "source": "https://github.com/DamienHarper/auditor-bundle/tree/4.0.3"
+                "source": "https://github.com/DamienHarper/auditor-bundle/tree/4.0.4"
             },
-            "time": "2020-12-11T11:07:17+00:00"
+            "time": "2021-01-25T16:17:03+00:00"
         },
         {
             "name": "dasprid/enum",
@@ -1088,16 +1088,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.2.2",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "044d33eeffdb236d5013b6b4af99f87519e10751"
+                "reference": "015fdd490074d4daa891e2d1df998dc35ba54924"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/044d33eeffdb236d5013b6b4af99f87519e10751",
-                "reference": "044d33eeffdb236d5013b6b4af99f87519e10751",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/015fdd490074d4daa891e2d1df998dc35ba54924",
+                "reference": "015fdd490074d4daa891e2d1df998dc35ba54924",
                 "shasum": ""
             },
             "require": {
@@ -1120,7 +1120,7 @@
             "require-dev": {
                 "doctrine/coding-standard": "^8.0",
                 "doctrine/orm": "^2.6",
-                "ocramius/proxy-manager": "^2.1",
+                "friendsofphp/proxy-manager-lts": "^1.0",
                 "phpunit/phpunit": "^7.5 || ^8.0 || ^9.3",
                 "symfony/phpunit-bridge": "^4.2",
                 "symfony/property-info": "^4.3.3|^5.0",
@@ -1178,7 +1178,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.2.2"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.2.3"
             },
             "funding": [
                 {
@@ -1194,7 +1194,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-05T15:07:10+00:00"
+            "time": "2021-01-19T20:29:53+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -1968,12 +1968,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "0922422c5004b7cf1100b2ea5a2000ff7ce78965"
+                "reference": "8c84cb6743b3e3c7100fc9ae82c50c3c2326ed96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/0922422c5004b7cf1100b2ea5a2000ff7ce78965",
-                "reference": "0922422c5004b7cf1100b2ea5a2000ff7ce78965",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/8c84cb6743b3e3c7100fc9ae82c50c3c2326ed96",
+                "reference": "8c84cb6743b3e3c7100fc9ae82c50c3c2326ed96",
                 "shasum": ""
             },
             "require": {
@@ -1989,6 +1989,7 @@
                 "symfony/cache": "^4.4|^5.0",
                 "symfony/config": "^4.4|^5.0",
                 "symfony/dependency-injection": "^4.4|^5.0",
+                "symfony/deprecation-contracts": "^2.0",
                 "symfony/event-dispatcher": "^4.4|^5.0",
                 "symfony/filesystem": "^4.4|^5.0",
                 "symfony/form": "^4.4|^5.0",
@@ -2059,7 +2060,7 @@
                     "url": "https://github.com/javiereguiluz"
                 }
             ],
-            "time": "2021-01-24T22:20:23+00:00"
+            "time": "2021-01-26T16:25:35+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -11472,16 +11473,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.18.1",
+            "version": "v2.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "c68ff6231adb276857761e43b7ed082f164dce0b"
+                "reference": "18f8c9d184ba777380794a389fabc179896ba913"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/c68ff6231adb276857761e43b7ed082f164dce0b",
-                "reference": "c68ff6231adb276857761e43b7ed082f164dce0b",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/18f8c9d184ba777380794a389fabc179896ba913",
+                "reference": "18f8c9d184ba777380794a389fabc179896ba913",
                 "shasum": ""
             },
             "require": {
@@ -11563,7 +11564,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues",
-                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.18.1"
+                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.18.2"
             },
             "funding": [
                 {
@@ -11571,7 +11572,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-21T18:50:42+00:00"
+            "time": "2021-01-26T00:22:21+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -12130,16 +12131,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.12.14",
+            "version": "0.12.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "150415359b984270a7d3b2c22662a877700a5fdd"
+                "reference": "c50afb8f4e27d4ab3b47ac370838aefac3c15e9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/150415359b984270a7d3b2c22662a877700a5fdd",
-                "reference": "150415359b984270a7d3b2c22662a877700a5fdd",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/c50afb8f4e27d4ab3b47ac370838aefac3c15e9e",
+                "reference": "c50afb8f4e27d4ab3b47ac370838aefac3c15e9e",
                 "shasum": ""
             },
             "require": {
@@ -12193,9 +12194,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.14"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.16"
             },
-            "time": "2021-01-11T09:58:49+00:00"
+            "time": "2021-01-25T12:30:55+00:00"
         },
         {
             "name": "psr/simple-cache",

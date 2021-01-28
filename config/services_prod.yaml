@@ -1,0 +1,16 @@
+# Service configuration for prod env
+
+services:
+
+    Symfony\Bridge\Monolog\Processor\WebProcessor:
+        tags:
+            - { name: monolog.processor, handler: symfony_mailer }
+
+    Symfony\Bridge\Monolog\Processor\ConsoleCommandProcessor:
+        tags:
+            - { name: monolog.processor, handler: symfony_mailer }
+
+    Symfony\Bridge\Monolog\Processor\TokenProcessor:
+        autowire: true
+        tags:
+            - { name: monolog.processor, handler: symfony_mailer }
