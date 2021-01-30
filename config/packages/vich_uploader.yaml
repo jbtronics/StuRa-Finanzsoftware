@@ -8,13 +8,17 @@ vich_uploader:
             #upload_destination: '%kernel.project_dir%/public/uploads/payment_orders/forms'
             upload_destination: '%kernel.project_dir%/uploads/payment_orders/forms'
             namer:  App\Services\Upload\PaymentOrderFileNamer
-
             inject_on_load: true
+            # Do not delete files as this could be important references (and it cause problems with signatures)
+            delete_on_remove: false
+            delete_on_update: false
 
         payment_orders_references:
             #uri_prefix: /uploads/payment_orders/references
             #upload_destination: '%kernel.project_dir%/public/uploads/payment_orders/references'
             upload_destination: '%kernel.project_dir%/uploads/payment_orders/references'
             namer:  App\Services\Upload\PaymentOrderFileNamer
-
             inject_on_load: true
+            # Do not delete files as this could be important references (and it cause problems with signatures)
+            delete_on_remove: false
+            delete_on_update: false
