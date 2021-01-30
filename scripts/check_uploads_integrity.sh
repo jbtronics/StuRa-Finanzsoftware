@@ -42,7 +42,7 @@ do
   TSR_FILE=$f
   INPUT_FILE=${f%".tsr"}
   echo "Checking Integrity of $INPUT_FILE"
-  if ! openssl ts -verify -in "$TSR_FILE" -data "$INPUT_FILE" -CAfile "$CHAIN_FILE"; then
+  if ! openssl ts -verify -in "$TSR_FILE" -data "$INPUT_FILE" -CAfile "$CHAIN_FILE" 2> /dev/null; then
     echo ""
     echo -e "${RED} Verification of $INPUT_FILE failed! ${NC}" >&2
     echo ""

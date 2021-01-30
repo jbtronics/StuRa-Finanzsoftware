@@ -41,8 +41,8 @@ sign_file() {
   local SOURCE=$1
   local TARGET=$2
 
-  openssl ts -query -data "$SOURCE" -no_nonce -sha512 -cert -out $REQ_FILE
-  curl -H "Content-Type: application/timestamp-query" --data-binary "@$REQ_FILE" $TIMESTAMP_SERVER > $TARGET
+  openssl ts -query -data "$SOURCE" -no_nonce -sha512 -cert -out $REQ_FILE 2> /dev/null
+  curl -s -S -H "Content-Type: application/timestamp-query" --data-binary "@$REQ_FILE" $TIMESTAMP_SERVER > $TARGET
 
   rm $REQ_FILE
 }
