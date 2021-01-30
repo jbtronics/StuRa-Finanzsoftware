@@ -52,7 +52,6 @@ counter=0
 for f in $(find ./uploads/ -type f -not -name '*.tsr')
 do
   if [ ! -f "$f.tsr" ]; then
-      echo "$f";
       echo -e "${BLUE}Generating timestamp for $f ${NC}";
       sign_file "$f" "$f.tsr";
       echo -e "${BLUE}Done${NC}";
