@@ -22,7 +22,7 @@
         "scheb/2fa-google-authenticator": "^5.0",
         "scheb/2fa-qr-code": "^5.0",
         "scheb/2fa-trusted-device": "^5.0",
-        "sensio/framework-extra-bundle": "^5.1",
+        "sensio/framework-extra-bundle": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",
         "snapappointments/bootstrap-select": "^1.13",
         "stevegrunwell/mailto-link-formatter": "^1.0",
@@ -73,7 +73,7 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
-        "symplify/easy-coding-standard": "^8.3"
+        "symplify/easy-coding-standard": "^9.1"
     },
     "suggest": {
         "ext-posix": "Used to determine the CLI username."
