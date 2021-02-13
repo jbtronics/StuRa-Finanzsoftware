@@ -18,7 +18,6 @@
 
 namespace App\Audit;
 
-
 use DH\Auditor\Security\SecurityProviderInterface;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\IpUtils;

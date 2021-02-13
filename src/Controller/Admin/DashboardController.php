@@ -73,13 +73,13 @@ class DashboardController extends AbstractDashboardController
         //$menuItem->setQueryParameter('referrer', $referrer);
 
         foreach ($filters as $filter => $value) {
-            if(is_array($value)) {
-                foreach($value as $subfilter => $subvalue)
-                $menuItem->setQueryParameter('filters['.$filter.']['.$subfilter.']', $subvalue);
+            if (is_array($value)) {
+                foreach ($value as $subfilter => $subvalue) {
+                    $menuItem->setQueryParameter('filters['.$filter.']['.$subfilter.']', $subvalue);
+                }
             } else {
                 $menuItem->setQueryParameter('filters['.$filter.']', $value);
             }
-
         }
 
         $menuItem->setQueryParameter('crudAction', 'index');
@@ -96,7 +96,7 @@ class DashboardController extends AbstractDashboardController
                 return $this->isGranted('ROLE_VIEW_AUDITS');
             })
             ->setCssClass('ml-2 text-dark')
-            ->linkToRoute('dh_auditor_show_entity_history', function(DBElementInterface $entity) {
+            ->linkToRoute('dh_auditor_show_entity_history', function (DBElementInterface $entity) {
                 return [
                     'entity' => str_replace('\\', '-', get_class($entity)),
                     'id' => $entity->getId(),
@@ -110,7 +110,6 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-
         /* Menu items for payment orders menu */
 
         $mathematically_checking = MenuItem::linkToCrud('payment_order.mathematically_checking_needed', '', PaymentOrder::class)
@@ -190,9 +189,11 @@ class DashboardController extends AbstractDashboardController
             'factually_correct' => true,
             'booking_date' => [
                 'comparison' => 'between',
-                'value' => (new \DateTime('first day of this month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
-                'value2' => (new \DateTime('last day of this month'))->setTime(23,59,59)->format(self::FILTER_DATETIME_FORMAT),
-            ]
+                'value' => (new \DateTime('first day of this month'))->setTime(0, 0, 0)
+                    ->format(self::FILTER_DATETIME_FORMAT),
+                'value2' => (new \DateTime('last day of this month'))->setTime(23, 59, 59)
+                    ->format(self::FILTER_DATETIME_FORMAT),
+            ],
         ]);
 
         /* Menu items for accountancy firm menu */
@@ -202,9 +203,11 @@ class DashboardController extends AbstractDashboardController
             'factually_correct' => true,
             'booking_date' => [
                 'comparison' => 'between',
-                'value' => (new \DateTime('first day of last month'))->setTime(0,0,0)->format(self::FILTER_DATETIME_FORMAT),
-                'value2' => (new \DateTime('last day of last month'))->setTime(23,59,59)->format(self::FILTER_DATETIME_FORMAT),
-            ]
+                'value' => (new \DateTime('first day of last month'))->setTime(0, 0, 0)
+                    ->format(self::FILTER_DATETIME_FORMAT),
+                'value2' => (new \DateTime('last day of last month'))->setTime(23, 59, 59)
+                    ->format(self::FILTER_DATETIME_FORMAT),
+            ],
         ]);
 
         $accountancy_exported = MenuItem::linkToCrud('accountancy_firm_menu.exported', '', PaymentOrder::class);
@@ -215,7 +218,7 @@ class DashboardController extends AbstractDashboardController
 
         $accountancy_not_exported_all = MenuItem::linkToCrud('accountancy_firm_menu.not_exported.all', '', PaymentOrder::class);
         $this->addFiltersToMenuItem($accountancy_not_exported_all, [
-            'references_exported' => false
+            'references_exported' => false,
         ]);
 
         yield MenuItem::subMenu('accountancy_firm_menu.label', 'fas fa-balance-scale')

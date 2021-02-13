@@ -38,7 +38,7 @@ class FileContoller extends AbstractController
     {
         $this->checkPermission($paymentOrder, $request);
 
-        if ($paymentOrder->getPrintedFormFile() === null) {
+        if (null === $paymentOrder->getPrintedFormFile()) {
             throw new RuntimeException('The passed paymentOrder does not have an associated form file!');
         }
 
@@ -46,7 +46,8 @@ class FileContoller extends AbstractController
             $paymentOrder,
             'printed_form_file',
             null,
-            $paymentOrder->getPrintedFormFile()->getFilename(),
+            $paymentOrder->getPrintedFormFile()
+                ->getFilename(),
             false
         );
     }
@@ -58,7 +59,7 @@ class FileContoller extends AbstractController
     {
         $this->checkPermission($paymentOrder, $request);
 
-        if ($paymentOrder->getReferencesFile() === null) {
+        if (null === $paymentOrder->getReferencesFile()) {
             throw new RuntimeException('The passed paymentOrder does not have an associated references file!');
         }
 
@@ -66,7 +67,8 @@ class FileContoller extends AbstractController
             $paymentOrder,
             'references_file',
             null,
-            $paymentOrder->getReferencesFile()->getFilename(),
+            $paymentOrder->getReferencesFile()
+                ->getFilename(),
             false
         );
     }

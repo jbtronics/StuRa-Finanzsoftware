@@ -34,7 +34,7 @@ class SturaPDF extends TCPDF
         //$image_file = 'C:\Users\janhb\Documents\Projekte\PHP\stura\assets\StuRa.png';
 
         $this->Image($image_file, 5, 5, 210, 0, 'png', 'https://stura.uni-jena.de');
-        // Set font
+
         $this->SetFont('helvetica', '', 9);
         $this->setY(35);
         $this->writeHTMLCell(0, 0, 100, 50, '<h2>Studierendenrat</h2>');
@@ -50,7 +50,7 @@ class SturaPDF extends TCPDF
     {
         // Position at 15 mm from bottom
         $this->SetY(-15);
-        // Set font
+
         $this->SetFont('helvetica', 'I', 8);
         // Page number
         $this->Cell(0, 10, 'Seite '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'L');
@@ -58,7 +58,5 @@ class SturaPDF extends TCPDF
         $formatter = new IntlDateFormatter('de-DE', IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
 
         $this->Cell(0, 10, 'Erzeugt '.$formatter->format(new DateTime()), 0, false, 'R');
-
-        //$this->Cell(0, 0, 'Seite '.$this->getAliasNumPage().'/'.$this->getAliasNbPages());
     }
 }

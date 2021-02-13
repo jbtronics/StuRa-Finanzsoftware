@@ -19,7 +19,6 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Department;
-use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class DepartmentTest extends TestCase
@@ -65,7 +64,6 @@ class DepartmentTest extends TestCase
 
     public function testIsSkipBlockedValidationToken(): void
     {
-
         $department = new Department();
         $department->setSkipBlockedValidationTokens([]);
         //Nothing can be a backup code if no codes are defined.

@@ -84,8 +84,6 @@ class PaymentOrderPDFGenerator
             $this->addSignatureField($pdf, 'Datum, Unterschrift FSR Verantwortliche', false);
         }
 
-        //$pdf->MultiCell(0,0, 'Name:', 0, 'L', )
-
         return $pdf->Output('doc.pdf', 'S');
     }
 

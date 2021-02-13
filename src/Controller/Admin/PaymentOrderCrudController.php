@@ -52,7 +52,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 class PaymentOrderCrudController extends AbstractCrudController
@@ -99,16 +98,19 @@ class PaymentOrderCrudController extends AbstractCrudController
         foreach ($ids as $id) {
             /** @var PaymentOrder $payment_order */
             $payment_order = $this->entityManager->find(PaymentOrder::class, $id);
-            $path = $payment_order->getReferencesFile()->getPathname();
-            $extension = $payment_order->getReferencesFile()->getExtension();
+            $path = $payment_order->getReferencesFile()
+                ->getPathname();
+            $extension = $payment_order->getReferencesFile()
+                ->getExtension();
 
-            if(empty($payment_order->getDepartment()->getReferencesExportPrefix())) {
+            if (empty($payment_order->getDepartment()->getReferencesExportPrefix())) {
                 $prefix = '';
             } else {
-                $prefix = $payment_order->getDepartment()->getReferencesExportPrefix() . '_';
+                $prefix = $payment_order->getDepartment()
+                        ->getReferencesExportPrefix().'_';
             }
 
-            $data[$prefix . $payment_order->getIDString() . '.' . $extension] = $path;
+            $data[$prefix.$payment_order->getIDString().'.'.$extension] = $path;
 
             //Set exported status
             $payment_order->setReferencesExported(true);
@@ -119,7 +121,7 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         return ZIPBinaryFileResponseFacade::createZIPResponseFromFiles(
             $data,
-            'Belege_'  .date('Y-m-d_H-i-s').'.zip');
+            'Belege_'.date('Y-m-d_H-i-s').'.zip');
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -204,7 +206,6 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->addJsFile('js/admin/apply_row_color.js');
     }
 
-
     public function configureActions(Actions $actions): Actions
     {
         if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
@@ -226,7 +227,6 @@ class PaymentOrderCrudController extends AbstractCrudController
                     ->setIcon('fas fa-file-invoice')
             );
         }
-
 
         $actions->setPermissions([
             Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
@@ -281,14 +281,14 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
             ->setCssClass('mr-1 text-dark')
-            ->linkToRoute('payment_order_manual_confirm', function(PaymentOrder $paymentOrder) {
+            ->linkToRoute('payment_order_manual_confirm', function (PaymentOrder $paymentOrder) {
                 return [
-                    'id' => $paymentOrder->getId()
+                    'id' => $paymentOrder->getId(),
                 ];
             })
-            ->displayIf(function(PaymentOrder $paymentOrder) {
-               return $this->isGranted('ROLE_MANUAL_CONFIRMATION')
-                && ! $paymentOrder->isConfirmed();
+            ->displayIf(function (PaymentOrder $paymentOrder) {
+                return $this->isGranted('ROLE_MANUAL_CONFIRMATION')
+                    && !$paymentOrder->isConfirmed();
             });
 
         $actions->add(Crud::PAGE_EDIT, $emailAction);
@@ -485,9 +485,9 @@ class PaymentOrderCrudController extends AbstractCrudController
         /** @var PaymentOrder $entityInstance */
         //Forbit delete process if PaymentOrder was already exported or booked
         if ($entityInstance->isExported()
-            || $entityInstance->getBookingDate() != null) {
+            || null != $entityInstance->getBookingDate()) {
             $this->addFlash('warning', 'payment_order.flash.can_not_delete_checked_payment_order');
-            //Return early
+
             return;
         }
 

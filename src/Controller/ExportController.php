@@ -25,15 +25,11 @@ use App\Form\SepaExportType;
 use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Services\PaymentOrdersSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use ZipArchive;
 
 /**
  * @Route("/admin/payment_order")
@@ -105,7 +101,7 @@ class ExportController extends AbstractController
                 } else {
                     $data = [];
                     foreach ($xml_files as $key => $content) {
-                        $data[$key . '.xml'] = $content;
+                        $data[$key.'.xml'] = $content;
                     }
 
                     //Dont return already here... We need to set the exported flags first
@@ -125,8 +121,8 @@ class ExportController extends AbstractController
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',
-                                $this->translator->trans('sepa_export.error.department_missing_account')
-                                .': '.$exception->getWrongDepartment()->getName());
+                    $this->translator->trans('sepa_export.error.department_missing_account')
+                    .': '.$exception->getWrongDepartment()->getName());
             }
         }
 

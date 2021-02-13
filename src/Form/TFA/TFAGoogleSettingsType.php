@@ -85,14 +85,12 @@ class TFAGoogleSettingsType extends AbstractType
                 ]);
             }
         });
-
-        //$builder->add('cancel', ResetType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-                                   'data_class' => User::class,
-                               ]);
+            'data_class' => User::class,
+        ]);
     }
 }

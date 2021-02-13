@@ -18,14 +18,11 @@
 
 namespace App\Tests\Controller\Admin;
 
-use App\Controller\PDFGeneratorController;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PDFGeneratorControllerTest extends WebTestCase
 {
-
     public function testPdfAdminAccess()
     {
         $client = static::createClient([], [
@@ -50,6 +47,5 @@ class PDFGeneratorControllerTest extends WebTestCase
 
         //This line must fail
         $client->request('GET', '/admin/pdf/payment_order/1');
-
     }
 }

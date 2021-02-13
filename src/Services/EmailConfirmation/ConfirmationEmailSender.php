@@ -70,7 +70,8 @@ class ConfirmationEmailSender
     {
         $token = $this->tokenGenerator->getToken();
         $paymentOrder->setConfirm1Token($this->hash_token($token));
-        $email = $paymentOrder->getDepartment()->getEmailHhv();
+        $email = $paymentOrder->getDepartment()
+            ->getEmailHhv();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
         if (!empty($email) && $this->send_notifications) {
             $this->sendConfirmation($paymentOrder, $email, $token, 1);

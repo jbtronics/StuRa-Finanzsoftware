@@ -19,15 +19,10 @@
 namespace App\Tests\Services\EmailConfirmation;
 
 use App\Entity\Department;
-use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Services\EmailConfirmation\ManualConfirmationHelper;
 use App\Tests\PaymentOrderTestingHelper;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Security;
 
 class ManualConfirmationHelperTest extends WebTestCase
 {
@@ -57,7 +52,9 @@ class ManualConfirmationHelperTest extends WebTestCase
     {
         //Create a mocked user
         $user = new User();
-        $user->setFirstName('Test')->setLastName('User')->setUsername('test');
+        $user->setFirstName('Test')
+            ->setLastName('User')
+            ->setUsername('test');
 
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
         $payment_order->setDepartment(new Department());

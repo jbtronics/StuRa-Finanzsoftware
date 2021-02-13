@@ -26,7 +26,6 @@ use App\Form\PaymentOrderType;
 use App\Services\PaymentReferenceGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,12 +64,12 @@ class PaymentOrderController extends AbstractController
 
         //Skip fsr blocked validation if a token was given (but it is not validated yet if the token is correct)
         $validation_groups = ['Default', 'frontend'];
-        if(!$blocked_token) {
+        if (!$blocked_token) {
             $validation_groups[] = 'fsr_blocked';
         }
-        
+
         $form = $this->createForm(PaymentOrderType::class, $new_order, [
-            'validation_groups' => $validation_groups
+            'validation_groups' => $validation_groups,
         ]);
 
         if (!$form instanceof Form) {
@@ -81,11 +80,11 @@ class PaymentOrderController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-
                 /* Limit the amount of how many payment orders can be submitted by one user in an hour
                     This prevents automatic mass creation of payment orders and also prevents that skip token can
                     guessed by brute force */
-                $limiter->consume(1)->ensureAccepted();
+                $limiter->consume(1)
+                    ->ensureAccepted();
 
                 //We know now the department and can check if token was valid
                 //If it isn't, then show an flash and dont save the payment order
@@ -95,8 +94,9 @@ class PaymentOrderController extends AbstractController
                     $entityManager->persist($new_order);
 
                     //Invalidate blocked token if one was given
-                    if($blocked_token) {
-                        $new_order->getDepartment()->invalidateSkipBlockedValidationToken($blocked_token);
+                    if ($blocked_token) {
+                        $new_order->getDepartment()
+                            ->invalidateSkipBlockedValidationToken($blocked_token);
                     }
 
                     $username = sprintf('%s %s (%s) [New PaymentOrder]',
@@ -107,7 +107,6 @@ class PaymentOrderController extends AbstractController
                     $this->userProvider->setManualUsername($username, $new_order->getContactEmail());
 
                     $entityManager->flush();
-
 
                     //We have to do this after the first flush, as we need to know the ID
                     $this->userProvider->setManualUsername('[Automatic payment reference generation]',
@@ -150,7 +149,8 @@ class PaymentOrderController extends AbstractController
         $response->headers->add(
             [
                 'X-RateLimit-Remaining' => $limit->getRemainingTokens(),
-                'X-RateLimit-Retry-After' => $limit->getRetryAfter()->getTimestamp(),
+                'X-RateLimit-Retry-After' => $limit->getRetryAfter()
+                    ->getTimestamp(),
                 'X-RateLimit-Limit' => $limit->getLimit(),
             ]
         );
@@ -175,7 +175,6 @@ class PaymentOrderController extends AbstractController
         //Check if we have one of the valid confirm numbers
         $confirm_step = $request->query->getInt('confirm');
         if (1 !== $confirm_step && 2 !== $confirm_step) {
-            //$this->createNotFoundException('Invalid confirmation step! Only 1 or 2 are allowed.');
             $this->addFlash('error', 'payment_order.confirmation.invalid_step');
 
             return $this->redirectToRoute('homepage');
@@ -214,7 +213,9 @@ class PaymentOrderController extends AbstractController
             }
 
             //Add hintful information about who did this, to audit log
-            $emails = (1 === $confirm_step) ? $paymentOrder->getDepartment()->getEmailHhv() : $paymentOrder->getDepartment()->getEmailTreasurer();
+            $emails = (1 === $confirm_step) ? $paymentOrder->getDepartment()
+                ->getEmailHhv() : $paymentOrder->getDepartment()
+                ->getEmailTreasurer();
             $username = sprintf('%s [Confirmation %d]', implode(', ', $emails), $confirm_step);
             $this->userProvider->setManualUsername($username, implode(',', $emails));
             $em->flush();

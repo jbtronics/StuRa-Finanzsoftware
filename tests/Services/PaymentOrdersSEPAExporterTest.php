@@ -29,8 +29,8 @@ use DOMDocument;
 use DOMElement;
 use DOMNode;
 use PHPUnit\Util\Xml;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use PHPUnit\Util\Xml\Loader as XmlLoader;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaymentOrdersSEPAExporterTest extends WebTestCase
 {
@@ -80,9 +80,8 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $xml_array = $this->service->export([$payment_order], $options);
         $xml = $xml_array['Max Mustermann'];
 
-        
-        $dom = (new XmlLoader)->load($xml);
-        
+        $dom = (new XmlLoader())->load($xml);
+
         //Extract message ID from DOM and assert its contents
         /** @var DOMElement $msg_id */
         $msg_id = $dom->getElementsByTagName('MsgId')[0];
@@ -300,7 +299,8 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             ->setReference('Test payment #1');
 
         $payment_order2 = PaymentOrderTestingHelper::getDummyPaymentOrder(2);
-        $payment_order2->setAmount(10); //10 cents
+        $payment_order2->setAmount(10);
+
         $payment_order2->setDepartment($department2);
         $payment_order2->getBankInfo()
             ->setAccountOwner('Ümläute Teßt') //Test special chars
@@ -385,7 +385,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
 
     protected function assertSEPAXMLSchema(string $actualXml): void
     {
-        $actual = (new XmlLoader)->load($actualXml);
+        $actual = (new XmlLoader())->load($actualXml);
         static::assertTrue(
             $actual->schemaValidate($this->data_dir.'/pain.001.001.03.xsd'),
             'Generated output does not match pain.001.001.03 schema!'
@@ -395,7 +395,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     protected static function assertSEPAXMLStringEqualsXMLFile(string $expectedFile, string $actualXml, string $message = ''): void
     {
         $expected = (new XmlLoader())->loadFile($expectedFile);
-        $actual = (new XmlLoader)->load($actualXml);
+        $actual = (new XmlLoader())->load($actualXml);
 
         self::normalizeSEPAXML($expected);
         self::normalizeSEPAXML($actual);

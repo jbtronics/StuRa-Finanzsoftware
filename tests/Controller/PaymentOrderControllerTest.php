@@ -202,7 +202,6 @@ class PaymentOrderControllerTest extends WebTestCase
             'payment_order[department]' => '2',
         ]);
 
-
         $client->submit($form);
         //Success submit does not redirect but returns a new form
         self::assertResponseRedirects('/');
@@ -331,7 +330,6 @@ class PaymentOrderControllerTest extends WebTestCase
         ]);
 
         self::assertResponseIsSuccessful();
-
 
         //If a check mark was missing the payment order must not be confirmed
         self::assertNull($payment_order->getConfirm1Timestamp());

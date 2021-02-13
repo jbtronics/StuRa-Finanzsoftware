@@ -130,7 +130,7 @@ class PaymentOrderFixture extends Fixture
 
     private function addFiles(PaymentOrder $paymentOrder): void
     {
-        $source_file = realpath(__DIR__ . '/../../tests/data/form/upload.pdf');
+        $source_file = realpath(__DIR__.'/../../tests/data/form/upload.pdf');
         //We have to create a copy of our source, or the file will be deleted when the files are uploaded...
         $target_file = tempnam(sys_get_temp_dir(), 'stura');
         copy($source_file, $target_file);
@@ -140,7 +140,7 @@ class PaymentOrderFixture extends Fixture
 
         //Do the same thing for References
 
-        $source_file = realpath(__DIR__ . '/../../tests/data/form/upload.pdf');
+        $source_file = realpath(__DIR__.'/../../tests/data/form/upload.pdf');
         //We have to create a copy of our source, or the file will be deleted when the files are uploaded...
         $target_file = tempnam(sys_get_temp_dir(), 'stura');
         copy($source_file, $target_file);

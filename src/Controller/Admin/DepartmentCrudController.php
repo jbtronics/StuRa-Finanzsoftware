@@ -19,7 +19,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Department;
-use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -39,7 +38,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
-use LogicException;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,7 +70,8 @@ class DepartmentCrudController extends AbstractCrudController
         $this->denyAccessUnlessGranted('ROLE_EDIT_ORGANISATIONS');
 
         /** @var Department $department */
-        $department = $context->getEntity()->getInstance();
+        $department = $context->getEntity()
+            ->getInstance();
 
         $department->addSkipBlockedValidationToken($this->tokenGenerator->getToken());
         $this->entityManager->flush();
@@ -191,8 +190,6 @@ class DepartmentCrudController extends AbstractCrudController
                 ->setFormTypeOption('delete_empty', false)
                 ->setTemplatePath('admin/field/validation_token_collection.html.twig')
                 ->hideOnIndex(),
-
-
         ];
     }
 }

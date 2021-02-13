@@ -36,13 +36,16 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('formatBytes', [$this, 'formatBytes']),
-            new TwigFilter('format_datetime_diff', [$this, 'formatDatetimeDiff'])
+            new TwigFilter('format_datetime_diff', [$this, 'formatDatetimeDiff']),
         ];
     }
 
-    public function formatDatetimeDiff($dateTime, $other = null, array $options = ['parts' => 2]): string
+    public function formatDatetimeDiff($dateTime, $other = null, array $options = [
+        'parts' => 2,
+    ]): string
     {
         Carbon::setLocale($this->requestStack->getCurrentRequest()->getLocale() ?? 'de');
+
         return Carbon::parse($dateTime)->diffForHumans($other, $options);
     }
 

@@ -80,7 +80,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException("Invalid CSFR token was given!");
+            throw new InvalidCsrfTokenException('Invalid CSFR token was given!');
         }
 
         return $this->entityManager->getRepository(User::class)->findOneBy([
@@ -108,9 +108,6 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         return new RedirectResponse('/admin');
-
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(): string

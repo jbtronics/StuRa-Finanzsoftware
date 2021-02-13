@@ -60,7 +60,7 @@ class UserFixtures extends Fixture
             'ROLE_EDIT_PAYMENT_ORDERS',
             'ROLE_PO_FACTUALLY',
             'ROLE_EDIT_BANK_ACCOUNTS',
-            'ROLE_VIEW_AUDITS'
+            'ROLE_VIEW_AUDITS',
         ]);
         $this->addReference(self::USER_HHV_REFERENCE, $user);
         $manager->persist($user);

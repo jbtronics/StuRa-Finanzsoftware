@@ -56,7 +56,6 @@ class ApplicationAvailabilityTest extends WebTestCase
 
     /**
      * @dataProvider adminPagesProvider
-     * @param  string  $url
      */
     public function testEnsureAdminProtection(string $url): void
     {
@@ -118,7 +117,9 @@ class ApplicationAvailabilityTest extends WebTestCase
         yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
 
         //Manually confirm page
-        yield [$adminURL->setRoute('payment_order_manual_confirm', ['id' => 1])->generateUrl()];
+        yield [$adminURL->setRoute('payment_order_manual_confirm', [
+            'id' => 1,
+        ])->generateUrl()];
 
         //User settings
         yield [$adminURL->setRoute('user_settings')->generateUrl()];
@@ -126,5 +127,4 @@ class ApplicationAvailabilityTest extends WebTestCase
         //Export page
         yield [$adminURL->setRoute('payment_order_export')->set('ids', '1,2,4')->generateUrl()];
     }
-
 }

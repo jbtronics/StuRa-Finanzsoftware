@@ -290,8 +290,6 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
 
     /**
      * Sets the last name of this user.
-     *
-     * @return User
      */
     public function setLastName(string $last_name): User
     {

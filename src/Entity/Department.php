@@ -339,6 +339,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     /**
      * Returns the prefix that is used in filenames when exporting references.
+     *
      * @return string
      */
     public function getReferencesExportPrefix(): ?string
@@ -348,17 +349,19 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     /**
      * Sets the prefix that is used in filenames when exporting references.
-     * @param  string  $references_export_prefix
-     * @return Department
+     *
+     * @param string $references_export_prefix
      */
     public function setReferencesExportPrefix(?string $references_export_prefix): Department
     {
         $this->references_export_prefix = $references_export_prefix;
+
         return $this;
     }
 
     /**
      * Returns a list of tokens that can be used to create a payment order even if the department is blocked.
+     *
      * @return string[]
      */
     public function getSkipBlockedValidationTokens(): array
@@ -368,19 +371,18 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     /**
      * Sets the list of tokens that can be used to create a payment order even if the department is blocked.
-     * @param  string[]  $skip_blocked_validation_tokens
-     * @return Department
+     *
+     * @param string[] $skip_blocked_validation_tokens
      */
     public function setSkipBlockedValidationTokens(array $skip_blocked_validation_tokens): Department
     {
         $this->skip_blocked_validation_tokens = $skip_blocked_validation_tokens;
+
         return $this;
     }
 
     /**
      * Adds the given token to the list of tokens that can be used to create a payment order even if the department is blocked.
-     * @param  string  $token
-     * @return Department
      */
     public function addSkipBlockedValidationToken(string $token): Department
     {
@@ -413,6 +415,4 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
             unset($this->skip_blocked_validation_tokens[$key]);
         }
     }
-
-
 }

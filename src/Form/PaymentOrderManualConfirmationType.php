@@ -18,9 +18,7 @@
 
 namespace App\Form;
 
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -41,10 +39,9 @@ class PaymentOrderManualConfirmationType extends AbstractType
             'label' => 'payment_order.action.manual_confirmation.password.label',
             'required' => true,
             'constraints' => [
-                new UserPassword()
-            ]
+                new UserPassword(),
+            ],
         ]);
-
 
         $builder->add('submit', SubmitType::class, [
             'label' => 'payment_order.confirm.submit.label',

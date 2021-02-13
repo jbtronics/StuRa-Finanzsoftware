@@ -18,9 +18,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\FileContoller;
-use App\Entity\User;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 

@@ -35,9 +35,6 @@ class PaymentOrderRepository extends ServiceEntityRepository
         parent::__construct($registry, PaymentOrder::class);
     }
 
-    // /**
-    //  * @return PaymentOrder[] Returns an array of PaymentOrder objects
-    //  */
     /*
     public function findByExampleField($value)
     {

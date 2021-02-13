@@ -18,7 +18,6 @@
 
 namespace App\Services\EmailConfirmation;
 
-
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use Carbon\Carbon;
@@ -53,9 +52,8 @@ class ManualConfirmationHelper
      * Confirm the given PaymentOrder manually. The user, datetime and reason for this is logged.
      * Generates an comment, sends an email to confirmation people and confirm the payment order.
      * The DB is not flushed, so you have to do this outside.
-     * @param  PaymentOrder  $paymentOrder
-     * @param  string  $reason
-     * @param  User|null  $user Specify the user that should be shown in email/comment. If null the current user is used.
+     *
+     * @param User|null $user Specify the user that should be shown in email/comment. If null the current user is used.
      */
     public function confirmManually(PaymentOrder $paymentOrder, string $reason, ?User $user = null): void
     {
@@ -63,7 +61,7 @@ class ManualConfirmationHelper
             throw new \RuntimeException('You can not manually confirm an already confirmed payment order!');
         }
 
-        if ($user === null) {
+        if (null === $user) {
             if (!$this->security->getUser() instanceof User) {
                 throw new \RuntimeException('$user must be an User entity object!');
             }
@@ -73,7 +71,7 @@ class ManualConfirmationHelper
         //Add a comment about the manual confirmation
         $tmp = $paymentOrder->getComment();
         //Add line breaks if comment is not empty.
-        if(!empty($tmp)) {
+        if (!empty($tmp)) {
             $tmp .= '<br><br>';
         }
         $tmp .= $this->generateComment($paymentOrder, $reason, $user);
@@ -83,10 +81,10 @@ class ManualConfirmationHelper
         $this->sendNotification($paymentOrder, $reason, $user);
 
         //Do the confirmation process where it was not needed
-        if($paymentOrder->getConfirm1Timestamp() === null) {
+        if (null === $paymentOrder->getConfirm1Timestamp()) {
             $paymentOrder->setConfirm1Timestamp(new \DateTime());
         }
-        if ($paymentOrder->getConfirm2Timestamp() === null) {
+        if (null === $paymentOrder->getConfirm2Timestamp()) {
             $paymentOrder->setConfirm2Timestamp(new \DateTime());
         }
     }
@@ -111,7 +109,6 @@ class ManualConfirmationHelper
                 ]
             ));
 
-
         $email->htmlTemplate('mails/manual_confirmation.html.twig');
         $email->context([
             'payment_order' => $paymentOrder,
@@ -135,8 +132,7 @@ class ManualConfirmationHelper
         $date = Carbon::now()->toDateTimeLocalString();
 
         return '<h4>Manuelle Bestätigung</h4>'
-            . 'durch ' . $user->getFullName() . ' (' . $user->getUsername() . '), ' . $date . '<br>'
-            . '<b>Begründung: </b>' . $reason;
-
+            .'durch '.$user->getFullName().' ('.$user->getUsername().'), '.$date.'<br>'
+            .'<b>Begründung: </b>'.$reason;
     }
 }

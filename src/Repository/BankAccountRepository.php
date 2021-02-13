@@ -19,9 +19,6 @@ class BankAccountRepository extends ServiceEntityRepository
         parent::__construct($registry, BankAccount::class);
     }
 
-    // /**
-    //  * @return BankAccount[] Returns an array of BankAccount objects
-    //  */
     /*
     public function findByExampleField($value)
     {

@@ -18,7 +18,6 @@
 
 namespace App\Controller\Admin;
 
-
 use App\Entity\PaymentOrder;
 use App\Form\PaymentOrderManualConfirmationType;
 use App\Services\EmailConfirmation\ManualConfirmationHelper;
@@ -29,14 +28,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/payment_order")
- * @package App\Controller\Admin
  */
 class PaymentOrderManualConfirmController extends AbstractController
 {
     /**
      * @Route("/{id}/confirm", name="payment_order_manual_confirm")
-     * @param  PaymentOrder  $paymentOrder
-     * @param  Request  $request
      */
     public function manualConfirmation(PaymentOrder $paymentOrder, Request $request,
         ManualConfirmationHelper $manualConfirmationHelper, EntityManagerInterface $entityManager,
@@ -45,8 +41,9 @@ class PaymentOrderManualConfirmController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_MANUAL_CONFIRMATION');
 
         //We can only confirm PaymentOrders that are not confirmed yet
-        if($paymentOrder->isConfirmed()) {
+        if ($paymentOrder->isConfirmed()) {
             $this->addFlash('error', 'payment_order.manual_confirm.already_confirmed');
+
             return $this->redirectToRoute('admin_dashboard');
         }
 
@@ -60,6 +57,7 @@ class PaymentOrderManualConfirmController extends AbstractController
 
             //Show a success flash notification
             $this->addFlash('success', 'payment_order.manual_confirm.success');
+
             return $this->redirectToRoute('admin_dashboard');
         }
 

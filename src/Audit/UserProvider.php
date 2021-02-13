@@ -18,14 +18,11 @@
 
 namespace App\Audit;
 
-
-use DH\Auditor\Event\LifecycleEvent;
 use DH\Auditor\Provider\Doctrine\Configuration;
 use DH\Auditor\User\User;
 use DH\Auditor\User\UserInterface as AuditorUserInterface;
 use DH\Auditor\User\UserProviderInterface;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Exception;
@@ -38,10 +35,14 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     public const CLI_USER_IDENTIFER = '$cli';
     public const INTERNAL_USER_IDENTIFIER = '$internal';
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $username;
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $identifier;
 
     /**
@@ -120,27 +121,23 @@ class UserProvider implements UserProviderInterface, EventSubscriber
 
     private function is_cli(): bool
     {
-        if ( defined('STDIN') )
-        {
+        if (defined('STDIN')) {
             return true;
         }
 
-        if ( php_sapi_name() === 'cli' )
-        {
+        if ('cli' === php_sapi_name()) {
             return true;
         }
 
-        if ( array_key_exists('SHELL', $_ENV) ) {
+        if (array_key_exists('SHELL', $_ENV)) {
             return true;
         }
 
-        if ( empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0)
-        {
+        if (empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0) {
             return true;
         }
 
-        if ( !array_key_exists('REQUEST_METHOD', $_SERVER) )
-        {
+        if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
             return true;
         }
 
@@ -148,7 +145,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     }
 
     /**
-     * @return null|UserInterface
+     * @return UserInterface|null
      */
     private function getTokenUser()
     {
@@ -171,7 +168,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     }
 
     /**
-     * @return null|string|UserInterface
+     * @return string|UserInterface|null
      */
     private function getImpersonatorUser()
     {
@@ -179,7 +176,8 @@ class UserProvider implements UserProviderInterface, EventSubscriber
 
         // Symfony >= 5
         if (class_exists(SwitchUserToken::class) && $token instanceof SwitchUserToken) {
-            return $token->getOriginalToken()->getUser();
+            return $token->getOriginalToken()
+                ->getUser();
         }
 
         return null;
@@ -188,7 +186,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            Events::postFlush
+            Events::postFlush,
         ];
     }
 }

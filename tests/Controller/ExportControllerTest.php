@@ -18,16 +18,13 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\ExportController;
 use App\Entity\PaymentOrder;
 use App\Repository\PaymentOrderRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ExportControllerTest extends WebTestCase
 {
-
     public function testExportAutoSingleMode(): void
     {
         $client = static::createClient([], [
@@ -38,13 +35,15 @@ class ExportControllerTest extends WebTestCase
 
         /** @var AdminUrlGenerator $adminURL */
         $adminURLGenerator = self::$container->get(AdminUrlGenerator::class);
-        $url = $adminURLGenerator->setRoute('payment_order_export')->set('ids', "1,3")->generateUrl();
+        $url = $adminURLGenerator->setRoute('payment_order_export')
+            ->set('ids', '1,3')
+            ->generateUrl();
 
         $crawler = $client->request('GET', $url);
         self::assertResponseIsSuccessful();
 
         $client->submitForm('Download', [
-            'sepa_export[mode]' => 'auto_single'
+            'sepa_export[mode]' => 'auto_single',
         ]);
 
         self::assertResponseIsSuccessful();
@@ -71,13 +70,15 @@ class ExportControllerTest extends WebTestCase
 
         /** @var AdminUrlGenerator $adminURL */
         $adminURLGenerator = self::$container->get(AdminUrlGenerator::class);
-        $url = $adminURLGenerator->setRoute('payment_order_export')->set('ids', "1")->generateUrl();
+        $url = $adminURLGenerator->setRoute('payment_order_export')
+            ->set('ids', '1')
+            ->generateUrl();
 
         $crawler = $client->request('GET', $url);
         self::assertResponseIsSuccessful();
 
         $client->submitForm('Download', [
-            'sepa_export[mode]' => 'auto_single'
+            'sepa_export[mode]' => 'auto_single',
         ]);
 
         self::assertResponseIsSuccessful();
@@ -90,5 +91,4 @@ class ExportControllerTest extends WebTestCase
         $payment_order1 = $repo->find(1);
         self::assertTrue($payment_order1->isExported());
     }
-
 }
