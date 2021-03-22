@@ -29,6 +29,8 @@ class UserFixtures extends Fixture
         //Reset autoincrement
         $this->em->getConnection()
             ->exec('ALTER TABLE `user` AUTO_INCREMENT = 1;');
+        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
+        $this->em->getConnection()->beginTransaction();
 
         $user = new User();
         $user->setUsername('admin');

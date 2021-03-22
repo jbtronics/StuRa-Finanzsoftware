@@ -24,7 +24,9 @@ class BankAccountFixture extends Fixture
     {
         //Reset autoincrement
         $this->em->getConnection()
-            ->exec('ALTER TABLE `bank_accounts` AUTO_INCREMENT = 1;');
+            ->executeStatement('ALTER TABLE `bank_accounts` AUTO_INCREMENT = 1;');
+        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
+        $this->em->getConnection()->beginTransaction();
 
         $account = new BankAccount();
         $account->setName('Bank Account 1');
