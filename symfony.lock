@@ -813,17 +813,11 @@
     "symplify/easy-testing": {
         "version": "9.1.7"
     },
-    "symplify/markdown-diff": {
-        "version": "9.1.7"
-    },
     "symplify/package-builder": {
         "version": "8.3.48"
     },
-    "symplify/php-config-printer": {
-        "version": "9.1.7"
-    },
-    "symplify/rule-doc-generator": {
-        "version": "9.1.7"
+    "symplify/rule-doc-generator-contracts": {
+        "version": "v9.2.14"
     },
     "symplify/set-config-resolver": {
         "version": "8.3.48"
