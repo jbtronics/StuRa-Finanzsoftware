@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "ext-mbstring": "*",
         "ext-zip": "*",
+        "ext-gd": "*",
         "components/jquery": "^3.5",
         "damienharper/auditor-bundle": "^4.0",
         "digitick/sepa-xml": "^2.0.0",

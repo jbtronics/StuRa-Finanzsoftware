@@ -33,7 +33,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: pcov
-          extensions: mbstring, intl, xsl, zip
+          extensions: mbstring, intl, xsl, zip, gd
 
       - name: Start MySQL
         run: sudo systemctl start mysql.service
