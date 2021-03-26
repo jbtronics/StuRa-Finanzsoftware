@@ -21,7 +21,7 @@
         "scheb/2fa-backup-code": "^5.0",
         "scheb/2fa-bundle": "^5.0",
         "scheb/2fa-google-authenticator": "^5.0",
-        "scheb/2fa-qr-code": "^5.0",
+        "endroid/qr-code": "^4.0.0",
         "scheb/2fa-trusted-device": "^5.0",
         "sensio/framework-extra-bundle": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",

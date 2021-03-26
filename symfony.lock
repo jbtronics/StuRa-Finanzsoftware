@@ -344,9 +344,6 @@
     "scheb/2fa-google-authenticator": {
         "version": "v5.0.0"
     },
-    "scheb/2fa-qr-code": {
-        "version": "v5.0.0"
-    },
     "scheb/2fa-trusted-device": {
         "version": "v5.0.0"
     },

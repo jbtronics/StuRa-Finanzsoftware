@@ -23,6 +23,8 @@ use App\Form\TFA\TFAGoogleSettingsType;
 use App\Form\User\PasswordChangeType;
 use App\Services\TFA\BackupCodeManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\SvgWriter;
 use RuntimeException;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
@@ -41,7 +43,7 @@ class UserSettingsController extends AbstractController
      * @Route("/settings", name="user_settings")
      */
     public function userSettings(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,
-        GoogleAuthenticator $googleAuthenticator, QrCodeGenerator $qrCodeGenerator, BackupCodeManager $backupCodeManager): Response
+        GoogleAuthenticator $googleAuthenticator, BackupCodeManager $backupCodeManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -94,6 +96,9 @@ class UserSettingsController extends AbstractController
             return $this->redirect($request->getUri());
         }
 
+
+        $qrCode = QrCode::create($googleAuthenticator->getQRContent($user));
+
         return $this->render('admin/user/settings.html.twig', [
             'user' => $user,
             'pw_form' => $pw_form->createView(),
@@ -102,8 +107,7 @@ class UserSettingsController extends AbstractController
                 'enabled' => $google_enabled,
                 'qrContent' => $googleAuthenticator->getQRContent($user),
                 'secret' => $user->getGoogleAuthenticatorSecret(),
-                'qrImageDataUri' => $qrCodeGenerator->getGoogleAuthenticatorQrCode($user)
-                    ->writeDataUri(),
+                'qrImageDataUri' => (new SvgWriter())->write($qrCode)->getDataUri(),
                 'username' => $user->getGoogleAuthenticatorUsername(),
             ],
         ]);
