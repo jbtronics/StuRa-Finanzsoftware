@@ -326,11 +326,18 @@ class PaymentOrderCrudController extends AbstractCrudController
         $contact_email = EmailField::new('contact_email', 'payment_order.contact_email.label')
             ->setFormTypeOption('empty_data', '')
             ->setRequired(false);
-        $department = AssociationField::new('department', 'payment_order.department.label')
+
+        if (Crud::PAGE_INDEX === $pageName) {
+            $tmp = 'payment_order.department.label_short';
+        } else {
+            $tmp = 'payment_order.department.label';
+        }
+
+        $department = AssociationField::new('department', $tmp)
             ->setFormTypeOption('attr', [
                 'data-widget' => 'select2',
             ]);
-        $departmentName = TextareaField::new('department.name', 'payment_order.department.label_short');
+
         $amount = MoneyField::new('amount', 'payment_order.amount.label')
             ->setCurrency('EUR')
             ->setStoredAsCents(true);
@@ -391,7 +398,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setFormTypeOption('empty_data', '');
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $projectName, $departmentName, $amount, $mathematicallyCorrect, $factuallyCorrect, $funding_id_index, $creationDate];
+            return [$id, $projectName, $department, $amount, $mathematicallyCorrect, $factuallyCorrect, $funding_id_index, $creationDate];
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {
