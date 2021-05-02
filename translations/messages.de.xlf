@@ -1299,11 +1299,11 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="Ov4XSgp" name="payment_order.notification_user.info">
       <segment>
         <source>payment_order.notification_user.info</source>
-        <target><![CDATA[Jemand (hoffentlich einer von euch) hat für euren FSR/Referat einen neuen Zahlungsauftrag über das StuRa-Onlinesystem eingereicht. Der Antrag ist eingegangen und wird jetzt bearbeitet. Bei Rückfragen wird der FSB sich bei euch melden.
+        <target><![CDATA[Jemand (hoffentlich einer von euch) hat für euren FSR/Referat einen neuen Zahlungsauftrag über das StuRa-Onlinesystem eingereicht. Der Antrag ist eingegangen und wird jetzt bearbeitet. Bei Rückfragen wird der FSB oder der HHV sich bei euch melden.
 
 <br>
 
-Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte sofort <a href="mailto:%fsb_email%">%fsb_email</a>.
+Wenn dieser Zahlungsauftrag nicht von euch authorisiert wurde, kontaktiert bitte sofort <a href="mailto:%fsb_email%">%fsb_email%</a>.
 
 <br>
 Die eingereichten Daten sind:]]></target>
