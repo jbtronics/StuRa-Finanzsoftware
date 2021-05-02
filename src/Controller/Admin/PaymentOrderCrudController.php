@@ -34,6 +34,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -78,26 +79,24 @@ class PaymentOrderCrudController extends AbstractCrudController
         return PaymentOrder::class;
     }
 
-    public function sepaXMLExport(array $ids, AdminContext $context): Response
+    public function sepaXMLExport(BatchActionDto $batchActionDto): Response
     {
-        //We must add an eaContext Parameter or we will run into an error...
-        $context_id = $this->dashboardControllerRegistry->getContextIdByControllerFqcn($context->getDashboardControllerFqcn());
-
         return $this->redirect(
             $this->adminURLGenerator->setRoute('payment_order_export')
-                ->set('ids', implode(',', $ids))
+                ->set('ids', implode(',', $batchActionDto->getEntityIds()))
                 ->generateUrl()
         );
     }
 
-    public function referencesExport(array $ids, AdminContext $context): Response
+    public function referencesExport(BatchActionDto $batchActionDto): Response
     {
         $this->denyAccessUnlessGranted('ROLE_EXPORT_REFERENCES');
+        $entityManager = $this->getDoctrine()->getManagerForClass($batchActionDto->getEntityFqcn());
 
         $data = [];
-        foreach ($ids as $id) {
+        foreach ($batchActionDto->getEntityIds() as $id) {
             /** @var PaymentOrder $payment_order */
-            $payment_order = $this->entityManager->find(PaymentOrder::class, $id);
+            $payment_order = $entityManager->find($batchActionDto->getEntityFqcn(), $id);
             $path = $payment_order->getReferencesFile()
                 ->getPathname();
             $extension = $payment_order->getReferencesFile()
@@ -210,18 +209,71 @@ class PaymentOrderCrudController extends AbstractCrudController
     {
         if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
             // Button with text and icon
-            $actions->add(Crud::PAGE_INDEX, Action::new('sepaXMLExport', 'payment_order.action.export_xml')
-                ->createAsBatchAction()
+            $actions->addBatchAction(Action::new('sepaXMLExport', 'payment_order.action.export_xml')
                 ->linkToCrudAction('sepaXMLExport')
                 ->addCssClass('btn btn-primary')
+                ->setHtmlAttributes([
+                    /*'onclick' => '$("#modal-batch-action").on("shown.bs.modal", function(e){
+                        $("#modal-batch-action").addClass("d-none");
+                        $("#modal-batch-action-button").trigger("click");
+                    });'*/
+                    //Very ugly hack to skip the confirmation dialog.
+                    'onclick' => '
+                        let $actionElement = $(this);
+                        $("#modal-batch-action").addClass("d-none");
+                        $actionElement.off("click");
+
+                        const actionName = $actionElement.attr("data-action-name");
+                        const selectedItems = $("input[type=\'checkbox\'].form-batch-checkbox:checked");
+               
+                        $form = document.createElement("form");
+                        $form.setAttribute("action", $actionElement.attr("data-action-url"));
+                        $form.setAttribute("method", "POST");
+
+                        $actionNameInput = document.createElement("input");
+                        $actionNameInput.setAttribute("type", "hidden");
+                        $actionNameInput.setAttribute("name", "batchActionName");
+                        $actionNameInput.setAttribute("value", $actionElement.attr("data-action-name"));
+                        $form.appendChild($actionNameInput);
+
+                        $entityFqcnInput = document.createElement("input");
+                        $entityFqcnInput.setAttribute("type", "hidden");
+                        $entityFqcnInput.setAttribute("name", "entityFqcn");
+                        $entityFqcnInput.setAttribute("value", $actionElement.attr("data-entity-fqcn"));
+                        $form.appendChild($entityFqcnInput);
+
+                        $actionUrlInput = document.createElement("input");
+                        $actionUrlInput.setAttribute("type", "hidden");
+                        $actionUrlInput.setAttribute("name", "batchActionUrl");
+                        $actionUrlInput.setAttribute("value", $actionElement.attr("data-action-url"));
+                        $form.appendChild($actionUrlInput);
+
+                        $csrfTokenInput = document.createElement("input");
+                        $csrfTokenInput.setAttribute("type", "hidden");
+                        $csrfTokenInput.setAttribute("name", "batchActionCsrfToken");
+                        $csrfTokenInput.setAttribute("value", $actionElement.attr("data-action-csrf-token"));
+                        $form.appendChild($csrfTokenInput);
+
+                        selectedItems.each((i, item) => {
+                            $entityIdInput = document.createElement("input");
+                            $entityIdInput.setAttribute("type", "hidden");
+                            $entityIdInput.setAttribute("name", `batchActionEntityIds[${i}]`);
+                            $entityIdInput.setAttribute("value", item.value);
+                            $form.appendChild($entityIdInput);
+                        });
+
+                        document.body.appendChild($form);
+
+                        //modalTitle.text(titleContentWithPlaceholders);
+                        $form.submit();
+                    '
+                ])
                 ->setIcon('fas fa-file-export')
             );
         }
 
         if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
-            $actions->add(Crud::PAGE_INDEX,
-                Action::new('referencesExport', 'payment.order.action.export.export_references')
-                    ->createAsBatchAction()
+            $actions->addBatchAction(Action::new('referencesExport', 'payment.order.action.export.export_references')
                     ->linkToCrudAction('referencesExport')
                     ->addCssClass('btn btn-primary')
                     ->setIcon('fas fa-file-invoice')
