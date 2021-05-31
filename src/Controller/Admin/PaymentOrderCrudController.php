@@ -90,7 +90,8 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function referencesExport(BatchActionDto $batchActionDto): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_EXPORT_REFERENCES');
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
         $entityManager = $this->getDoctrine()->getManagerForClass($batchActionDto->getEntityFqcn());
 
         $data = [];
@@ -111,12 +112,16 @@ class PaymentOrderCrudController extends AbstractCrudController
 
             $data[$prefix.$payment_order->getIDString().'.'.$extension] = $path;
 
-            //Set exported status
-            $payment_order->setReferencesExported(true);
+            if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
+                //Set exported status
+                $payment_order->setReferencesExported(true);
+            }
         }
 
-        //Flush changes
-        $this->entityManager->flush();
+        if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
+            //Flush changes
+            $this->entityManager->flush();
+        }
 
         return ZIPBinaryFileResponseFacade::createZIPResponseFromFiles(
             $data,
@@ -272,13 +277,13 @@ class PaymentOrderCrudController extends AbstractCrudController
             );
         }
 
-        if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
+        //if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
             $actions->addBatchAction(Action::new('referencesExport', 'payment.order.action.export.export_references')
                     ->linkToCrudAction('referencesExport')
                     ->addCssClass('btn btn-primary')
                     ->setIcon('fas fa-file-invoice')
             );
-        }
+        //}
 
         $actions->setPermissions([
             Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',
