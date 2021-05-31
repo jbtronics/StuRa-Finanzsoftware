@@ -356,6 +356,10 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->disable(Crud::PAGE_NEW);
 
+        if(!$this->isGranted('ROLE_EDIT_PAYMENT_ORDERS')) {
+            $actions->disable('batchDelete');
+        }
+
         $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
         $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
 
@@ -546,6 +550,11 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        if (!$this->isGranted('ROLE_EDIT_PAYMENT_ORDERS')) {
+            $this->addFlash('error', 'You are not allowed to delete Payment Orders!');
+            return;
+        }
+
         /** @var PaymentOrder $entityInstance */
         //Forbit delete process if PaymentOrder was already exported or booked
         if ($entityInstance->isExported()
