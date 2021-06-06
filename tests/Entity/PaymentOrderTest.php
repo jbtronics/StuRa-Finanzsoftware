@@ -155,6 +155,8 @@ class PaymentOrderTest extends TestCase
             [true, 'M-123-2020'],
             [true, 'FA-001-2020'],
             [true, 'FA-123-2020'],
+            [true, 'FA-001-2021_22'],
+            [true, 'M-123-2021_22'],
             //Higher years must be allowed
             [true, 'FA-123-2022'],
             [true, 'FA-123-2099'],

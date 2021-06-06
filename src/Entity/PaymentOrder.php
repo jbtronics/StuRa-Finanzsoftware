@@ -47,7 +47,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 {
     use TimestampTrait;
 
-    public const FUNDING_ID_REGEX = '/^(FA|M)-\d{3,4}-20\d{2}$/';
+    public const FUNDING_ID_REGEX = '/^(FA|M)-\d{3,4}-20\d{2}(_\d{2})?$/';
 
     /**
      * @ORM\Id()

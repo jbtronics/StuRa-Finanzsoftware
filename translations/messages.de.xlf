@@ -1209,7 +1209,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="n32Jsyv" name="payment_order.funding_id.placeholder">
       <segment>
         <source>payment_order.funding_id.placeholder</source>
-        <target>M-000-2020</target>
+        <target>M-000-2021_22 oder FA-000-2021_22</target>
       </segment>
     </unit>
     <unit id="la1VeQg" name="payment_order.funding_id.help">
