@@ -1943,12 +1943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "b4bbb016cdaa1020e90bcee0cd66b5d3ed9851aa"
+                "reference": "4f7a3f93dd8920e7428cce7305879ae83430eff1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/b4bbb016cdaa1020e90bcee0cd66b5d3ed9851aa",
-                "reference": "b4bbb016cdaa1020e90bcee0cd66b5d3ed9851aa",
+                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/4f7a3f93dd8920e7428cce7305879ae83430eff1",
+                "reference": "4f7a3f93dd8920e7428cce7305879ae83430eff1",
                 "shasum": ""
             },
             "require": {
@@ -2034,7 +2034,7 @@
                     "url": "https://github.com/javiereguiluz"
                 }
             ],
-            "time": "2021-05-31T13:13:49+00:00"
+            "time": "2021-06-18T13:12:33+00:00"
         },
         {
             "name": "egulias/email-validator",
