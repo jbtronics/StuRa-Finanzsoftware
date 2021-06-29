@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-$("*[data-row-class]").each(function(index) {
-   $(this).closest('tr').addClass($(this).data('row-class'));
-   $(this).closest('table').addClass('table-hover');
+$(document).ready(function () {
+   $("*[data-row-class]").each(function(index) {
+      $(this).closest('tr').addClass($(this).data('row-class'));
+      $(this).closest('table').addClass('table-hover');
+   });
 });
