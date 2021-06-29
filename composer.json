@@ -12,7 +12,7 @@
         "damienharper/auditor-bundle": "^4.0",
         "digitick/sepa-xml": "^2.0.0",
         "doctrine/doctrine-migrations-bundle": "^3.0.0",
-        "easycorp/easyadmin-bundle": "dev-fix_batch_action_selection",
+        "easycorp/easyadmin-bundle": "^3.3.2",
         "fortawesome/font-awesome": "^5.14",
         "league/html-to-markdown": "^4.10",
         "nelmio/security-bundle": "^2.10",
@@ -127,12 +127,6 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jbtronics/EasyAdminBundle.git"
-        }
-    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,

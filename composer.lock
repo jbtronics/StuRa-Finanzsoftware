@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c00ffd7e03081982d583eb9f6b96a0ba",
+    "content-hash": "03807419d4e7ded2d130003f4283d8c4",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1940,16 +1940,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "dev-fix_batch_action_selection",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jbtronics/EasyAdminBundle.git",
-                "reference": "56b0adf9edf1534daddfe4bbe182fa147fe09147"
+                "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
+                "reference": "9672b09ce29c910fd74fe7769dd709c738ea43d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/EasyAdminBundle/zipball/56b0adf9edf1534daddfe4bbe182fa147fe09147",
-                "reference": "56b0adf9edf1534daddfe4bbe182fa147fe09147",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/9672b09ce29c910fd74fe7769dd709c738ea43d4",
+                "reference": "9672b09ce29c910fd74fe7769dd709c738ea43d4",
                 "shasum": ""
             },
             "require": {
@@ -2004,12 +2004,7 @@
                     "EasyCorp\\Bundle\\EasyAdminBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "EasyCorp\\Bundle\\EasyAdminBundle\\Tests\\TestApplication\\": "tests/TestApplication/src/",
-                    "EasyCorp\\Bundle\\EasyAdminBundle\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2027,15 +2022,16 @@
                 "generator"
             ],
             "support": {
-                "source": "https://github.com/jbtronics/EasyAdminBundle/tree/fix_batch_action_selection"
+                "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v3.3.2"
             },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/javiereguiluz"
+                    "url": "https://github.com/javiereguiluz",
+                    "type": "github"
                 }
             ],
-            "time": "2021-06-18T13:43:27+00:00"
+            "time": "2021-05-26T18:53:27+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -14099,7 +14095,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "easycorp/easyadmin-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
