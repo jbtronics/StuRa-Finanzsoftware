@@ -56,7 +56,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername('hhv');
         //We use plaintext encoder so we can just set the PW here
-        $user->setPassword($this->passwordEncoder->encodePassword($user, '1234'));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, '1234'));
         $user->setRoles(['ROLE_ADMIN',
             'ROLE_EDIT_ORGANISATIONS',
             'ROLE_SHOW_PAYMENT_ORDERS',
@@ -71,7 +71,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername('exporter');
         //We use plaintext encoder so we can just set the PW here
-        $user->setPassword($this->passwordEncoder->encodePassword($user, '1234'));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, '1234'));
         $user->setRoles(['ROLE_ADMIN',
             'ROLE_SHOW_PAYMENT_ORDERS',
             'ROLE_EDIT_PAYMENT_ORDERS',
@@ -83,7 +83,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername('readonly');
         //We use plaintext encoder so we can just set the PW here
-        $user->setPassword($this->passwordEncoder->encodePassword($user, '1234'));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, '1234'));
         $user->setRoles(['ROLE_ADMIN',
             'ROLE_SHOW_PAYMENT_ORDERS',
         ]);
