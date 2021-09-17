@@ -27,6 +27,7 @@ use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"})
  * @NoLockout(groups={"perm_edit"})
  */
-class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface
+class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()
@@ -123,6 +124,15 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
      * Must be unique for all users.
      */
     public function getUsername(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * Returns unique user identifier (the username)
+     * @return string
+     */
+    public function getUserIdentifier(): string
     {
         return (string) $this->username;
     }
