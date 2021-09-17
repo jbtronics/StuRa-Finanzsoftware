@@ -15,9 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-$(document).ready(function () {
-   $("*[data-row-class]").each(function(index) {
-      $(this).closest('tr').addClass($(this).data('row-class'));
-      $(this).closest('table').addClass('table-hover');
+function ready(fn) {
+   if (document.readyState != 'loading'){
+      fn();
+   } else {
+      document.addEventListener('DOMContentLoaded', fn);
+   }
+}
+
+ready(function() {
+   var elements = document.querySelectorAll('*[data-row-class]');
+   Array.prototype.forEach.call(elements, function(el, i) {
+      el.closest('tr').classList.add(el.dataset.rowClass);
+      el.closest('table').classList.add('table-hover');
    });
 });
