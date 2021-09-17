@@ -31,13 +31,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserCrudController extends AbstractCrudController
 {
     private $encoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
     }
@@ -138,7 +139,7 @@ class UserCrudController extends AbstractCrudController
     private function setUserPlainPassword(User $user): void
     {
         if ($user->getPlainPassword()) {
-            $user->setPassword($this->encoder->encodePassword($user, $user->getPlainPassword()));
+            $user->setPassword($this->encoder->hashPassword($user, $user->getPlainPassword()));
             $user->setPlainPassword(null);
         }
     }

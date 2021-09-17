@@ -26,6 +26,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserChangePasswordCommand extends Command
@@ -35,7 +36,7 @@ class UserChangePasswordCommand extends Command
     protected $entityManager;
     protected $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct(static::$defaultName);
         $this->entityManager = $entityManager;
@@ -79,7 +80,7 @@ class UserChangePasswordCommand extends Command
             }
         }
 
-        $encoded = $this->passwordEncoder->encodePassword($user, $password);
+        $encoded = $this->passwordEncoder->hashPassword($user, $password);
         $user->setPassword($encoded);
 
         $this->entityManager->persist($user);

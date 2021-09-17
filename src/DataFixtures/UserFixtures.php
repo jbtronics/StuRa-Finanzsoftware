@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
@@ -18,7 +19,7 @@ class UserFixtures extends Fixture
     protected $em;
     protected $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
     {
         $this->em = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
@@ -35,7 +36,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername('admin');
         //We use plaintext encoder so we can just set the PW here
-        $user->setPassword($this->passwordEncoder->encodePassword($user, '1234'));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, '1234'));
         $user->setFirstName('Admin');
         $user->setLastName('User');
         $user->setRoles(['ROLE_ADMIN',

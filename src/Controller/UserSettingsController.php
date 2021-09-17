@@ -31,6 +31,7 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -42,7 +43,7 @@ class UserSettingsController extends AbstractController
     /**
      * @Route("/settings", name="user_settings")
      */
-    public function userSettings(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,
+    public function userSettings(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager,
         GoogleAuthenticator $googleAuthenticator, BackupCodeManager $backupCodeManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -57,7 +58,7 @@ class UserSettingsController extends AbstractController
 
         if ($pw_form->isSubmitted() && $pw_form->isValid()) {
             //If form is valid, the old password was already validated, so we just have to encrypt the pw now
-            $hashed_pw = $passwordEncoder->encodePassword($user, $pw_form['plain_password']->getData());
+            $hashed_pw = $passwordEncoder->hashPassword($user, $pw_form['plain_password']->getData());
             $user->setPassword($hashed_pw);
 
             $entityManager->flush();

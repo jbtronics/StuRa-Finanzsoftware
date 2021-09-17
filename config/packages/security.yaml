@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: auto
@@ -15,14 +16,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             lazy: true
-            provider: app_user_provider
+            form_login:
+                login_path: login
+                check_path: login
+
+            entry_point: form_login
+
             logout:
                 path: app_logout
-            guard:
-                authenticators:
-                    - App\Security\FormLoginAuthenticator
+                target: homepage
 
             two_factor:
                 auth_form_path: 2fa_login
