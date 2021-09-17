@@ -35,7 +35,7 @@ class ZIPBinaryFileResponseFacade
     {
         $zip = new ZipArchive();
         $file_path = tempnam(sys_get_temp_dir(), 'stura');
-        if (true === $zip->open($file_path, ZipArchive::CREATE)) {
+        if (true === $zip->open($file_path, ZipArchive::OVERWRITE)) {
             foreach ($data as $name => $content) {
                 $zip->addFromString($name, $content);
             }
