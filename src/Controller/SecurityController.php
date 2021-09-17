@@ -40,8 +40,8 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
             'csrf_token_intention' => 'authenticate',
-            'username_parameter' => 'username',
-            'password_parameter' => 'password',
+            'username_parameter' => '_username',
+            'password_parameter' => '_password',
         ]);
     }
 

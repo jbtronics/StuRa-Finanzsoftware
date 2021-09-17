@@ -18,8 +18,11 @@ security:
         main:
             lazy: true
             form_login:
-                login_path: login
-                check_path: login
+                login_path: app_login
+                check_path: app_login
+                default_target_path: admin_dashboard
+                use_referer: true
+                always_use_default_target_path: true
 
             entry_point: form_login
 
