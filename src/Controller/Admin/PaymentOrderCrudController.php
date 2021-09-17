@@ -103,14 +103,35 @@ class PaymentOrderCrudController extends AbstractCrudController
             $extension = $payment_order->getReferencesFile()
                 ->getExtension();
 
+
+
+            /*
             if (empty($payment_order->getDepartment()->getReferencesExportPrefix())) {
                 $prefix = '';
             } else {
                 $prefix = $payment_order->getDepartment()
-                        ->getReferencesExportPrefix().'_';
+                        ->getReferencesExportPrefix().'/';
+            }*/
+
+            $prefix = '';
+
+            if ($payment_order->getDepartment() !== null && $payment_order->getDepartment()->getBankAccount() !== null) {
+                //First folder for each bank account
+                $prefix = $payment_order->getDepartment()->getBankAccount()->getName() . '/';
+
+                //A sub folder for each department
+                $prefix .= $payment_order->getDepartment()->getName() . '/';
+            } elseif ($payment_order->getDepartment() !== null) {
+                $prefix = $payment_order->getDepartment()->getName() . '/';
             }
 
-            $data[$prefix.$payment_order->getIDString().'.'.$extension] = $path;
+            $project_name = $payment_order->getProjectName();
+            $project_name = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $project_name);
+            $project_name = mb_ereg_replace("([\.]{2,})", '', $project_name);
+            //Format: "ZA000001 Project Name.pdf"
+            $filename = $prefix.$payment_order->getIDString().' '.$project_name.'.'.$extension;
+
+            $data[$filename] = $path;
 
             if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
                 //Set exported status
