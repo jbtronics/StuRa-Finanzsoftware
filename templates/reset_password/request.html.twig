@@ -1,0 +1,21 @@
+{% extends "security/2fa_form_base.html.twig" %}
+
+
+{% block page_title %}Passwort zurücksetzen{% endblock %}
+
+{% block page_content %}
+    <h2>Passwort zurücksetzen</h2>
+
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+        <div>
+            <small>
+                Gib hier deine E-Mail Adresse ein, und du erhälst einen Link zum zurücksetzen deines Passworts.
+            </small>
+        </div>
+
+        <button class="btn btn-primary mb-2 mt-2">E-Mail zum Passwortzurücksetzen senden</button>
+    {{ form_end(requestForm) }}
+
+    <a href="{{ url('app_login') }}" class="card-link">Zurück zum Login</a>
+{% endblock %}

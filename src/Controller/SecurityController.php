@@ -42,6 +42,10 @@ class SecurityController extends AbstractController
             'csrf_token_intention' => 'authenticate',
             'target_path' => $this->generateUrl('admin_dashboard'),
 
+            'forgot_password_enabled' => true,
+            'forgot_password_path' => $this->generateUrl('app_forgot_password_request'),
+
+
             'remember_me_enabled' => true,
 
             'username_parameter' => '_username',

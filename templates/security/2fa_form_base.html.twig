@@ -4,14 +4,14 @@
     {% trans %}tfa.check.title{% endtrans %}
 {% endblock %}
 
+{% block body_class 'page-login' %}
+
 {% block wrapper_wrapper %}
-    <div class="container pt-2">
-        <section id="main">
-            <div class="content-panel">
-                <div class="content-panel-body without-header">
-                    {% block page_content %}{% endblock %}
-                </div>
-            </div>
+    {% include '@EasyAdmin/flash_messages.html.twig' %}
+
+    <div class="login-wrapper">
+        <section class="content">
+            {% block page_content %}{% endblock %}
         </section>
     </div>
 {% endblock %}

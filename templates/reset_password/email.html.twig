@@ -1,0 +1,28 @@
+{# @var user \App\Entity\User #}
+
+{% extends "mails/base_mail.html.twig" %}
+
+{% block content %}
+<row>
+    <columns>
+        <h4>Passwort zurücksetzen</h4>
+        <br>
+
+        <p>Hallo {{ user.firstName }}</p>,
+        <p>du hast einen Link zum zurücksetzen deines Passwortes angefordert. Nutze den untenstehenden Button um dein Passwort zurückzusetzen</p>
+
+        <button class="large expand" href="{{ url('app_reset_password', {token: resetToken.token}) }}">Passwort zurücksetzen</button>
+
+        <small>Oder nutze folgenden Link: <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a></small>
+        <br>
+
+        <p>Dieser Link wird in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }} ablaufen.</p>
+
+
+        <br>
+
+        <p>Solltest du keine Passwortzurücksetzung angefordert haben, tue nichts und kontaktiere <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+
+    </columns>
+</row>
+{% endblock %}

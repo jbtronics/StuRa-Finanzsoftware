@@ -1,0 +1,11 @@
+{% extends "security/2fa_form_base.html.twig" %}
+
+{% block page_title %}Neues Passwort wählen{% endblock %}
+
+{% block page_content %}
+    <h2>Neues Passwort wählen</h2>
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary">Passwort zurücksetzen</button>
+    {{ form_end(resetForm) }}
+{% endblock %}

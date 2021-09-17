@@ -1,0 +1,12 @@
+{% extends "security/2fa_form_base.html.twig" %}
+
+{% block page_title %}Link zum Zurücksetzen versandt{% endblock %}
+
+{% block page_content %}
+    <p>
+        Wenn ein Account mit dieser E-Mail-Adresse existiert, dann wurde ein Link an diese E-Mail-Adresse geschickt mit dem das Passwort zurückgesetzt werden kann.
+        Dieser Link wird in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }} ablaufen.
+    </p>
+
+    <p>Wenn du keine E-Mail erhalten hast überprüfe deinen Spamfilter oder <a href="{{ path('app_forgot_password_request') }}">versuche es erneut</a>.</p>
+{% endblock %}
