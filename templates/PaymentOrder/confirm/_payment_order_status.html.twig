@@ -1,0 +1,26 @@
+{# @var entity \App\Entity\PaymentOrder #}
+
+{% set color = "alert-primary" %}
+{% if not entity.confirmed  %}
+    {% set color = "alert-warning" %}
+    {% set text = "payment_order.status.not_confirmed" %}
+{% elseif entity.confirmed and (entity.factuallyCorrect == false or entity.mathematicallyCorrect == false) %}
+    {% set color = "alert-primary" %}
+    {% set text = "payment_order.status.checking_pending" %}
+{% elseif (entity.factuallyCorrect == true and entity.mathematicallyCorrect == true) and entity.bookingDate is null %}
+    {% set color = "alert-primary" %}
+    {% set text = "payment_order.status.booking_pending" %}
+{% elseif entity.bookingDate is not null %}
+    {% set color = "alert-success" %}
+    {% set text = "payment_order.status.finished" %}
+{% elseif entity.bookingDate is not null %}
+    {% set color = "alert-danger" %}
+    {% set text = "payment_order.status.unknown" %}
+{% endif %}
+
+<div class="alert {{ color }}" role="alert">
+    <h5 class="alert-heading">
+        {% trans %}payment_order.confirmation.status.title{% endtrans %}:
+    </h5>
+    <h6>{{ text | trans }}</h6>
+</div>

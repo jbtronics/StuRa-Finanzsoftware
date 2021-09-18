@@ -6,6 +6,10 @@
     ({% if confirmation_nr == 1 %}{% trans %}payment_order.confirm.step_1{% endtrans %}{% else %}{% trans %}payment_order.confirm.step_2{% endtrans %}{% endif %})
 {% endblock %}
 
+{% block prefix_content%}
+    {% include("/PaymentOrder/confirm/_payment_order_status.html.twig")%}
+{% endblock %}
+
 {% block card_content %}
 
     {{ form_start(form) }}

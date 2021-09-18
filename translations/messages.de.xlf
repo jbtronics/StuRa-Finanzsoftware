@@ -2258,5 +2258,42 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Wenn dies aktiviert ist, werden auf diesem Computer keine weiteren Zwei-Faktor-Abfragen durchgeführt. In den Benutzerinstellungen können die vertrauenswürdigen Computer zurückgesetzt werden.</target>
       </segment>
     </unit>
+    <unit id="7QZm00r" name="payment_order.confirmation.status.title">
+      <segment>
+        <source>payment_order.confirmation.status.title</source>
+        <target>Auftragsstatus</target>
+      </segment>
+    </unit>
+    <unit id="bep2fD0" name="payment_order.status.not_confirmed">
+      <segment>
+        <source>payment_order.status.not_confirmed</source>
+        <target>Auftrag noch nicht durch FSR/Referatsverantwortliche bestätigt.</target>
+      </segment>
+    </unit>
+    <unit id="bep2fD1" name="payment_order.status.checking_pending">
+        <segment>
+            <source>payment_order.status.checking_pending</source>
+            <target>Der Zahlungsauftrag wird durch die StuRa-Finanzverantwortlichen kontrolliert. Dies kann einige Tage dauern.</target>
+          </segment>
+        </unit>
+        <unit id="bep2fD2" name="payment_order.status.booking_pending">
+          <segment>
+            <source>payment_order.status.booking_pending</source>
+            <target>Der Zahlungsauftrag wurde durch die StuRa-Finanzverantwortlichen kontrolliert und wird bald überwiesen.</target>
+          </segment>
+        </unit>
+        <unit id="bep2fD3" name="payment_order.status.finished">
+          <segment>
+            <source>payment_order.status.finished</source>
+            <target>Der Zahlungsauftrag wurde überwiesen und ist somit abgeschlossen.</target>
+          </segment>
+        </unit>
+        <unit id="bep2fD4" name="payment_order.status.unknown">
+                  <segment>
+                    <source>payment_order.status.unknown</source>
+                    <target>Der Status des Zahlungsauftrages kann nicht angezeigt werden, bitte kontaktiere einen Administrator.</target>
+                  </segment>
+                </unit>
+
   </file>
 </xliff>
