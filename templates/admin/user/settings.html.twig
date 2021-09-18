@@ -5,10 +5,27 @@
 
 {% block page_content %}
 
-    <h5>{% trans %}password.change_pw.title{% endtrans %}</h5>
-    {{ form_start(pw_form) }}
-    {{ form_end(pw_form) }}
+    <div class="card">
+        <div class="card-header">
+            {% trans %}password.change_pw.title{% endtrans %}
+        </div>
+        <div class="card-body">
+            {{ form_start(pw_form) }}
+            {{ form_row(pw_form.old_password) }}
+            {{ form_row(pw_form.plain_password) }}
+
+            <div>
+            {{ form_row(pw_form.submit) }}
+            </div>
+            {{ form_end(pw_form) }}
+        </div>
+    </div>
 
     <br>
-    {% include('admin/user/_2fa_settings.html.twig') %}
+    <div class="card">
+        <div class="card-header">{% trans %}tfa.settings.title{% endtrans %}</div>
+        <div class="card-body">
+            {% include('admin/user/_2fa_settings.html.twig') %}
+        </div>
+    </div>
 {% endblock %}

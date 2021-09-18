@@ -1,14 +1,12 @@
 {% form_theme google_form "@EasyAdmin/crud/form_theme.html.twig" %}
 
-<h5>{% trans %}tfa.settings.title{% endtrans %}</h5>
-
 {{ form_start(google_form) }}
 {% if not tfa_google.enabled %}
-    <div class="offset-sm-3">
+    <div class="">
         <h6>{% trans %}tfa_google.disabled_message{% endtrans %}</h6>
     </div>
 
-    <div class="offset-sm-3 row">
+    <div class="row">
         <div class="col-sm-3">
             <img width="100%" class="img-fluid" alt="{{ tfa_google.qrContent }}" src="{{ tfa_google.qrImageDataUri }}">
         </div>
@@ -22,8 +20,8 @@
         </div>
     </div>
 
-    <div class="offset-sm-3">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#manualSetupCollapse" aria-expanded="false" aria-controls="manualSetupCollapse">
+    <div class="">
+        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#manualSetupCollapse" aria-expanded="false" aria-controls="manualSetupCollapse">
             {% trans %}tfa_google.manual_setup{% endtrans %}
         </button>
         <div class="collapse" id="manualSetupCollapse">
@@ -39,41 +37,44 @@
 
     {{ form_row(google_form.google_confirmation) }}
 {% else %}
-    <div class="offset-sm-3">
+    <div class="">
         <h6>{% trans %}tfa_google.enabled_message{% endtrans %}</h6>
     </div>
 {% endif %}
-                {{ form_row(google_form.submit) }}
+
+<div>
+    {{ form_row(google_form.submit) }}
+</div>
 {{ form_end(google_form) }}
 
 
 {#
-        Backup codes
- #}
+Backup codes
+#}
 
-<h5>{% trans %}tfa.settings.backup.tab{% endtrans %}</h5>
+<h4>{% trans %}tfa.settings.backup.tab{% endtrans %}</h4>
 
 {% if user.backupCodes is empty %}
-    <div class="offset-sm-3">
+    <div class="">
         <h6>{% trans %}tfa_backup.disabled{% endtrans %}</h6>
         <span>{% trans %}tfa_backup.explanation{% endtrans %}</span>
     </div>
 {% else %}
-    <div class="offset-sm-3">
+    <div class="">
         <h6>{% trans %}tfa_backup.enabled{% endtrans %}</h6>
         <span>{% trans %}tfa_backup.explanation{% endtrans %}</span>
     </div>
-    <div class="offset-sm-3 mt-2">
+    <div class="mt-2">
         <p class="mb-0"><b>{% trans %}tfa_backup.remaining_tokens{% endtrans %}:</b> {{ user.backupCodes | length }}</p>
         <p><b>{% trans %}tfa_backup.generation_date{% endtrans %}:</b> {{ user.backupCodesDate | format_datetime }}</p>
     </div>
-    <div class="offset-sm-3">
+    <div class="">
         <a href="{{ url('show_backup_codes') }}" target="_blank" data-no-ajax class="btn btn-primary">{% trans %}tfa_backup.show_codes{% endtrans %}</a>
     </div>
 
-    <div class="offset-sm-3 mt-2">
-        <form action="{{ url('tfa_regenerate_backup_codes') }}" method="post""
-              data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
+    <div class="mt-2">
+        <form action="{{ url('tfa_regenerate_backup_codes') }}" method="post">
+            data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('regenerate_backup_codes' ~ user.id) }}">
             <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
@@ -86,10 +87,11 @@
 
 
 {#
-        Trusted devices
- #}
+Trusted devices
+#}
 
-<h5>{% trans %}tfa.settings.trustedDevices.tab{% endtrans %}</h5>
+<br>
+<h4>{% trans %}tfa.settings.trustedDevices.tab{% endtrans %}</h4>
 <p>{% trans %}tfa_trustedDevices.explanation{% endtrans %}</p>
 <form action="{{ url('tfa_trustedDevices_invalidate') }}" method="post" data-delete-form data-title="{% trans %}tfa_trustedDevices.invalidate.confirm_title{% endtrans %}"
       data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
@@ -97,5 +99,5 @@
     <input type="hidden" name="_token" value="{{ csrf_token('devices_reset' ~ user.id) }}">
     <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
 
-    <button class="btn btn-danger offset-sm-3" type="submit">{% trans %}tfa_trustedDevices.invalidate.btn{% endtrans %}</button>
+    <button class="btn btn-danger" type="submit">{% trans %}tfa_trustedDevices.invalidate.btn{% endtrans %}</button>
 </form>

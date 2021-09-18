@@ -34,7 +34,7 @@ class ChangePasswordFormType extends AbstractType
                 ],
                 'second_options' => [
                     'attr' => ['autocomplete' => 'new-password'],
-                    'label' => 'Passwort widerholen',
+                    'label' => 'Passwort wiederholen',
                 ],
                 'invalid_message' => 'Beide Passwörter müssen übereinstimmen.',
                 // Instead of being set onto the object directly,
