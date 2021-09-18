@@ -2,8 +2,8 @@
 
 {% block page_content %}
 
-    <h5><i class="fas fa-shield-alt"></i> {% trans %}tfa.check.title{% endtrans %}</h5>
-
+    <h4><i class="fas fa-shield-alt"></i> {% trans %}tfa.check.title{% endtrans %}</h4>
+    <br>
     <ul class="nav nav-pills mb-4">
         {% for provider in availableTwoFactorProviders %}
             <li class="nav-item">
@@ -38,13 +38,17 @@
 
         {% if displayTrustedOption %}
             <div class="form-group row mt-3">
-                <div class="offset-3">
-                    <div class="custom-checkbox custom-control ml-2">
-                        <input id="_trusted" class="custom-control-input" type="checkbox" name="{{ trustedParameterName }}" />
-                        <label class="custom-control-label" for="_trusted">{% trans %}tfa.code.trusted_pc{% endtrans %}</label>
+                <div class="">
+                    <div class="form-check">
+                        <input id="_trusted" class="form-check-input" type="checkbox" name="{{ trustedParameterName }}" />
+                        <label class="form-check-label" for="_trusted">
+                            {% trans %}tfa.code.trusted_pc{% endtrans %}
+                        </label>
                     </div>
+                    <span class="text-muted">{% trans %}tfa.code.trusted_pc.hint{% endtrans %}</span>
                 </div>
             </div>
+            <br>
         {% endif %}
 
         {% if isCsrfProtectionEnabled %}
@@ -53,9 +57,9 @@
 
         {% block submit_btn %}
             <div class="form-group-row">
-                <div class="offset-3">
+                <div class="">
                     <button type="submit" class="btn btn-primary" value="{{ "login"|trans({}, 'SchebTwoFactorBundle') }}">{% trans %}login.btn{% endtrans %}</button>
-                    <a class="ml-2" href="{{ logoutPath }}">{% trans %}user.logout{% endtrans %}</a>
+                    <a class="btn btn-link" href="{{ logoutPath }}">{% trans %}user.logout{% endtrans %}</a>
                 </div>
             </div>
         {% endblock %}

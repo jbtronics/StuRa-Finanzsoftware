@@ -907,7 +907,7 @@
       </notes>
       <segment>
         <source>tfa.code.trusted_pc</source>
-        <target>Dies ist ein vertrauenswürdiger Computer (wenn dies aktiviert ist, werden auf diesem Computer keine weiteren Zwei-Faktor-Abfragen durchgeführt)</target>
+        <target>Dies ist ein vertrauenswürdiger Computer</target>
       </segment>
     </unit>
     <unit id="XtrGxkd" name="login.btn">
@@ -2250,6 +2250,12 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
       <segment>
         <source>user.role.manual_confirmation</source>
         <target>Manuelle Bestätigung von Zahlungsaufträgen</target>
+      </segment>
+    </unit>
+    <unit id="Qs3Tmrl" name="tfa.code.trusted_pc.hint">
+      <segment>
+        <source>tfa.code.trusted_pc.hint</source>
+        <target>Wenn dies aktiviert ist, werden auf diesem Computer keine weiteren Zwei-Faktor-Abfragen durchgeführt. In den Benutzerinstellungen können die vertrauenswürdigen Computer zurückgesetzt werden.</target>
       </segment>
     </unit>
   </file>
