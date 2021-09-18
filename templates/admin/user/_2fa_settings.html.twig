@@ -73,7 +73,7 @@ Backup codes
     </div>
 
     <div class="mt-2">
-        <form action="{{ url('tfa_regenerate_backup_codes') }}" method="post">
+        <form action="{{ url('tfa_regenerate_backup_codes') }}" method="post"
             data-message="{% trans %}tfa_trustedDevices.invalidate.confirm_message{% endtrans %}">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('regenerate_backup_codes' ~ user.id) }}">
