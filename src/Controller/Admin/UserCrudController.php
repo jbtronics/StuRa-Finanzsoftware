@@ -74,6 +74,7 @@ class UserCrudController extends AbstractCrudController
 
     private function getRoleChoices(): array
     {
+        //If something changes here, change it in templates/user/_user_info.html.twig too
         return [
             'user.role.access_admin' => 'ROLE_ADMIN',
             'user.role.edit_user' => 'ROLE_EDIT_USER',

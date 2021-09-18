@@ -1,0 +1,54 @@
+{# @var user \App\Entity\User #}
+
+{% set role_mapping = {
+    "ROLE_USER": "user.role.user",
+    "ROLE_ADMIN": "user.role.access_admin",
+    "ROLE_EDIT_USER": "user.role.edit_user",
+    "ROLE_EDIT_ORGANISATIONS": "user.role.edit_organisations",
+    "ROLE_SHOW_PAYMENT_ORDERS": "user.role.show_payment_orders",
+    "ROLE_EDIT_PAYMENT_ORDERS": "user.role.edit_payment_orders",
+    "ROLE_PO_FACTUALLY": "user.role.edit_po_factually",
+    "ROLE_PO_MATHEMATICALLY": "user.role.edit_po_mathematically",
+    "ROLE_EDIT_BANK_ACCOUNTS": "user.role.edit_bank_accounts",
+    "ROLE_VIEW_AUDITS": "user.role.view_audit_logs",
+    "ROLE_EXPORT_REFERENCES": "user.role.export_references",
+    "ROLE_MANUAL_CONFIRMATION": "user.role.manual_confirmation",
+} %}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.username.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">{{ user.username }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.first_name.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">{{ user.firstName }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.last_name.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">{{ user.lastName }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.email.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">{{ user.email }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.role_description.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">{{ user.roleDescription }}</div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-3"><b>{% trans %}user.roles.label{% endtrans %}:</b></div>
+            <div class="col-sm-9">
+                <ul>
+                    {% for role in user.roles %}
+                        <li>{{ role_mapping[role] | trans }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p class="text-muted">{% trans %}user.info.change_hint{% endtrans %}</p>
+</div>

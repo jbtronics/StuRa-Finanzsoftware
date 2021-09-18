@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="de" trgLang="de-DE">
+  <file id="messages.de_DE">
+    <unit id="ZJRoZVP" name="user.settings.info">
+      <segment>
+        <source>user.settings.info</source>
+        <target>Benutzerinfo</target>
+      </segment>
+    </unit>
+    <unit id=".x7SSlD" name="user.role.user">
+      <segment>
+        <source>user.role.user</source>
+        <target>Benutzer</target>
+      </segment>
+    </unit>
+    <unit id="0XFa7oE" name="user.info.change_hint">
+      <segment>
+        <source>user.info.change_hint</source>
+        <target>Sollte einer dieser Angaben falsch sein, kontaktiere einen Administrator.</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

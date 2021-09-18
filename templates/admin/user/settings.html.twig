@@ -5,6 +5,17 @@
 
 {% block page_content %}
 
+
+    <div class="card">
+        <div class="card-header">
+            {% trans %}user.settings.info{% endtrans %}
+        </div>
+        <div class="card-body">
+            {% include('admin/user/_user_info.html.twig') %}
+        </div>
+    </div>
+    <br>
+
     <div class="card">
         <div class="card-header">
             {% trans %}password.change_pw.title{% endtrans %}
@@ -13,7 +24,6 @@
             {{ form_start(pw_form) }}
             {{ form_row(pw_form.old_password) }}
             {{ form_row(pw_form.plain_password) }}
-
             <div>
             {{ form_row(pw_form.submit) }}
             </div>
