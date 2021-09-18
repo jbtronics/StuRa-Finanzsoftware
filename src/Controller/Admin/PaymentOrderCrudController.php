@@ -358,7 +358,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->setCssClass('btn btn-success');
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
-            ->setCssClass('mr-1 text-dark')
+            ->setCssClass('btn btn-secondary')
             ->linkToRoute('payment_order_manual_confirm', function (PaymentOrder $paymentOrder) {
                 return [
                     'id' => $paymentOrder->getId(),
@@ -417,9 +417,11 @@ class PaymentOrderCrudController extends AbstractCrudController
 
         $department = AssociationField::new('department', $tmp)
             ->setRequired(true)
-            ->autocomplete()
+            //->autocomplete()
             ->setFormTypeOption('attr', [
-                //'data-widget' => 'select2',
+                'data-widget' => 'select2',
+                'data-allow-clear' => false,
+                'required' => 'required'
             ]);
 
         $amount = MoneyField::new('amount', 'payment_order.amount.label')
