@@ -2270,30 +2270,35 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Auftrag noch nicht durch FSR/Referatsverantwortliche Personen bestätigt.</target>
       </segment>
     </unit>
-    <unit id="bep2fD1" name="payment_order.status.checking_pending">
-        <segment>
-            <source>payment_order.status.checking_pending</source>
-            <target>Der Zahlungsauftrag wird durch die StuRa-Finanzverantwortlichen kontrolliert. Dies kann einige Tage dauern.</target>
-          </segment>
-        </unit>
-        <unit id="bep2fD2" name="payment_order.status.booking_pending">
-          <segment>
-            <source>payment_order.status.booking_pending</source>
-            <target>Der Zahlungsauftrag wurde durch die StuRa-Finanzverantwortlichen kontrolliert und wird bald überwiesen.</target>
-          </segment>
-        </unit>
-        <unit id="bep2fD3" name="payment_order.status.finished">
-          <segment>
-            <source>payment_order.status.finished</source>
-            <target>Der Zahlungsauftrag wurde überwiesen und ist somit abgeschlossen.</target>
-          </segment>
-        </unit>
-        <unit id="bep2fD4" name="payment_order.status.unknown">
-                  <segment>
-                    <source>payment_order.status.unknown</source>
-                    <target>Der Status des Zahlungsauftrages kann nicht angezeigt werden, bitte kontaktiere einen Administrator.</target>
-                  </segment>
-                </unit>
-
+    <unit id="3wXv3mh" name="payment_order.status.checking_pending">
+      <segment>
+        <source>payment_order.status.checking_pending</source>
+        <target>Der Zahlungsauftrag wird durch die StuRa-Finanzverantwortlichen kontrolliert. Dies kann einige Tage dauern.</target>
+      </segment>
+    </unit>
+    <unit id="M4EA_Gn" name="payment_order.status.booking_pending">
+      <segment>
+        <source>payment_order.status.booking_pending</source>
+        <target>Der Zahlungsauftrag wurde durch die StuRa-Finanzverantwortlichen kontrolliert und wird bald überwiesen.</target>
+      </segment>
+    </unit>
+    <unit id="pqxj9am" name="payment_order.status.finished">
+      <segment>
+        <source>payment_order.status.finished</source>
+        <target>Der Zahlungsauftrag wurde überwiesen und ist somit abgeschlossen.</target>
+      </segment>
+    </unit>
+    <unit id="4OzHA27" name="payment_order.status.unknown">
+      <segment>
+        <source>payment_order.status.unknown</source>
+        <target>Der Status des Zahlungsauftrages kann nicht angezeigt werden, bitte kontaktiere einen Administrator.</target>
+      </segment>
+    </unit>
+    <unit id="PM3oyyU" name="payment_order.confirmation.already_confirmed_hint">
+      <segment>
+        <source>payment_order.confirmation.already_confirmed_hint</source>
+        <target>Hinweis: Dieser Zahlungsauftrag wurde bereits von dir bestätigt. Du kannst daher nichts mehr ändern. Solltest du einen Fehler finden, kontaktiere bitte unverzüglich einen StuRa-Finanzverantwortlichen!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

@@ -40,6 +40,9 @@ class PaymentOrderConfirmationType extends AbstractType
 
         $builder->add('submit', SubmitType::class, [
             'label' => 'payment_order.confirm.submit.label',
+            'attr' => [
+                'title' => 'payment_order.confirmation.already_confirmed_hint'
+            ]
         ]);
     }
 

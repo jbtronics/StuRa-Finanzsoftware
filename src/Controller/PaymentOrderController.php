@@ -193,10 +193,12 @@ class PaymentOrderController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
+        $already_confirmed = false;
+
         //Check if it was already confirmed from this side and disable form if needed
         $confirm_timestamp = (1 === $confirm_step) ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
         if (null !== $confirm_timestamp) {
-            $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
+            $already_confirmed = true;
         }
         $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
             'disabled' => null !== $confirm_timestamp,
@@ -231,6 +233,7 @@ class PaymentOrderController extends AbstractController
             'entity' => $paymentOrder,
             'confirmation_nr' => $confirm_step,
             'form' => $form->createView(),
+            'already_confirmed' => $already_confirmed,
         ]);
     }
 }

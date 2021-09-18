@@ -12,6 +12,12 @@
 
 {% block card_content %}
 
+    {% if already_confirmed %}
+        <p>
+            <b class="text-danger">{% trans %}payment_order.confirmation.already_confirmed_hint{% endtrans %}</b>
+        </p>
+    {% endif %}
+
     {{ form_start(form) }}
 
     <h4>{% trans %}payment_order.confirm.title_1{% endtrans %}</h4>
