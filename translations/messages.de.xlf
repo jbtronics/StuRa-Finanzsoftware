@@ -2267,7 +2267,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="bep2fD0" name="payment_order.status.not_confirmed">
       <segment>
         <source>payment_order.status.not_confirmed</source>
-        <target>Auftrag noch nicht durch FSR/Referatsverantwortliche bestätigt.</target>
+        <target>Auftrag noch nicht durch FSR/Referatsverantwortliche Personen bestätigt.</target>
       </segment>
     </unit>
     <unit id="bep2fD1" name="payment_order.status.checking_pending">
