@@ -95,7 +95,7 @@ class DashboardController extends AbstractDashboardController
             ->displayIf(function (DBElementInterface $entity) {
                 return $this->isGranted('ROLE_VIEW_AUDITS');
             })
-            ->setCssClass('ml-2 text-dark')
+            ->setCssClass('btn btn-secondary')
             ->linkToRoute('dh_auditor_show_entity_history', function (DBElementInterface $entity) {
                 return [
                     'entity' => str_replace('\\', '-', get_class($entity)),

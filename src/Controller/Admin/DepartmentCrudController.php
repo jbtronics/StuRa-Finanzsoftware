@@ -93,7 +93,7 @@ class DepartmentCrudController extends AbstractCrudController
             ->displayIf(function (Department $paymentOrder) {
                 return $this->isGranted('ROLE_EDIT_ORGANISATIONS');
             })
-            ->setCssClass('mr-2 text-dark')
+            ->setCssClass('btn btn-secondary')
             ->linkToCrudAction('generateSkipToken');
 
         $actions->add(Crud::PAGE_DETAIL, $generateTokenAction);

@@ -318,7 +318,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function (PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->generateContactMailLink($paymentOrder);
             })
-            ->setCssClass('text-dark');
+            ->setCssClass('btn btn-secondary text-dark');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(function (PaymentOrder $paymentOrder) {
@@ -329,14 +329,14 @@ class PaymentOrderCrudController extends AbstractCrudController
             ->linkToUrl(function (PaymentOrder $paymentOrder) {
                 return $this->mailToGenerator->getHHVMailLink($paymentOrder);
             })
-            ->setCssClass('mr-2 text-dark');
+            ->setCssClass('btn btn-secondary text-dark');
 
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(function (PaymentOrder $paymentOrder) {
                 return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed();
             })
-            ->setCssClass('mr-2 text-dark');
+            ->setCssClass('btn btn-secondary text-dark');
 
         $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
             ->linkToCrudAction('checkMathematicallyCorrect')
@@ -345,7 +345,7 @@ class PaymentOrderCrudController extends AbstractCrudController
                     && $paymentOrder->isConfirmed()
                     && !$paymentOrder->isMathematicallyCorrect();
             })
-            ->setCssClass('mr-2 btn btn-success');
+            ->setCssClass('btn btn-success');
 
         $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
             ->linkToCrudAction('checkFactuallyCorrect')
@@ -355,7 +355,7 @@ class PaymentOrderCrudController extends AbstractCrudController
                     && !$paymentOrder->isFactuallyCorrect()
                     && $paymentOrder->isMathematicallyCorrect();
             })
-            ->setCssClass('mr-2 btn btn-success');
+            ->setCssClass('btn btn-success');
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
             ->setCssClass('mr-1 text-dark')
@@ -416,8 +416,10 @@ class PaymentOrderCrudController extends AbstractCrudController
         }
 
         $department = AssociationField::new('department', $tmp)
+            ->setRequired(true)
+            ->autocomplete()
             ->setFormTypeOption('attr', [
-                'data-widget' => 'select2',
+                //'data-widget' => 'select2',
             ]);
 
         $amount = MoneyField::new('amount', 'payment_order.amount.label')
