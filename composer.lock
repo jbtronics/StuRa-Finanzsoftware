@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5eabaab23c3bf766e3f13e52876b43b5",
+    "content-hash": "76ade25df63dbbbaf13b99ccfa3ac78b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2669,27 +2669,30 @@
         },
         {
             "name": "league/html-to-markdown",
-            "version": "4.10.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "0868ae7a552e809e5cd8f93ba022071640408e88"
+                "reference": "e5600a2c5ce7b7571b16732c7086940f56f7abec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/0868ae7a552e809e5cd8f93ba022071640408e88",
-                "reference": "0868ae7a552e809e5cd8f93ba022071640408e88",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/e5600a2c5ce7b7571b16732c7086940f56f7abec",
+                "reference": "e5600a2c5ce7b7571b16732c7086940f56f7abec",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-xml": "*",
-                "php": ">=5.3.3"
+                "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "mikehaertl/php-shellcommand": "~1.1.0",
-                "phpunit/phpunit": "^4.8|^5.7",
-                "scrutinizer/ocular": "~1.1"
+                "mikehaertl/php-shellcommand": "^1.1.0",
+                "phpstan/phpstan": "^0.12.82",
+                "phpunit/phpunit": "^8.5 || ^9.2",
+                "scrutinizer/ocular": "^1.6",
+                "unleashedtech/php-coding-standard": "^2.7",
+                "vimeo/psalm": "^4.6"
             },
             "bin": [
                 "bin/html-to-markdown"
@@ -2697,7 +2700,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.10-dev"
+                    "dev-master": "5.1-dev"
                 }
             },
             "autoload": {
@@ -2731,7 +2734,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/html-to-markdown/issues",
-                "source": "https://github.com/thephpleague/html-to-markdown/tree/4.10.0"
+                "source": "https://github.com/thephpleague/html-to-markdown/tree/5.0.1"
             },
             "funding": [
                 {
@@ -2747,11 +2750,11 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://www.patreon.com/colinodell",
-                    "type": "patreon"
+                    "url": "https://tidelift.com/funding/github/packagist/league/html-to-markdown",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2020-07-01T00:34:03+00:00"
+            "time": "2021-09-17T20:00:27+00:00"
         },
         {
             "name": "lorenzo/pinky",
@@ -11114,16 +11117,16 @@
         },
         {
             "name": "ekino/phpstan-banned-code",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ekino/phpstan-banned-code.git",
-                "reference": "bd4eeb7fd899880c01b7729e2c12e82d000b0136"
+                "reference": "3277f5c833839142fa4f4d291d00e791cde9583b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ekino/phpstan-banned-code/zipball/bd4eeb7fd899880c01b7729e2c12e82d000b0136",
-                "reference": "bd4eeb7fd899880c01b7729e2c12e82d000b0136",
+                "url": "https://api.github.com/repos/ekino/phpstan-banned-code/zipball/3277f5c833839142fa4f4d291d00e791cde9583b",
+                "reference": "3277f5c833839142fa4f4d291d00e791cde9583b",
                 "shasum": ""
             },
             "require": {
@@ -11173,9 +11176,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ekino/phpstan-banned-code/issues",
-                "source": "https://github.com/ekino/phpstan-banned-code/tree/v0.4.0"
+                "source": "https://github.com/ekino/phpstan-banned-code/tree/v0.5.0"
             },
-            "time": "2021-03-15T13:00:30+00:00"
+            "time": "2021-08-13T12:29:33+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -13923,16 +13926,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "9.4.60",
+            "version": "9.4.62",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "323e57e0a667d2795c9fac591caf955469f2ed75"
+                "reference": "cfa555091a0eb33ab3db9b35976cfa744bae7dd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/323e57e0a667d2795c9fac591caf955469f2ed75",
-                "reference": "323e57e0a667d2795c9fac591caf955469f2ed75",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/cfa555091a0eb33ab3db9b35976cfa744bae7dd3",
+                "reference": "cfa555091a0eb33ab3db9b35976cfa744bae7dd3",
                 "shasum": ""
             },
             "require": {
@@ -13957,7 +13960,7 @@
             ],
             "description": "Prefixed scoped version of ECS package",
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/9.4.60"
+                "source": "https://github.com/symplify/easy-coding-standard/tree/9.4.62"
             },
             "funding": [
                 {
@@ -13969,7 +13972,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-13T14:42:11+00:00"
+            "time": "2021-09-18T08:47:48+00:00"
         },
         {
             "name": "theseer/tokenizer",
