@@ -276,6 +276,9 @@ class DashboardController extends AbstractDashboardController
     {
         return Assets::new()
             //->addJsFile('configurable-date-input-polyfill.dist.js')
+            ->addJsFile('assets/js/jquery.slim.js')
+            ->addJsFile('assets/js/select2.full.min.js')
+            ->addCssFile('assets/css/select2.min.css')
             ->addCssFile('admin_styles.css');
     }
 }

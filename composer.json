@@ -28,6 +28,7 @@
         "scheb/2fa-bundle": "^5.0",
         "scheb/2fa-google-authenticator": "^5.0",
         "scheb/2fa-trusted-device": "^5.0",
+        "select2/select2": "^4.0",
         "sensio/framework-extra-bundle": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",
         "snapappointments/bootstrap-select": "^1.13",
@@ -152,7 +153,10 @@
             "vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js": "public/assets/js/bootstrap-select.js",
             "vendor/components/jquery/jquery.slim.min.js": "public/assets/js/jquery.slim.js",
             "vendor/fortawesome/font-awesome/css/all.min.css": "public/assets/css/fa-all.css",
-            "vendor/fortawesome/font-awesome/webfonts/": "public/assets/webfonts/"
+            "vendor/fortawesome/font-awesome/webfonts/": "public/assets/webfonts/",
+
+            "vendor/select2/select2/dist/css/select2.min.css": "public/assets/css/select2.min.css",
+            "vendor/select2/select2/dist/js/select2.full.min.js": "public/assets/js/select2.full.min.js"
         }
     }
 }
