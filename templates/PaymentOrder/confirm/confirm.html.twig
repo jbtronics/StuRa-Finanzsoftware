@@ -114,3 +114,8 @@
     {{ form_end(form) }}
 
 {% endblock %}
+
+{% block additional_content %}
+    <br>
+    {% include('PaymentOrder/confirm/_payment_order_delete.html.twig') %}
+{% endblock %}

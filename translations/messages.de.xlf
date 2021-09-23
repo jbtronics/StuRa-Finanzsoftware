@@ -2300,5 +2300,44 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
         <target>Hinweis: Dieser Zahlungsauftrag wurde bereits von dir bestätigt. Du kannst daher nichts mehr ändern. Solltest du einen Fehler finden, kontaktiere bitte unverzüglich einen StuRa-Finanzverantwortlichen!</target>
       </segment>
     </unit>
+    <unit id="j9i9p0z" name="payment_order.confirm.delete.title">
+      <segment>
+        <source>payment_order.confirm.delete.title</source>
+        <target>Zahlungsauftrag löschen</target>
+      </segment>
+    </unit>
+    <unit id="IgVeCeg" name="payment_order.confirm.delete.btn">
+      <segment>
+        <source>payment_order.confirm.delete.btn</source>
+        <target>Zahlungsauftrag löschen</target>
+      </segment>
+    </unit>
+    <unit id="UhfneZE" name="payment_order.confirmation.delete.success">
+      <segment>
+        <source>payment_order.confirmation.delete.success</source>
+        <target>Der Zahlungsauftrag wurde erfolgreich gelöscht!</target>
+      </segment>
+    </unit>
+    <unit id="hCWCUAO" name="payment_order.can_not_be_found">
+      <segment>
+        <source>payment_order.can_not_be_found</source>
+        <target>Dieser Zahlungsauftrag konnte nicht gefunden werden. Möglicherweise wurde er gelöscht.</target>
+      </segment>
+    </unit>
+    <unit id="i8o8Mut" name="payment_order.confirm.delete.hint">
+      <segment>
+        <source>payment_order.confirm.delete.hint</source>
+        <target><![CDATA[Sollte dieser Zahlungsauftrag fehlerhafterweise eingereicht worden sein, kannst du ihn hier löschen.</br>
+Sobald der Auftrag bestätigt wurde, kann er nicht mehr von euch gelöscht werden. Bitte kontaktiere in diesem Fall eine Finanzverantwortliche Person des StuRas.]]></target>
+      </segment>
+    </unit>
+    <unit id="zAYoaTj" name="payment_order.confirm.delete.confirm_msg">
+      <segment>
+        <source>payment_order.confirm.delete.confirm_msg</source>
+        <target>Möchtest du den Zahlungsauftrag wirklich löschen?
+Dies kann nicht rückgängig gemacht werden und der Zahlungsauftrag kann nicht mehr weiter eingesehen werden.
+Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

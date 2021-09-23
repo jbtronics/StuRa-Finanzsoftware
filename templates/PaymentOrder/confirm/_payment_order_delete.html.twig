@@ -1,0 +1,13 @@
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">{% trans %}payment_order.confirm.delete.title{% endtrans %}</div>
+    <div class="card-body">
+        <p class="text-muted">{% trans %}payment_order.confirm.delete.hint{% endtrans %}</p>
+
+        {{ form_start(deletion_form) }}
+
+        {% set script = 'return confirm("'~('payment_order.confirm.delete.confirm_msg'|trans|replace({"\n": '\\n'}))~'");' %}
+        {{ form_row(deletion_form.delete, {'attr': {'onclick': script}}) }}
+
+        {{ form_end(deletion_form) }}
+    </div>
+</div>

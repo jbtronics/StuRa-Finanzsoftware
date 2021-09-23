@@ -29,7 +29,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
@@ -44,10 +46,12 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class PaymentOrderController extends AbstractController
 {
     private $userProvider;
+    private $entityManager;
 
-    public function __construct(UserProvider $userProvider)
+    public function __construct(UserProvider $userProvider, EntityManagerInterface $entityManager)
     {
         $this->userProvider = $userProvider;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -170,8 +174,13 @@ class PaymentOrderController extends AbstractController
     /**
      * @Route("/{id}/confirm", name="payment_order_confirm")
      */
-    public function confirmation(PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
+    public function confirmation(?PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
     {
+        if($paymentOrder === null) {
+            $this->addFlash('error', 'payment_order.can_not_be_found');
+            return $this->redirectToRoute('homepage');
+        }
+
         //Check if we have one of the valid confirm numbers
         $confirm_step = $request->query->getInt('confirm');
         if (1 !== $confirm_step && 2 !== $confirm_step) {
@@ -204,6 +213,34 @@ class PaymentOrderController extends AbstractController
             'disabled' => null !== $confirm_timestamp,
         ]);
 
+        $paymentOrder_is_undeletable = $paymentOrder->isExported()
+            || $paymentOrder->isConfirmed()
+            || null != $paymentOrder->getBookingDate();
+
+        $deletion_form = $this->createFormBuilder()
+            ->add('delete', SubmitType::class, [
+            'disabled' => $paymentOrder_is_undeletable,
+            'label' => 'payment_order.confirm.delete.btn',
+            'attr' => [
+                'class' => 'btn btn-danger'
+            ]
+        ])->getForm();
+
+        //Handle deletion form
+        $deletion_form->handleRequest($request);
+        if ($deletion_form->isSubmitted() && $deletion_form->isValid()) {
+            if ($paymentOrder_is_undeletable) {
+                throw new RuntimeException("This payment order is already exported or booked and therefore can not be deleted by user!");
+            }
+
+            $this->entityManager->remove($paymentOrder);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'payment_order.confirmation.delete.success');
+            return $this->redirectToRoute('homepage');
+        }
+
+        //Handle confirmation form
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'payment_order.confirmation.success');
@@ -233,6 +270,8 @@ class PaymentOrderController extends AbstractController
             'entity' => $paymentOrder,
             'confirmation_nr' => $confirm_step,
             'form' => $form->createView(),
+            'deletion_form' => $deletion_form->createView(),
+            'paymentOrder_is_undeletable' => $paymentOrder_is_undeletable,
             'already_confirmed' => $already_confirmed,
         ]);
     }
