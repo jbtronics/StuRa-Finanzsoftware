@@ -23,6 +23,7 @@ use App\Entity\PaymentOrder;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
 use App\Form\PaymentOrderType;
+use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\PaymentReferenceGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -232,6 +233,15 @@ class PaymentOrderController extends AbstractController
             if ($paymentOrder_is_undeletable) {
                 throw new RuntimeException("This payment order is already exported or booked and therefore can not be deleted by user!");
             }
+
+            if ($confirm_step === 1) {
+                $blame_user = implode(",", $paymentOrder->getDepartment()->getEmailHhv());
+            } elseif ($confirm_step === 2) {
+                $blame_user = implode(',', $paymentOrder->getDepartment()->getEmailTreasurer());
+            }
+
+            $message = new PaymentOrderDeletedNotification($paymentOrder, $blame_user, PaymentOrderDeletedNotification::DELETED_WHERE_FRONTEND);
+            $this->dispatchMessage($message);
 
             $this->entityManager->remove($paymentOrder);
             $this->entityManager->flush();

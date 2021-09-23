@@ -2339,5 +2339,23 @@ Dies kann nicht rückgängig gemacht werden und der Zahlungsauftrag kann nicht m
 Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.</target>
       </segment>
     </unit>
+    <unit id="IvdwnMj" name="payment_order.deletion_email.subject">
+      <segment>
+        <source>payment_order.deletion_email.subject</source>
+        <target>Zahlungsauftrag gelöscht: %project%</target>
+      </segment>
+    </unit>
+    <unit id=".y_iSW7" name="payment_order.deletion_email.title">
+      <segment>
+        <source>payment_order.deletion_email.title</source>
+        <target>Zahlungsauftrag gelöscht</target>
+      </segment>
+    </unit>
+    <unit id="w5gOHo1" name="payment_order.deletion_email.info">
+      <segment>
+        <source>payment_order.deletion_email.info</source>
+        <target><![CDATA[Folgender Zahlungsauftrag wurde (von euch) gelöscht. Falls du Fragen hast, kontaktiere <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>
