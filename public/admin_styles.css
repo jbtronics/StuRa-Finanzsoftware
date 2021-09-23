@@ -20,7 +20,7 @@
 }
 
 :root {
-    --body-max-width: 2000px;
+    --body-max-width: 5000px;
 }
 
 .custom-file-label {
@@ -29,4 +29,9 @@
 
 dl.datalist .data-row {
     padding: 10px 20px;
+}
+
+.content-header {
+    /* Allow break for long button headers */
+    flex-wrap: wrap;
 }
