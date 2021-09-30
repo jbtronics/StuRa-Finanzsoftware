@@ -23,7 +23,9 @@ use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Entity\PaymentOrder;
+use App\Entity\User;
 use App\Helpers\ZIPBinaryFileResponseFacade;
+use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -588,6 +590,15 @@ class PaymentOrderCrudController extends AbstractCrudController
 
             return;
         }
+
+        //Send a notification to FSR officers that payment order was deleted
+        $blame_user = 'unknown';
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $blame_user = $user->getFullName();
+        }
+        $message = new PaymentOrderDeletedNotification($entityInstance, $blame_user, PaymentOrderDeletedNotification::DELETED_WHERE_BACKEND);
+        $this->dispatchMessage($message);
 
         parent::deleteEntity($entityManager, $entityInstance);
     }
