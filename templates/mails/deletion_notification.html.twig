@@ -27,6 +27,11 @@
                         <p>
                             <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> {{ payment_order.iDString }}
                         </p>
+                        {% if deleted_where == "backend" %}
+                        <p>
+                            <b>{% trans %}payment_order.notification_deletion.blame_user{% endtrans %}: </b> {{ blame_user }} [StuRa]
+                        </p>
+                        {% endif %}
                     </columns>
                 </row>
             </callout>

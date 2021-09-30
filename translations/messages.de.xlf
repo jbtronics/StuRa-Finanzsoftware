@@ -2357,5 +2357,11 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target><![CDATA[Folgender Zahlungsauftrag wurde (von euch) gelöscht. Falls du Fragen hast, kontaktiere <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
+    <unit id="Irwx2BE" name="payment_order.notification_deletion.blame_user">
+      <segment>
+        <source>payment_order.notification_deletion.blame_user</source>
+        <target>Gelöscht durch</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
