@@ -215,17 +215,18 @@ class PaymentOrderController extends AbstractController
         ]);
 
         $paymentOrder_is_undeletable = $paymentOrder->isExported()
-            || $paymentOrder->isConfirmed()
+            || $paymentOrder->isMathematicallyCorrect()
+            || $paymentOrder->isFactuallyCorrect()
             || null != $paymentOrder->getBookingDate();
 
         $deletion_form = $this->createFormBuilder()
             ->add('delete', SubmitType::class, [
-            'disabled' => $paymentOrder_is_undeletable,
-            'label' => 'payment_order.confirm.delete.btn',
-            'attr' => [
-                'class' => 'btn btn-danger'
-            ]
-        ])->getForm();
+                'disabled' => $paymentOrder_is_undeletable,
+                'label' => 'payment_order.confirm.delete.btn',
+                'attr' => [
+                    'class' => 'btn btn-danger'
+                ]
+            ])->getForm();
 
         //Handle deletion form
         $deletion_form->handleRequest($request);
