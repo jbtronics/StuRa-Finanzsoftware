@@ -235,6 +235,7 @@ class PaymentOrderController extends AbstractController
                 throw new RuntimeException("This payment order is already exported or booked and therefore can not be deleted by user!");
             }
 
+            $blame_user = "unknown";
             if ($confirm_step === 1) {
                 $blame_user = implode(",", $paymentOrder->getDepartment()->getEmailHhv());
             } elseif ($confirm_step === 2) {
