@@ -119,7 +119,7 @@ class PaymentOrderCrudController extends AbstractCrudController
 
             if ($payment_order->getDepartment() !== null && $payment_order->getDepartment()->getBankAccount() !== null) {
                 //First folder for each bank account
-                $prefix = $payment_order->getDepartment()->getBankAccount()->getName() . '/';
+                $prefix = $payment_order->getDepartment()->getBankAccount()->getName() . ' [' . $payment_order->getDepartment()->getBankAccount()->getIban() .']' . '/';
 
                 //A sub folder for each department
                 $prefix .= $payment_order->getDepartment()->getName() . '/';
