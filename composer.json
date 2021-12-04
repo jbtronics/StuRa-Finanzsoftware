@@ -87,7 +87,7 @@
         "symfony/css-selector": "^5.2",
         "symfony/debug-bundle": "^5.2",
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^5.3",
+        "symfony/phpunit-bridge": "5.3.*",
         "symfony/stopwatch": "^5.2",
         "symfony/web-profiler-bundle": "^5.2",
         "symplify/easy-coding-standard": "^9.1"
