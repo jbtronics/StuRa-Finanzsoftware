@@ -42,7 +42,7 @@ class SepaExportType extends AbstractType
             'expanded' => true,
             'data' => 'auto_single',
             'label' => 'sepa_export.mode.label',
-            'choices' => static::MODE_CHOICES,
+            'choices' => self::MODE_CHOICES,
         ]);
 
         $builder->add('bank_account', EntityType::class, [
