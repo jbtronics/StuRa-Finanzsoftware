@@ -70,7 +70,8 @@
         "twig/inky-extra": "^3.0",
         "twig/intl-extra": "^3.0",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.15"
+        "vich/uploader-bundle": "^1.15",
+        "ext-simplexml": "Needed for XML parsing"
     },
     "require-dev": {
         "ext-dom": "*",

@@ -200,8 +200,7 @@ class PaymentOrdersSEPAExporter
                 $payment_order->getAmount(),
                 //We need a IBAN without spaces
                 str_replace(' ', '', $payment_order->getBankInfo()->getIban()),
-                $payment_order->getBankInfo()
-->getAccountOwner()
+                $payment_order->getBankInfo()->getAccountOwner()
             );
             if (!empty($payment_order->getBankInfo()->getBic())) {
                 $transfer->setBic($payment_order->getBankInfo()->getBic());
