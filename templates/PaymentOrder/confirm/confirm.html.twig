@@ -88,7 +88,7 @@
 
     <h4>{% trans %}payment_order.confirm.title_2{% endtrans %}</h4>
     <p class="">
-        {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_2{% endtrans %}
+        {% trans with {'%fsb_email%': entity.department.fsr ? fsb_email : hhv_email} %}payment_order.confirm.hint_2{% endtrans %}
     </p>
     <a href="{{ path('file_payment_order_references',
         {'id': entity.id, 'confirm': app.request.query.get('confirm'), 'token': app.request.query.get('token')}
@@ -101,7 +101,7 @@
     <h4>{% trans %}payment_order.confirm.title_3{% endtrans %}</h4>
 
     <p class="">
-        {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_3{% endtrans %}
+        {% trans with {'%fsb_email%': entity.department.fsr ? fsb_email : hhv_email} %}payment_order.confirm.hint_3{% endtrans %}
     </p>
     <a href="{{ path('file_payment_order_form',
         {'id': entity.id, 'confirm': app.request.query.get('confirm'), 'token': app.request.query.get('token')}
