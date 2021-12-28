@@ -23,7 +23,8 @@ use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Form\SepaExportType;
 use App\Helpers\ZIPBinaryFileResponseFacade;
-use App\Services\PaymentOrdersSEPAExporter;
+use App\Services\PaymentOrdersSEPAExporter_old;
+use App\Services\SEPAExport\PaymentOrderSEPAExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class ExportController extends AbstractController
     protected $translator;
     protected $entityManager;
 
-    public function __construct(PaymentOrdersSEPAExporter $sepaExporter, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(PaymentOrderSEPAExporter $sepaExporter, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->sepaExporter = $sepaExporter;
         $this->translator = $translator;

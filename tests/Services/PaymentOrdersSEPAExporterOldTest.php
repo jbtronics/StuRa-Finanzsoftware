@@ -22,7 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
-use App\Services\PaymentOrdersSEPAExporter;
+use App\Services\PaymentOrdersSEPAExporter_old;
 use App\Tests\PaymentOrderTestingHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use DOMDocument;
@@ -35,7 +35,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class PaymentOrdersSEPAExporterTest extends WebTestCase
 {
     /**
-     * @var PaymentOrdersSEPAExporter
+     * @var PaymentOrdersSEPAExporter_old
      */
     protected $service;
 
@@ -51,7 +51,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
         $em = self::$container->get(EntityManagerInterface::class);
 
         //Create a exporter with a fake FSRKom bank account, so we dont need to rely on database
-        $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter {
+        $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter_old {
             public function getFSRKomBankAccount(): BankAccount
             {
                 $bank_account = new BankAccount();
@@ -415,6 +415,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             /** @var DOMNode $msg_id */
             $msg_id->nodeValue = 'Message ID';
         }
+
 
         //Normalize Creation date
         $dates = $sepaXML->getElementsByTagName('CreDtTm');

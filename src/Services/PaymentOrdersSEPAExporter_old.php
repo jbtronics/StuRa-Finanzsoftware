@@ -37,7 +37,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * This service allows to create a SEPA-XML file from a payment order that can be used to import it in an online
  * banking system.
  */
-class PaymentOrdersSEPAExporter
+class PaymentOrdersSEPAExporter_old
 {
     protected const PARTY_NAME = 'StuRa FSU Jena';
     protected const ID_PREFIX = 'StuRa Export';
@@ -57,7 +57,7 @@ class PaymentOrdersSEPAExporter
      *
      * @throws \Digitick\Sepa\Exception\InvalidArgumentException
      */
-    public function export(array $payment_orders, array $options): array
+    public function export_to_array(array $payment_orders, array $options): array
     {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);

@@ -24,6 +24,7 @@ use App\Helpers\SEPAXML\SEPAXMLParser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -180,6 +181,20 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * Returns the content of the associated XML file.
+     * @throws \RuntimeException if no xml file was set yet.
+     * @return string
+     */
+    public function getXMLContent(): string
+    {
+        if ($this->getXmlFile() === null) {
+            throw new \RuntimeException("No XML file provided yet!");
+        }
+
+        return $this->xml_file->getContent();
+    }
+
+    /**
      * Returns the sepa message id associated with this file
      * @return string
      */
@@ -319,6 +334,24 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
         $this->total_sum = $data['total_sum'];
         $this->initiator_bic = $data['initiator_bic'];
         $this->initiator_iban = $data['initiator_iban'];
+    }
+
+    /**
+     * Creates a new SEPAExport with the content of the given XML string.
+     * A new temporary file is created with the content which is later saved in the proper folder during persisting to database.
+     * @param  string  $xml_string The content of the the XML file
+     * @param  string $original_filename The value which should be used in database entry original filename.
+     * @return SEPAExport
+     */
+    public static function createFromXMLString(string $xml_string, string $original_filename): SEPAExport
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'stura_') . '.xml';
+        file_put_contents($tmpfname, $xml_string);
+
+        $export = new SEPAExport();
+        $export->setXmlFile(new UploadedFile($tmpfname, $original_filename, 'application/xml'));
+
+        return $export;
     }
 
 }
