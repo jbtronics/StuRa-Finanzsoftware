@@ -68,9 +68,11 @@ services:
             $send_notifications: '%app.send_notifications%'
             $notifications_bcc: '%app.notifications_bcc%'
 
-    #App\Services\PaymentOrdersSEPAExporter:
-    #    arguments:
-    #        $fsr_kom_bank_account_id: '%app.fsr_kom_account_id%'
+    App\Services\SEPAExport\SEPAExportGroupAndSplitHelper:
+        arguments:
+            $fsr_kom_bank_account_id: '%app.fsr_kom_account_id%'
+            $limit_max_number_of_transactions: 10
+            $limit_max_amount: 1000000
 
 
     # Workaround for a issue with auditor bundle (see https://github.com/DamienHarper/auditor-bundle/issues/228)

@@ -18,8 +18,10 @@
 
 namespace App\Services\SEPAExport;
 
+use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Entity\SEPAExport;
+use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Helpers\SEPAXML\SEPAXMLExportResult;
 use Digitick\Sepa\DomBuilder\BaseDomBuilder;
 use Digitick\Sepa\DomBuilder\DomBuilderFactory;
@@ -30,23 +32,31 @@ use Webmozart\Assert\Assert;
 
 final class PaymentOrderSEPAExporter
 {
+    /** @var GroupHeaderHelper */
     private $group_header_helper;
 
-    public function __construct(GroupHeaderHelper $group_header_helper)
+    public function __construct(GroupHeaderHelper $group_header_helper, SEPAExportGroupAndSplitHelper $splitHelper)
     {
         $this->group_header_helper = $group_header_helper;
     }
 
     /**
-     * Exports the given payment orders using the given options.
-     * @param  array  $payment_orders
-     * @param  array  $options
+     * Exports the given payment orders and automatically assign the used bank accounts.
+     * For this the bankaccount of the associated departments are used, and the FSR-Kom bank account if a payment is an
+     * FSR-Kom transaction.
+     * @param  PaymentOrder[]  $payment_orders The payment orders which should be exported
+     * @throws SEPAExportAutoModeNotPossible If an element has no assigned default bank account, then automatic mode is not possible
      * @return SEPAXMLExportResult
      */
-    public function export(array $payment_orders, array $options): SEPAXMLExportResult
+    public function exportAuto(array $payment_orders): SEPAXMLExportResult
     {
+        //First we have to group the payment orders according to their bank accounts
 
+
+
+        return new SEPAXMLExportResult();
     }
+
 
     public function exportUsingGivenIBAN(array $payment_orders, string $debtor_iban, string $debtor_bic, string $debtor_account_name): SEPAExport
     {
@@ -118,6 +128,8 @@ final class PaymentOrderSEPAExporter
 
         return SEPAExport::createFromXMLString($xml_string, $original_filename);
     }
+
+
 
 
 }

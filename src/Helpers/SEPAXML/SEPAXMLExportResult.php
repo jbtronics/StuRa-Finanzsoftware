@@ -30,14 +30,9 @@ final class SEPAXMLExportResult implements \Countable
     private $sepa_exports;
 
     /**
-     * @var array The options used for export
-     */
-    private $options;
-
-    /**
      * @param  SEPAExport[]  $sepa_exports
      */
-    public function __construct(array $sepa_exports, array $options)
+    public function __construct(array $sepa_exports)
     {
         if (count($sepa_exports) === 0) {
             throw new \InvalidArgumentException('$sepa_exports must not be empty!');
@@ -54,7 +49,6 @@ final class SEPAXMLExportResult implements \Countable
         }
 
         $this->sepa_exports = $sepa_exports;
-        $this->options = $options;
     }
 
     /**
@@ -66,14 +60,6 @@ final class SEPAXMLExportResult implements \Countable
         return count($this->sepa_exports);
     }
 
-    /**
-     * Return the options array used to create this result
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
 
     /**
      * Returns the SEPA Exports contained in this result
