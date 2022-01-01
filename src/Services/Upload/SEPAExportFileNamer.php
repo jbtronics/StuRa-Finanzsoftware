@@ -51,10 +51,6 @@ class SEPAExportFileNamer implements NamerInterface
 
         $slugger = new AsciiSlugger();
 
-        //$filename = mb_strimwidth($slugger->slug($object->getDepartment()->getName() ?? 'unknown'), 0, 16);
-
-        //$filename .= '_'.mb_strimwidth($slugger->slug($object->getProjectName()), 0, 16);
-
         //TODO: Improve this
         $filename = sprintf("XML%06d", $object->getId());
 

@@ -127,7 +127,7 @@ final class SEPAXMLExportResult implements \Countable
     /**
      * Generates a download response for the contained XML files. If only a single XML is contained, it will be downloaded
      * as XML file, otherwise as ZIP containing all files.
-     * @param  string  $disposition_filename
+     * @param  string  $disposition_filename The filename that should be used (without extension)
      * @param  bool  $force_zip
      * @return BinaryFileResponse
      */
@@ -135,11 +135,11 @@ final class SEPAXMLExportResult implements \Countable
     {
         //If we have only one file, we can just return the file
         if ($force_zip === false && $this->count() === 1) {
-            $response = new BinaryFileResponse($this->sepa_exports[0]);
+            $response = new BinaryFileResponse($this->sepa_exports[0]->getXmlFile());
             $response->setPrivate();
-            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $disposition_filename);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $disposition_filename . '.xml');
         } else { //Otherwise we download the file as ZIP
-            $response = ZIPBinaryFileResponseFacade::createZIPResponseFromFiles($this->getXMLFiles(), $disposition_filename);
+            $response = ZIPBinaryFileResponseFacade::createZIPResponseFromFiles($this->getXMLFiles(), $disposition_filename . '.zip');
         }
 
         return $response;

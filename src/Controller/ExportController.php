@@ -22,6 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SEPAExportAutoModeNotPossible;
 use App\Form\SepaExportType;
+use App\Helpers\SEPAXML\SEPAXMLExportResult;
 use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Services\PaymentOrdersSEPAExporter_old;
 use App\Services\SEPAExport\PaymentOrderSEPAExporter;
@@ -82,43 +83,38 @@ class ExportController extends AbstractController
             }
 
             try {
-                $xml_files = $this->sepaExporter->export(
-                    $payment_orders,
-                    [
-                        'iban' => $iban,
-                        'bic' => $bic,
-                        'name' => $name,
-                        'mode' => $data['mode'],
-                    ]
-                );
-
-                $response = null;
-
-                //Download as file
-                if (1 === count($xml_files)) {
-                    $xml_string = array_values($xml_files)[0];
-                    $filename = 'export_'.date('Y-m-d_H-i-s').'.xml';
-                    $response = $this->getDownloadResponse($xml_string, $filename);
-                } else {
-                    $data = [];
-                    foreach ($xml_files as $key => $content) {
-                        $data[$key.'.xml'] = $content;
-                    }
-
-                    //Dont return already here... We need to set the exported flags first
-                    $response = ZIPBinaryFileResponseFacade::createZIPResponseFromData(
-                        $data,
-                        'export_'.date('Y-m-d_H-i-s').'.zip'
-                    );
+                //Call function depending on the selected mode
+                switch($data['mode']) {
+                    case 'auto':
+                            $result = $this->sepaExporter->exportAuto($payment_orders);
+                        break;
+                    case 'auto_single':
+                            $result = $this->sepaExporter->exportAutoSingle($payment_orders);
+                        break;
+                    case 'manual':
+                            $result = new SEPAXMLExportResult(
+                                [
+                                    $this->sepaExporter->exportUsingGivenIBAN($payment_orders, $iban, $bic, $name)
+                                ]
+                            );
+                        break;
+                    default:
+                        throw new \RuntimeException('Unknown mode!');
                 }
 
-                //Set export flag
+                //Set exported flag for each payment order
                 foreach ($payment_orders as $paymentOrder) {
                     $paymentOrder->setExported(true);
                 }
+
+                //Persist the SEPA exports to database
+                $result->persistSEPAExports($this->entityManager);
+
                 $this->entityManager->flush();
 
-                return $response;
+                //Return the download
+                return $result->getDownloadResponse('export_'.date('Y-m-d_H-i-s'));
+
             } catch (SEPAExportAutoModeNotPossible $exception) {
                 //Show error if auto mode is not possible
                 $this->addFlash('danger',
@@ -131,17 +127,5 @@ class ExportController extends AbstractController
             'payment_orders' => $payment_orders,
             'form' => $form->createView(),
         ]);
-    }
-
-    protected function getDownloadResponse(string $content, string $filename, string $mime_type = 'application/xml'): Response
-    {
-        $response = new Response();
-        $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type', $mime_type);
-        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
-        $response->headers->set('Content-length', strlen($content));
-        $response->setContent($content);
-
-        return $response;
     }
 }

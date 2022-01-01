@@ -74,7 +74,7 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
     private $xml;
 
     /**
-     * @Vich\UploadableField(mapping="sepa_export_xml", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
+     * @Vich\UploadableField(mapping="sepa_export_xml", fileNameProperty="xml.name", size="xml.size", mimeType="xml.mimeType", originalName="xml.originalName", dimensions="xml.dimensions")
      *
      * @var \Symfony\Component\HttpFoundation\File\File|null
      * @Assert\NotBlank(groups={"frontend"})
@@ -100,7 +100,7 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
 
     /**
      * @var \DateTime|null The datetime when this SEPA export was booked (or marked as booked) in banking. Null if it was not booked yet.
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $booking_date = null;
 
@@ -357,7 +357,7 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
         file_put_contents($tmpfname, $xml_string);
 
         $export = new SEPAExport();
-        $export->setXmlFile(new UploadedFile($tmpfname, $original_filename, 'application/xml'));
+        $export->setXmlFile(new UploadedFile($tmpfname, $original_filename, 'application/xml', null, true));
 
         return $export;
     }

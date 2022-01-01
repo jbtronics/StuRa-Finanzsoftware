@@ -52,6 +52,10 @@ services:
     App\Services\Upload\PaymentOrderFileNamer:
         public: true
 
+    App\Services\Upload\SEPAExportFileNamer:
+        public: true
+
+
     App\EventSubscriber\SetEmailFromSubscriber:
         arguments:
             $email: '%app.mail.from_email%'
