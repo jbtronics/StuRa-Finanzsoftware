@@ -18,23 +18,126 @@
 
 namespace App\Tests\Services\SEPAExport;
 
+use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
 use App\Exception\SinglePaymentOrderExceedsLimit;
 use App\Services\SEPAExport\PaymentOrderSEPAExporter;
 use App\Services\SEPAExport\SEPAExportGroupAndSplitHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SEPAExportGroupAndSplitHelperTest extends WebTestCase
 {
+    use PaymentOrderSEPAExporterTestHelperTrait;
+
     /** @var SEPAExportGroupAndSplitHelper */
     private $service;
+
+    /** @var BankAccount */
+    private $fsr_kom_bank_account;
 
     protected function setUp(): void
     {
         self::bootKernel();
 
-        $this->service = self::$container->get(SEPAExportGroupAndSplitHelper::class);
+        $this->fsr_kom_bank_account = new BankAccount();
+
+        $this->fsr_kom_bank_account->setName('FSR Kom')
+            ->setIban('DE84 6605 0101 0000 1299 95')
+            ->setBic('KARSDE66XXX');
+
+        $this->service = new SEPAExportGroupAndSplitHelper(
+            10,
+            1000000,
+            null,
+            null,
+            $this->fsr_kom_bank_account
+        );
+    }
+
+    public function testGroupAndSplitPaymentOrdersForAutoExportSingleAccount(): void
+    {
+        [$bank_account1, $bank_account2] = $this->getTestBankAccounts();
+        [$department1, $department2, $department3] = $this->getTestDepartments();
+        [$p1, $p2, $p3] = $this->getTestPaymentOrders();
+
+        $department1->setBankAccount($bank_account1);
+        $department2->setBankAccount($bank_account1);
+
+        $p1->setDepartment($department1);
+        $p2->setDepartment($department2);
+        $p3->setDepartment($department1);
+
+        $return = $this->service->groupAndSplitPaymentOrdersForAutoExport([$p1, $p2, $p3]);
+
+        //We just have one bank account with the three elements
+        self::assertCount(1, $return);
+        self::assertEquals([[$p1, $p2, $p3]], $return[$bank_account1]);
+    }
+
+    public function testGroupAndSplitPaymentOrdersForAutoExportMultipleAccounts(): void
+    {
+        [$bank_account1, $bank_account2] = $this->getTestBankAccounts();
+        [$department1, $department2, $department3] = $this->getTestDepartments();
+        [$p1, $p2, $p3] = $this->getTestPaymentOrders();
+
+        $department1->setBankAccount($bank_account1);
+        $department2->setBankAccount($bank_account2);
+
+        $p1->setDepartment($department1);
+        $p2->setDepartment($department2);
+        $p3->setDepartment($department1)->setFsrKomResolution(true);
+
+        $return = $this->service->groupAndSplitPaymentOrdersForAutoExport([$p1, $p2, $p3]);
+
+        //We must have 3 bank accounts ($bank_account1, $bank_account2 and FSRKom Bank account)
+        self::assertCount(3, $return);
+        self::assertEquals([[$p1]], $return[$bank_account1]);
+        self::assertEquals([[$p2]], $return[$bank_account2]);
+        self::assertEquals([[$p3]], $return[$this->fsr_kom_bank_account]);
+    }
+
+    public function testGroupAndSplitPaymentOrdersForAutoExportSplitFiles(): void
+    {
+        [$bank_account1, $bank_account2] = $this->getTestBankAccounts();
+        [$department1, $department2, $department3] = $this->getTestDepartments();
+        [$p1, $p2, $p3] = $this->getTestPaymentOrders();
+
+        $department1->setBankAccount($bank_account1);
+        $department2->setBankAccount($bank_account1);
+
+        $p1->setDepartment($department1);
+        $p2->setDepartment($department2);
+        $p3->setDepartment($department1);
+
+        $service = new SEPAExportGroupAndSplitHelper(
+            2, //Just 2 transactions per file
+            1000000,
+            null,
+            null,
+            $this->fsr_kom_bank_account
+        );
+
+        $return = $service->groupAndSplitPaymentOrdersForAutoExport([$p1, $p2, $p3]);
+
+        //We just have one bank account with the three elements
+        self::assertCount(1, $return);
+        self::assertEquals([[$p1, $p2], [$p3]], $return[$bank_account1]);
+    }
+
+    public function testConstructorInvalidParamsException1(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $service = new SEPAExportGroupAndSplitHelper(10, 1000, null, null, null);
+    }
+
+    public function testConstructorInvalidParamsException2(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $service = new SEPAExportGroupAndSplitHelper(10, 1000, $em, null, null);
     }
 
     public function testSplitPaymentOrdersMaxNumber(): void

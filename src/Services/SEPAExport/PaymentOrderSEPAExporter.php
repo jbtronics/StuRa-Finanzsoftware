@@ -35,9 +35,13 @@ final class PaymentOrderSEPAExporter
     /** @var GroupHeaderHelper */
     private $group_header_helper;
 
+    /** @var SEPAExportGroupAndSplitHelper */
+    private $splitHelper;
+
     public function __construct(GroupHeaderHelper $group_header_helper, SEPAExportGroupAndSplitHelper $splitHelper)
     {
         $this->group_header_helper = $group_header_helper;
+        $this->splitHelper = $splitHelper;
     }
 
     /**
@@ -51,10 +55,73 @@ final class PaymentOrderSEPAExporter
     public function exportAuto(array $payment_orders): SEPAXMLExportResult
     {
         //First we have to group the payment orders according to their bank accounts
+        $results = $this->splitHelper->groupAndSplitPaymentOrdersForAutoExport($payment_orders);
 
+        $exports = [];
 
+        //Export each group on its own
+        foreach ($results as $bank_account)
+        {
+            /** @var BankAccount $bank_account */
+            /** @var PaymentOrder[][] $file */
+            $file = $results[$bank_account];
 
-        return new SEPAXMLExportResult();
+            $file_number = 1;
+            $max_number = count($file);
+
+            foreach ($file as $group) {
+                $tmp = $this->exportUsingGivenIBAN(
+                    $group,
+                    $bank_account->getIbanWithoutSpaces(),
+                    $bank_account->getBic(),
+                    $bank_account->getExportAccountName()
+                );
+
+                $description = $bank_account->getExportAccountName();
+                if ($max_number > 1)
+                {
+                    $description .= ' ' . $file_number . ' / ' . $max_number;
+                }
+                $tmp->setDescription($description);
+
+                $exports[] = $tmp;
+            }
+        }
+
+        return new SEPAXMLExportResult($exports);
+    }
+
+    /**
+     * Exports the given payment orders and automatically assign the used bank accounts.
+     * Each payment order is put into its own file.
+     * For this the bankaccount of the associated departments are used, and the FSR-Kom bank account if a payment is an
+     * FSR-Kom transaction.
+     * @param  PaymentOrder[]  $payment_orders The payment orders which should be exported
+     * @throws SEPAExportAutoModeNotPossible If an element has no assigned default bank account, then automatic mode is not possible
+     * @return SEPAXMLExportResult
+     */
+    public function exportAutoSingle(array $payment_orders): SEPAXMLExportResult
+    {
+        $exports = [];
+
+        //Export each group on its own
+        foreach ($payment_orders as $paymentOrder)
+        {
+            if ($paymentOrder->isFsrKomResolution()) {
+                $bank_account = $this->splitHelper->getFSRKomBankAccount();
+            } elseif ($paymentOrder->getDepartment() !== null && $paymentOrder->getDepartment()->getBankAccount() !== null) {
+                $bank_account = $paymentOrder->getDepartment()->getBankAccount();
+            } else {
+                throw new SEPAExportAutoModeNotPossible($paymentOrder->getDepartment());
+            }
+
+            $tmp = $this->exportUsingGivenIBAN([$paymentOrder], $bank_account->getIbanWithoutSpaces(), $bank_account->getBic(), $bank_account->getExportAccountName());
+            $tmp->setDescription($paymentOrder->getIDString());
+
+            $exports[] = $tmp;
+        }
+
+        return new SEPAXMLExportResult($exports);
     }
 
 

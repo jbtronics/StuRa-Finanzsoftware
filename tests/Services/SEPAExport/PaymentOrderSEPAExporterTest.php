@@ -17,7 +17,10 @@
  */
 
 namespace App\Tests\Services\SEPAExport;
+use App\Entity\BankAccount;
+use App\Services\SEPAExport\GroupHeaderHelper;
 use App\Services\SEPAExport\PaymentOrderSEPAExporter;
+use App\Services\SEPAExport\SEPAExportGroupAndSplitHelper;
 use DOMElement;
 use PHPUnit\Util\Xml\Loader as XmlLoader;
 
@@ -39,28 +42,25 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
     /** @var string */
     protected $app_version;
 
+    private $fsr_kom_bank_account;
+
     protected function setUp(): void
     {
         self::bootKernel();
-
-        $this->service = self::$container->get(PaymentOrderSEPAExporter::class);
         $this->app_version = self::$container->getParameter('app.version');
 
-        //$em = self::$container->get(EntityManagerInterface::class);
+        $this->fsr_kom_bank_account = new BankAccount();
+        $this->fsr_kom_bank_account->setName('FSR Kom')
+            ->setIban('DE84 6605 0101 0000 1299 95')
+            ->setBic('KARSDE66XXX');
 
-        //Create a exporter with a fake FSRKom bank account, so we dont need to rely on database
-        /*$this->service = new class(1, $em) extends PaymentOrdersSEPAExporter_old {
-            public function getFSRKomBankAccount(): BankAccount
-            {
-                $bank_account = new BankAccount();
 
-                $bank_account->setName('FSR Kom')
-                    ->setIban('DE84 6605 0101 0000 1299 95')
-                    ->setBic('KARSDE66XXX');
+        $splitHelper = new SEPAExportGroupAndSplitHelper(10, 1000000, null, null, $this->fsr_kom_bank_account);
 
-                return $bank_account;
-            }
-        };*/
+        $this->service = new PaymentOrderSEPAExporter(
+            $this->getContainer()->get(GroupHeaderHelper::class),
+            $splitHelper
+        );
 
         $this->data_dir = realpath(__DIR__.'/../../data/sepa-xml');
     }
@@ -96,6 +96,84 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         //32 chars hex string
         static::assertSame('NOT LOGGED IN via StuRa-Zahlungssystem v' . $this->app_version, $msg_id->nodeValue);
     }
+
+    public function testExportAutoSingle(): void
+    {
+        $payment_orders = $this->getTestPaymentOrders();
+
+        $result = $this->service->exportAutoSingle($payment_orders);
+
+        //Array must contain 3 entries / XML files (one for each payment order)
+        static::assertCount(3, $result);
+
+        $xml_array =  $result->getXMLString();
+        $filenames = array_keys($xml_array);
+        $xml = array_values($xml_array);
+
+        $this->assertSEPAXMLSchema($xml[0]);
+        $this->assertStringStartsWith('ZA0001_', $filenames[0]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001.xml', $xml[0]);
+
+        $this->assertSEPAXMLSchema($xml[1]);
+        $this->assertStringStartsWith('ZA0002_', $filenames[1]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml[1]);
+
+        $this->assertSEPAXMLSchema($xml[2]);
+        $this->assertStringStartsWith('ZA0003_', $filenames[2]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml[2]);
+
+    }
+
+    public function testExportAutoSingleFSRKom(): void
+    {
+        $payment_orders = $this->getTestPaymentOrders();
+        $payment_orders[0]->setFsrKomResolution(true);
+
+        $result = $this->service->exportAutoSingle($payment_orders);
+
+        //Array must contain 3 entries / XML files (one for each payment order)
+        static::assertCount(3, $result);
+
+        $xml_array =  $result->getXMLString();
+        $filenames = array_keys($xml_array);
+        $xml = array_values($xml_array);
+
+        $this->assertSEPAXMLSchema($xml[0]);
+        $this->assertStringStartsWith('ZA0001_', $filenames[0]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001_fsrkom.xml', $xml[0]);
+
+        $this->assertSEPAXMLSchema($xml[1]);
+        $this->assertStringStartsWith('ZA0002_', $filenames[1]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml[1]);
+
+        $this->assertSEPAXMLSchema($xml[2]);
+        $this->assertStringStartsWith('ZA0003_', $filenames[2]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml[2]);
+
+    }
+
+    public function testExportAuto(): void
+    {
+        $payment_orders = $this->getTestPaymentOrders();
+
+        $result = $this->service->exportAuto($payment_orders);
+
+        //Array must contain 3 entries / XML files (one for each payment order)
+        static::assertCount(2, $result);
+
+        $xml_array =  $result->getXMLString();
+        $filenames = array_keys($xml_array);
+        $xml = array_values($xml_array);
+
+        $this->assertSEPAXMLSchema($xml[0]);
+        $this->assertStringStartsWith('Max Mustermann_', $filenames[0]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_max_mustermann.xml', $xml[0]);
+
+        $this->assertSEPAXMLSchema($xml[1]);
+        $this->assertStringStartsWith('Bank Account 2_', $filenames[1]);
+        self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_bank_account_2.xml', $xml[1]);
+    }
+
 
     public function testExportUsingGivenIBANSEPAExport(): void
     {

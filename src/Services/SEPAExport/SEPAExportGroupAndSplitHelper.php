@@ -35,9 +35,16 @@ class SEPAExportGroupAndSplitHelper
     /** @var int The maximum sum of transactions which should be put in a single SEPA XML file. This value is in cents  */
     private $limit_max_amount;
 
-    public function __construct(int $fsr_kom_bank_account_id, EntityManagerInterface $em, int $limit_max_number_of_transactions, int $limit_max_amount)
+    public function __construct(int $limit_max_number_of_transactions, int $limit_max_amount, EntityManagerInterface $em = null, ?int $fsr_kom_bank_account_id = null, ?BankAccount $fsr_kom_bank_account = null)
     {
-        $this->fsr_kom_bank_account = $em->find(BankAccount::class, $fsr_kom_bank_account_id);
+        //We can either pass an Bank Account directly or get one from the database.
+        if ($fsr_kom_bank_account !== null) {
+            $this->fsr_kom_bank_account = $fsr_kom_bank_account;
+        } elseif ($em !== null && $fsr_kom_bank_account_id !== null) {
+            $this->fsr_kom_bank_account = $em->find(BankAccount::class, $fsr_kom_bank_account_id);
+        } else { //If we dont have any possibility to retrieve the FSRKom bank account, throw an exception
+            throw new \RuntimeException('You either has to pass an bank account entity directly via $fsr_kom_bank_account or pass an entity manager and id!');
+        }
 
         $this->limit_max_number_of_transactions = $limit_max_number_of_transactions;
         $this->limit_max_amount = $limit_max_amount;
@@ -76,17 +83,20 @@ class SEPAExportGroupAndSplitHelper
             }
 
             //If no array object is existing yet, create the array
-            if(!is_array($grouped[$bank_account])) {
+            if(!isset($grouped[$bank_account])) {
                 $grouped[$bank_account] = [];
             }
 
-            //Assign it to the grouped object
-            $grouped[$bank_account][] = $payment_order;
+            //Assign it to the grouped object (we have to do it this way otherwise, SplObjectStorage complains about indirect access)
+            $tmp = $grouped[$bank_account];
+            $tmp[] = $payment_order;
+            $grouped[$bank_account] = $tmp;
         }
 
         //Split the elements for each element
         $split = new \SplObjectStorage();
-        foreach ($grouped as $bank_account => $group) {
+        foreach ($grouped as $bank_account) {
+            $group = $grouped[$bank_account];
             $split[$bank_account] = $this->splitPaymentOrders($group);
         }
 
@@ -192,5 +202,14 @@ class SEPAExportGroupAndSplitHelper
         }
 
         return $payment_orders;
+    }
+
+    /**
+     * Returns the bank account configured for the FSR Kom
+     * @return BankAccount
+     */
+    public function getFSRKomBankAccount(): BankAccount
+    {
+        return $this->fsr_kom_bank_account;
     }
 }

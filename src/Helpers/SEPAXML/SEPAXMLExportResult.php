@@ -144,6 +144,6 @@ final class SEPAXMLExportResult implements \Countable
 
     private function generateFilename(SEPAExport $export): string
     {
-        return $export->getDescription() . '_' . $export->getCreationDate()->format('Y-M-D-His') . '.xml';
+        return $export->getDescription() . '_' . $export->getCreationDate()->format('Y-m-d-His') . '.xml';
     }
 }
