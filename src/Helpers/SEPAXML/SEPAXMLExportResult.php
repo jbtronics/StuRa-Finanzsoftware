@@ -23,11 +23,15 @@ use App\Helpers\ZIPBinaryFileResponseFacade;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Uid\Ulid;
 
 final class SEPAXMLExportResult implements \Countable
 {
     /** @var SEPAExport[] */
     private $sepa_exports;
+
+    /** @var Ulid */
+    private $group_ulid;
 
     /**
      * @param  SEPAExport[]  $sepa_exports
@@ -49,6 +53,17 @@ final class SEPAXMLExportResult implements \Countable
         }
 
         $this->sepa_exports = $sepa_exports;
+        $this->group_ulid = Ulid::generate();
+
+        //Apply group ulid to all SEPA exports
+        foreach ($this->sepa_exports as $export) {
+            $export->setGroupUlid($this->group_ulid);
+        }
+    }
+
+    public function getGroupUlid(): Ulid
+    {
+        return $this->group_ulid;
     }
 
     /**

@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -120,6 +121,13 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
      * @ORM\Column(type="text")
      */
     private $initiator_iban = null;
+
+    /**
+     * The export group this SEPA export belongs to. Null if it belongs to no export group.
+     * @ORM\Column(type="ulid", nullable=true)
+     * @var null|Ulid
+     */
+    private $group_ulid = null;
 
     public function __construct()
     {
@@ -353,5 +361,27 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
 
         return $export;
     }
+
+    /**
+     * Returns the ulid of the export group this export belongs to. Null if this export belongs to no export group.
+     * @return Ulid|null
+     */
+    public function getGroupUlid(): ?Ulid
+    {
+        return $this->group_ulid;
+    }
+
+    /**
+     * Sets the ulid of the export group this export belongs to. Set to null if this export belongs to no export group.
+     * @param  Ulid|null  $group_ulid
+     * @return SEPAExport
+     */
+    public function setGroupUlid(?Ulid $group_ulid): SEPAExport
+    {
+        $this->group_ulid = $group_ulid;
+        return $this;
+    }
+
+
 
 }
