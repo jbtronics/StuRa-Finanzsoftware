@@ -53,7 +53,7 @@ final class SEPAXMLExportResult implements \Countable
         }
 
         $this->sepa_exports = $sepa_exports;
-        $this->group_ulid = Ulid::generate();
+        $this->group_ulid = new Ulid();
 
         //Apply group ulid to all SEPA exports
         foreach ($this->sepa_exports as $export) {
