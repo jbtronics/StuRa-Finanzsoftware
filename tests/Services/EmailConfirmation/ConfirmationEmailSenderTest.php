@@ -37,7 +37,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(ConfirmationEmailSender::class);
+        $this->service = self::getContainer()->get(ConfirmationEmailSender::class);
     }
 
     public function testSendConfirmation1SendEmail(): void

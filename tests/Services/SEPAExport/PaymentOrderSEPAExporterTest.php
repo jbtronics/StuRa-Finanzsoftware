@@ -47,7 +47,7 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->app_version = self::$container->getParameter('app.version');
+        $this->app_version = self::getContainer()->getParameter('app.version');
 
         $this->fsr_kom_bank_account = new BankAccount();
         $this->fsr_kom_bank_account->setName('FSR Kom')

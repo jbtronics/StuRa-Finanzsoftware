@@ -34,7 +34,7 @@ class ExportControllerTest extends WebTestCase
         $client->catchExceptions(false);
 
         /** @var AdminUrlGenerator $adminURL */
-        $adminURLGenerator = self::$container->get(AdminUrlGenerator::class);
+        $adminURLGenerator = self::getContainer()->get(AdminUrlGenerator::class);
         $url = $adminURLGenerator->setRoute('payment_order_export')
             ->set('ids', '1,3')
             ->generateUrl();
@@ -51,7 +51,7 @@ class ExportControllerTest extends WebTestCase
         self::assertResponseHeaderSame('content-type', 'application/zip');
 
         //Assume that the payment orders got the exported flag set
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $payment_order1 */
         $payment_order1 = $repo->find(1);
         self::assertTrue($payment_order1->isExported());
@@ -69,7 +69,7 @@ class ExportControllerTest extends WebTestCase
         $client->catchExceptions(false);
 
         /** @var AdminUrlGenerator $adminURL */
-        $adminURLGenerator = self::$container->get(AdminUrlGenerator::class);
+        $adminURLGenerator = self::getContainer()->get(AdminUrlGenerator::class);
         $url = $adminURLGenerator->setRoute('payment_order_export')
             ->set('ids', '1')
             ->generateUrl();
@@ -86,7 +86,7 @@ class ExportControllerTest extends WebTestCase
         self::assertResponseHeaderSame('content-type', 'application/xml');
 
         //Assume that the payment orders got the exported flag set
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $payment_order1 */
         $payment_order1 = $repo->find(1);
         self::assertTrue($payment_order1->isExported());

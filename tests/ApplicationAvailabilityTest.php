@@ -86,7 +86,7 @@ class ApplicationAvailabilityTest extends WebTestCase
         //We need access to AdminUrlGenerator, so we have to boot kernel... This is a bit hacky...
         self::bootKernel();
         /** @var AdminUrlGenerator $adminURL */
-        $adminURL = self::$container->get(AdminUrlGenerator::class);
+        $adminURL = self::getContainer()->get(AdminUrlGenerator::class);
 
         yield ['/admin'];
         yield ['/admin/audit'];

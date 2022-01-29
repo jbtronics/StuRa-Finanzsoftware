@@ -34,7 +34,7 @@ class PaymentReferenceGeneratorTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(PaymentReferenceGenerator::class);
+        $this->service = self::getContainer()->get(PaymentReferenceGenerator::class);
     }
 
     public function testSetPaymentReference(): void

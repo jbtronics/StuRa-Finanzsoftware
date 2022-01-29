@@ -56,7 +56,7 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertEmailCount(3);
 
         //Check if an element was created
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $new_payment_order */
         $new_payment_order = $repo->findOneBy([
             'project_name' => 'Form Test',
@@ -274,7 +274,7 @@ class PaymentOrderControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
 
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
         $payment_order = $repo->find(1);
 
@@ -300,7 +300,7 @@ class PaymentOrderControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
 
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
         $payment_order = $repo->find(1);
 
@@ -313,7 +313,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $client = self::createClient();
         $client->catchExceptions(false);
 
-        $repo = self::$container->get(PaymentOrderRepository::class);
+        $repo = self::getContainer()->get(PaymentOrderRepository::class);
         /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
         $payment_order = $repo->find(1);
 

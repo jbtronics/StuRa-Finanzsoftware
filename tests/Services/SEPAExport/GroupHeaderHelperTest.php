@@ -33,7 +33,7 @@ final class GroupHeaderHelperTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(GroupHeaderHelper::class);
+        $this->service = self::getContainer()->get(GroupHeaderHelper::class);
     }
 
     public function testGetMessageID()
