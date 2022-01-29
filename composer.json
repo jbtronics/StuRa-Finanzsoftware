@@ -10,7 +10,7 @@
         "ext-simplexml": "*",
         "ext-zip": "*",
         "components/jquery": "^3.5",
-        "composer/package-versions-deprecated": "1.11.99.4",
+        "composer/package-versions-deprecated": "^1.11.99.4",
         "damienharper/auditor-bundle": "^4.0",
         "digitick/sepa-xml": "^2.0.0",
         "doctrine/annotations": "^1.0",
@@ -92,7 +92,7 @@
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/stopwatch": "^5.2",
         "symfony/web-profiler-bundle": "^5.2",
-        "symplify/easy-coding-standard": "^9.1"
+        "symplify/easy-coding-standard": "^10.0"
     },
     "suggest": {
         "ext-posix": "Used to determine the CLI username."
