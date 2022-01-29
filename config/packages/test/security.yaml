@@ -2,7 +2,7 @@
 security:
 
   # Disable password hashing during testing. This speeds up tests a lot
-  encoders:
+  password_hashers:
     App\Entity\UserSystem\User:
       algorithm: plaintext
 
