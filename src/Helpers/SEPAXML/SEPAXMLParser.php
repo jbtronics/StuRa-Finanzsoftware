@@ -44,7 +44,7 @@ class SEPAXMLParser
 
     /**
      * Parse various infos needed for SEPA Export from the given file and return info as array
-     * @param  string  $xml
+     * @param  \SplFileInfo $file
      * @return array
      */
     public static function parseFromFile(\SplFileInfo $file): array

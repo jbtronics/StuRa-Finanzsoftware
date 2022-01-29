@@ -19,15 +19,20 @@
 namespace App\Services\Upload;
 
 use App\Entity\PaymentOrder;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Mapping\PropertyMappingFactory;
+use Vich\UploaderBundle\Storage\AbstractStorage;
 use Vich\UploaderBundle\Storage\FileSystemStorage;
 
 /**
  * We need to extend the original filesystemstorage as we have stored our payment_order files privately and want to use
  * the normal interface to access them via URI...
+ * Based on Vich FileSystemStorage class
  */
-class ExtendedFileSystemStorage extends FileSystemStorage
+class ExtendedFileSystemStorage extends AbstractStorage
 {
     private $router;
 
@@ -39,7 +44,17 @@ class ExtendedFileSystemStorage extends FileSystemStorage
 
     public function resolveUri($obj, ?string $fieldName = null, ?string $className = null): ?string
     {
-        $tmp = parent::resolveUri($obj, $fieldName, $className);
+
+        [$mapping, $name] = $this->getFilename($obj, $fieldName, $className);
+
+        if (empty($name)) {
+            return null;
+        }
+
+        $uploadDir = $this->convertWindowsDirectorySeparator($mapping->getUploadDir($obj));
+        $uploadDir = empty($uploadDir) ? '' : $uploadDir.'/';
+
+        $tmp = \sprintf('%s/%s', $mapping->getUriPrefix(), $uploadDir.$name);
 
         if (null !== $tmp && $obj instanceof PaymentOrder) {
             if ('printed_form' === $fieldName || 'printed_form_file' === $fieldName) {
@@ -56,5 +71,35 @@ class ExtendedFileSystemStorage extends FileSystemStorage
         }
 
         return $tmp;
+    }
+
+    protected function doUpload(PropertyMapping $mapping, UploadedFile $file, ?string $dir, string $name): ?File
+    {
+        $uploadDir = $mapping->getUploadDestination().\DIRECTORY_SEPARATOR.$dir;
+
+        return $file->move($uploadDir, $name);
+    }
+
+    protected function doRemove(PropertyMapping $mapping, ?string $dir, string $name): ?bool
+    {
+        $file = $this->doResolvePath($mapping, $dir, $name);
+
+        return \file_exists($file) && \unlink($file);
+    }
+
+    protected function doResolvePath(PropertyMapping $mapping, ?string $dir, string $name, ?bool $relative = false): string
+    {
+        $path = !empty($dir) ? $dir.\DIRECTORY_SEPARATOR.$name : $name;
+
+        if ($relative) {
+            return $path;
+        }
+
+        return $mapping->getUploadDestination().\DIRECTORY_SEPARATOR.$path;
+    }
+
+    private function convertWindowsDirectorySeparator(string $string): string
+    {
+        return \str_replace('\\', '/', $string);
     }
 }

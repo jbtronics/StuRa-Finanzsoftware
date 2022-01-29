@@ -122,11 +122,11 @@ class SEPAExportGroupAndSplitHelper
         }
 
         //First we split according to number of transactions
-        /** @var PaymentOrder[][] $output */
         $tmp = array_chunk($input, $limit_max_transactions);
 
         //Limit the sum amount of each group
         $groups_exceeding_limit = $tmp;
+        /** @var PaymentOrder[][] $output */
         $output = [];
         while(!empty($groups_exceeding_limit)) {
             foreach ($groups_exceeding_limit as $key => $group) {
