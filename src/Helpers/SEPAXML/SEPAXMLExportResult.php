@@ -137,9 +137,11 @@ final class SEPAXMLExportResult implements \Countable
         if ($force_zip === false && $this->count() === 1) {
             $response = new BinaryFileResponse($this->sepa_exports[0]->getXmlFile());
             $response->setPrivate();
+            $response->headers->set('Content-Type', 'application/xml');
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $disposition_filename . '.xml');
         } else { //Otherwise we download the file as ZIP
             $response = ZIPBinaryFileResponseFacade::createZIPResponseFromFiles($this->getXMLFiles(), $disposition_filename . '.zip');
+            $response->headers->set('Content-Type', 'application/zip');
         }
 
         return $response;
