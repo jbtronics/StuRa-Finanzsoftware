@@ -10,3 +10,7 @@ twig:
     paths:
         # point this wherever your css files live
         '%kernel.project_dir%/assets/css': css
+
+when@test:
+    twig:
+        strict_variables: true
