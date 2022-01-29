@@ -281,9 +281,9 @@ class SEPAExportGroupAndSplitHelperTest extends WebTestCase
 
         self::assertEquals([
             [$payment_order1],
-            [$payment_order2],
-            [$payment_order4],
             [$payment_order3],
+            [$payment_order4],
+            [$payment_order2],
         ], $this->service->splitPaymentOrders([$payment_order1, $payment_order2, $payment_order3, $payment_order4], 15, 15));
     }
 

@@ -194,7 +194,11 @@ class SEPAExportGroupAndSplitHelper
     public function sortPaymentOrderArrayByAmount(array $payment_orders, bool $ascending = true): array
     {
         usort($payment_orders, function (PaymentOrder $a, PaymentOrder $b) {
-           return $a->getAmount() <=> $b->getAmount();
+            //When amounts are the same, use the ID to get a consistent sorting
+            if ($a->getAmount() === $b->getAmount()) {
+                return $a->getId() <=> $b->getAmount();
+            }
+            return $a->getAmount() <=> $b->getAmount();
         });
 
         if (!$ascending) {
