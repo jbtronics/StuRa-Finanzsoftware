@@ -19,6 +19,11 @@ dh_auditor:
                     roles:
                         view:
                             - 'ROLE_READ_BANK_ACCOUNTS'
+
+                App\Entity\SEPAExport:
+                    roles:
+                        view:
+                            - 'ROLE_SHOW_SEPA_EXPORTS'
                 App\Entity\Department:
                     roles:
                         view:
