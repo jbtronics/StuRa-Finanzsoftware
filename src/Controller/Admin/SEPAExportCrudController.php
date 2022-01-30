@@ -98,7 +98,7 @@ class SEPAExportCrudController extends AbstractCrudController
         $last_modified = DateTimeField::new('last_modified', 'last_modified');
         $creationDate = DateTimeField::new('creation_date', 'creation_date')->onlyOnDetail();
         $associated_payment_orders = AssociationField::new('associated_payment_orders')
-            ->setTemplatePath('admin/field/sepa_export_association.html.twig')
+            ->setTemplatePath('admin/field/payment_orders_association.html.twig')
             ->setCrudController(PaymentOrderCrudController::class);
 
 

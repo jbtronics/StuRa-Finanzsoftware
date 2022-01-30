@@ -62,7 +62,7 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
 
     /**
      * @var Collection|PaymentOrder[]
-     * @ORM\ManyToMany(targetEntity="App\Entity\PaymentOrder")
+     * @ORM\ManyToMany(targetEntity="App\Entity\PaymentOrder", inversedBy="associated_sepa_exports")
      */
     private $associated_payment_orders;
 

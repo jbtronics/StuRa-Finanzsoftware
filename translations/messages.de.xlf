@@ -2525,5 +2525,17 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target>Wenn Exporte gleichzeitig erzeugt wurden, erhalten die Exporte die gleiche Gruppen-ID. Mit Klick auf die ID, ist es möglich die Exporte zu identifizieren, die in einem Rutsch erzeugt wurden.</target>
       </segment>
     </unit>
+    <unit id="pEwVGhu" name="payment_order.associated_sepa_exports.label">
+      <segment>
+        <source>payment_order.associated_sepa_exports.label</source>
+        <target>Bankexporte</target>
+      </segment>
+    </unit>
+    <unit id="ZjYoIys" name="sepa_export.not_booked_yet">
+      <segment>
+        <source>sepa_export.not_booked_yet</source>
+        <target>Nicht gebucht</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

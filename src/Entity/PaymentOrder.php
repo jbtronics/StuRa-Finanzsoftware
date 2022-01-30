@@ -24,6 +24,8 @@ use App\Entity\Embeddable\PayeeInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
@@ -226,6 +228,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private $references_file;
 
     /**
+     * @var Collection|SEPAExport[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\SEPAExport", mappedBy="associated_payment_orders")
+     */
+    private $associated_sepa_exports;
+
+    /**
      * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
      *
      * @var File
@@ -235,6 +243,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     public function __construct()
     {
         $this->bank_info = new PayeeInfo();
+
+        $this->associated_sepa_exports = new ArrayCollection();
 
         $this->references = new File();
         $this->printed_form = new File();
@@ -778,6 +788,16 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
         return $this;
     }
+
+    /**
+     * @return SEPAExport[]|Collection
+     */
+    public function getAssociatedSepaExports()
+    {
+        return $this->associated_sepa_exports;
+    }
+
+
 
     public function serialize()
     {

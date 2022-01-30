@@ -466,6 +466,8 @@ class PaymentOrderCrudController extends AbstractCrudController
         $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
         $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
         $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
+        $associated_sepa_exports = AssociationField::new('associated_sepa_exports', 'payment_order.associated_sepa_exports.label')
+            ->setTemplatePath('admin/field/sepa_exports_association.html.twig');
 
         //Payee informations
         $payeePanel = FormField::addPanel('payment_order.group.receiver')->collapsible();
@@ -518,6 +520,7 @@ class PaymentOrderCrudController extends AbstractCrudController
                 $booking_date,
                 $confirmed_1,
                 $confirmed_2,
+                $associated_sepa_exports,
                 //Payee informations
                 $payeePanel,
                 $bankInfoAccountOwner,

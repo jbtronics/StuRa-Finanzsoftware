@@ -1,0 +1,48 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% import "helpers.html.twig" as helper %}
+
+<table class="table table-sm table-striped table-hover">
+    <caption class="caption-top">{{ field.value.count() }} {% trans %}sepa_export.labelp{% endtrans %}</caption>
+    <thead>
+    <tr>
+        <th>{% trans %}sepa_export.id{% endtrans %}</th>
+        <th>{% trans %}sepa_export.number_of_payments{% endtrans %}</th>
+        <th>{% trans %}sepa_export.total_sum{% endtrans %}</th>
+        <th>{% trans %}sepa_export.description{% endtrans %}</th>
+        <th>{% trans %}creation_date{% endtrans %}</th>
+        <th>{% trans %}sepa_export.booking_date{% endtrans %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for export in field.value %}
+        {# @var export \App\Entity\SEPAExport #}
+        <tr>
+            <td>
+                <a target="_blank" href="{{ ea_url().setController('App\\Controller\\Admin\\SEPAExportCrudController').setAction('detail').setEntityId(export.id) }}">#{{ export.id }}</a>
+            </td>
+            <td>
+                {{ export.numberOfPayments() }}
+            </td>
+            <td>
+                {{ (export.totalSum / 100)|format_currency('EUR') }}
+            </td>
+            <td>
+                {{ export.description }}
+            </td>
+            <td>
+                {{ export.creationDate | format_datetime }}
+            </td>
+            <td>
+                {% if export.bookingDate is null %}
+                    <span class="badge badge-secondary">{% trans %}sepa_export.not_booked_yet{% endtrans %}</span>
+                {% else %}
+                    {{ export.bookingDate | format_datetime }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
