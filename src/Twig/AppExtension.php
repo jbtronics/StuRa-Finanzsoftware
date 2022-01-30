@@ -37,6 +37,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('formatBytes', [$this, 'formatBytes']),
             new TwigFilter('format_datetime_diff', [$this, 'formatDatetimeDiff']),
+            new TwigFilter('flip', 'array_flip')
         ];
     }
 

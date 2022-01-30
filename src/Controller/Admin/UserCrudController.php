@@ -37,6 +37,22 @@ class UserCrudController extends AbstractCrudController
 {
     private $encoder;
 
+    public const USER_ROLE_CHOICES = [
+        'user.role.access_admin' => 'ROLE_ADMIN',
+        'user.role.edit_user' => 'ROLE_EDIT_USER',
+        'user.role.edit_organisations' => 'ROLE_EDIT_ORGANISATIONS',
+        'user.role.show_payment_orders' => 'ROLE_SHOW_PAYMENT_ORDERS',
+        'user.role.edit_payment_orders' => 'ROLE_EDIT_PAYMENT_ORDERS',
+        'user.role.edit_po_factually' => 'ROLE_PO_FACTUALLY',
+        'user.role.edit_po_mathematically' => 'ROLE_PO_MATHEMATICALLY',
+        'user.role.edit_bank_accounts' => 'ROLE_EDIT_BANK_ACCOUNTS',
+        'user.role.view_audit_logs' => 'ROLE_VIEW_AUDITS',
+        'user.role.export_references' => 'ROLE_EXPORT_REFERENCES',
+        'user.role.manual_confirmation' => 'ROLE_MANUAL_CONFIRMATION',
+        'user.role.show_sepa_exports' => 'ROLE_SHOW_SEPA_EXPORTS',
+        'user.role.book_sepa_exports' => 'ROLE_BOOK_SEPA_EXPORTS',
+    ];
+
     public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
@@ -71,26 +87,6 @@ class UserCrudController extends AbstractCrudController
             ->setSearchFields(['id', 'username', 'role_description', 'email', 'roles', 'first_name', 'last_name']);
     }
 
-    private function getRoleChoices(): array
-    {
-        //If something changes here, change it in templates/user/_user_info.html.twig too
-        return [
-            'user.role.access_admin' => 'ROLE_ADMIN',
-            'user.role.edit_user' => 'ROLE_EDIT_USER',
-            'user.role.edit_organisations' => 'ROLE_EDIT_ORGANISATIONS',
-            'user.role.show_payment_orders' => 'ROLE_SHOW_PAYMENT_ORDERS',
-            'user.role.edit_payment_orders' => 'ROLE_EDIT_PAYMENT_ORDERS',
-            'user.role.edit_po_factually' => 'ROLE_PO_FACTUALLY',
-            'user.role.edit_po_mathematically' => 'ROLE_PO_MATHEMATICALLY',
-            'user.role.edit_bank_accounts' => 'ROLE_EDIT_BANK_ACCOUNTS',
-            'user.role.view_audit_logs' => 'ROLE_VIEW_AUDITS',
-            'user.role.export_references' => 'ROLE_EXPORT_REFERENCES',
-            'user.role.manual_confirmation' => 'ROLE_MANUAL_CONFIRMATION',
-            'user.role.show_sepa_exports' => 'ROLE_SHOW_SEPA_EXPORTS',
-            'user.role.book_sepa_exports' => 'ROLE_BOOK_SEPA_EXPORTS',
-        ];
-    }
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -116,7 +112,7 @@ class UserCrudController extends AbstractCrudController
                 ->setFormTypeOption('empty_data', ''),
             ChoiceField::new('roles', 'user.roles.label')
                 ->allowMultipleChoices()
-                ->setChoices($this->getRoleChoices())
+                ->setChoices(self::USER_ROLE_CHOICES)
                 ->renderExpanded()
                 ->renderAsNativeWidget()
                 ->hideOnIndex(),

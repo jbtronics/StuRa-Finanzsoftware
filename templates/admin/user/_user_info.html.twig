@@ -1,19 +1,11 @@
 {# @var user \App\Entity\User #}
 
-{% set role_mapping = {
+{% set role_mapping = constant('App\\Controller\\Admin\\UserCrudController::USER_ROLE_CHOICES') | flip %}
+
+{# Here we can define additional roles, that somehow should not be selectable in the role selector on User CRUD page. #}
+{% set role_mapping = role_mapping|merge({
     "ROLE_USER": "user.role.user",
-    "ROLE_ADMIN": "user.role.access_admin",
-    "ROLE_EDIT_USER": "user.role.edit_user",
-    "ROLE_EDIT_ORGANISATIONS": "user.role.edit_organisations",
-    "ROLE_SHOW_PAYMENT_ORDERS": "user.role.show_payment_orders",
-    "ROLE_EDIT_PAYMENT_ORDERS": "user.role.edit_payment_orders",
-    "ROLE_PO_FACTUALLY": "user.role.edit_po_factually",
-    "ROLE_PO_MATHEMATICALLY": "user.role.edit_po_mathematically",
-    "ROLE_EDIT_BANK_ACCOUNTS": "user.role.edit_bank_accounts",
-    "ROLE_VIEW_AUDITS": "user.role.view_audit_logs",
-    "ROLE_EXPORT_REFERENCES": "user.role.export_references",
-    "ROLE_MANUAL_CONFIRMATION": "user.role.manual_confirmation",
-} %}
+}) %}
 
 <div class="row">
     <div class="col-sm-6">
