@@ -372,6 +372,18 @@ class SEPAExport implements DBElementInterface, TimestampedElementInterface
     }
 
     /**
+     * @param  PaymentOrder[]|Collection  $associated_payment_orders
+     * @return SEPAExport
+     */
+    public function setAssociatedPaymentOrders($associated_payment_orders)
+    {
+        $this->associated_payment_orders = $associated_payment_orders;
+        return $this;
+    }
+
+
+
+    /**
      * Sets the ulid of the export group this export belongs to. Set to null if this export belongs to no export group.
      * @param  Ulid|null  $group_ulid
      * @return SEPAExport

@@ -2363,5 +2363,101 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target>Gelöscht durch</target>
       </segment>
     </unit>
+    <unit id="OY7mhwi" name="sepa_export.label">
+      <segment>
+        <source>sepa_export.label</source>
+        <target>Bankexport</target>
+      </segment>
+    </unit>
+    <unit id="YuCKFsJ" name="sepa_export.labelp">
+      <segment>
+        <source>sepa_export.labelp</source>
+        <target>Bankexporte</target>
+      </segment>
+    </unit>
+    <unit id="DUmOj6J" name="sepa_export.id">
+      <segment>
+        <source>sepa_export.id</source>
+        <target>ID</target>
+      </segment>
+    </unit>
+    <unit id="SFdD2oX" name="sepa_export.xml_file">
+      <segment>
+        <source>sepa_export.xml_file</source>
+        <target>SEPA-XML Datei</target>
+      </segment>
+    </unit>
+    <unit id="49rv01j" name="sepa_export.number_of_payments">
+      <segment>
+        <source>sepa_export.number_of_payments</source>
+        <target>Anzahl Zahlungen</target>
+      </segment>
+    </unit>
+    <unit id="tqAaSp8" name="sepa_export.initiator_bic">
+      <segment>
+        <source>sepa_export.initiator_bic</source>
+        <target>von BIC</target>
+      </segment>
+    </unit>
+    <unit id="4YYgvUJ" name="sepa_export.initiator_iban">
+      <segment>
+        <source>sepa_export.initiator_iban</source>
+        <target>von IBAN</target>
+      </segment>
+    </unit>
+    <unit id="RUC5NoM" name="sepa_export.total_sum">
+      <segment>
+        <source>sepa_export.total_sum</source>
+        <target>Gesamtsumme</target>
+      </segment>
+    </unit>
+    <unit id="AMoXU.q" name="sepa_export.message_id">
+      <segment>
+        <source>sepa_export.message_id</source>
+        <target>SEPA Message ID</target>
+      </segment>
+    </unit>
+    <unit id="soH2FE7" name="sepa_export.description">
+      <segment>
+        <source>sepa_export.description</source>
+        <target>Beschreibung</target>
+      </segment>
+    </unit>
+    <unit id="VviPYgx" name="sepa_export.comment">
+      <segment>
+        <source>sepa_export.comment</source>
+        <target>Kommentar</target>
+      </segment>
+    </unit>
+    <unit id="hYE7agz" name="sepa_export.group_ulid">
+      <segment>
+        <source>sepa_export.group_ulid</source>
+        <target>Exportgruppen ID</target>
+      </segment>
+    </unit>
+    <unit id="OYdYs0A" name="sepa_export.infos">
+      <segment>
+        <source>sepa_export.infos</source>
+        <target>Infos</target>
+      </segment>
+    </unit>
+    <unit id="bfaC_6." name="sepa_export.advanced">
+      <segment>
+        <source>sepa_export.advanced</source>
+        <target>Erweitert</target>
+      </segment>
+    </unit>
+    <unit id="3OAIGjC" name="sepa_export.booking_date">
+      <segment>
+        <source>sepa_export.booking_date</source>
+        <target>Überweisungsdatum</target>
+      </segment>
+    </unit>
+    <unit id=".119LFj" name="Associated Payment Orders">
+      <segment>
+        <source>Associated Payment Orders</source>
+        <target>Enthaltene Zahlungsaufträge</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

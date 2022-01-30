@@ -21,11 +21,13 @@ namespace App\Helpers\SEPAXML;
 use App\Entity\SEPAExport;
 use App\Helpers\ZIPBinaryFileResponseFacade;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
+use JetBrains\PhpStorm\Internal\TentativeType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Uid\Ulid;
 
-final class SEPAXMLExportResult implements \Countable
+final class SEPAXMLExportResult implements \Countable, \ArrayAccess
 {
     /** @var SEPAExport[] */
     private $sepa_exports;
@@ -162,5 +164,25 @@ final class SEPAXMLExportResult implements \Countable
     private function generateFilename(SEPAExport $export): string
     {
         return $export->getDescription() . '_' . $export->getCreationDate()->format('Y-m-d-His') . '.xml';
+    }
+
+    public function offsetExists($offset): bool
+    {
+        return isset($this->sepa_exports[$offset]);
+    }
+
+    public function offsetGet($offset): SEPAExport
+    {
+        return $this->sepa_exports[$offset];
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        throw new \LogicException('Write access is not allowed!');
+    }
+
+    public function offsetUnset($offset)
+    {
+        throw new \LogicException('Write access is not allowed!');
     }
 }

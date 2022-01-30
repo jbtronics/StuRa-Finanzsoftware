@@ -1,0 +1,7 @@
+{% macro bool_badge(value) %}
+    {% if value == true %}
+        <span class="badge badge-success"><i class="fas fa-check"></i> {% trans %}Yes{% endtrans %}</span>
+    {% elseif value == false %}
+        <span class="badge badge-danger"><i class="fas fa-times"></i> {% trans %}No{% endtrans %}</span>
+    {% endif %}
+{% endmacro %}

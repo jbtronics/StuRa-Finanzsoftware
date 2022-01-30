@@ -110,14 +110,20 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         $filenames = array_keys($xml_array);
         $xml = array_values($xml_array);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[0]], $result[0]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[0]);
         $this->assertStringStartsWith('ZA0001_', $filenames[0]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001.xml', $xml[0]);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[1]], $result[1]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[1]);
         $this->assertStringStartsWith('ZA0002_', $filenames[1]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml[1]);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[2]], $result[2]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[2]);
         $this->assertStringStartsWith('ZA0003_', $filenames[2]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml[2]);
@@ -138,14 +144,20 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         $filenames = array_keys($xml_array);
         $xml = array_values($xml_array);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[0]], $result[0]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[0]);
         $this->assertStringStartsWith('ZA0001_', $filenames[0]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0001_fsrkom.xml', $xml[0]);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[1]], $result[1]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[1]);
         $this->assertStringStartsWith('ZA0002_', $filenames[1]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0002.xml', $xml[1]);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[2]], $result[2]->getAssociatedPaymentOrders()->toArray());
         $this->assertSEPAXMLSchema($xml[2]);
         $this->assertStringStartsWith('ZA0003_', $filenames[2]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_single_ZA0003.xml', $xml[2]);
@@ -165,9 +177,15 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         $filenames = array_keys($xml_array);
         $xml = array_values($xml_array);
 
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[0], $payment_orders[2]], $result[0]->getAssociatedPaymentOrders()->toArray());
+
         $this->assertSEPAXMLSchema($xml[0]);
         $this->assertStringStartsWith('Max Mustermann_', $filenames[0]);
         self::assertSEPAXMLStringEqualsXMLFile($this->data_dir.'/export_auto_max_mustermann.xml', $xml[0]);
+
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_orders[1]], $result[1]->getAssociatedPaymentOrders()->toArray());
 
         $this->assertSEPAXMLSchema($xml[1]);
         $this->assertStringStartsWith('Bank Account 2_', $filenames[1]);
@@ -187,6 +205,10 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         ];
 
         $sepa_export = $this->service->exportUsingGivenIBAN([$payment_order], $options['iban'], $options['bic'], $options['name']);
+
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_order], $sepa_export->getAssociatedPaymentOrders()->toArray());
+
 
         //Check that the file exists
         static::assertFileExists($sepa_export->getXmlFile()->getPathname());
@@ -213,6 +235,8 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
         ];
 
         $sepa_export = $this->service->exportUsingGivenIBAN([$payment_order], $options['iban'], $options['bic'], $options['name']);
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_order], $sepa_export->getAssociatedPaymentOrders()->toArray());
         $xml = $sepa_export->getXMLContent();
 
         $this->assertSEPAXMLSchema($xml);
@@ -241,6 +265,10 @@ class PaymentOrderSEPAExporterTest extends WebTestCase
             $options['bic'],
             $options['name']
         );
+
+        //Ensure associated Payment Order was set
+        $this->assertEquals([$payment_order1, $payment_order2, $payment_order3], $sepa_export->getAssociatedPaymentOrders()->toArray());
+
         $xml = $sepa_export->getXMLContent();
 
         $this->assertSEPAXMLSchema($xml);

@@ -22,6 +22,7 @@ use App\Entity\BankAccount;
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
+use App\Entity\SEPAExport;
 use App\Entity\User;
 use App\Services\GitVersionInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -234,6 +235,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('payment_order.labelp', 'fas fa-file-invoice-dollar')
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
             ->setSubItems($items);
+
+        yield MenuItem::linkToCrud('sepa_export.labelp', 'fas fa-money-check-alt', SEPAExport::class);
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
             ->setPermission('ROLE_READ_ORGANISATIONS');

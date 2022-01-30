@@ -28,6 +28,7 @@ use Digitick\Sepa\DomBuilder\DomBuilderFactory;
 use Digitick\Sepa\PaymentInformation;
 use Digitick\Sepa\TransferFile\CustomerCreditTransferFile;
 use Digitick\Sepa\TransferInformation\CustomerCreditTransferInformation;
+use Doctrine\Common\Collections\ArrayCollection;
 use Webmozart\Assert\Assert;
 
 final class PaymentOrderSEPAExporter
@@ -193,7 +194,8 @@ final class PaymentOrderSEPAExporter
             $groupHeader->getMessageIdentification(),
         );
 
-        return SEPAExport::createFromXMLString($xml_string, $original_filename);
+        return SEPAExport::createFromXMLString($xml_string, $original_filename)
+            ->setAssociatedPaymentOrders(new ArrayCollection($payment_orders));
     }
 
 

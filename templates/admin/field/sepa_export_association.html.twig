@@ -1,0 +1,52 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% import "helpers.html.twig" as helper %}
+
+<table class="table table-sm table-striped table-hover">
+    <caption class="caption-top">{{ field.value.count() }} {% trans %}payment_order.labelp{% endtrans %}</caption>
+    <thead>
+    <tr>
+        <th>{% trans %}payment_order.id.label{% endtrans %}</th>
+        <th>{% trans %}payment_order.department.label_short{% endtrans %}</th>
+        <th>{% trans %}payment_order.project_name.label{% endtrans %}</th>
+        <th>{% trans %}payment_order.amount.label{% endtrans %}</th>
+        <th>{% trans %}bank_info.account_owner.label{% endtrans %}</th>
+        <th>{% trans %}bank_info.iban.label{% endtrans %}</th>
+        <th>{% trans %}payment_order.mathematically_correct.label{% endtrans %}</th>
+        <th>{% trans %}payment_order.factually_correct.label{% endtrans %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for payment_order in field.value %}
+        {# @var payment_order \App\Entity\PaymentOrder #}
+        <tr>
+            <td>
+                <a target="_blank" href="{{ ea_url().setController('App\\Controller\\Admin\\PaymentOrderCrudController').setAction('detail').setEntityId(payment_order.id) }}">{{ payment_order.iDString }}</a>
+            </td>
+            <td>
+                {{ payment_order.department.name }}
+            </td>
+            <td>
+                {{ payment_order.projectName }}
+            </td>
+            <td>
+                {{ payment_order.amountString }} €
+            </td>
+            <td>
+                {{ payment_order.bankInfo.accountOwner }}
+            </td>
+            <td>
+                {{ payment_order.bankInfo.iban }}
+            </td>
+            <td>
+                {{ helper.bool_badge(payment_order.mathematicallyCorrect) }}
+            </td>
+            <td>
+                {{ helper.bool_badge(payment_order.factuallyCorrect) }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
