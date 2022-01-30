@@ -16,6 +16,7 @@ parameters:
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
     app.notifications_risky: '%env(csv:NOTIFICATIONS_RISKY)%'
     app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
+    app.enforce_tfa: '%env(bool:ENFORCE_TFA)%'
 
 services:
     # default configuration for services in *this* file
@@ -106,6 +107,18 @@ services:
     App\EventSubscriber\SetTimezoneSubscriber:
         arguments:
             $timezone: '%app.timezone%'
+
+    App\Services\UserSystem\EnforceTFARedirectHelper:
+        arguments:
+            $enforce_tfa: '%app.enforce_tfa%'
+            $risky_roles:
+                # Uncomment following line to enforce TFA for all users with access to admin area
+                #- ROLE_ADMIN
+                - ROLE_EDIT_.*
+                - ROLE_PO_FACTUALLY
+                - ROLE_PO_MATHEMATICALLY
+                - ROLE_MANUAL_CONFIRMATION
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

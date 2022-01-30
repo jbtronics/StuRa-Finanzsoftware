@@ -60,6 +60,7 @@ class UserSettingsController extends AbstractController
             //If form is valid, the old password was already validated, so we just have to encrypt the pw now
             $hashed_pw = $passwordEncoder->hashPassword($user, $pw_form['plain_password']->getData());
             $user->setPassword($hashed_pw);
+            $user->setPasswordChangeNeeded(false);
 
             $entityManager->flush();
 

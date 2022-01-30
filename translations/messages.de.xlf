@@ -2537,5 +2537,29 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target>Nicht gebucht</target>
       </segment>
     </unit>
+    <unit id="9NlEYWs" name="user.2fa_needed.flash">
+      <segment>
+        <source>user.2fa_needed.flash</source>
+        <target><![CDATA[<b>Zwei-Faktor-Authentifizierung benötigt</b>: Da du sehr viele Rechte hast, musst du eine Zwei-Faktor-Authentifizierung einrichten! Bitte richte eine Zwei-Faktor-Authentifizierung in den Einstellungen ein, um fortzufahren.]]></target>
+      </segment>
+    </unit>
+    <unit id="c5jqKnk" name="user.disabled.label">
+      <segment>
+        <source>user.disabled.label</source>
+        <target>Nutzer deaktiviert</target>
+      </segment>
+    </unit>
+    <unit id="NHtcqVW" name="user.password_change_needed.label">
+      <segment>
+        <source>user.password_change_needed.label</source>
+        <target>Nutzer muss sein Passwort ändern</target>
+      </segment>
+    </unit>
+    <unit id="7FpEp24" name="user.pw_change_needed.flash">
+      <segment>
+        <source>user.pw_change_needed.flash</source>
+        <target><![CDATA[<b>Passwortänderung benötigt</b>: Bitte ändere dein Passwort, um fortzufahren.]]></target>
+      </segment>
+    </unit>
   </file>
 </xliff>

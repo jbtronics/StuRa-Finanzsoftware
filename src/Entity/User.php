@@ -114,6 +114,17 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
      */
     private $backupCodesDate;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * @var bool
+     */
+    private $disabled = false;
+
+    /** @var bool
+     *  @ORM\Column(type="boolean", nullable=false)
+     */
+    private $password_change_needed = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -465,6 +476,46 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
     public function getBackupCodes(): array
     {
         return $this->backupCodes ?? [];
+    }
+
+    /**
+     * Check if this user is disabled and can not log in
+     * @return bool
+     */
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * Set if this user is disabled and can not log in
+     * @param  bool  $disabled
+     * @return User
+     */
+    public function setDisabled(bool $disabled): User
+    {
+        $this->disabled = $disabled;
+        return $this;
+    }
+
+    /**
+     * Check if this user needs to change his password.
+     * @return bool
+     */
+    public function isPasswordChangeNeeded(): bool
+    {
+        return $this->password_change_needed;
+    }
+
+    /**
+     * Sets if this user needs to change his password
+     * @param  bool  $password_change_needed
+     * @return User
+     */
+    public function setPasswordChangeNeeded(bool $password_change_needed): User
+    {
+        $this->password_change_needed = $password_change_needed;
+        return $this;
     }
 
     public function __toString(): string

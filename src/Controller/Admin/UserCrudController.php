@@ -20,6 +20,8 @@ namespace App\Controller\Admin;
 
 use App\Admin\Field\PasswordField;
 use App\Entity\User;
+use App\Services\UserSystem\EnforceTFARedirectHelper;
+use App\Tests\Services\UserSystem\EnforceTFARedirectHelperTest;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,6 +38,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserCrudController extends AbstractCrudController
 {
     private $encoder;
+    private $TFARedirectHelper;
 
     public const USER_ROLE_CHOICES = [
         'user.role.access_admin' => 'ROLE_ADMIN',
@@ -53,9 +56,10 @@ class UserCrudController extends AbstractCrudController
         'user.role.book_sepa_exports' => 'ROLE_BOOK_SEPA_EXPORTS',
     ];
 
-    public function __construct(UserPasswordHasherInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder, EnforceTFARedirectHelper $TFARedirectHelper)
     {
         $this->encoder = $encoder;
+        $this->TFARedirectHelper = $TFARedirectHelper;
     }
 
     public static function getEntityFqcn(): string
@@ -110,6 +114,15 @@ class UserCrudController extends AbstractCrudController
             TextField::new('role_description', 'user.role_description.label')
                 ->setRequired(false)
                 ->setFormTypeOption('empty_data', ''),
+            BooleanField::new('disabled', 'user.disabled.label')
+                ->setRequired(false)
+                ->renderAsSwitch(false)
+                ->hideOnIndex(),
+            BooleanField::new('password_change_needed', 'user.password_change_needed.label')
+                ->setRequired(false)
+                ->renderAsSwitch(false)
+                ->hideOnIndex(),
+
             ChoiceField::new('roles', 'user.roles.label')
                 ->allowMultipleChoices()
                 ->setChoices(self::USER_ROLE_CHOICES)
