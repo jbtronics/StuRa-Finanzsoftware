@@ -236,7 +236,8 @@ class DashboardController extends AbstractDashboardController
             ->setPermission('ROLE_SHOW_PAYMENT_ORDERS')
             ->setSubItems($items);
 
-        yield MenuItem::linkToCrud('sepa_export.labelp', 'fas fa-money-check-alt', SEPAExport::class);
+        yield MenuItem::linkToCrud('sepa_export.labelp', 'fas fa-money-check-alt', SEPAExport::class)
+            ->setPermission('ROLE_SHOW_SEPA_EXPORTS');
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
             ->setPermission('ROLE_READ_ORGANISATIONS');

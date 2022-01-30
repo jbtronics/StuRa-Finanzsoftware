@@ -19,6 +19,7 @@
 namespace App\Controller;
 
 use App\Entity\PaymentOrder;
+use App\Entity\SEPAExport;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,22 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class FileContoller extends AbstractController
 {
+    /**
+     * @Route("/sepa_export/{id}/xml", name="file_sepa_export_xml")
+     */
+    public function sepaExportXMLFile(SEPAExport $SEPAExport, DownloadHandler $downloadHandler, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_SEPA_EXPORTS', $SEPAExport);
+
+        return $downloadHandler->downloadObject(
+            $SEPAExport,
+            'xml_file',
+            null,
+            $SEPAExport->getXmlFile()->getFilename(),
+            true
+        );
+    }
+
     /**
      * @Route("/payment_order/{id}/form", name="file_payment_order_form")
      */

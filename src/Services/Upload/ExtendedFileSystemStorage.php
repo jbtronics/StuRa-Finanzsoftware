@@ -19,6 +19,7 @@
 namespace App\Services\Upload;
 
 use App\Entity\PaymentOrder;
+use App\Entity\SEPAExport;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -65,6 +66,15 @@ class ExtendedFileSystemStorage extends AbstractStorage
 
             if ('references' === $fieldName || 'references_file' === $fieldName) {
                 return $this->router->generate('file_payment_order_references', [
+                    'id' => $obj->getId(),
+                ]);
+            }
+        }
+
+        if (null !== $tmp && $obj instanceof SEPAExport)
+        {
+            if ('xml' === $fieldName || 'xml_file' === $fieldName) {
+                return $this->router->generate('file_sepa_export_xml', [
                     'id' => $obj->getId(),
                 ]);
             }

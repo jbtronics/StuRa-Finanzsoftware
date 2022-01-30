@@ -2459,5 +2459,35 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target>Enthaltene Zahlungsaufträge</target>
       </segment>
     </unit>
+    <unit id="ZJRoZVP" name="user.settings.info">
+      <segment>
+        <source>user.settings.info</source>
+        <target>Infos</target>
+      </segment>
+    </unit>
+    <unit id=".x7SSlD" name="user.role.user">
+      <segment>
+        <source>user.role.user</source>
+        <target>Angemeldeter Nutzer</target>
+      </segment>
+    </unit>
+    <unit id="0XFa7oE" name="user.info.change_hint">
+      <segment>
+        <source>user.info.change_hint</source>
+        <target>Wenn diese Angaben fehlerhaft sein sollten, kontaktiere einen Administrator.</target>
+      </segment>
+    </unit>
+    <unit id="f2H2Z2t" name="user.role.show_sepa_exports">
+      <segment>
+        <source>user.role.show_sepa_exports</source>
+        <target>SEPA Exporte anzeigen</target>
+      </segment>
+    </unit>
+    <unit id="ulCBH5m" name="user.role.book_sepa_exports">
+      <segment>
+        <source>user.role.book_sepa_exports</source>
+        <target>SEPA Exporte in Bank buchen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

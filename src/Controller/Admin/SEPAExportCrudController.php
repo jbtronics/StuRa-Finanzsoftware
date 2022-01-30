@@ -31,12 +31,20 @@ class SEPAExportCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('sepa_export.label')
+            ->showEntityActionsInlined()
             //->setSearchFields(['name', 'iban', 'bic', 'comment', 'account_name'])
             ->setEntityLabelInPlural('sepa_export.labelp');
     }
 
     public function configureActions(Actions $actions): Actions
     {
+        $actions->setPermissions([
+            Action::DETAIL => 'ROLE_SHOW_SEPA_EXPORTS',
+            Action::INDEX => 'ROLE_SHOW_SEPA_EXPORTS',
+            Action::EDIT => 'ROLE_EDIT_SEPA_EXPORTS',
+            Action::DELETE => 'ROLE_EDIT_SEPA_EXPORTS',
+        ]);
+
         $actions->disable(Crud::PAGE_NEW);
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
 
