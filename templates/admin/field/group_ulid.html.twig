@@ -1,0 +1,7 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% set href = ea_url().setAction('index').set('filters[group_ulid]', field.value) %}
+
+<a href="{{ href }}">{{ field.value }}</a>

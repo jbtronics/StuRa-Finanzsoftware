@@ -2489,5 +2489,41 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target>SEPA Exporte in Bank buchen</target>
       </segment>
     </unit>
+    <unit id="ebyv0Uf" name="sepa_export.number_of_payments.help">
+      <segment>
+        <source>sepa_export.number_of_payments.help</source>
+        <target>Die Anzahl der in diesem Export enthaltenen Zahlungen</target>
+      </segment>
+    </unit>
+    <unit id="IPVh6Rw" name="sepa_export.total_sum.help">
+      <segment>
+        <source>sepa_export.total_sum.help</source>
+        <target>Die Gesamtsumme der in diesem Export enthaltenen Zahlungen</target>
+      </segment>
+    </unit>
+    <unit id="WLRWb20" name="sepa_export.initiator_iban.help">
+      <segment>
+        <source>sepa_export.initiator_iban.help</source>
+        <target>Die IBAN des Kontos von dem das Geld abgebucht wird</target>
+      </segment>
+    </unit>
+    <unit id="FqY6z90" name="sepa_export.initiator_bic.help">
+      <segment>
+        <source>sepa_export.initiator_bic.help</source>
+        <target>Die BIC des Kontos von dem das Geld abgebucht wird</target>
+      </segment>
+    </unit>
+    <unit id="xY6OV74" name="sepa_export.message_id.help">
+      <segment>
+        <source>sepa_export.message_id.help</source>
+        <target>Die SEPA Message ID ermöglicht es der Bank den Export eindeutig zu identifizieren.</target>
+      </segment>
+    </unit>
+    <unit id="rYTPXJr" name="sepa_export.group_ulid.help">
+      <segment>
+        <source>sepa_export.group_ulid.help</source>
+        <target>Wenn Exporte gleichzeitig erzeugt wurden, erhalten die Exporte die gleiche Gruppen-ID. Mit Klick auf die ID, ist es möglich die Exporte zu identifizieren, die in einem Rutsch erzeugt wurden.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
