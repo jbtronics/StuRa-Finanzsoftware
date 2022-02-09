@@ -123,7 +123,7 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
     /** @var bool
      *  @ORM\Column(type="boolean", nullable=false)
      */
-    private $password_change_needed = false;
+    private $password_change_needed = true;
 
     public function getId(): ?int
     {
