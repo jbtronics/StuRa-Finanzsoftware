@@ -2561,5 +2561,35 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
         <target><![CDATA[<b>Passwortänderung benötigt</b>: Bitte ändere dein Passwort, um fortzufahren.]]></target>
       </segment>
     </unit>
+    <unit id="KFMcpm_" name="sepa_export.action.book_payment_orders">
+      <segment>
+        <source>sepa_export.action.book_payment_orders</source>
+        <target>Zahlungsaufträge buchen</target>
+      </segment>
+    </unit>
+    <unit id="aOs5seX" name="sepa_export.flash.sepa_export_payments_not_factually_checkedTest">
+      <segment>
+        <source>sepa_export.flash.sepa_export_payments_not_factually_checkedTest</source>
+        <target>Kann Zahlungsaufträge nicht buchen, da folgende Aufträge noch nicht sachlich geprüft wurden: %s</target>
+      </segment>
+    </unit>
+    <unit id="kkSuvdh" name="sepa_export.flash.sepa_export_payments_not_factually_checked">
+      <segment>
+        <source>sepa_export.flash.sepa_export_payments_not_factually_checked</source>
+        <target>Zahlungsaufträge können nicht gebucht werden, da folgende Zahlungsaufträge noch nicht sachlich geprüft wurden: %payment_orders%</target>
+      </segment>
+    </unit>
+    <unit id="OPPcM5h" name="sepa_export.flash.sepa_export_payments_not_mathematically_checked">
+      <segment>
+        <source>sepa_export.flash.sepa_export_payments_not_mathematically_checked</source>
+        <target>Zahlungsaufträge können nicht gebucht werden, da folgende Zahlungsaufträge noch nicht rechtlich geprüft wurden: %payment_orders%</target>
+      </segment>
+    </unit>
+    <unit id="KX4iBeT" name="sepa_export.flash.sepa_export_payments_already_booked">
+      <segment>
+        <source>sepa_export.flash.sepa_export_payments_already_booked</source>
+        <target>Zahlungsaufträge können nicht gebucht werden, da die folgenden Zahlungsaufträge bereits gebucht wurden. Bitte prüfen: %payment_orders%</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

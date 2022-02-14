@@ -6,6 +6,8 @@ use App\Admin\Field\VichyFileField;
 use App\Admin\Filter\MoneyAmountFilter;
 use App\Admin\Filter\ULIDFilter;
 use App\Entity\SEPAExport;
+use App\Services\SEPAExport\SEPAExportAdminHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -24,10 +26,65 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\NumericFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use PHP_CodeSniffer\Generators\Text;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SEPAExportCrudController extends AbstractCrudController
 {
+    private $adminHelper;
+    private $translator;
+    private $entityManager;
+
+    public function __construct(SEPAExportAdminHelper $adminHelper, TranslatorInterface $translator, EntityManagerInterface $entityManager)
+    {
+        $this->adminHelper = $adminHelper;
+        $this->translator = $translator;
+        $this->entityManager = $entityManager;
+    }
+
+    public function bookPaymentOrders(AdminContext $context): Response
+    {
+        /** @var SEPAExport $entity */
+        $entity = $context->getEntity()->getInstance();
+
+        $entity_must_be_booked = true;
+
+        if(!$entity->isOpen()) {
+            $entity_must_be_booked = false;
+            $this->addFlash('error', 'sepa_export.flash.sepa_export_already_booked');
+        }
+
+        $not_factually = $this->adminHelper->getNotFactuallyCorrectPaymentOrders($entity);
+        if (!empty($not_factually)) {
+            $entity_must_be_booked = false;
+            $this->addFlash('warning', $this->translator->trans('sepa_export.flash.sepa_export_payments_not_factually_checked', ['%payment_orders%' => $this->adminHelper->getPaymentOrdersFlashText($not_factually)]));
+        }
+
+        $not_mathematically = $this->adminHelper->getNotMathematicallyCorrectPaymentOrders($entity);
+        if (!empty($not_mathematically)) {
+            $entity_must_be_booked = false;
+            $this->addFlash('warning', $this->translator->trans('sepa_export.flash.sepa_export_payments_not_mathematically_checked', ['%payment_orders%' => $this->adminHelper->getPaymentOrdersFlashText($not_mathematically)]));
+        }
+
+        $already_booked = $this->adminHelper->getAlreadyBookedPaymentOrders($entity);
+        if (!empty($already_booked)) {
+            $entity_must_be_booked = false;
+            $this->addFlash('warning', $this->translator->trans('sepa_export.flash.sepa_export_payments_already_booked', ['%payment_orders%' => $this->adminHelper->getPaymentOrdersFlashText($already_booked)]));
+        }
+
+        if ($entity_must_be_booked) {
+            $entity->setIsBooked();
+            //Book all associated payment orders
+            foreach ($entity->getAssociatedPaymentOrders() as $paymentOrder) {
+                $paymentOrder->setBookingDate(new \DateTime());
+            }
+            $this->entityManager->flush();
+            $this->addFlash('success', 'sepa_export.flash.sepa_export_books_success');
+        }
+
+        return $this->redirect($context->getReferrer() ?? '/admin');
+    }
+
     public static function getEntityFqcn(): string
     {
         return SEPAExport::class;
@@ -66,6 +123,17 @@ class SEPAExportCrudController extends AbstractCrudController
             Action::EDIT => 'ROLE_EDIT_SEPA_EXPORTS',
             Action::DELETE => 'ROLE_EDIT_SEPA_EXPORTS',
         ]);
+
+        $book_action = Action::new('bookPaymentOrders', 'sepa_export.action.book_payment_orders', 'fas fa-check')
+            ->linkToCrudAction('bookPaymentOrders')
+            /*->displayIf(function (PaymentOrder $paymentOrder) {
+                return $this->isGranted('ROLE_PO_FACTUALLY')
+                    && $paymentOrder->isConfirmed()
+                    && !$paymentOrder->isFactuallyCorrect()
+                    && $paymentOrder->isMathematicallyCorrect();
+            })*/
+            ->setCssClass('btn btn-success');
+            $actions->add(Crud::PAGE_DETAIL, $book_action);
 
         $actions->disable(Crud::PAGE_NEW);
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
