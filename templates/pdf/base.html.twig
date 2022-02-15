@@ -1,0 +1,12 @@
+<html lang="de">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        {% include "pdf/css/_base.css.twig" %}
+        {% block styles %}{% endblock styles %}
+    </style>
+</head>
+<body>
+{% block body %}{% endblock body %}
+</body>
+</html>

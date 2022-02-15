@@ -1,0 +1,6 @@
+{% macro signature_field(name, date, city) %}
+    <span>
+        <div style="display: inline;">{{ city }}, {{ date | format_date }}</div>
+        <div style="margin-left: 3mm; font-size: smaller; display: inline-block; vertical-align: bottom;">_____________________________________________________________ <br>{{ name }}</div>
+    </span>
+{% endmacro %}

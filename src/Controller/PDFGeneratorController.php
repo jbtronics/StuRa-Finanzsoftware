@@ -19,7 +19,10 @@
 namespace App\Controller;
 
 use App\Entity\PaymentOrder;
+use App\Entity\SEPAExport;
+use App\Helpers\PDFResponse;
 use App\Services\PDF\PaymentOrderPDFGenerator;
+use App\Services\PDF\SEPAExport\SEPAExportPDFGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,18 +35,28 @@ class PDFGeneratorController extends AbstractController
     /**
      * @Route("/payment_order/{id}")
      */
-    public function pdf(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
+    public function paymentOrderPdf(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 
         $data = $paymentOrderPDFGenerator->generatePDF($paymentOrder);
-        $response = new Response($data);
 
-        $response->headers->set('Content-type', 'application/pdf');
-        $response->headers->set('Content-length', strlen($data));
-        $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-Disposition', 'inline');
-
-        return $response;
+        return new PDFResponse($data);
     }
+
+    /**
+     * @Route("/sepa_export/{id}")
+     *
+     * @param  SEPAExport  $SEPAExport
+     * @param  SEPAExportPDFGenerator  $SEPAExportPDFGenerator
+     * @return Response
+     */
+    public function sepaExportPDF(SEPAExport $SEPAExport, SEPAExportPDFGenerator $SEPAExportPDFGenerator): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_SEPA_EXPORTS');
+
+        $data = $SEPAExportPDFGenerator->generatePDF($SEPAExport);
+        return new PDFResponse($data);
+    }
+
 }

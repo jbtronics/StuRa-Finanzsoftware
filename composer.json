@@ -17,6 +17,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.0.0",
         "doctrine/orm": "^2.9",
+        "dompdf/dompdf": "^1.2",
         "easycorp/easyadmin-bundle": "^3.3.2",
         "endroid/qr-code": "^4.0.0",
         "fortawesome/font-awesome": "^5.14",
