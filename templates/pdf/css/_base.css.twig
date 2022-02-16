@@ -7,6 +7,16 @@ body {
     font-family: "DejaVu Sans";
 }
 
+body{
+    font-size: 10pt;
+}
+
+footer, header{
+    font-size: 9pt;
+    color: #656565;
+    width: 100%;
+}
+
 table.table-bordered td, table.table-bordered th {
     border: 1px solid #505050;
     padding: 1mm;
@@ -20,4 +30,23 @@ table.table th {
     text-align: left;
     background-color: #505050;
     color: white;
+}
+
+td.index-cell {
+    background-color: #505050;
+    color: white;
+}
+
+footer .page-number:after { content: counter(page); }
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear {
+    clear: both;
 }

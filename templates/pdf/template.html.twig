@@ -1,0 +1,21 @@
+{% extends "pdf/base.html.twig" %}
+
+{% block title %}{% if block("form_name") is defined and block("form_name") is not empty %}{{ block("form_name") }}{% endif %}{% endblock %}
+
+{% block body %}
+    <header class="">
+        {% block header %}
+            <span class="left">{% block header_left %}{% block form_name %}{% endblock %}{% endblock %}</span>
+            <span class="right">{% block header_right %}{% block student_council_name %}{{ app_student_council_name }}{% endblock %}{% endblock %}</span>
+            <div class="clear"></div>
+        {% endblock %}
+    </header>
+    <footer>
+        {% block footer %}
+            <span class="left">Erzeugt <i>{{ 'now'|format_datetime }}</i> von <i>{{ app.user.fullName ?? '???' }}</i> (<i>@{{ app.user.userIdentifier ?? '???' }}</i>) durch {{ app_title_version }}</span>
+            <span class="right"><span class="page-number">Seite </span></span>
+            <div class="clear"></div>
+        {% endblock %}
+    </footer>
+    <main>{% block main %}{% endblock %}</main>
+{% endblock %}

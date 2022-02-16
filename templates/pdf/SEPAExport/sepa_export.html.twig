@@ -4,60 +4,12 @@
 {% import "pdf/pdf_helpers.html.twig" as helper %}
 
 
-{% block header %}
-    <span style="position: fixed; left: 0;">HHV & KV Prüfbestätigung</span>
-    <span style="position: fixed; right: 0;">{{ app_student_council_name }}</span>
-{% endblock %}
-
-
-{% block footer %}
-    Erzeugt <i>{{ 'now'|format_datetime }}</i> von <i>{{ app.user.fullName ?? '???' }}</i> (<i>@{{ app.user.userIdentifier ?? '???' }}</i>) durch {{ app_title_version }}
-{% endblock %}
+{% block form_name %}HHV & KV Prüfbestätigung ({% trans %}sepa_export.label{% endtrans %} #{{ sepaExport.id }}){% endblock %}
 
 {% block main %}
-    <h3>{% trans %}sepa_export.label{% endtrans %} #{{ sepaExport.id }}</h3>
-    <table class="table table-striped table-bordered" style="font-size: 8pt; width: 100%;">
-        <thead>
-        <tr>
-            <th>{% trans %}payment_order.id.label{% endtrans %}</th>
-            <th>{% trans %}payment_order.department.label_short{% endtrans %}</th>
-            <th>{% trans %}payment_order.project_name.label{% endtrans %}</th>
-            <th>{% trans %}payment_order.funding_id.label_short{% endtrans %}</th>
-            <th>{% trans %}payment_order.amount.label{% endtrans %}</th>
-            <th>{% trans %}bank_info.account_owner.label{% endtrans %}</th>
-            <th>{% trans %}bank_info.iban.label{% endtrans %}</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for payment_order in sepaExport.associatedPaymentOrders %}
-                <tr>
-                    <td>
-                        {{ payment_order.iDString }}
-                    </td>
-                    <td>
-                        {{ payment_order.department.name }}
-                    </td>
-                    <td>
-                        {{ payment_order.projectName }}
-                    </td>
-                    <td>
-                        {{ payment_order.fundingId }}
-                    </td>
-                    <td>
-                        {{ payment_order.amountString }} €
-                    </td>
-                    <td>
-                        {{ payment_order.bankInfo.accountOwner }}
-                    </td>
-                    <td>
-                        {{ payment_order.bankInfo.iban }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="">{% trans %}sepa_export.label{% endtrans %} #{{ sepaExport.id }}</h3>
 
-    <table style="">
+    <table style="margin-bottom: 0.5cm;">
         <tr>
             <td><b>{% trans %}sepa_export.total_sum{% endtrans %}:</b> {{ (sepaExport.totalSum / 100) | format_currency('EUR') }}</td>
             <td style="padding-left: 5mm;"><b>{% trans %}sepa_export.number_of_payments{% endtrans %}:</b> {{ sepaExport.numberOfPayments }}</td>
@@ -68,18 +20,67 @@
             <td style="padding-left: 5mm;"><b>{% trans %}sepa_export.initiator_bic{% endtrans %}:</b> {{ sepaExport.initiatorBic }}</td>
             <td style="padding-left: 5mm;"><b>{% trans %}sepa_export.message_id{% endtrans %}:</b> {{ sepaExport.sepaMessageId }}</td>
         </tr>
+        <tr>
+            <td style=""><b>Buchungsdatum:</b> {% if sepaExport.bookingDate is not null %}{{ sepaExport.bookingDate | format_datetime() }}{% else %}<i>noch nicht gebucht</i>{% endif %}</td>
+        </tr>
     </table>
 
-    <div style="margin-top: 5mm;">
-        <table>
-            <tr>
-                <td><b>Rechnerisch geprüft:</b></td>
-                <td><b>Sachlich geprüft:</b></td>
-            </tr>
-            <tr>
-                <td style="padding-top: 2.5cm;">{{ helper.signature_field("Max Muster (stellv. Kasse)", "now", app_city) }}</td>
-                <td style="padding-top: 2.5cm;">{{ helper.signature_field("Jane Doe (HHV)", "now", app_city) }}</td>
-            </tr>
-        </table>
-    </div>
+    <table class="table table-striped table-bordered" style="font-size: 8pt; width: 100%;">
+        <thead>
+        <tr>
+            <th >#</th>
+            <th>{% trans %}payment_order.id.label{% endtrans %}</th>
+            <th>{% trans %}payment_order.department.label_short{% endtrans %}</th>
+            <th>{% trans %}payment_order.project_name.label{% endtrans %}</th>
+            <th>{% trans %}payment_order.funding_id.label_short{% endtrans %}</th>
+            <th>{% trans %}payment_order.amount.label{% endtrans %}</th>
+            <th>Empfänger</th>
+            <th>{% trans %}bank_info.iban.label{% endtrans %}</th>
+            <th>{% trans %}payment_order.mathematically_correct.label{% endtrans %}</th>
+            <th>{% trans %}payment_order.factually_correct.label{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for payment_order in sepaExport.associatedPaymentOrders %}
+                <tr>
+                    <td class="index-cell">{{ loop.index }}</td>
+                    <td>
+                        {{ payment_order.iDString }}
+                    </td>
+                    <td style="width: 2cm;">
+                        {{ payment_order.department.name }}
+                    </td>
+                    <td style="width: 3.5cm;">
+                        {{ payment_order.projectName }}
+                    </td>
+                    <td>
+                        {{ payment_order.fundingId }}
+                        {% if payment_order.fsrKomResolution %}
+                            <br><i>von FSR-Kom Konto</i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ payment_order.amountString }} €
+                    </td>
+                    <td style="width: 3cm;">
+                        <i>{{ payment_order.bankInfo.accountOwner }}<br></i>
+                        {{ payment_order.bankInfo.addressMultiline | nl2br }}
+                    </td>
+                    <td style="width: 2cm;">
+                        {{ payment_order.bankInfo.iban }}
+                        {% if payment_order.bankInfo.bic is not empty %}
+                        <br><i>({{ payment_order.bankInfo.bic }})</i>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 0; vertical-align: bottom; height: 2cm; width: 4cm;">
+                        <span style="font-size: 7pt; vertical-align: bottom;">{{ "now" | format_date }}, Maximilian Keller</span>
+                    </td>
+                    <td style="padding: 0; vertical-align: bottom; height: 2cm; width: 4cm;">
+                        <span style="font-size: 7pt; vertical-align: bottom;">{{ "now" | format_date }}, Helen Würflein</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

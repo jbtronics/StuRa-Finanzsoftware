@@ -5,7 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.version: '1.8.3'
-    app.timezone: 'Europe/Berlin'
+    app.timezone: 'Europe/Berlin' #The timezone to use
+    app.name: 'StuRa-Zahlungsauftragssystem' #The name of the application
+    app.city: 'Jena' # The city where the application is used
+    app.student_council_name: 'Studierendenrat Friedrich-Schiller-Universität Jena' # The name of the student council which uses this app
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
     app.hhv_email: '%env(HHV_EMAIL)%'
@@ -25,6 +28,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             string $app_version: '%app.version%'
+            string $app_name: '%app.name%'
             string $fsb_email: '%app.fsb_email%'
             string $hhv_email: '%app.hhv_email%'
             array $notifications_risky: '%app.notifications_risky%'

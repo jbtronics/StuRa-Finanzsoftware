@@ -1,15 +1,6 @@
-{% extends "pdf/base.html.twig" %}
-
-{% block title %}{% trans %}sepa_export.label{% endtrans %} #{{ sepaExport.id }}{% endblock %}
+{% extends "pdf/template.html.twig" %}
 
 {% block styles %}
     {% include "pdf/css/_styles_landscape.css.twig" %}
 {% endblock %}
 
-{% block body %}
-    <header>{% block header %}{% endblock %}</header>
-
-    <main>{% block main %}{% endblock %}</main>
-
-    <footer>{% block footer %}{% endblock %}</footer>
-{% endblock %}

@@ -5,11 +5,11 @@ twig:
         support_email: '%app.support_email%'
         fsb_email: '%app.fsb_email%'
         hhv_email: '%app.hhv_email%'
-        app_title: 'StuRa-Zahlungssystem'
+        app_title: '%app.name%'
         app_version: '%app.version%'
-        app_title_version: 'StuRa-Zahlungssystem %app.version%'
-        app_city: 'Jena'
-        app_student_council_name: 'Studierendenrat Friedrich-Schiller-Universität Jena'
+        app_title_version: '%app.name% v%app.version%'
+        app_city: '%app.city%'
+        app_student_council_name: '%app.student_council_name%'
         locale_menu: ['de', 'en']
 
     paths:

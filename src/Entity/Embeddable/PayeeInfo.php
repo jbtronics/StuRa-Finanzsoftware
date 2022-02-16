@@ -272,4 +272,12 @@ class PayeeInfo
     {
         return $this->getStreet().', '.$this->getZipCode().' '.$this->getCity();
     }
+
+    /**
+     * Returns the whole address of the payment receiver in multiple lines (in the format "Street 1, 12345 City".
+     */
+    public function getAddressMultiline(): string
+    {
+        return $this->getStreet()."\n".$this->getZipCode().' '.$this->getCity();
+    }
 }
