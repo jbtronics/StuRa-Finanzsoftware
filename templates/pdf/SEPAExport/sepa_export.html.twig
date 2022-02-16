@@ -25,7 +25,7 @@
         </tr>
     </table>
 
-    <table class="table table-striped table-bordered" style="font-size: 8pt; width: 100%;">
+    <table class="table table-striped table-bordered" style="width: 100%; font-size: 8pt;">
         <thead>
         <tr>
             <th >#</th>
@@ -35,12 +35,12 @@
             <th>{% trans %}payment_order.funding_id.label_short{% endtrans %}</th>
             <th>{% trans %}payment_order.amount.label{% endtrans %}</th>
             <th>Empfänger</th>
-            <th>{% trans %}bank_info.iban.label{% endtrans %}</th>
+            <th>{% trans %}bank_info.iban.label{% endtrans %} ({% trans %}bank_info.bic.label{% endtrans %})</th>
             <th>{% trans %}payment_order.mathematically_correct.label{% endtrans %}</th>
             <th>{% trans %}payment_order.factually_correct.label{% endtrans %}</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody style="font-size: 7pt;">
             {% for payment_order in sepaExport.associatedPaymentOrders %}
                 <tr>
                     <td class="index-cell">{{ loop.index }}</td>
@@ -66,17 +66,17 @@
                         <i>{{ payment_order.bankInfo.accountOwner }}<br></i>
                         {{ payment_order.bankInfo.addressMultiline | nl2br }}
                     </td>
-                    <td style="width: 2cm;">
+                    <td style="width: 2.2cm;">
                         {{ payment_order.bankInfo.iban }}
                         {% if payment_order.bankInfo.bic is not empty %}
-                        <br><i>({{ payment_order.bankInfo.bic }})</i>
+                        <br>({{ payment_order.bankInfo.bic }})
                         {% endif %}
                     </td>
-                    <td style="padding: 0; vertical-align: bottom; height: 2cm; width: 4cm;">
-                        <span style="font-size: 7pt; vertical-align: bottom;">{{ "now" | format_date }}, Maximilian Keller</span>
+                    <td style="padding: 0 1mm; vertical-align: bottom; height: 2cm; width: 4cm;">
+                        <span style="font-size: 6pt; vertical-align: bottom;">{{ "now" | format_date }}, Maximilian Keller</span>
                     </td>
-                    <td style="padding: 0; vertical-align: bottom; height: 2cm; width: 4cm;">
-                        <span style="font-size: 7pt; vertical-align: bottom;">{{ "now" | format_date }}, Helen Würflein</span>
+                    <td style="padding: 0 1mm; vertical-align: bottom; height: 2cm; width: 4cm;">
+                        <span style="font-size: 6pt; vertical-align: bottom;">{{ "now" | format_date }}, Helen Würflein</span>
                     </td>
                 </tr>
             {% endfor %}
