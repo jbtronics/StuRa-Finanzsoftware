@@ -28,7 +28,6 @@
         "scheb/2fa-google-authenticator": "^6.8.0",
         "scheb/2fa-trusted-device": "^6.8.0",
         "select2/select2": "^4.0",
-        "sensio/framework-extra-bundle": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",
         "snapappointments/bootstrap-select": "^1.13",
         "stevegrunwell/mailto-link-formatter": "^1.0",
