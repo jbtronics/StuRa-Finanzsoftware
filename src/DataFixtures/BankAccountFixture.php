@@ -7,20 +7,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class BankAccountFixture extends Fixture
+final class BankAccountFixture extends Fixture
 {
     public const BANK_ACCOUNT1_REFERENCE = 'bank_account1';
     public const BANK_ACCOUNT2_REFERENCE = 'bank_account2';
     public const BANK_ACCOUNT3_REFERENCE = 'bank_account3';
 
-    protected $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         //Reset autoincrement
         $this->em->getConnection()

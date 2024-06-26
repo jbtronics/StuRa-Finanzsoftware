@@ -34,13 +34,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserCrudController extends AbstractCrudController
+final class UserCrudController extends AbstractCrudController
 {
-    private $encoder;
-
-    public function __construct(UserPasswordHasherInterface $encoder)
+    public function __construct(private readonly UserPasswordHasherInterface $encoder)
     {
-        $this->encoder = $encoder;
     }
 
     public static function getEntityFqcn(): string

@@ -23,20 +23,18 @@ use App\Form\PaymentOrderManualConfirmationType;
 use App\Services\EmailConfirmation\ManualConfirmationHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/payment_order")
- */
-class PaymentOrderManualConfirmController extends AbstractController
+#[Route(path: '/admin/payment_order')]
+final class PaymentOrderManualConfirmController extends AbstractController
 {
-    /**
-     * @Route("/{id}/confirm", name="payment_order_manual_confirm")
-     */
+    #[Route(path: '/{id}/confirm', name: 'payment_order_manual_confirm')]
     public function manualConfirmation(PaymentOrder $paymentOrder, Request $request,
         ManualConfirmationHelper $manualConfirmationHelper, EntityManagerInterface $entityManager,
-        array $notifications_risky)
+        array $notifications_risky): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANUAL_CONFIRMATION');
 

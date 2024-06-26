@@ -27,18 +27,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class UserDisable2faCommand extends Command
+final class UserDisable2faCommand extends Command
 {
     protected static $defaultName = 'app:user-disable-2fa';
 
-    protected $entityManager;
-    protected $backupCodeManager;
-
-    public function __construct(EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly BackupCodeManager $backupCodeManager)
     {
         parent::__construct(self::$defaultName);
-        $this->entityManager = $entityManager;
-        $this->backupCodeManager = $backupCodeManager;
     }
 
     protected function configure()

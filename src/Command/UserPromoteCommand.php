@@ -27,16 +27,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class UserPromoteCommand extends Command
+final class UserPromoteCommand extends Command
 {
     protected static $defaultName = 'app:user-promote';
 
-    protected $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct(self::$defaultName);
-        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -73,7 +70,7 @@ class UserPromoteCommand extends Command
             }
         }
 
-        $new_role = strtoupper($new_role);
+        $new_role = strtoupper((string) $new_role);
 
         $user->addRole($new_role);
 

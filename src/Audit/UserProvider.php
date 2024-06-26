@@ -35,30 +35,12 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     public const CLI_USER_IDENTIFER = '$cli';
     public const INTERNAL_USER_IDENTIFIER = '$internal';
 
-    /**
-     * @var string|null
-     */
-    private $username;
+    private ?string $username = null;
 
-    /**
-     * @var string|null
-     */
-    private $identifier;
+    private ?string $identifier = null;
 
-    /**
-     * @var Security
-     */
-    private $security;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(Security $security, Configuration $configuration)
+    public function __construct(private readonly Security $security, private readonly Configuration $configuration)
     {
-        $this->security = $security;
-        $this->configuration = $configuration;
     }
 
     public function setManualUsername(?string $username, ?string $identifier): void
@@ -133,15 +115,10 @@ class UserProvider implements UserProviderInterface, EventSubscriber
             return true;
         }
 
-        if (empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0) {
+        if (empty($_SERVER['REMOTE_ADDR']) && !isset($_SERVER['HTTP_USER_AGENT']) && count($_SERVER['argv']) > 0) {
             return true;
         }
-
-        if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
-            return true;
-        }
-
-        return false;
+        return !array_key_exists('REQUEST_METHOD', $_SERVER);
     }
 
     /**
@@ -151,26 +128,20 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     {
         try {
             $token = $this->security->getToken();
-        } catch (Exception $e) {
+        } catch (Exception) {
             $token = null;
         }
 
         if (null === $token) {
             return null;
         }
-
-        $tokenUser = $token->getUser();
-        if ($tokenUser instanceof UserInterface) {
-            return $tokenUser;
-        }
-
-        return null;
+        return $token->getUser();
     }
 
     /**
      * @return string|UserInterface|null
      */
-    private function getImpersonatorUser()
+    private function getImpersonatorUser(): ?\Symfony\Component\Security\Core\User\UserInterface
     {
         $token = $this->security->getToken();
 

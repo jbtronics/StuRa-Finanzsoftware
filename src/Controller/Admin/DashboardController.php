@@ -38,17 +38,12 @@ use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class DashboardController extends AbstractDashboardController
+final class DashboardController extends AbstractDashboardController
 {
-    private $app_version;
-    private $gitVersionInfo;
-
     private const FILTER_DATETIME_FORMAT = 'Y-m-d\TH:i:s';
 
-    public function __construct(string $app_version, GitVersionInfo $gitVersionInfo)
+    public function __construct(private readonly string $app_version, private readonly GitVersionInfo $gitVersionInfo)
     {
-        $this->app_version = $app_version;
-        $this->gitVersionInfo = $gitVersionInfo;
     }
 
     public function configureDashboard(): Dashboard
@@ -57,9 +52,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('StuRa Finanzen');
     }
 
-    /**
-     * @Route("/admin", name="admin_dashboard", )
-     */
+    #[Route(path: '/admin', name: 'admin_dashboard')]
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig');
@@ -92,16 +85,12 @@ class DashboardController extends AbstractDashboardController
         $actions = parent::configureActions();
 
         $showLog = Action::new('showLog', 'action.show_logs', 'fas fa-binoculars')
-            ->displayIf(function (DBElementInterface $entity) {
-                return $this->isGranted('ROLE_VIEW_AUDITS');
-            })
+            ->displayIf(fn(DBElementInterface $entity): bool => $this->isGranted('ROLE_VIEW_AUDITS'))
             ->setCssClass('btn btn-secondary')
-            ->linkToRoute('dh_auditor_show_entity_history', function (DBElementInterface $entity) {
-                return [
-                    'entity' => str_replace('\\', '-', get_class($entity)),
-                    'id' => $entity->getId(),
-                ];
-            });
+            ->linkToRoute('dh_auditor_show_entity_history', fn(DBElementInterface $entity): array => [
+                'entity' => str_replace('\\', '-', $entity::class),
+                'id' => $entity->getId(),
+            ]);
 
         return $actions
             ->add(Crud::PAGE_DETAIL, $showLog)

@@ -29,13 +29,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MoneyAmountFilterType extends AbstractType
 {
-    private $valueType;
-    private $valueTypeOptions;
+    private readonly string $valueType;
 
-    public function __construct(string $valueType = null, array $valueTypeOptions = [])
+    public function __construct(string $valueType = null, private readonly array $valueTypeOptions = [])
     {
         $this->valueType = $valueType ?: NumberType::class;
-        $this->valueTypeOptions = $valueTypeOptions;
     }
 
     /**
@@ -48,8 +46,8 @@ class MoneyAmountFilterType extends AbstractType
             ]);
 
         $builder->addModelTransformer(new CallbackTransformer(
-            static function ($data) { return $data; },
-            static function ($data) {
+            static fn($data) => $data,
+            static function (array $data): array {
                 if (ComparisonType::BETWEEN === $data['comparison']) {
                     if (null === $data['value'] || '' === $data['value'] || null === $data['value2'] || '' === $data['value2']) {
                         throw new TransformationFailedException('Two values must be provided when "BETWEEN" comparison is selected.');

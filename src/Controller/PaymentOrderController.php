@@ -43,22 +43,20 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * This controller handles the payment order submit form.
  *
- * @Route("/payment_order")
+ * @see \App\Tests\Controller\PaymentOrderControllerTest
  */
-class PaymentOrderController extends AbstractController
+#[Route(path: '/payment_order')]
+final class PaymentOrderController extends AbstractController
 {
-    private $userProvider;
-    private $entityManager;
-
-    public function __construct(UserProvider $userProvider, EntityManagerInterface $entityManager, private readonly MessageBusInterface $messageBus)
+    public function __construct(
+        private readonly UserProvider $userProvider,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MessageBusInterface $messageBus
+    )
     {
-        $this->userProvider = $userProvider;
-        $this->entityManager = $entityManager;
     }
 
-    /**
-     * @Route("/new", name="payment_order_new")
-     */
+    #[Route(path: '/new', name: 'payment_order_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher,
         PaymentReferenceGenerator $paymentReferenceGenerator, RateLimiterFactory $paymentOrderSubmitLimiter): Response
     {
@@ -173,9 +171,7 @@ class PaymentOrderController extends AbstractController
         $target->setBankInfo($source->getBankInfo());
     }
 
-    /**
-     * @Route("/{id}/confirm", name="payment_order_confirm")
-     */
+    #[Route(path: '/{id}/confirm', name: 'payment_order_confirm')]
     public function confirmation(?PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
     {
         if($paymentOrder === null) {

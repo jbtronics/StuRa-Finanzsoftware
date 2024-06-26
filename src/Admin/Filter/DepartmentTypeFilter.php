@@ -42,7 +42,7 @@ class DepartmentTypeFilter implements FilterInterface
         $choices['department.type.section_misc'] = 'section_misc';
 
         return (new self())
-            ->setFilterFqcn(__CLASS__)
+            ->setFilterFqcn(self::class)
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setFormType(ChoiceType::class)

@@ -41,15 +41,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Response;
 
-class DepartmentCrudController extends AbstractCrudController
+final class DepartmentCrudController extends AbstractCrudController
 {
-    private $tokenGenerator;
-    private $entityManager;
-
-    public function __construct(ConfirmationTokenGenerator $tokenGenerator, EntityManagerInterface $entityManager)
+    public function __construct(private readonly ConfirmationTokenGenerator $tokenGenerator, private readonly EntityManagerInterface $entityManager)
     {
-        $this->tokenGenerator = $tokenGenerator;
-        $this->entityManager = $entityManager;
     }
 
     public static function getEntityFqcn(): string
@@ -90,9 +85,7 @@ class DepartmentCrudController extends AbstractCrudController
         ]);
 
         $generateTokenAction = Action::new('generateSkipToken', 'department.action.generate_skip_token', 'fas fa-award')
-            ->displayIf(function (Department $paymentOrder) {
-                return $this->isGranted('ROLE_EDIT_ORGANISATIONS');
-            })
+            ->displayIf(fn(Department $paymentOrder): bool => $this->isGranted('ROLE_EDIT_ORGANISATIONS'))
             ->setCssClass('btn btn-secondary')
             ->linkToCrudAction('generateSkipToken');
 

@@ -9,23 +9,18 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture
+final class UserFixtures extends Fixture
 {
     public const USER_ADMIN_REFERENCE = 'user_admin';
     public const USER_HHV_REFERENCE = 'user_hhv';
     public const USER_EXPORTER_REFERENCE = 'user_exporter';
     public const USER_READONLY_REFERENCE = 'user_readonly';
 
-    protected $em;
-    protected $passwordEncoder;
-
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly UserPasswordHasherInterface $passwordEncoder)
     {
-        $this->em = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         //Reset autoincrement
         $this->em->getConnection()

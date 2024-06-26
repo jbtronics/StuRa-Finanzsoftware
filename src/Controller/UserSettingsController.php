@@ -35,14 +35,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * @Route("/admin/user")
- */
-class UserSettingsController extends AbstractController
+#[Route(path: '/admin/user')]
+final class UserSettingsController extends AbstractController
 {
-    /**
-     * @Route("/settings", name="user_settings")
-     */
+    #[Route(path: '/settings', name: 'user_settings')]
     public function userSettings(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager,
         GoogleAuthenticator $googleAuthenticator, BackupCodeManager $backupCodeManager): Response
     {
@@ -114,9 +110,7 @@ class UserSettingsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/2fa_backup_codes", name="show_backup_codes")
-     */
+    #[Route(path: '/2fa_backup_codes', name: 'show_backup_codes')]
     public function showBackupCodes(): Response
     {
         $user = $this->getUser();
@@ -128,7 +122,7 @@ class UserSettingsController extends AbstractController
             throw new RuntimeException('This controller only works only for Part-DB User objects!');
         }
 
-        if (empty($user->getBackupCodes())) {
+        if ($user->getBackupCodes() === []) {
             $this->addFlash('error', 'tfa_backup.no_codes_enabled');
 
             throw new RuntimeException('You do not have any backup codes enabled, therefore you can not view them!');
@@ -139,9 +133,7 @@ class UserSettingsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/regenerate_backup_codes", name="tfa_regenerate_backup_codes", methods={"DELETE"})
-     */
+    #[Route(path: '/regenerate_backup_codes', name: 'tfa_regenerate_backup_codes', methods: ['DELETE'])]
     public function regenerateBackupCodes(Request $request, EntityManagerInterface $entityManager, BackupCodeManager $backupCodeManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();
@@ -164,11 +156,7 @@ class UserSettingsController extends AbstractController
         return $this->redirect($request->request->get('_redirect'));
     }
 
-    /**
-     * @Route("/invalidate_trustedDevices", name="tfa_trustedDevices_invalidate", methods={"DELETE"})
-     *
-     * RedirectResponse
-     */
+    #[Route(path: '/invalidate_trustedDevices', name: 'tfa_trustedDevices_invalidate', methods: ['DELETE'])] // RedirectResponse
     public function resetTrustedDevices(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $this->getUser();

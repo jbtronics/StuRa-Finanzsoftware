@@ -58,25 +58,10 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class PaymentOrderCrudController extends AbstractCrudController
+final class PaymentOrderCrudController extends AbstractCrudController
 {
-    private $mailToGenerator;
-    private $dashboardControllerRegistry;
-    private $confirmationEmailSender;
-    private $adminURLGenerator;
-    private $entityManager;
-
-    public function __construct(PaymentOrderMailLinkGenerator $mailToGenerator,
-        DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
-        ConfirmationEmailSender $confirmationEmailSender, AdminUrlGenerator $adminUrlGenerator,
-        private readonly MessageBusInterface $messageBus
-    )
+    public function __construct(private readonly PaymentOrderMailLinkGenerator $mailToGenerator, private readonly DashboardControllerRegistry $dashboardControllerRegistry, private EntityManagerInterface $entityManager, private readonly ConfirmationEmailSender $confirmationEmailSender, private readonly AdminUrlGenerator $adminURLGenerator, private readonly MessageBusInterface $messageBus)
     {
-        $this->mailToGenerator = $mailToGenerator;
-        $this->dashboardControllerRegistry = $dashboardControllerRegistry;
-        $this->confirmationEmailSender = $confirmationEmailSender;
-        $this->adminURLGenerator = $adminUrlGenerator;
-        $this->entityManager = $entityManager;
     }
 
     public static function getEntityFqcn(): string
@@ -320,59 +305,43 @@ class PaymentOrderCrudController extends AbstractCrudController
         ]);
 
         $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
-            ->linkToUrl(function (PaymentOrder $paymentOrder) {
-                return $this->mailToGenerator->generateContactMailLink($paymentOrder);
-            })
+            ->linkToUrl(fn(PaymentOrder $paymentOrder) => $this->mailToGenerator->generateContactMailLink($paymentOrder))
             ->setCssClass('btn btn-secondary text-dark');
 
         //Hide action if no contact emails are associated with department
-        $emailAction->displayIf(function (PaymentOrder $paymentOrder) {
-            return null !== $this->mailToGenerator->generateContactMailLink($paymentOrder);
-        });
+        $emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
 
         $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')
-            ->linkToUrl(function (PaymentOrder $paymentOrder) {
-                return $this->mailToGenerator->getHHVMailLink($paymentOrder);
-            })
+            ->linkToUrl(fn(PaymentOrder $paymentOrder) => $this->mailToGenerator->getHHVMailLink($paymentOrder))
             ->setCssClass('btn btn-secondary text-dark');
 
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
-            ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed();
-            })
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed())
             ->setCssClass('btn btn-secondary text-dark');
 
         $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
             ->linkToCrudAction('checkMathematicallyCorrect')
-            ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_PO_MATHEMATICALLY')
-                    && $paymentOrder->isConfirmed()
-                    && !$paymentOrder->isMathematicallyCorrect();
-            })
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_MATHEMATICALLY')
+                && $paymentOrder->isConfirmed()
+                && !$paymentOrder->isMathematicallyCorrect())
             ->setCssClass('btn btn-success');
 
         $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
             ->linkToCrudAction('checkFactuallyCorrect')
-            ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_PO_FACTUALLY')
-                    && $paymentOrder->isConfirmed()
-                    && !$paymentOrder->isFactuallyCorrect()
-                    && $paymentOrder->isMathematicallyCorrect();
-            })
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_FACTUALLY')
+                && $paymentOrder->isConfirmed()
+                && !$paymentOrder->isFactuallyCorrect()
+                && $paymentOrder->isMathematicallyCorrect())
             ->setCssClass('btn btn-success');
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
             ->setCssClass('btn btn-secondary')
-            ->linkToRoute('payment_order_manual_confirm', function (PaymentOrder $paymentOrder) {
-                return [
-                    'id' => $paymentOrder->getId(),
-                ];
-            })
-            ->displayIf(function (PaymentOrder $paymentOrder) {
-                return $this->isGranted('ROLE_MANUAL_CONFIRMATION')
-                    && !$paymentOrder->isConfirmed();
-            });
+            ->linkToRoute('payment_order_manual_confirm', fn(PaymentOrder $paymentOrder): array => [
+                'id' => $paymentOrder->getId(),
+            ])
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_MANUAL_CONFIRMATION')
+                && !$paymentOrder->isConfirmed());
 
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);

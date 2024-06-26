@@ -25,13 +25,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AnonymizedIPSecurityProvider implements SecurityProviderInterface
 {
-    private $requestStack;
-    private $firewallMap;
-
-    public function __construct(RequestStack $requestStack, FirewallMap $firewallMap)
+    public function __construct(private readonly RequestStack $requestStack, private readonly FirewallMap $firewallMap)
     {
-        $this->requestStack = $requestStack;
-        $this->firewallMap = $firewallMap;
     }
 
     public function __invoke(): array

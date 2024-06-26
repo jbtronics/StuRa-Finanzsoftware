@@ -24,14 +24,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/pdf")
- */
-class PDFGeneratorController extends AbstractController
+#[Route(path: '/admin/pdf')]
+final class PDFGeneratorController extends AbstractController
 {
-    /**
-     * @Route("/payment_order/{id}")
-     */
+    #[Route(path: '/payment_order/{id}')]
     public function pdf(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');

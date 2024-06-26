@@ -29,18 +29,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserChangePasswordCommand extends Command
+final class UserChangePasswordCommand extends Command
 {
     protected static $defaultName = 'app:user-change-password';
 
-    protected $entityManager;
-    protected $passwordEncoder;
-
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct(static::$defaultName);
-        $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     protected function configure()

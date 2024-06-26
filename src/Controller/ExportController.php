@@ -32,24 +32,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @Route("/admin/payment_order")
+ * @see \App\Tests\Controller\ExportControllerTest
  */
-class ExportController extends AbstractController
+#[Route(path: '/admin/payment_order')]
+final class ExportController extends AbstractController
 {
-    protected $sepaExporter;
-    protected $translator;
-    protected $entityManager;
-
-    public function __construct(PaymentOrdersSEPAExporter $sepaExporter, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(
+        private readonly PaymentOrdersSEPAExporter $sepaExporter,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TranslatorInterface $translator)
     {
-        $this->sepaExporter = $sepaExporter;
-        $this->translator = $translator;
-        $this->entityManager = $entityManager;
     }
 
-    /**
-     * @Route("/export", name="payment_order_export")
-     */
+    #[Route(path: '/export', name: 'payment_order_export')]
     public function export(Request $request, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_EXPORT_PAYMENT_ORDERS');

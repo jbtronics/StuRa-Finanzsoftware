@@ -8,16 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class PaymentOrderFixture extends Fixture
+final class PaymentOrderFixture extends Fixture
 {
-    protected $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly \Doctrine\ORM\EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         //Reset autoincrement
         $this->em->getConnection()

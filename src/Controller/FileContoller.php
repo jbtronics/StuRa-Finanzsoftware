@@ -27,13 +27,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
- * @Route("/file")
+ * @see \App\Tests\Controller\FileContollerTest
  */
-class FileContoller extends AbstractController
+#[Route(path: '/file')]
+final class FileContoller extends AbstractController
 {
-    /**
-     * @Route("/payment_order/{id}/form", name="file_payment_order_form")
-     */
+    #[Route(path: '/payment_order/{id}/form', name: 'file_payment_order_form')]
     public function paymentOrderForm(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler, Request $request): Response
     {
         $this->checkPermission($paymentOrder, $request);
@@ -52,9 +51,7 @@ class FileContoller extends AbstractController
         );
     }
 
-    /**
-     * @Route("/payment_order/{id}/references", name="file_payment_order_references")
-     */
+    #[Route(path: '/payment_order/{id}/references', name: 'file_payment_order_references')]
     public function paymentOrderReferences(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler, Request $request): Response
     {
         $this->checkPermission($paymentOrder, $request);

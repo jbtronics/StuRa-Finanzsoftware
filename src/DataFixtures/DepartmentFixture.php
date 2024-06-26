@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class DepartmentFixture extends Fixture
+final class DepartmentFixture extends Fixture
 {
     public const DEPARTMENT1_REFERENCE = 'department1';
     public const DEPARTMENT2_REFERENCE = 'department2';
@@ -15,14 +15,11 @@ class DepartmentFixture extends Fixture
     public const DEPARTMENT4_REFERENCE = 'department4';
     public const DEPARTMENT5_REFERENCE = 'department5';
 
-    protected $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         //Reset autoincrement
         $this->em->getConnection()
