@@ -35,6 +35,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -49,7 +50,7 @@ class PaymentOrderController extends AbstractController
     private $userProvider;
     private $entityManager;
 
-    public function __construct(UserProvider $userProvider, EntityManagerInterface $entityManager)
+    public function __construct(UserProvider $userProvider, EntityManagerInterface $entityManager, private readonly MessageBusInterface $messageBus)
     {
         $this->userProvider = $userProvider;
         $this->entityManager = $entityManager;
@@ -243,7 +244,7 @@ class PaymentOrderController extends AbstractController
             }
 
             $message = new PaymentOrderDeletedNotification($paymentOrder, $blame_user, PaymentOrderDeletedNotification::DELETED_WHERE_FRONTEND);
-            $this->dispatchMessage($message);
+            $this->messageBus->dispatch($message);
 
             $this->entityManager->remove($paymentOrder);
             $this->entityManager->flush();

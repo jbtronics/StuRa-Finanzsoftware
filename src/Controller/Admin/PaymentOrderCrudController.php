@@ -56,6 +56,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class PaymentOrderCrudController extends AbstractCrudController
 {
@@ -67,7 +68,9 @@ class PaymentOrderCrudController extends AbstractCrudController
 
     public function __construct(PaymentOrderMailLinkGenerator $mailToGenerator,
         DashboardControllerRegistry $dashboardControllerRegistry, EntityManagerInterface $entityManager,
-        ConfirmationEmailSender $confirmationEmailSender, AdminUrlGenerator $adminUrlGenerator)
+        ConfirmationEmailSender $confirmationEmailSender, AdminUrlGenerator $adminUrlGenerator,
+        private readonly MessageBusInterface $messageBus
+    )
     {
         $this->mailToGenerator = $mailToGenerator;
         $this->dashboardControllerRegistry = $dashboardControllerRegistry;
@@ -94,7 +97,7 @@ class PaymentOrderCrudController extends AbstractCrudController
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 
-        $entityManager = $this->getDoctrine()->getManagerForClass($batchActionDto->getEntityFqcn());
+        $entityManager = $this->entityManager;
 
         $data = [];
         foreach ($batchActionDto->getEntityIds() as $id) {
@@ -598,7 +601,7 @@ class PaymentOrderCrudController extends AbstractCrudController
             $blame_user = $user->getFullName();
         }
         $message = new PaymentOrderDeletedNotification($entityInstance, $blame_user, PaymentOrderDeletedNotification::DELETED_WHERE_BACKEND);
-        $this->dispatchMessage($message);
+        $this->messageBus->dispatch($message);
 
         parent::deleteEntity($entityManager, $entityInstance);
     }

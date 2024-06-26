@@ -19,27 +19,31 @@
 namespace App\Services\Upload;
 
 use App\Entity\PaymentOrder;
+use JetBrains\PhpStorm\Deprecated;
+use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Mapping\PropertyMappingFactory;
 use Vich\UploaderBundle\Storage\FileSystemStorage;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * We need to extend the original filesystemstorage as we have stored our payment_order files privately and want to use
  * the normal interface to access them via URI...
  */
-class ExtendedFileSystemStorage extends FileSystemStorage
+#[AsDecorator(FileSystemStorage::class)]
+class ExtendedFileSystemStorage implements StorageInterface
 {
     private $router;
 
-    public function __construct(PropertyMappingFactory $factory, UrlGeneratorInterface $router)
+    public function __construct(private readonly StorageInterface $decorated, UrlGeneratorInterface $router)
     {
-        parent::__construct($factory);
         $this->router = $router;
     }
 
     public function resolveUri($obj, ?string $fieldName = null, ?string $className = null): ?string
     {
-        $tmp = parent::resolveUri($obj, $fieldName, $className);
+        $tmp = $this->decorated->resolveUri($obj, $fieldName, $className);
 
         if (null !== $tmp && $obj instanceof PaymentOrder) {
             if ('printed_form' === $fieldName || 'printed_form_file' === $fieldName) {
@@ -56,5 +60,29 @@ class ExtendedFileSystemStorage extends FileSystemStorage
         }
 
         return $tmp;
+    }
+
+    public function upload(object $obj, PropertyMapping $mapping): void
+    {
+        $this->decorated->upload($obj, $mapping);
+    }
+
+    public function remove(object $obj, PropertyMapping $mapping): ?bool
+    {
+        return $this->decorated->remove($obj, $mapping);
+    }
+
+    public function resolvePath(
+        object|array $obj,
+        ?string $fieldName = null,
+        ?string $className = null,
+        ?bool $relative = false
+    ): ?string {
+        return $this->decorated->resolvePath($obj, $fieldName, $className, $relative);
+    }
+
+    public function resolveStream(object|array $obj, ?string $fieldName = null, ?string $className = null)
+    {
+        return $this->decorated->resolveStream($obj, $fieldName, $className);
     }
 }

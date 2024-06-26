@@ -92,12 +92,12 @@ class UserProvider implements UserProviderInterface, EventSubscriber
                     $identifier = $tokenUser->getId();
                 }
 
-                $username = $tokenUser->getUsername();
+                $username = $tokenUser->getUserIdentifier();
             }
         }
 
         if (null !== $impersonatorUser && $impersonatorUser instanceof UserInterface) {
-            $username .= sprintf('[impersonator %s]', $impersonatorUser->getUsername());
+            $username .= sprintf('[impersonator %s]', $impersonatorUser->getUserIdentifier());
         }
 
         //Check if a username and identifier were manually provided

@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 
 /**
- * This event subscriber.
+ * @TODO: Fix this subscriber
  */
 class Fail2BanSubscriber implements EventSubscriberInterface
 {
@@ -45,7 +45,7 @@ class Fail2BanSubscriber implements EventSubscriberInterface
         $this->request = $request;
     }
 
-    public function logFail2Ban(AuthenticationFailureEvent $event): void
+    public function logFail2Ban(/*AuthenticationFailureEvent $event*/): void
     {
         $ipAddress = $this->request->getCurrentRequest()
             ->getClientIp();
@@ -55,9 +55,10 @@ class Fail2BanSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            AuthenticationEvents::AUTHENTICATION_FAILURE => [
+            //TODO: Fix again
+            /*AuthenticationEvents:: => [
                 'logFail2Ban',
-            ],
+            ],*/
         ];
     }
 }
