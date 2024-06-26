@@ -52,6 +52,7 @@
         "symfony/property-info": "6.4.*",
         "symfony/proxy-manager-bridge": "6.4.*",
         "symfony/rate-limiter": "6.4.*",
+        "symfony/runtime": "6.4.*",
         "symfony/security-bundle": "6.4.*",
         "symfony/serializer": "6.4.*",
         "symfony/string": "6.4.*",
@@ -106,7 +107,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "symfony/flex": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
