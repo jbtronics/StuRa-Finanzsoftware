@@ -2,7 +2,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    annotations: false
+    # We need annotations for dh audit bundle routing
+    annotations: true
     http_method_override: false
     handle_all_throwables: true
 

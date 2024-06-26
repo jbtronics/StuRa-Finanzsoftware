@@ -1,7 +1,7 @@
 controllers:
     resource: '../../src/Controller/'
     #exclude: '../../src/Controller/Admin/*'
-    type: annotation
+    type: attribute
     prefix:
         de: ''
         de_DE: '/de'
@@ -13,4 +13,4 @@ controllers:
 
 kernel:
     resource: ../../src/Kernel.php
-    type: annotation
+    type: attribute
