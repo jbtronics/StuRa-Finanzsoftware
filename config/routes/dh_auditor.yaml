@@ -1,5 +1,5 @@
 # Put DH auditor in admin routes, so it is protected
 dh_auditor:
     resource: "@DHAuditorBundle/Controller/"
-    type: auditor
+    type: annotation
     prefix: '/admin'
