@@ -614,15 +614,15 @@
         "version": "v5.1.2"
     },
     "symfony/lock": {
-        "version": "5.2",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "5.2",
-            "ref": "13350583a83fa636bf45a5fb62da3bdc73be52a1"
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
         },
         "files": [
-            "./config/packages/lock.yaml"
+            "config/packages/lock.yaml"
         ]
     },
     "symfony/mailer": {
