@@ -75,12 +75,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private string $last_name = '';
 
     /**
-     * @var Department "Struktur/Organisation"
-     * @FSRNotBlocked(groups={"fsr_blocked"})
+     * @var Department|null "Struktur/Organisation"
      */
     #[ORM\ManyToOne(targetEntity: Department::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
+    #[FSRNotBlocked(groups: ['fsr_blocked'])]
     private ?Department $department = null;
 
     /**

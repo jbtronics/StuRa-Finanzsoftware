@@ -22,9 +22,8 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * Check if an FSR or Department is not marked as blocked during validation.
- *
- * @Annotation
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class FSRNotBlocked extends Constraint
 {
     /*

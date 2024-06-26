@@ -24,9 +24,8 @@ use Symfony\Component\Validator\Constraint;
 /**
  * Check permissions during validation so you can not lockout yourself from user control.
  *
- * @Annotation
- * @Target("CLASS")
  */
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class NoLockout extends Constraint
 {
     /*

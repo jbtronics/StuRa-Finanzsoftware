@@ -37,11 +37,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The login is done with the username and a user choosable password. It is possible to configure two factor authentication
  * methods for additional security.
  *
- * @NoLockout(groups={"perm_edit"})
  * @see \App\Tests\Entity\UserTest
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'])]
+#[NoLockout(groups: ['perm_edit'])]
 class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     #[ORM\Id]
