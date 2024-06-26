@@ -27,23 +27,22 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimestampTrait
 {
     /**
-     * @var DateTime the date when this element was modified the last time
-     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     * @var DateTime|null the date when this element was modified the last time
      */
-    protected $last_modified;
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    protected ?\DateTime $last_modified = null;
 
     /**
-     * @var DateTime the date when this element was created
-     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     * @var DateTime|null the date when this element was created
      */
-    protected $creation_date;
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    protected ?\DateTime $creation_date;
 
     /**
      * Helper for updating the timestamp. It is automatically called by doctrine before persisting.
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function updateTimestamps(): void
     {
         $this->last_modified = new DateTime('now');

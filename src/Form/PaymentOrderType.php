@@ -34,7 +34,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class PaymentOrderType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('first_name', TextType::class, [
             'label' => 'payment_order.first_name.label',
@@ -151,7 +151,7 @@ class PaymentOrderType extends AbstractType
         ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', PaymentOrder::class);
         $resolver->setDefault('validation_groups', ['Default', 'frontend', 'fsr_blocked']);

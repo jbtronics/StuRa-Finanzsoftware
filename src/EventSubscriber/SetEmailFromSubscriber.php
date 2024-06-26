@@ -48,18 +48,10 @@ use Symfony\Component\Mime\Email;
 /**
  * This subscriber set the "From" field for all sent email, based on the global configured sender name and email.
  */
-final class SetEmailFromSubscriber implements EventSubscriberInterface
+final readonly class SetEmailFromSubscriber implements EventSubscriberInterface
 {
-    private $email;
-    private $name;
-    private $envelope_sender;
-
-    public function __construct(string $email, string $name, string $envelope_sender)
+    public function __construct(private string $email, private string $name, private string $envelope_sender)
     {
-        $this->email = $email;
-        $this->name = $name;
-
-        $this->envelope_sender = $envelope_sender;
     }
 
     public function onMessage(MessageEvent $event): void

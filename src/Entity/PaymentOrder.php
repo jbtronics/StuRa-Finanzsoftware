@@ -38,199 +38,147 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * payment order is factually correct, then it is exported (as SEPA-XML) to the online banking system. Another officer
  * then checks if the payment order is factually correct and then approve the payment in the online banking.
  *
- * @ORM\Entity(repositoryClass=PaymentOrderRepository::class)
- * @ORM\Table("payment_orders")
- * @Vich\Uploadable()
- * @ORM\HasLifecycleCallbacks()
+ * @see \App\Tests\Entity\PaymentOrderTest
  */
+#[ORM\Entity(repositoryClass: PaymentOrderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table('payment_orders')]
+#[Vich\Uploadable()]
 class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \Serializable
 {
     use TimestampTrait;
 
     public const FUNDING_ID_REGEX = '/^(FA|M)-\d{3,4}-20\d{2}(_\d{2})?$/';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @var PayeeInfo
-     * @ORM\Embedded(class="App\Entity\Embeddable\PayeeInfo")
-     * @Assert\Valid()
-     */
-    private $bank_info;
+    #[ORM\Embedded(class: \App\Entity\Embeddable\PayeeInfo::class)]
+    #[Assert\Valid]
+    private \App\Entity\Embeddable\PayeeInfo $bank_info;
 
     /**
      * @var string "Vorname"
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
      */
-    private $first_name = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    private string $first_name = '';
 
     /**
      * @var string "Nachname"
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
      */
-    private $last_name = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    private string $last_name = '';
 
     /**
      * @var Department "Struktur/Organisation"
-     * @ORM\ManyToOne(targetEntity="App\Entity\Department")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull()
      * @FSRNotBlocked(groups={"fsr_blocked"})
      */
-    private $department;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Department::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
+    private ?\App\Entity\Department $department = null;
 
     /**
      * @var string "Projektbezeichnung"
-     * @Assert\NotBlank()
-     * @Assert\Length(max=70, maxMessage="validator.project_name.too_long")
-     * @ORM\Column(type="string")
      */
-    private $project_name = '';
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 70, maxMessage: 'validator.project_name.too_long')]
+    #[ORM\Column(type: 'string')]
+    private string $project_name = '';
 
     /**
      * @var int "Betrag"
-     * @ORM\Column(type="integer")
-     * @Assert\Positive()
      */
-    private $amount = null;
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Positive]
+    private ?int $amount = null;
 
     /**
      * @var bool "mathematisch richtig"
-     * @ORM\Column(type="boolean")
      */
-    private $mathematically_correct = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $mathematically_correct = false;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $exported = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $exported = false;
 
     /**
      * @var bool "sachlich richtig"
-     * @ORM\Column(type="boolean")
      */
-    private $factually_correct = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $factually_correct = false;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $comment = '';
+    #[ORM\Column(type: 'text')]
+    private string $comment = '';
 
     /**
      * @var string "Mittelfreigabe / Finanzantrag"
-     * @ORM\Column(type="string")
-     * @Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)
      */
-    private $funding_id = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
+    private string $funding_id = '';
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $confirm1_token = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $confirm1_token = null;
 
-    /**
-     * @var DateTime|null
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $confirm1_timestamp = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $confirm1_timestamp = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $confirm2_token = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $confirm2_token = null;
 
-    /**
-     * @var DateTime|null
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $confirm2_timestamp = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $confirm2_timestamp = null;
 
     /**
      * @var bool Is FSR-Kom resolution
-     * @ORM\Column(type="boolean")
      */
-    private $fsr_kom_resolution = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $fsr_kom_resolution = false;
 
-    /**
-     * @var DateTime|null
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\LessThanOrEqual(value="today", message="validator.resolution_must_not_be_in_future")
-     * @Assert\GreaterThan(value="-3 years", message="validator.resolution_too_old")
-     * @Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message="validator.resolution_date.needed_for_fsr_fsrkom")
-     */
-    private $resolution_date = null;
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
+    #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old')]
+    #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
+    private ?\DateTime $resolution_date = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
-     * @Assert\Email()
-     */
-    private $contact_email = '';
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\Email]
+    private string $contact_email = '';
 
-    /**
-     * @var DateTime|null
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $booking_date = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $booking_date = null;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $references_exported = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $references_exported = false;
 
     /*
      * Associated files
      */
-
     /**
      * @Vich\UploadableField(mapping="payment_orders_form", fileNameProperty="printed_form.name", size="printed_form.size", mimeType="printed_form.mimeType", originalName="printed_form.originalName", dimensions="printed_form.dimensions")
-     *
-     * @var \Symfony\Component\HttpFoundation\File\File|null
-     * @Assert\File(
-     *     maxSize = "1024k",
-     *     mimeTypes = {"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage = "validator.upload_pdf"
-     * )
      */
-    private $printed_form_file;
+    #[Assert\File(maxSize: '1024k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    private ?\Symfony\Component\HttpFoundation\File\File $printed_form_file = null;
 
-    /**
-     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
-     *
-     * @var File
-     */
-    private $printed_form;
+    
+    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
+    private \Vich\UploaderBundle\Entity\File $printed_form;
 
     /**
      * @Vich\UploadableField(mapping="payment_orders_references", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
-     *
-     * @var \Symfony\Component\HttpFoundation\File\File|null
-     * @Assert\NotBlank(groups={"frontend"})
-     * @Assert\File(
-     *     maxSize = "10M",
-     *     mimeTypes = {"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage = "validator.upload_pdf"
-     * )
      */
-    private $references_file;
+    #[Assert\NotBlank(groups: ['frontend'])]
+    #[Assert\File(maxSize: '10M', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    private ?\Symfony\Component\HttpFoundation\File\File $references_file = null;
 
-    /**
-     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
-     *
-     * @var File
-     */
-    private $references;
+    
+    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
+    private \Vich\UploaderBundle\Entity\File $references;
 
     public function __construct()
     {
@@ -272,10 +220,10 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     public function getFullName(): string
     {
-        if (empty($this->getFirstName())) {
+        if ($this->getFirstName() === '' || $this->getFirstName() === '0') {
             return $this->getLastName();
         }
-        if (empty($this->getLastName())) {
+        if ($this->getLastName() === '' || $this->getLastName() === '0') {
             return $this->getFirstName();
         }
 
@@ -432,11 +380,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         $this->factually_correct = $factually_correct;
 
         //Update the status of booking date
-        if ($factually_correct) {
-            $this->booking_date = new \DateTime();
-        } else {
-            $this->booking_date = null;
-        }
+        $this->booking_date = $factually_correct ? new \DateTime() : null;
 
         return $this;
     }
@@ -784,7 +728,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         return serialize($this->getId());
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $this->id = unserialize($serialized);
     }

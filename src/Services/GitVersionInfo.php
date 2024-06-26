@@ -27,15 +27,13 @@ use Symfony\Contracts\Cache\ItemInterface;
 /**
  * This service allows to extract informations about the current git commit (useful for version info).
  */
-class GitVersionInfo
+final readonly class GitVersionInfo
 {
-    protected $project_dir;
-    protected $cache;
+    private string $project_dir;
 
-    public function __construct(KernelInterface $kernel, CacheInterface $cache)
+    public function __construct(KernelInterface $kernel, private CacheInterface $cache)
     {
         $this->project_dir = $kernel->getProjectDir();
-        $this->cache = $cache;
     }
 
     /**
@@ -46,7 +44,7 @@ class GitVersionInfo
      */
     public function getGitBranchName(): ?string
     {
-        return $this->cache->get('git_branch', function (ItemInterface $item) {
+        return $this->cache->get('git_branch', function (ItemInterface $item): ?string {
             $item->expiresAfter(4320); //Recache every 12h
             if (is_file($this->project_dir.'/.git/HEAD')) {
                 $git = file($this->project_dir.'/.git/HEAD');
@@ -75,7 +73,7 @@ class GitVersionInfo
      */
     public function getGitCommitHash(int $length = 7): ?string
     {
-        return $this->cache->get('git_hash', function (ItemInterface $item) use ($length) {
+        return $this->cache->get('git_hash', function (ItemInterface $item) use ($length): ?string {
             $item->expiresAfter(4320); //Recache every 12h
 
             $filename = $this->project_dir.'/.git/refs/remotes/origin/'.$this->getGitBranchName();

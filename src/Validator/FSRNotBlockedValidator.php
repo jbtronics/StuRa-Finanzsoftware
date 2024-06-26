@@ -23,16 +23,13 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class FSRNotBlockedValidator extends ConstraintValidator
+final class FSRNotBlockedValidator extends ConstraintValidator
 {
-    private $fsb_email;
-
-    public function __construct(string $fsb_email)
+    public function __construct(private readonly string $fsb_email)
     {
-        $this->fsb_email = $fsb_email;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         /** @var FSRNotBlocked $constraint */
 

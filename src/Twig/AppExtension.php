@@ -23,24 +23,21 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class AppExtension extends AbstractExtension
+final class AppExtension extends AbstractExtension
 {
-    private $requestStack;
-
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('formatBytes', [$this, 'formatBytes']),
-            new TwigFilter('format_datetime_diff', [$this, 'formatDatetimeDiff']),
+            new TwigFilter('formatBytes', $this->formatBytes(...)),
+            new TwigFilter('format_datetime_diff', $this->formatDatetimeDiff(...)),
         ];
     }
 
-    public function formatDatetimeDiff($dateTime, $other = null, array $options = [
+    public function formatDatetimeDiff(\DateTimeInterface|\Carbon\WeekDay|\Carbon\Month|string|int|float|null $dateTime, $other = null, array $options = [
         'parts' => 2,
     ]): string
     {

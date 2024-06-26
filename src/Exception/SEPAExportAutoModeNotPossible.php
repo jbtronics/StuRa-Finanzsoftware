@@ -23,11 +23,8 @@ use RuntimeException;
 
 final class SEPAExportAutoModeNotPossible extends RuntimeException
 {
-    private $wrong_department;
-
-    public function __construct(?Department $department = null)
+    public function __construct(private readonly ?Department $wrong_department = null)
     {
-        $this->wrong_department = $department;
         parent::__construct('Auto Mode not possible as a department is missing a default bank account');
     }
 

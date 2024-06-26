@@ -16,31 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace App;
+namespace App\MessageHandler;
 
 use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\ReplyEmailDecisonMaker;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PaymentOrderDeletedNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class PaymentOrderDeletedNotificationHandler
 {
 
-    private $mailer;
-    private $reply_decision_maker;
-    private $translator;
-
-    public function __construct(MailerInterface $mailer, ReplyEmailDecisonMaker $reply_decision_maker, TranslatorInterface $translator)
+    public function __construct(
+        private MailerInterface $mailer,
+        private ReplyEmailDecisonMaker $reply_decision_maker,
+        private TranslatorInterface $translator
+    )
     {
-        $this->mailer = $mailer;
-        $this->reply_decision_maker = $reply_decision_maker;
-        $this->translator = $translator;
     }
 
-    public function __invoke(PaymentOrderDeletedNotification $message)
+    public function __invoke(PaymentOrderDeletedNotification $message): void
     {
         $paymentOrder = $message->getPaymentOrder();
 

@@ -30,12 +30,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A Department represents a structural unit like "FSR Physik" or "Referat für Inneres".
  * It can has a associated bank account which is used to choose the correct bank account in SEPA exports.
  *
- * @ORM\Entity(repositoryClass=DepartmentRepository::class)
- * @ORM\Table("departments")
- * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields={"name"})
+ * @see \App\Tests\Entity\DepartmentTest
  */
-class Department implements DBElementInterface, NamedElementInterface, TimestampedElementInterface
+#[ORM\Entity(repositoryClass: DepartmentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['name'])]
+#[ORM\Table('departments')]
+class Department implements DBElementInterface, NamedElementInterface, TimestampedElementInterface, \Stringable
 {
     /**
      * A department with this type is an FSR ("Fachschaftsrat").
@@ -54,90 +55,74 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     use TimestampTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string")
-     *
-     * @var string
-     */
-    private $name = '';
+    
+    #[ORM\Column(type: 'string')]
+    private string $name = '';
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\Choice(choices=Department::ALLOWED_TYPES)
-     *
-     * @var string|null
-     */
-    private $type = self::TYPE_FSR;
+    
+    #[ORM\Column(type: 'string')]
+    #[Assert\Choice(choices: Department::ALLOWED_TYPES)]
+    private string $type = self::TYPE_FSR;
 
     /**
      * @var bool If an FSR is blocked it can not submit new payment orders
-     * @ORM\Column(type="boolean")
      */
-    private $blocked = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $blocked = false;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $comment = '';
+    #[ORM\Column(type: 'text')]
+    private string $comment = '';
 
     /**
      * @var string[]
-     * @ORM\Column(type="json")
-     * @Assert\Unique()
      * @Assert\All({
      *     @Assert\Email()
      * })
      */
-    private $contact_emails = [];
+    #[ORM\Column(type: 'json')]
+    #[Assert\Unique]
+    private array $contact_emails = [];
 
-    /**
-     * @var BankAccount|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", inversedBy="associated_departments")
-     * @ORM\JoinColumn(name="bank_account_id", referencedColumnName="id", nullable=true)
-     */
-    private $bank_account = null;
+    #[ORM\ManyToOne(targetEntity: BankAccount::class, inversedBy: 'associated_departments')]
+    #[ORM\JoinColumn(name: 'bank_account_id', referencedColumnName: 'id', nullable: true)]
+    private ?BankAccount $bank_account = null;
 
     /**
      * @var string[]
-     * @ORM\Column(type="simple_array", nullable=true)
-     * @Assert\Unique()
-     * @Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
      * @Assert\All({
      *     @Assert\Email(),
      *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
      * })
      */
-    private $email_hhv = [];
+    #[ORM\Column(type: 'simple_array', nullable: true)]
+    #[Assert\Unique]
+    #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
+    private array $email_hhv = [];
 
     /**
      * @var string[]
-     * @ORM\Column(type="simple_array", nullable=true)
-     * @Assert\Unique()
-     * @Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message="validator.fsr_email_must_not_be_empty")
      * @Assert\All({
      *     @Assert\Email()
      * })
      */
-    private $email_treasurer = [];
+    #[ORM\Column(type: 'simple_array', nullable: true)]
+    #[Assert\Unique]
+    #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
+    private array $email_treasurer = [];
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $references_export_prefix = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $references_export_prefix = null;
 
     /**
      * @var string[]
-     * @ORM\Column(type="json")
      */
-    private $skip_blocked_validation_tokens = [];
+    #[ORM\Column(type: 'json')]
+    private array $skip_blocked_validation_tokens = [];
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)

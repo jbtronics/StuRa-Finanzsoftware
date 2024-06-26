@@ -36,83 +36,57 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The login is done with the username and a user choosable password. It is possible to configure two factor authentication
  * methods for additional security.
  *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"username"})
  * @NoLockout(groups={"perm_edit"})
+ * @see \App\Tests\Entity\UserTest
  */
-class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['username'])]
+class User implements DBElementInterface, UserInterface, TwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $username;
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    private ?string $username = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $role_description = '';
+    #[ORM\Column(type: 'string')]
+    private string $role_description = '';
 
-    /**
-     * @var string
-     * @Assert\Email()
-     * @ORM\Column(type="string")
-     */
-    private $email = '';
+    #[Assert\Email]
+    #[ORM\Column(type: 'string')]
+    private string $email = '';
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = ['ROLE_ADMIN'];
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_ADMIN'];
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $first_name = '';
+    #[ORM\Column(type: 'string')]
+    private string $first_name = '';
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $last_name = '';
+    #[ORM\Column(type: 'string')]
+    private string $last_name = '';
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
-    private $password;
+    #[ORM\Column(type: 'string')]
+    private ?string $password = null;
 
-    /**
-     * @var string|null
-     * @Assert\Length(min=6)
-     */
-    private $plain_password = null;
+    #[Assert\Length(min: 6)]
+    private ?string $plain_password = null;
 
-    /**
-     * @ORM\Column(name="googleAuthenticatorSecret", type="string", nullable=true)
-     */
-    private $googleAuthenticatorSecret;
+    #[ORM\Column(name: 'googleAuthenticatorSecret', type: 'string', nullable: true)]
+    private ?string $googleAuthenticatorSecret = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $trustedVersion = 0;
+    #[ORM\Column(type: 'integer')]
+    private int $trustedVersion = 0;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $backupCodes = [];
+    #[ORM\Column(type: 'json')]
+    private array $backupCodes = [];
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $backupCodesDate;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $backupCodesDate = null;
 
     public function getId(): ?int
     {
@@ -230,7 +204,7 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plain_password = null;
@@ -313,10 +287,10 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
      */
     public function getFullName(): string
     {
-        if (empty($this->getFirstName())) {
+        if ($this->getFirstName() === null || $this->getFirstName() === '' || $this->getFirstName() === '0') {
             return $this->getLastName();
         }
-        if (empty($this->getLastName())) {
+        if ($this->getLastName() === null || $this->getLastName() === '' || $this->getLastName() === '0') {
             return $this->getFirstName();
         }
 
@@ -360,7 +334,7 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
      */
     public function isGoogleAuthenticatorEnabled(): bool
     {
-        return $this->googleAuthenticatorSecret ? true : false;
+        return (bool) $this->googleAuthenticatorSecret;
     }
 
     /**

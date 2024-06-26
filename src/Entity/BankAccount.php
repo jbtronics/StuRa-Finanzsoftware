@@ -16,58 +16,47 @@ use Symfony\Component\Validator\Constraints as Assert;
  * This entity describes an bank account that the StuRa has control over.
  * It can be associated with an department.
  *
- * @ORM\Entity(repositoryClass=BankAccountRepository::class)
- * @ORM\Table("bank_accounts")
- * @ORM\HasLifecycleCallbacks()
  *
- * @UniqueEntity(fields={"name"})
- * @UniqueEntity(fields={"iban"})
+ * @see \App\Tests\Entity\BankAccountTest
  */
-class BankAccount implements DBElementInterface, NamedElementInterface, TimestampedElementInterface
+#[ORM\Entity(repositoryClass: BankAccountRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['name'])]
+#[UniqueEntity(fields: ['iban'])]
+#[ORM\Table('bank_accounts')]
+class BankAccount implements DBElementInterface, NamedElementInterface, TimestampedElementInterface, \Stringable
 {
     use TimestampTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    private $name = '';
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    private string $name = '';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Iban()
-     */
-    private $iban = '';
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Iban]
+    private string $iban = '';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Bic(ibanPropertyPath="iban")
-     * @Assert\NotBlank()
-     */
-    private $bic = '';
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Bic(ibanPropertyPath: 'iban')]
+    #[Assert\NotBlank]
+    private string $bic = '';
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $comment = '';
+    #[ORM\Column(type: 'text')]
+    private string $comment = '';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $account_name = '';
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $account_name = '';
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Department", mappedBy="bank_account")
      */
-    private $associated_departments;
+    #[ORM\OneToMany(targetEntity: \App\Entity\Department::class, mappedBy: 'bank_account')]
+    private \Doctrine\Common\Collections\ArrayCollection $associated_departments;
 
     public function __construct()
     {
@@ -178,7 +167,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
      */
     public function getExportAccountName(): string
     {
-        if (!empty(trim($this->account_name))) {
+        if (trim((string) $this->account_name) !== '') {
             return $this->account_name;
         }
 

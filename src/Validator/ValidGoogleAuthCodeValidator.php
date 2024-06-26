@@ -30,13 +30,10 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class ValidGoogleAuthCodeValidator extends ConstraintValidator
+final class ValidGoogleAuthCodeValidator extends ConstraintValidator
 {
-    protected $googleAuthenticator;
-
-    public function __construct(GoogleAuthenticator $googleAuthenticator)
+    public function __construct(private readonly GoogleAuthenticator $googleAuthenticator)
     {
-        $this->googleAuthenticator = $googleAuthenticator;
     }
 
     public function validate($value, Constraint $constraint): void

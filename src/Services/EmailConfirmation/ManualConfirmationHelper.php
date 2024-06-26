@@ -22,30 +22,28 @@ use App\Entity\PaymentOrder;
 use App\Entity\User;
 use Carbon\Carbon;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ManualConfirmationHelper
+/**
+ * @see \App\Tests\Services\EmailConfirmation\ManualConfirmationHelperTest
+ */
+final readonly class ManualConfirmationHelper
 {
-    private $security;
-    private $notifications_risky;
-    private $fsb_email;
-    private $hhv_email;
-    private $translator;
-    private $mailer;
+    private array $notifications_risky;
 
-    public function __construct(Security $security, TranslatorInterface $translator, MailerInterface $mailer,
-        array $notifications_risky, string $fsb_email, string $hhv_email)
+    public function __construct(
+        private Security $security,
+        private TranslatorInterface $translator,
+        private MailerInterface $mailer,
+        array $notifications_risky,
+        private string $fsb_email,
+        private string $hhv_email
+    )
     {
-        $this->security = $security;
         $this->notifications_risky = array_filter($notifications_risky);
-        $this->fsb_email = $fsb_email;
-        $this->hhv_email = $hhv_email;
-        $this->translator = $translator;
-
-        $this->mailer = $mailer;
     }
 
     /**
@@ -71,7 +69,7 @@ class ManualConfirmationHelper
         //Add a comment about the manual confirmation
         $tmp = $paymentOrder->getComment();
         //Add line breaks if comment is not empty.
-        if (!empty($tmp)) {
+        if ($tmp !== '' && $tmp !== '0') {
             $tmp .= '<br><br>';
         }
         $tmp .= $this->generateComment($paymentOrder, $reason, $user);

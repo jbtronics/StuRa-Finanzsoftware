@@ -22,13 +22,10 @@ use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInterface
+final class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInterface
 {
-    private $confirmationSender;
-
-    public function __construct(ConfirmationEmailSender $confirmationSender)
+    public function __construct(private readonly ConfirmationEmailSender $confirmationSender)
     {
-        $this->confirmationSender = $confirmationSender;
     }
 
     public function sendConfirmationEmails(PaymentOrderSubmittedEvent $event): void

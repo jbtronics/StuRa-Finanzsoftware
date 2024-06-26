@@ -20,30 +20,27 @@ namespace App\Message\PaymentOrder;
 
 use App\Entity\PaymentOrder;
 
-class PaymentOrderDeletedNotification
+final class PaymentOrderDeletedNotification
 {
     public const DELETED_WHERE_FRONTEND = "frontend";
     public const DELETED_WHERE_BACKEND = "backend";
 
     private const DELETED_WHERE = [self::DELETED_WHERE_FRONTEND, self::DELETED_WHERE_BACKEND];
 
-    /** @var PaymentOrder The payment order that was deleted. We need to pass the full payment order, so that we can use it even after it was removed */
-    private $payment_order;
-
-    /** @var string The user who did the deletion */
-    private $blame_user;
-
     /** @var string Whether the payment order was deleted in backend or frontend */
-    private $deleted_where;
+    private readonly string $deleted_where;
 
-    public function __construct(PaymentOrder $payment_order, string $blame_user, string $deleted_where)
+    public function __construct(
+        /** @var PaymentOrder The payment order that was deleted. We need to pass the full payment order, so that we can use it even after it was removed */
+        private readonly PaymentOrder $payment_order,
+        /** @var string The user who did the deletion */
+        private readonly string $blame_user,
+        string $deleted_where
+    )
     {
         if (!in_array($deleted_where, self::DELETED_WHERE)) {
             throw new \InvalidArgumentException('$deleted_where has an value that is not allowed!');
         }
-
-        $this->payment_order = $payment_order;
-        $this->blame_user = $blame_user;
         $this->deleted_where = $deleted_where;
     }
 

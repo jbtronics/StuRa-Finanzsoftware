@@ -29,20 +29,8 @@ use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
  */
 class Fail2BanSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var RequestStack
-     */
-    private $request;
-
-    public function __construct(LoggerInterface $fail2banLogger, RequestStack $request)
+    public function __construct(private readonly LoggerInterface $logger, private readonly RequestStack $request)
     {
-        $this->logger = $fail2banLogger;
-        $this->request = $request;
     }
 
     public function logFail2Ban(/*AuthenticationFailureEvent $event*/): void

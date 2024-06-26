@@ -32,13 +32,10 @@ use Vich\UploaderBundle\Storage\StorageInterface;
  * the normal interface to access them via URI...
  */
 #[AsDecorator(FileSystemStorage::class)]
-class ExtendedFileSystemStorage implements StorageInterface
+readonly class ExtendedFileSystemStorage implements StorageInterface
 {
-    private $router;
-
-    public function __construct(private readonly StorageInterface $decorated, UrlGeneratorInterface $router)
+    public function __construct(private StorageInterface $decorated, private UrlGeneratorInterface $router)
     {
-        $this->router = $router;
     }
 
     public function resolveUri($obj, ?string $fieldName = null, ?string $className = null): ?string

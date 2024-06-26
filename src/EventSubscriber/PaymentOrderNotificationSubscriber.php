@@ -36,32 +36,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class PaymentOrderNotificationSubscriber implements EventSubscriberInterface
 {
-    private $mailer;
-    private $translator;
-    private $paymentOrderPDFGenerator;
-    private $entityManager;
-    private $fsb_email;
-    private $hhv_email;
-    private $send_notifications;
-    private $notifications_bcc;
-    private $userProvider;
-
-    public function __construct(MailerInterface $mailer, TranslatorInterface $translator,
-        PaymentOrderPDFGenerator $paymentOrderPDFGenerator, EntityManagerInterface $entityManager,
-        UserProvider $userProvider, string $fsb_email, string $hhv_email,
-        bool $send_notifications, array $notifications_bcc)
+    public function __construct(
+        private readonly MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
+        private readonly PaymentOrderPDFGenerator $paymentOrderPDFGenerator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserProvider $userProvider,
+        private readonly string $fsb_email,
+        private readonly string $hhv_email,
+        private readonly bool $send_notifications,
+        private array $notifications_bcc
+    )
     {
-        $this->mailer = $mailer;
-        $this->fsb_email = $fsb_email;
-        $this->hhv_email = $hhv_email;
-        $this->translator = $translator;
-
-        $this->send_notifications = $send_notifications;
-        $this->notifications_bcc = $notifications_bcc;
-
-        $this->paymentOrderPDFGenerator = $paymentOrderPDFGenerator;
-        $this->entityManager = $entityManager;
-        $this->userProvider = $userProvider;
     }
 
     public function sendUserEmail(PaymentOrderSubmittedEvent $event): void
@@ -72,7 +58,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
         }
 
         $payment_order = $event->getPaymentOrder();
-        if (null === $payment_order->getDepartment() || empty($payment_order->getDepartment()->getContactEmails())) {
+        if (null === $payment_order->getDepartment() || $payment_order->getDepartment()->getContactEmails() === []) {
             return;
         }
         $department = $payment_order->getDepartment();

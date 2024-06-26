@@ -36,7 +36,7 @@ class SepaExportType extends AbstractType
         'sepa_export.mode.auto_single' => 'auto_single',
     ];
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('mode', ChoiceType::class, [
             'expanded' => true,
@@ -56,9 +56,7 @@ class SepaExportType extends AbstractType
                 'data-mode-manual' => true,
             ],
             'placeholder' => 'sepa_export.bank_account.placeholder',
-            'choice_label' => function (BankAccount $account) {
-                return $account->getExportAccountName().' ['.$account->getIban().']';
-            },
+            'choice_label' => fn(BankAccount $account): string => $account->getExportAccountName().' ['.$account->getIban().']',
         ]);
 
         $builder->add('name', TextType::class, [

@@ -25,11 +25,11 @@ use RuntimeException;
 
 /**
  * This class generates random backup codes for two factor authentication.
+ * @see \App\Tests\Services\TFA\BackupCodeGeneratorTest
  */
-class BackupCodeGenerator
+final readonly class BackupCodeGenerator
 {
-    protected $code_length;
-    protected $code_count;
+    private int $code_length;
 
     /**
      * BackupCodeGenerator constructor.
@@ -37,7 +37,7 @@ class BackupCodeGenerator
      * @param int $code_length How many characters a single code should have.
      * @param int $code_count  How many codes are generated for a whole backup set.
      */
-    public function __construct(int $code_length, int $code_count)
+    public function __construct(int $code_length, protected int $code_count)
     {
         if ($code_length > 32) {
             throw new RuntimeException('Backup code can have maximum 32 digits!');
@@ -45,8 +45,6 @@ class BackupCodeGenerator
         if ($code_length < 6) {
             throw new RuntimeException('Code must have at least 6 digits to ensure security!');
         }
-
-        $this->code_count = $code_count;
         $this->code_length = $code_length;
     }
 

@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class PaymentOrderManualConfirmationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('reason', TextareaType::class, [
             'label' => 'payment_order.manual_confirmation.reason.label',
@@ -48,7 +48,7 @@ class PaymentOrderManualConfirmationType extends AbstractType
         ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', null);
     }

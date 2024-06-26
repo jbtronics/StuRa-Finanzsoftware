@@ -25,11 +25,8 @@ final class PaymentOrderSubmittedEvent extends Event
 {
     public const NAME = 'payment_order.submitted';
 
-    private $payment_order;
-
-    public function __construct(PaymentOrder $paymentOrder)
+    public function __construct(private readonly PaymentOrder $payment_order)
     {
-        $this->payment_order = $paymentOrder;
     }
 
     public function getPaymentOrder(): PaymentOrder

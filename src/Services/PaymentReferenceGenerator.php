@@ -23,8 +23,9 @@ use RuntimeException;
 
 /**
  * This service generates a payment reference for payment orders.
+ * @see \App\Tests\Services\PaymentReferenceGeneratorTest
  */
-class PaymentReferenceGenerator
+final class PaymentReferenceGenerator
 {
     /**
      * Generates a payment Reference (via generatePaymentReference) and sets the reference value in the payment order.
@@ -52,10 +53,10 @@ class PaymentReferenceGenerator
         $tmp = mb_strimwidth($paymentOrder->getProjectName(), 0, 70, '');
         $tmp .= ' ';
         //FSR Name
-        $tmp .= mb_strimwidth($paymentOrder->getDepartment()->getName(), 0, 45, '');
+        $tmp .= mb_strimwidth((string) $paymentOrder->getDepartment()->getName(), 0, 45, '');
         $tmp .= ' ';
         //Funding ID if existing
-        if (!empty($paymentOrder->getFundingId())) {
+        if ($paymentOrder->getFundingId() !== '' && $paymentOrder->getFundingId() !== '0') {
             $tmp .= mb_strimwidth($paymentOrder->getFundingId(), 0, 11, '');
             $tmp .= ' ';
         }

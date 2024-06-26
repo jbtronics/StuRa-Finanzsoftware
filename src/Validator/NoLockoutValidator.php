@@ -19,21 +19,18 @@
 namespace App\Validator;
 
 use App\Entity\User;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class NoLockoutValidator extends ConstraintValidator
+final class NoLockoutValidator extends ConstraintValidator
 {
-    protected $security;
-
-    public function __construct(Security $security)
+    public function __construct(private readonly Security $security)
     {
-        $this->security = $security;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         /** @var NoLockout $constraint */
 

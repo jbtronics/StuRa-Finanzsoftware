@@ -24,66 +24,43 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This embeddable contains all information about the person which should receive a payment of a payment order.
  *
- * @ORM\Embeddable()
+ * @see \App\Tests\Entity\Embeddable\PayeeInfoTest
  */
+#[ORM\Embeddable]
 class PayeeInfo
 {
-    /**
-     * @Assert\NotBlank()
-     *
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $account_owner = '';
+    
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string')]
+    private string $account_owner = '';
 
-    /**
-     * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
-     */
-    private $street = '';
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string')]
+    private string $street = '';
 
-    /**
-     * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
-     */
-    private $zip_code = '';
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string')]
+    private string $zip_code = '';
 
-    /**
-     * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
-     */
-    private $city = '';
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string')]
+    private string $city = '';
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\Iban()
-     */
-    private $iban = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\Iban]
+    private string $iban = '';
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\Bic(ibanPropertyPath="iban")
-     */
-    private $bic = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\Bic(ibanPropertyPath: 'iban')]
+    private string $bic = '';
 
-    /**
-     * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
-     */
-    private $bank_name = '';
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string')]
+    private string $bank_name = '';
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\Length(max="140")
-     */
-    private $reference = '';
+    #[ORM\Column(type: 'string')]
+    #[Assert\Length(max: '140')]
+    private ?string $reference = '';
 
     public function __construct()
     {

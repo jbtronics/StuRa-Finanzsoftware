@@ -22,10 +22,11 @@ use InvalidArgumentException;
 
 /**
  * A service to generate a verification token.
+ * @see \App\Tests\Services\EmailConfirmation\ConfirmationTokenGeneratorTest
  */
-class ConfirmationTokenGenerator
+final readonly class ConfirmationTokenGenerator
 {
-    private $bytes_length;
+    private int $bytes_length;
 
     public function __construct(int $bytes_length = 16)
     {

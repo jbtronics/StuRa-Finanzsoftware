@@ -21,15 +21,10 @@ namespace App\Services;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 
-class ReplyEmailDecisonMaker
+final readonly class ReplyEmailDecisonMaker
 {
-    private $fsb_email;
-    private $hhv_email;
-
-    public function __construct(string $fsb_email, string $hhv_email)
+    public function __construct(private string $fsb_email, private string $hhv_email)
     {
-        $this->fsb_email = $fsb_email;
-        $this->hhv_email = $hhv_email;
     }
 
     /**

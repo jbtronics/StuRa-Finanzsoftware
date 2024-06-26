@@ -30,32 +30,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * This service is responsible for sending the confirmation emails for a payment_order.
+ * @see \App\Tests\Services\EmailConfirmation\ConfirmationEmailSenderTest
  */
-class ConfirmationEmailSender
+final readonly class ConfirmationEmailSender
 {
-    private $mailer;
-    private $tokenGenerator;
-    private $entityManager;
-    private $translator;
-
-    private $fsb_email;
-    private $hhv_email;
-    private $send_notifications;
-    private $notifications_bcc;
-
-    public function __construct(MailerInterface $mailer, ConfirmationTokenGenerator $tokenGenerator,
-        EntityManagerInterface $entityManager, TranslatorInterface $translator,
-        string $fsb_email, string $hhv_email, bool $send_notifications, array $notifications_bcc)
+    public function __construct(
+        private MailerInterface $mailer,
+        private ConfirmationTokenGenerator $tokenGenerator,
+        private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator,
+        private string $fsb_email,
+        private string $hhv_email,
+        private bool $send_notifications,
+        private array $notifications_bcc
+    )
     {
-        $this->mailer = $mailer;
-        $this->tokenGenerator = $tokenGenerator;
-        $this->entityManager = $entityManager;
-        $this->translator = $translator;
-
-        $this->fsb_email = $fsb_email;
-        $this->hhv_email = $hhv_email;
-        $this->send_notifications = $send_notifications;
-        $this->notifications_bcc = $notifications_bcc;
     }
 
     /**
@@ -73,7 +62,7 @@ class ConfirmationEmailSender
         $email = $paymentOrder->getDepartment()
             ->getEmailHhv();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
-        if (!empty($email) && $this->send_notifications) {
+        if ($email !== [] && $this->send_notifications) {
             $this->sendConfirmation($paymentOrder, $email, $token, 1);
         } else {
             $paymentOrder->setConfirm1Timestamp(new DateTime());
@@ -97,7 +86,7 @@ class ConfirmationEmailSender
         $email = $paymentOrder->getDepartment()
             ->getEmailTreasurer();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
-        if (!empty($email) && $this->send_notifications) {
+        if ($email !== [] && $this->send_notifications) {
             $this->sendConfirmation($paymentOrder, $email, $token, 2);
         } else {
             $paymentOrder->setConfirm2Timestamp(new DateTime());

@@ -25,6 +25,7 @@ use TCPDF;
 
 /**
  * This service generates a PDF document describing the payment order.
+ * @see \App\Tests\Services\PDF\PaymentOrderPDFGeneratorTest
  */
 class PaymentOrderPDFGenerator
 {
@@ -55,7 +56,7 @@ class PaymentOrderPDFGenerator
         $this->writeRow($pdf, 'Struktur / Organisation', $paymentOrder->getDepartment()->getName());
         $this->writeRow($pdf, 'Projektbezeichnung', $paymentOrder->getProjectName());
         $this->writeRow($pdf, 'Betrag', $paymentOrder->getAmountString().' €');
-        $this->writeRow($pdf, 'Mittelfreigabe / Finanzantrag', !empty($paymentOrder->getFundingId()) ? $paymentOrder->getFundingId() : '<i>Nicht angegeben</i>');
+        $this->writeRow($pdf, 'Mittelfreigabe / Finanzantrag', $paymentOrder->getFundingId() === '' || $paymentOrder->getFundingId() === '0' ? '<i>Nicht angegeben</i>' : $paymentOrder->getFundingId());
         $this->writeRow($pdf, 'FSR-Kom Umbuchung', $paymentOrder->isFsrKomResolution() ? 'Ja' : 'Nein');
         $formatter = new IntlDateFormatter('de_DE', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
         $this->writeRow($pdf, 'Beschlussdatum', null === $paymentOrder->getResolutionDate() ? '<i>Nicht angegeben</i>' : $formatter->format($paymentOrder->getResolutionDate()));

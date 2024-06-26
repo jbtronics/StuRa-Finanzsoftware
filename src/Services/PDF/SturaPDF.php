@@ -27,7 +27,7 @@ use TCPDF;
  */
 class SturaPDF extends TCPDF
 {
-    public function Header()
+    public function Header(): void
     {
         $image_file = dirname(__DIR__, 3).'/assets/StuRa.png';
 
@@ -46,7 +46,7 @@ class SturaPDF extends TCPDF
         //$this->writeHTML($image_file);
     }
 
-    public function Footer()
+    public function Footer(): void
     {
         // Position at 15 mm from bottom
         $this->SetY(-15);

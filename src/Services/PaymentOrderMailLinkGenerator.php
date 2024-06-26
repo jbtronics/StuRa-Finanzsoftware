@@ -26,19 +26,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * This service generates email links for a payment order, including adresses, subject and body.
+ * @see \App\Tests\Services\PaymentOrderMailLinkGeneratorTest
  */
-class PaymentOrderMailLinkGenerator
+final readonly class PaymentOrderMailLinkGenerator
 {
-    private $translator;
-    private $adminURLGenerator;
-
-    private $hhv_email;
-
-    public function __construct(TranslatorInterface $translator, AdminUrlGenerator $adminUrlGenerator, string $hhv_email)
+    public function __construct(
+        private TranslatorInterface $translator,
+        private AdminUrlGenerator $adminURLGenerator,
+        private string $hhv_email
+    )
     {
-        $this->translator = $translator;
-        $this->hhv_email = $hhv_email;
-        $this->adminURLGenerator = $adminUrlGenerator;
     }
 
     /**
@@ -76,9 +73,9 @@ class PaymentOrderMailLinkGenerator
     {
         $mailTo = new MailTo();
 
-        if (!empty($paymentOrder->getContactEmail())) {
+        if ($paymentOrder->getContactEmail() !== '' && $paymentOrder->getContactEmail() !== '0') {
             $mailTo->setRecipients($paymentOrder->getContactEmail());
-        } elseif (!empty($paymentOrder->getDepartment()->getContactEmails())) {
+        } elseif ($paymentOrder->getDepartment()->getContactEmails() !== []) {
             $mailTo->setRecipients($paymentOrder->getDepartment()->getContactEmails());
         }
 

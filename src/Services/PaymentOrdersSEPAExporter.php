@@ -36,20 +36,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * This service allows to create a SEPA-XML file from a payment order that can be used to import it in an online
  * banking system.
+ * @see \App\Tests\Services\PaymentOrdersSEPAExporterTest
  */
-class PaymentOrdersSEPAExporter
+final class PaymentOrdersSEPAExporter
 {
     protected const PARTY_NAME = 'StuRa FSU Jena';
     protected const ID_PREFIX = 'StuRa Export';
     protected const PAYMENT_PREFIX = 'Payment';
 
-    protected $fsr_kom_bank_account_id;
-    protected $entityManager;
-
-    public function __construct(int $fsr_kom_bank_account_id, EntityManagerInterface $entityManager)
+    public function __construct(private readonly int $fsr_kom_bank_account_id, private readonly EntityManagerInterface $entityManager)
     {
-        $this->fsr_kom_bank_account_id = $fsr_kom_bank_account_id;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -286,7 +282,7 @@ class PaymentOrdersSEPAExporter
         $resolver->setDefault('mode', 'manual');
         $resolver->setAllowedValues('mode', ['auto', 'manual', 'auto_single']);
 
-        $resolver->setNormalizer('iban', function (Options $options, $value) {
+        $resolver->setNormalizer('iban', function (Options $options, $value): null|array|string {
             if (null === $value) {
                 return null;
             }
