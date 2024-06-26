@@ -52,6 +52,6 @@ final class DepartmentChoiceType extends AbstractType
             ],
         ]);
 
-        $resolver->setDefault('group_by', fn(Department $choice, $key, $value) => $this->translator->trans('department.type.'.$choice->getType() ?? 'misc'));
+        $resolver->setDefault('group_by', fn(Department $choice, $key, $value): string => $this->translator->trans('department.type.'.$choice->getType() ?? 'misc'));
     }
 }
