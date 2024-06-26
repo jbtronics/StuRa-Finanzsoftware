@@ -65,7 +65,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
 
         $email = new TemplatedEmail();
 
-        if (!empty($this->notifications_bcc) && null !== $this->notifications_bcc[0]) {
+        if ($this->notifications_bcc !== [] && null !== $this->notifications_bcc[0]) {
             $email->addBcc(...$this->notifications_bcc);
         }
 

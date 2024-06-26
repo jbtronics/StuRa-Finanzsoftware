@@ -24,6 +24,7 @@ use App\Entity\Embeddable\PayeeInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
@@ -52,24 +53,24 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Embedded(class: \App\Entity\Embeddable\PayeeInfo::class)]
+    #[ORM\Embedded(class: PayeeInfo::class)]
     #[Assert\Valid]
-    private \App\Entity\Embeddable\PayeeInfo $bank_info;
+    private PayeeInfo $bank_info;
 
     /**
      * @var string "Vorname"
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
     private string $first_name = '';
 
     /**
      * @var string "Nachname"
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
     private string $last_name = '';
 
@@ -77,83 +78,83 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * @var Department "Struktur/Organisation"
      * @FSRNotBlocked(groups={"fsr_blocked"})
      */
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Department::class)]
+    #[ORM\ManyToOne(targetEntity: Department::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
-    private ?\App\Entity\Department $department = null;
+    private ?Department $department = null;
 
     /**
      * @var string "Projektbezeichnung"
      */
     #[Assert\NotBlank]
     #[Assert\Length(max: 70, maxMessage: 'validator.project_name.too_long')]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $project_name = '';
 
     /**
      * @var int "Betrag"
      */
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     #[Assert\Positive]
     private ?int $amount = null;
 
     /**
      * @var bool "mathematisch richtig"
      */
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $mathematically_correct = false;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $exported = false;
 
     /**
      * @var bool "sachlich richtig"
      */
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $factually_correct = false;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT)]
     private string $comment = '';
 
     /**
      * @var string "Mittelfreigabe / Finanzantrag"
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
     private string $funding_id = '';
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $confirm1_token = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $confirm1_timestamp = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $confirm2_token = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $confirm2_timestamp = null;
 
     /**
      * @var bool Is FSR-Kom resolution
      */
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $fsr_kom_resolution = false;
 
-    #[ORM\Column(type: 'date', nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
     #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old')]
     #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
     private ?\DateTime $resolution_date = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(type: Types::STRING, nullable: false)]
     #[Assert\Email]
     private string $contact_email = '';
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $booking_date = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $references_exported = false;
 
     /*

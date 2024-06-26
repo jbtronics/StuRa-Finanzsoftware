@@ -22,6 +22,7 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\NamedElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Repository\DepartmentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,25 +58,25 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $name = '';
 
     
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Choice(choices: Department::ALLOWED_TYPES)]
     private string $type = self::TYPE_FSR;
 
     /**
      * @var bool If an FSR is blocked it can not submit new payment orders
      */
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $blocked = false;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT)]
     private string $comment = '';
 
     /**
@@ -84,7 +85,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Email()
      * })
      */
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: Types::JSON)]
     #[Assert\Unique]
     private array $contact_emails = [];
 
@@ -99,7 +100,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
      * })
      */
-    #[ORM\Column(type: 'simple_array', nullable: true)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     #[Assert\Unique]
     #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
     private array $email_hhv = [];
@@ -110,18 +111,18 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      *     @Assert\Email()
      * })
      */
-    #[ORM\Column(type: 'simple_array', nullable: true)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     #[Assert\Unique]
     #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
     private array $email_treasurer = [];
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $references_export_prefix = null;
 
     /**
      * @var string[]
      */
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: Types::JSON)]
     private array $skip_blocked_validation_tokens = [];
 
     /**
@@ -383,7 +384,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     public function isSkipBlockedValidationToken(string $token): bool
     {
         //Don't check if no backup codes are defined.
-        if (empty($this->skip_blocked_validation_tokens)) {
+        if ($this->skip_blocked_validation_tokens === []) {
             return false;
         }
 

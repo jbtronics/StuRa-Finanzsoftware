@@ -36,7 +36,7 @@ final class UserPromoteCommand extends Command
         parent::__construct(self::$defaultName);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a role to the given user, to give him actions to certain operations.')

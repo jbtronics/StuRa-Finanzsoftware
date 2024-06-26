@@ -36,7 +36,7 @@ final class UserDisable2faCommand extends Command
         parent::__construct(self::$defaultName);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Disable all Two-Factor Authentication methods for the given user.')

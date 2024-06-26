@@ -18,6 +18,7 @@
 
 namespace App\Entity\Embeddable;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,34 +32,34 @@ class PayeeInfo
 {
     
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $account_owner = '';
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $street = '';
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $zip_code = '';
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $city = '';
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Iban]
     private string $iban = '';
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Bic(ibanPropertyPath: 'iban')]
     private string $bic = '';
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $bank_name = '';
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: '140')]
     private ?string $reference = '';
 

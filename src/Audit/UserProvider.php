@@ -83,7 +83,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
         }
 
         //Check if a username and identifier were manually provided
-        if (!empty($this->username) && !empty($this->identifier)) {
+        if ($this->username !== null && $this->username !== '' && ($this->identifier !== null && $this->identifier !== '')) {
             $username = $this->username;
             $identifier = $this->identifier;
         } elseif ($this->is_cli()) { //Check if we are on command line, then use the username of the user
@@ -124,7 +124,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     /**
      * @return UserInterface|null
      */
-    private function getTokenUser()
+    private function getTokenUser(): ?\Symfony\Component\Security\Core\User\UserInterface
     {
         try {
             $token = $this->security->getToken();

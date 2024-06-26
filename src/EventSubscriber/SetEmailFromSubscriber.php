@@ -62,7 +62,7 @@ final readonly class SetEmailFromSubscriber implements EventSubscriberInterface
         $email = $event->getMessage();
 
         //Set envelope sender if one was specified
-        if (!empty($this->envelope_sender)) {
+        if ($this->envelope_sender !== '') {
             $sender_address = new Address($this->envelope_sender);
             $event->getEnvelope()
                 ->setSender($sender_address);

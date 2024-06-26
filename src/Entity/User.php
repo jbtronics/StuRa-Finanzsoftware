@@ -22,6 +22,7 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Repository\UserRepository;
 use App\Validator\NoLockout;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
@@ -45,47 +46,47 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $role_description = '';
 
     #[Assert\Email]
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $email = '';
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = ['ROLE_ADMIN'];
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $first_name = '';
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $last_name = '';
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private ?string $password = null;
 
     #[Assert\Length(min: 6)]
     private ?string $plain_password = null;
 
-    #[ORM\Column(name: 'googleAuthenticatorSecret', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'googleAuthenticatorSecret', type: Types::STRING, nullable: true)]
     private ?string $googleAuthenticatorSecret = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $trustedVersion = 0;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: Types::JSON)]
     private array $backupCodes = [];
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $backupCodesDate = null;
 
     public function getId(): ?int
@@ -392,7 +393,7 @@ class User implements DBElementInterface, UserInterface, TwoFactorInterface, Bac
     public function isBackupCode(string $code): bool
     {
         //Don't check if no backup codes are defined.
-        if (empty($this->backupCodes)) {
+        if ($this->backupCodes === []) {
             return false;
         }
 

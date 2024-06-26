@@ -22,7 +22,7 @@ use App\Entity\PaymentOrder;
 use App\Services\PDF\PaymentOrderPDFGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin/pdf')]
 final class PDFGeneratorController extends AbstractController

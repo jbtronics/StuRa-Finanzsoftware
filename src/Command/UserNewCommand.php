@@ -33,12 +33,12 @@ final class UserNewCommand extends Command
 {
     protected static $defaultName = 'app:user-new';
 
-    public function __construct(private readonly EntityManagerInterface $entityManager, private UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct(static::$defaultName);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Create a new user. Useful if no user is existing yet...')

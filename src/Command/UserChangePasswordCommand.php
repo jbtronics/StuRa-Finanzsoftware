@@ -38,7 +38,7 @@ final class UserChangePasswordCommand extends Command
         parent::__construct(static::$defaultName);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Change password of the given user.')

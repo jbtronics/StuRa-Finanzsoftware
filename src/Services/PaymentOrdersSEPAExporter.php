@@ -38,13 +38,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * banking system.
  * @see \App\Tests\Services\PaymentOrdersSEPAExporterTest
  */
-final class PaymentOrdersSEPAExporter
+final readonly class PaymentOrdersSEPAExporter
 {
     protected const PARTY_NAME = 'StuRa FSU Jena';
     protected const ID_PREFIX = 'StuRa Export';
     protected const PAYMENT_PREFIX = 'Payment';
 
-    public function __construct(private readonly int $fsr_kom_bank_account_id, private readonly EntityManagerInterface $entityManager)
+    public function __construct(private int $fsr_kom_bank_account_id, private EntityManagerInterface $entityManager)
     {
     }
 

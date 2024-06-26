@@ -26,15 +26,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin/payment_order')]
 final class PaymentOrderManualConfirmController extends AbstractController
 {
     #[Route(path: '/{id}/confirm', name: 'payment_order_manual_confirm')]
-    public function manualConfirmation(PaymentOrder $paymentOrder, Request $request,
-        ManualConfirmationHelper $manualConfirmationHelper, EntityManagerInterface $entityManager,
-        array $notifications_risky): RedirectResponse|Response
+    public function manualConfirmation(
+        PaymentOrder $paymentOrder,
+        Request $request,
+        ManualConfirmationHelper $manualConfirmationHelper,
+        EntityManagerInterface $entityManager,
+        array $notifications_risky
+    ): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANUAL_CONFIRMATION');
 

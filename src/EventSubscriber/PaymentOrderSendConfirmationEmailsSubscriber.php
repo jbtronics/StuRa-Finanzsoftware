@@ -22,9 +22,9 @@ use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInterface
+final readonly class PaymentOrderSendConfirmationEmailsSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly ConfirmationEmailSender $confirmationSender)
+    public function __construct(private ConfirmationEmailSender $confirmationSender)
     {
     }
 

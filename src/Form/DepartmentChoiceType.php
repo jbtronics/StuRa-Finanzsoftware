@@ -27,6 +27,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class DepartmentChoiceType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+
+    }
+
     public function getParent(): string
     {
         return EntityType::class;

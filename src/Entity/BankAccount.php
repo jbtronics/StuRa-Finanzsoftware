@@ -8,6 +8,7 @@ use App\Entity\Contracts\TimestampedElementInterface;
 use App\Repository\BankAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,32 +31,32 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank]
     private string $name = '';
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\Iban]
     private string $iban = '';
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\Bic(ibanPropertyPath: 'iban')]
     #[Assert\NotBlank]
     private string $bic = '';
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT)]
     private string $comment = '';
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $account_name = '';
 
     /**
      * @var Collection
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Department::class, mappedBy: 'bank_account')]
+    #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'bank_account')]
     private \Doctrine\Common\Collections\ArrayCollection $associated_departments;
 
     public function __construct()
