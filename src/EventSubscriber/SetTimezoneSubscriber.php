@@ -24,13 +24,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final readonly class SetTimezoneSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private string $default_timezone)
+    public function __construct(private string $timezone)
     {
     }
 
     public function setTimeZone(ControllerEvent $event): void
     {
-        date_default_timezone_set($this->default_timezone);
+        date_default_timezone_set($this->timezone);
     }
 
     public static function getSubscribedEvents()

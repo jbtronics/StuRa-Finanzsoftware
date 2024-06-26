@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
  */
 class Fail2BanSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly RequestStack $request)
+    public function __construct(private readonly LoggerInterface $fail2banLogger, private readonly RequestStack $request)
     {
     }
 
@@ -37,7 +37,7 @@ class Fail2BanSubscriber implements EventSubscriberInterface
     {
         $ipAddress = $this->request->getCurrentRequest()
             ->getClientIp();
-        $this->logger->error('Authentication failed for IP: '.$ipAddress);
+        $this->fail2banLogger->error('Authentication failed for IP: '.$ipAddress);
     }
 
     public static function getSubscribedEvents(): array
