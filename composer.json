@@ -76,11 +76,13 @@
         "dama/doctrine-test-bundle": "^v8.2.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "ekino/phpstan-banned-code": "^1.0",
+        "php-translation/symfony-bundle": "^0.14.3",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.2.0",
         "phpstan/phpstan-doctrine": "^1.0",
         "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^1.1",
         "roave/security-advisories": "dev-master",
         "symfony/browser-kit": "6.4.*",
         "symfony/css-selector": "6.4.*",
@@ -89,8 +91,7 @@
         "symfony/phpunit-bridge": "6.4.*",
         "symfony/stopwatch": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*",
-        "symplify/easy-coding-standard": "^9.1",
-        "php-translation/symfony-bundle": "^0.14.3"
+        "symplify/easy-coding-standard": "^9.1"
     },
     "suggest": {
         "ext-posix": "Used to determine the CLI username."
