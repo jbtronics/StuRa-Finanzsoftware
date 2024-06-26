@@ -827,7 +827,16 @@
         ]
     },
     "symfony/uid": {
-        "version": "v5.1.2"
+        "version": "6.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.2",
+            "ref": "d294ad4add3e15d7eb1bae0221588ca89b38e558"
+        },
+        "files": [
+            "./config/packages/uid.yaml"
+        ]
     },
     "symfony/validator": {
         "version": "4.3",
