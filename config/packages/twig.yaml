@@ -6,7 +6,12 @@ twig:
         fsb_email: '%app.fsb_email%'
         hhv_email: '%app.hhv_email%'
         locale_menu: ['de', 'en']
+    file_name_pattern: '*.twig'
 
     paths:
         # point this wherever your css files live
         '%kernel.project_dir%/assets/css': css
+
+when@test:
+    twig:
+        strict_variables: true
