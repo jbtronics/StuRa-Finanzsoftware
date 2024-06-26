@@ -37,7 +37,7 @@ class ManualConfirmationHelperTest extends WebTestCase
         $this->service = self::$container->get(ManualConfirmationHelper::class);
     }
 
-    public function testConfirmManuallyAlreadyConfirmed()
+    public function testConfirmManuallyAlreadyConfirmed(): void
     {
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
         $payment_order->setConfirm1Timestamp(new \DateTime());
@@ -48,7 +48,7 @@ class ManualConfirmationHelperTest extends WebTestCase
         $this->service->confirmManually($payment_order, 'Test Reason');
     }
 
-    public function testConfirmManually()
+    public function testConfirmManually(): void
     {
         //Create a mocked user
         $user = new User();

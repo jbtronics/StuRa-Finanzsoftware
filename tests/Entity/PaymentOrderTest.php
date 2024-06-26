@@ -39,14 +39,12 @@ class PaymentOrderTest extends TestCase
         static::assertSame($expected, $payment_order->getIDString());
     }
 
-    public function GetIDStringDataProvider(): array
+    public function GetIDStringDataProvider(): \Iterator
     {
-        return [
-            ['ZA0001', 1],
-            ['ZA0123', 123],
-            ['ZA1234', 1234],
-            ['ZA123456', 123456],
-        ];
+        yield ['ZA0001', 1];
+        yield ['ZA0123', 123];
+        yield ['ZA1234', 1234];
+        yield ['ZA123456', 123456];
     }
 
     /**
@@ -60,14 +58,12 @@ class PaymentOrderTest extends TestCase
         static::assertSame($expected, $payment_order->getFullName());
     }
 
-    public function fullNameDataProvider(): array
+    public function fullNameDataProvider(): \Iterator
     {
-        return [
-            ['John Doe', 'John', 'Doe'],
-            ['Admin', 'Admin', ''],
-            ['Admin', '', 'Admin'],
-            ['John Jane Doe', 'John Jane', 'Doe'],
-        ];
+        yield ['John Doe', 'John', 'Doe'];
+        yield ['Admin', 'Admin', ''];
+        yield ['Admin', '', 'Admin'];
+        yield ['John Jane Doe', 'John Jane', 'Doe'];
     }
 
     /**
@@ -89,16 +85,14 @@ class PaymentOrderTest extends TestCase
         static::assertSame($expected, $payment_order->getAmountString());
     }
 
-    public function getAmountStringDataProvider(): array
+    public function getAmountStringDataProvider(): \Iterator
     {
-        return [
-            ['123.45', 12345],
-            ['0.12', 12],
-            ['0.01', 1],
-            ['123.00', 12300],
-            ['12345.00', 1234500],
-            ['123456.00', 12345600],
-        ];
+        yield ['123.45', 12345];
+        yield ['0.12', 12];
+        yield ['0.01', 1];
+        yield ['123.00', 12300];
+        yield ['12345.00', 1234500];
+        yield ['123456.00', 12345600];
     }
 
     public function testIsConfirmed(): void
@@ -147,31 +141,29 @@ class PaymentOrderTest extends TestCase
         }
     }
 
-    public function fundingIDRegexDataProvider(): array
+    public function fundingIDRegexDataProvider(): \Iterator
     {
-        return [
-            //Simple cases
-            [true, 'M-001-2020'],
-            [true, 'M-123-2020'],
-            [true, 'FA-001-2020'],
-            [true, 'FA-123-2020'],
-            [true, 'FA-001-2021_22'],
-            [true, 'M-123-2021_22'],
-            //Higher years must be allowed
-            [true, 'FA-123-2022'],
-            [true, 'FA-123-2099'],
-            //Number must have 3 digits
-            [false, 'FA-1-2020'],
-            [false, 'M-01-2020'],
-            //4 digits are allowed too (though we will not need it)
-            [true, 'M-1234-2020'],
-            [true, 'FA-1234-2020'],
-            //Other prefixes are not allowed
-            [false, 'PA-123-2020'],
-            //Additonal chars are not allowed
-            [false, 'FA--123-2020'],
-            [false, 'FA-1a2-2020'],
-            [false, 'FA-123-20a20'],
-        ];
+        //Simple cases
+        yield [true, 'M-001-2020'];
+        yield [true, 'M-123-2020'];
+        yield [true, 'FA-001-2020'];
+        yield [true, 'FA-123-2020'];
+        yield [true, 'FA-001-2021_22'];
+        yield [true, 'M-123-2021_22'];
+        //Higher years must be allowed
+        yield [true, 'FA-123-2022'];
+        yield [true, 'FA-123-2099'];
+        //Number must have 3 digits
+        yield [false, 'FA-1-2020'];
+        yield [false, 'M-01-2020'];
+        //4 digits are allowed too (though we will not need it)
+        yield [true, 'M-1234-2020'];
+        yield [true, 'FA-1234-2020'];
+        //Other prefixes are not allowed
+        yield [false, 'PA-123-2020'];
+        //Additonal chars are not allowed
+        yield [false, 'FA--123-2020'];
+        yield [false, 'FA-1a2-2020'];
+        yield [false, 'FA-123-20a20'];
     }
 }

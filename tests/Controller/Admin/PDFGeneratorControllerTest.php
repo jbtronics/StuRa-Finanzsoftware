@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PDFGeneratorControllerTest extends WebTestCase
 {
-    public function testPdfAdminAccess()
+    public function testPdfAdminAccess(): void
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'admin',
@@ -38,7 +38,7 @@ class PDFGeneratorControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
-    public function testPdfNotAuthorized()
+    public function testPdfNotAuthorized(): void
     {
         $client = static::createClient();
         $client->catchExceptions(false);

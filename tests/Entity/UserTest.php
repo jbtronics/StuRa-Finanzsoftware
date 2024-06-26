@@ -67,14 +67,12 @@ class UserTest extends TestCase
         static::assertSame($expected, $user->getFullName());
     }
 
-    public function fullNameDataProvider(): array
+    public function fullNameDataProvider(): \Iterator
     {
-        return [
-            ['John Doe', 'John', 'Doe'],
-            ['Admin', 'Admin', ''],
-            ['Admin', '', 'Admin'],
-            ['John Jane Doe', 'John Jane', 'Doe'],
-        ];
+        yield ['John Doe', 'John', 'Doe'];
+        yield ['Admin', 'Admin', ''];
+        yield ['Admin', '', 'Admin'];
+        yield ['John Jane Doe', 'John Jane', 'Doe'];
     }
 
     public function testGoogleAuthenticatorUsername(): void
@@ -170,12 +168,10 @@ class UserTest extends TestCase
         static::assertSame($expected, (string) $user);
     }
 
-    public function toStringDataProvider(): array
+    public function toStringDataProvider(): \Iterator
     {
-        return [
-            ['John Doe (test)', 'John', 'Doe', 'test'],
-            ['John (test)', 'John', '', 'test'],
-            ['John (test)', '', 'John', 'test'],
-        ];
+        yield ['John Doe (test)', 'John', 'Doe', 'test'];
+        yield ['John (test)', 'John', '', 'test'];
+        yield ['John (test)', '', 'John', 'test'];
     }
 }

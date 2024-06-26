@@ -72,7 +72,7 @@ class ApplicationAvailabilityTest extends WebTestCase
         $client->request('GET', $url);
     }
 
-    public function publicPagesProvider(): ?Generator
+    public function publicPagesProvider(): \Generator
     {
         //Homepage
         yield ['/payment_order/new'];
@@ -81,7 +81,7 @@ class ApplicationAvailabilityTest extends WebTestCase
         yield from $this->adminPagesProvider();
     }
 
-    public function adminPagesProvider(): ?Generator
+    public function adminPagesProvider(): \Generator
     {
         //We need access to AdminUrlGenerator, so we have to boot kernel... This is a bit hacky...
         self::bootKernel();

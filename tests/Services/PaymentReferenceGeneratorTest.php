@@ -66,7 +66,7 @@ class PaymentReferenceGeneratorTest extends WebTestCase
         static::assertSame($expected, $tmp);
     }
 
-    public function generatePaymentReferenceDataProvider(): ?Generator
+    public function generatePaymentReferenceDataProvider(): \Generator
     {
         //Simple tests
         yield ['Test Physik ZA0001', 'Test', 'Physik', '', 1];
