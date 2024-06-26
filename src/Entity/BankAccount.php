@@ -56,8 +56,8 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     /**
      * @var Collection
      */
-    #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'bank_account')]
-    private \Doctrine\Common\Collections\ArrayCollection $associated_departments;
+    #[ORM\OneToMany(mappedBy: 'bank_account', targetEntity: Department::class)]
+    private Collection $associated_departments;
 
     public function __construct()
     {

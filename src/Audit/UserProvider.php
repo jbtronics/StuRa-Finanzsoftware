@@ -124,7 +124,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     /**
      * @return UserInterface|null
      */
-    private function getTokenUser(): ?\Symfony\Component\Security\Core\User\UserInterface
+    private function getTokenUser(): ?UserInterface
     {
         try {
             $token = $this->security->getToken();
@@ -139,9 +139,9 @@ class UserProvider implements UserProviderInterface, EventSubscriber
     }
 
     /**
-     * @return string|UserInterface|null
+     * @return UserInterface|null
      */
-    private function getImpersonatorUser(): ?\Symfony\Component\Security\Core\User\UserInterface
+    private function getImpersonatorUser(): ?UserInterface
     {
         $token = $this->security->getToken();
 
