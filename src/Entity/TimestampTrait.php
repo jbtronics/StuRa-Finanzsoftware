@@ -37,7 +37,7 @@ trait TimestampTrait
      * @var DateTime|null the date when this element was created
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected ?\DateTime $creation_date;
+    protected ?\DateTime $creation_date = null;
 
     /**
      * Helper for updating the timestamp. It is automatically called by doctrine before persisting.
