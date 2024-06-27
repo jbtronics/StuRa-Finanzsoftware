@@ -143,8 +143,7 @@
             "@auto-scripts",
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
-        "phpstan": "vendor/bin/phpstan analyse src --level 2 --memory-limit 1G",
-        "phpstan-win": ".\\vendor\\bin\\phpstan.bat analyse src --level 2 --memory-limit 1G"
+        "phpstan": "vendor/bin/phpstan analyse src --memory-limit 1G --level 3"
     },
     "conflict": {
         "symfony/symfony": "*"

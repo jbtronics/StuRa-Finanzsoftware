@@ -1,8 +1,15 @@
 parameters:
-    level: 6
+    level: 5
     paths:
         - bin/
         - config/
         - public/
         - src/
         - tests/
+
+    symfony:
+            container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+        allowNullablePropertyForRequiredField: true
