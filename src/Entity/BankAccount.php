@@ -54,7 +54,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     private string $account_name = '';
 
     /**
-     * @var Collection
+     * @var Collection<Department>
      */
     #[ORM\OneToMany(mappedBy: 'bank_account', targetEntity: Department::class)]
     private Collection $associated_departments;

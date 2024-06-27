@@ -103,7 +103,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     #[Assert\Unique]
     #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
-    private array $email_hhv = [];
+    private ?array $email_hhv = [];
 
     /**
      * @var string[]
@@ -114,7 +114,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     #[Assert\Unique]
     #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
-    private array $email_treasurer = [];
+    private ?array $email_treasurer = [];
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $references_export_prefix = null;
