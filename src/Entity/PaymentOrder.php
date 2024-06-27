@@ -160,21 +160,17 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /*
      * Associated files
      */
-    /**
-     * @Vich\UploadableField(mapping="payment_orders_form", fileNameProperty="printed_form.name", size="printed_form.size", mimeType="printed_form.mimeType", originalName="printed_form.originalName", dimensions="printed_form.dimensions")
-     */
     #[Assert\File(maxSize: '1024k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    #[Vich\UploadableField(mapping: 'payment_orders_form', fileNameProperty: 'printed_form.name', size: 'printed_form.size', mimeType: 'printed_form.mimeType', originalName: 'printed_form.originalName', dimensions: 'printed_form.dimensions')]
     private ?\Symfony\Component\HttpFoundation\File\File $printed_form_file = null;
 
     
     #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
     private \Vich\UploaderBundle\Entity\File $printed_form;
 
-    /**
-     * @Vich\UploadableField(mapping="payment_orders_references", fileNameProperty="references.name", size="references.size", mimeType="references.mimeType", originalName="references.originalName", dimensions="references.dimensions")
-     */
     #[Assert\NotBlank(groups: ['frontend'])]
     #[Assert\File(maxSize: '10M', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    #[Vich\UploadableField(mapping: 'payment_orders_references', fileNameProperty: 'references.name', size: 'references.size', mimeType: 'references.mimeType', originalName: 'references.originalName', dimensions: 'references.dimensions')]
     private ?\Symfony\Component\HttpFoundation\File\File $references_file = null;
 
     
