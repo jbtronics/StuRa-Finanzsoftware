@@ -69,7 +69,7 @@ jobs:
         run: php bin/console --env test doctrine:migrations:migrate -n
 
       - name: Load fixtures
-        run: php bin/console --env test doctrine:fixtures:load -n
+        run: php bin/console --env test app:fixtures:load -n
 
       - name: Run PHPunit and generate coverage
         run: ./bin/phpunit --coverage-clover=coverage.xml

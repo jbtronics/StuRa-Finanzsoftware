@@ -10,18 +10,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class PaymentOrderFixture extends Fixture
 {
-    public function __construct(private readonly \Doctrine\ORM\EntityManagerInterface $em)
+    public function __construct()
     {
     }
 
     public function load(ObjectManager $manager): void
     {
-        //Reset autoincrement
-        $this->em->getConnection()
-            ->exec('ALTER TABLE `payment_orders` AUTO_INCREMENT = 1;');
-        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
-        $this->em->getConnection()->beginTransaction();
-
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');

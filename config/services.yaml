@@ -102,3 +102,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+when@test:
+    services:
+        # Decorate the doctrine fixtures load command to use our custom purger by default
+        doctrine.fixtures_load_command.custom:
+            decorates: doctrine.fixtures_load_command
+            class: Doctrine\Bundle\FixturesBundle\Command\LoadDataFixturesDoctrineCommand
+            arguments:
+                - '@doctrine.fixtures.loader'
+                - '@doctrine'
+                - { default: '@App\Doctrine\Purger\DoNotUsePurgerFactory' }

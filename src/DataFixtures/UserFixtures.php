@@ -16,18 +16,12 @@ final class UserFixtures extends Fixture
     public const USER_EXPORTER_REFERENCE = 'user_exporter';
     public const USER_READONLY_REFERENCE = 'user_readonly';
 
-    public function __construct(private readonly EntityManagerInterface $em, private readonly UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(private readonly UserPasswordHasherInterface $passwordEncoder)
     {
     }
 
     public function load(ObjectManager $manager): void
     {
-        //Reset autoincrement
-        $this->em->getConnection()
-            ->exec('ALTER TABLE `user` AUTO_INCREMENT = 1;');
-        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
-        $this->em->getConnection()->beginTransaction();
-
         $user = new User();
         $user->setUsername('admin');
         //We use plaintext encoder so we can just set the PW here

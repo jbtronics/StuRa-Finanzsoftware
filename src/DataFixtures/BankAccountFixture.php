@@ -13,18 +13,12 @@ final class BankAccountFixture extends Fixture
     public const BANK_ACCOUNT2_REFERENCE = 'bank_account2';
     public const BANK_ACCOUNT3_REFERENCE = 'bank_account3';
 
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct()
     {
     }
 
     public function load(ObjectManager $manager): void
     {
-        //Reset autoincrement
-        $this->em->getConnection()
-            ->executeStatement('ALTER TABLE `bank_accounts` AUTO_INCREMENT = 1;');
-        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
-        $this->em->getConnection()->beginTransaction();
-
         $account = new BankAccount();
         $account->setName('Bank Account 1');
         $account->setIban('DE56500105174413384824');

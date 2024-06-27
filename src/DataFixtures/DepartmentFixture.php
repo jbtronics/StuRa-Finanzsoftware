@@ -15,18 +15,12 @@ final class DepartmentFixture extends Fixture
     public const DEPARTMENT4_REFERENCE = 'department4';
     public const DEPARTMENT5_REFERENCE = 'department5';
 
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct()
     {
     }
 
     public function load(ObjectManager $manager): void
     {
-        //Reset autoincrement
-        $this->em->getConnection()
-            ->exec('ALTER TABLE `departments` AUTO_INCREMENT = 1;');
-        //ALTER TABLE does an implicit commit and PHP 8 throws if commit is called later internally without active transactions
-        $this->em->getConnection()->beginTransaction();
-
         $department = new Department();
         $department->setName('Department 1');
         $department->setType('fsr');
