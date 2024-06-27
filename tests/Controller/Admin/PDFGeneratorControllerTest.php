@@ -18,6 +18,7 @@
 
 namespace App\Tests\Controller\Admin;
 
+use App\Tests\LoginHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -25,10 +26,8 @@ class PDFGeneratorControllerTest extends WebTestCase
 {
     public function testPdfAdminAccess(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => '1234',
-        ]);
+        $client = static::createClient();
+        LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
         $client->request('GET', '/admin/pdf/payment_order/1');

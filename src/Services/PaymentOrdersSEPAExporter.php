@@ -38,7 +38,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * banking system.
  * @see \App\Tests\Services\PaymentOrdersSEPAExporterTest
  */
-final readonly class PaymentOrdersSEPAExporter
+readonly class PaymentOrdersSEPAExporter
 {
     protected const PARTY_NAME = 'StuRa FSU Jena';
     protected const ID_PREFIX = 'StuRa Export';

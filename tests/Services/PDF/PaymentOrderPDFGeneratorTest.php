@@ -33,7 +33,7 @@ class PaymentOrderPDFGeneratorTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(PaymentOrderPDFGenerator::class);
+        $this->service = self::getContainer()->get(PaymentOrderPDFGenerator::class);
     }
 
     public function testGeneratePDF(): void

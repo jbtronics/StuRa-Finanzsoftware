@@ -33,7 +33,7 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(PaymentOrderMailLinkGenerator::class);
+        $this->service = self::getContainer()->get(PaymentOrderMailLinkGenerator::class);
     }
 
     public function testGetHHVMailLink(): void

@@ -34,7 +34,7 @@ class ManualConfirmationHelperTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->service = self::$container->get(ManualConfirmationHelper::class);
+        $this->service = self::getContainer()->get(ManualConfirmationHelper::class);
     }
 
     public function testConfirmManuallyAlreadyConfirmed(): void

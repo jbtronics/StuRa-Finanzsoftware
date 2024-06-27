@@ -48,7 +48,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     {
         self::bootKernel();
 
-        $em = self::$container->get(EntityManagerInterface::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
 
         //Create a exporter with a fake FSRKom bank account, so we dont need to rely on database
         $this->service = new class(1, $em) extends PaymentOrdersSEPAExporter {

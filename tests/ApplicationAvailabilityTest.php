@@ -22,6 +22,7 @@ use App\Controller\Admin\BankAccountCrudController;
 use App\Controller\Admin\DepartmentCrudController;
 use App\Controller\Admin\PaymentOrderCrudController;
 use App\Controller\Admin\UserCrudController;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Generator;
@@ -43,10 +44,8 @@ class ApplicationAvailabilityTest extends WebTestCase
         self::ensureKernelShutdown();
 
         //Try to access pages with admin, because he should be able to view every page!
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => '1234',
-        ]);
+        $client = static::createClient();
+        LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
         $client->request('GET', $url);
@@ -86,7 +85,7 @@ class ApplicationAvailabilityTest extends WebTestCase
         //We need access to AdminUrlGenerator, so we have to boot kernel... This is a bit hacky...
         self::bootKernel();
         /** @var AdminUrlGenerator $adminURL */
-        $adminURL = self::$container->get(AdminUrlGenerator::class);
+        $adminURL = self::getContainer()->get(AdminUrlGenerator::class);
 
         yield ['/admin'];
         yield ['/admin/audit'];

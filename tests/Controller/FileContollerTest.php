@@ -18,6 +18,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\LoginHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -25,10 +26,8 @@ class FileContollerTest extends WebTestCase
 {
     public function testPaymentOrderFormAdminAccess(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => '1234',
-        ]);
+        $client = static::createClient();
+        LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
         //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
@@ -82,10 +81,8 @@ class FileContollerTest extends WebTestCase
 
     public function testPaymentOrderReferencesAdminAccess(): void
     {
-        $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => '1234',
-        ]);
+        $client = static::createClient();
+        LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
         //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
