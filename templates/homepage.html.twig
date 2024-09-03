@@ -1,9 +1,9 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1 class="display-4">{% trans %}homepage.welcome{% endtrans %}</h1>
-        <p class="lead">{% trans %}homepage.explaination{% endtrans %}</p>
+    <div class="bg-light p-5 rounded">
+        <h1 class="fs-1">{% trans %}homepage.welcome{% endtrans %}</h1>
+        <p class="fs-4">{% trans %}homepage.explaination{% endtrans %}</p>
         <hr class="my-4">
         <p>{% trans with {'%fsb_email%': fsb_email, '%support_email%': support_email, '%hhv_email%': hhv_email} %}homepage.support{% endtrans %}</p>
         <a class="btn btn-primary btn-lg" href="{{ path("payment_order_new") }}" role="button">{% trans %}payment_order.new{% endtrans %}</a>
