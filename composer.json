@@ -87,7 +87,7 @@
         "symfony/css-selector": "6.4.*",
         "symfony/debug-bundle": "6.4.*",
         "symfony/maker-bundle": "^1.0",
-        "jbtronics/translation-editor-bundle": "dev-master",
+        "jbtronics/translation-editor-bundle": "^1.0",
         "symfony/phpunit-bridge": "6.4.*",
         "symfony/stopwatch": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*",
@@ -148,15 +148,6 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../profiler-translation-editor",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,
