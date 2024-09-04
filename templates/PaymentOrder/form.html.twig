@@ -244,12 +244,8 @@
 
     </div>
 
-    <div class="row mb-3">
-        <div class="col-12">
-            {{ form_widget(form.submit) }}
-            {{ form_widget(form.submit_new) }}
-        </div>
-    </div>
+    {{ form_row(form.submit) }}
+    {{ form_row(form.submit_new) }}
 
     {{ form_end(form) }}
 {% endblock %}
