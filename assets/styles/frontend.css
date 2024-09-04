@@ -16,20 +16,11 @@
     z-index: 1030;
 }
 
-
-:root {
-    --border-radius: 4px;
-    --border-width: 1px;
-    --border-style: solid;
-    --border-color: #e3e7ee;
-}
-
 fieldset {
-    background: var(--fieldset-bg);
-    border: var(--border-width) var(--border-style) var(--border-color);
-    border-radius: var(--border-radius);
-    margin: 10px 0;
-    padding: 10px 20px 15px;
+   /* background: var(--fieldset-bg); */
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+    border-radius: var(--bs-border-radius) !important;
+    padding: 10px 20px 15px !important;
 }
 
 fieldset>legend {
@@ -40,6 +31,7 @@ fieldset>legend {
     margin: 0 0 5px -5px;
     padding: 0 5px;
     width: auto;
+    float: none;
 }
 
 legend {
@@ -61,16 +53,12 @@ legend {
     background-color: #f5f5f5;
 }
 
-.form-group .col-form-label.required:after, .form-group label.required:after {
+form .col-form-label.required:after, form label.required:after {
     bottom: 4px;
-    color: var(--color-danger);
+    color: var(--bs-secondary-color);
     content: "\2022";
     filter: opacity(75%);
     position: relative;
     right: -2px;
-    z-index: var(--zindex-700);
-}
-
-.custom-file-label {
-    z-index: 0;
+    z-index: 700;
 }
