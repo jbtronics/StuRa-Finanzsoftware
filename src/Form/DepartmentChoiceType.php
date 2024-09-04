@@ -46,10 +46,7 @@ final class DepartmentChoiceType extends AbstractType
             'class' => Department::class,
             'placeholder' => 'select.choose_value',
             'choice_label' => 'name',
-            'attr' => [
-                'class' => 'selectpicker',
-                'data-live-search' => true,
-            ],
+            'autocomplete' => true,
         ]);
 
         $resolver->setDefault('group_by', fn(Department $choice, $key, $value): string => $this->translator->trans('department.type.'.$choice->getType() ?? 'misc'));

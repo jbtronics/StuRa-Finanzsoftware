@@ -14,6 +14,9 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import "bootstrap";
 import * as bootstrap from "bootstrap";
 
+//Load stimulus
+import "./bootstrap.js";
+
 //Show flash messages
 document.addEventListener('DOMContentLoaded', function () {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'))
