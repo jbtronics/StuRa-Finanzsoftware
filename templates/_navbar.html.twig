@@ -1,52 +1,44 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top">
-    <a class="navbar-brand" href="{{ path("homepage") }}">StuRa</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-lg bg-light border-bottom shadow-sm fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('homepage') }}">StuRa</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% trans %}navbar.new_request{% endtrans %}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{ path('payment_order_new') }}"><i class="fas fa-file-invoice-dollar fa-fw"></i> {% trans %}payment_order.new{% endtrans %}</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {% trans %}navbar.new_request{% endtrans %}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path("payment_order_new") }}"><i class="fas fa-file-invoice-dollar fa-fw"></i> {% trans %}payment_order.new{% endtrans %}</a>
-                </div>
-            </li>
-        </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" title="navbar.choose_language" aria-expanded="false">
+                        <i class="fas fa-fw fa-lg fa-language"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><h6 class="dropdown-header">{% trans %}navbar.choose_language{% endtrans %}</h6></li>
+                        {% for locale in locale_menu %}
+                            <li><a class="dropdown-item" data-no-ajax href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}">
+                                    {{ locale|language_name }} ({{ locale|upper }})</a></li>
+                        {% endfor %}
+                        <li><div class="dropdown-divider"></div></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">{% trans %}navbar.admin_login{% endtrans %}</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-boundary="viewport" data-toggle="dropdown" title="navbar.choose_language" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-lg fa-language"></i>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <h6 class="dropdown-header">{% trans %}navbar.choose_language{% endtrans %}</h6>
-                    {% for locale in locale_menu %}
-                        <a class="dropdown-item" data-no-ajax href="{{ path(app.request.attributes.get('_route'),
-                            app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}">
-                            {{ locale|language_name }} ({{ locale|upper }})</a>
-                    {% endfor %}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path('admin_dashboard') }}">{% trans %}navbar.admin_login{% endtrans %}</a>
-                </div>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="https://www.stura.uni-jena.de/">StuRa-Homepage</a>
-            </li>
-        </ul>
-
-
-        {#<form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> #}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.stura.uni-jena.de/">StuRa-Homepage</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
 </nav>

@@ -472,13 +472,15 @@
     <unit id="99uSrvT" name="payment_order.new.hint">
       <segment>
         <source>payment_order.new.hint</source>
-        <target><![CDATA[Dem Online Zahlungsauftrag <i>muss</i> ein Scan aller Belege beigefügt werden!]]></target>
+        <target><![CDATA[Dem Online-Zahlungsauftrag <i>müssen</i> alle Belege (eingescannte Quittungen und
+Kassenzettel sowie Rechnungen) beigefügt werden!]]></target>
       </segment>
     </unit>
     <unit id="f8NZm.9" name="payment_order.new.contact_info">
       <segment>
         <source>payment_order.new.contact_info</source>
-        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die Finanzverantwortlichen des StuRas: <a href="mailto:%fsb_email%">%fsb_email%</a> (zuständig für FSRe) oder <a href="mailto:%hhv_email%">%hhv_email%</a> (zuständig für Referate)]]></target>
+        <target><![CDATA[Bei Fragen zum Ausfüllen dieses Formulars, kontaktiere bitte die
+Finanzverantwortlichen des StuRas: <a href="mailto:%hhv_email%">%hhv_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="_eaBSeV" name="footer.impress">
@@ -2361,6 +2363,13 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
       <segment>
         <source>payment_order.notification_deletion.blame_user</source>
         <target>Gelöscht durch</target>
+      </segment>
+    </unit>
+    <unit id="CltkZ.A" name="payment_order.new.star_hint">
+      <segment>
+        <source>payment_order.new.star_hint</source>
+        <target><![CDATA[Die mit * markierten Felder sind Pflichtfelder.<br>
+Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></target>
       </segment>
     </unit>
   </file>

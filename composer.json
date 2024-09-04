@@ -18,7 +18,6 @@
         "doctrine/orm": "^2.19.5",
         "easycorp/easyadmin-bundle": "^4.10.3",
         "endroid/qr-code": "^5.0.9",
-        "fortawesome/font-awesome": "^5.14",
         "league/html-to-markdown": "^5.0",
         "nelmio/security-bundle": "^v3.3.0",
         "nesbot/carbon": "^3.6.0",
@@ -27,12 +26,10 @@
         "scheb/2fa-bundle": "^6.8.0",
         "scheb/2fa-google-authenticator": "^6.8.0",
         "scheb/2fa-trusted-device": "^6.8.0",
-        "select2/select2": "^4.0",
-        "slowprog/composer-copy-file": "^0.3.3",
-        "snapappointments/bootstrap-select": "^1.13",
         "stevegrunwell/mailto-link-formatter": "^1.0",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "6.4.*",
+        "symfony/asset-mapper": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
         "symfony/expression-language": "6.4.*",
@@ -54,16 +51,17 @@
         "symfony/runtime": "6.4.*",
         "symfony/security-bundle": "6.4.*",
         "symfony/serializer": "6.4.*",
+        "symfony/stimulus-bundle": "^2.19",
         "symfony/string": "6.4.*",
         "symfony/translation": "6.4.*",
         "symfony/twig-bridge": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
+        "symfony/ux-autocomplete": "^2.19",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
         "symfonycasts/reset-password-bundle": "^1.6",
         "tecnickcom/tcpdf": "^6.3",
-        "twbs/bootstrap": "^v5.3.3",
         "twig/cssinliner-extra": "^3.0",
         "twig/extra-bundle": "^3.0",
         "twig/inky-extra": "^3.0",
@@ -133,15 +131,14 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts",
-            "SlowProg\\CopyFile\\ScriptHandler::copy"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "SlowProg\\CopyFile\\ScriptHandler::copy"
+            "@auto-scripts"
         ],
         "phpstan": "vendor/bin/phpstan analyse src --memory-limit 1G --level 3"
     },
@@ -152,18 +149,6 @@
         "symfony": {
             "allow-contrib": false,
             "require": "6.4.*"
-        },
-        "copy-file": {
-            "vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js": "public/assets/js/bootstrap.js",
-            "vendor/twbs/bootstrap/dist/css/bootstrap.min.css": "public/assets/css/bootstrap.css",
-            "vendor/snapappointments/bootstrap-select/dist/css/bootstrap-select.min.css": "public/assets/css/bootstrap-select.css",
-            "vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js": "public/assets/js/bootstrap-select.js",
-            "vendor/components/jquery/jquery.slim.min.js": "public/assets/js/jquery.slim.js",
-            "vendor/fortawesome/font-awesome/css/all.min.css": "public/assets/css/fa-all.css",
-            "vendor/fortawesome/font-awesome/webfonts/": "public/assets/webfonts/",
-
-            "vendor/select2/select2/dist/css/select2.min.css": "public/assets/css/select2.min.css",
-            "vendor/select2/select2/dist/js/select2.full.min.js": "public/assets/js/select2.full.min.js"
         }
     }
 }

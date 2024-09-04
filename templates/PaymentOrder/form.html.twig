@@ -4,13 +4,13 @@
 
 {% block head_javascripts %}
     <script>
-        /* function to save JSON to file from browser
-        * adapted from http://bgrins.github.io/devtools-snippets/#console-save
-        * @param {Object} data -- json object to save
-        * @param {String} file -- file name to save to
-        */
-        function saveJSON(data, filename){
 
+        /* function to save JSON to file from browser
+       * adapted from http://bgrins.github.io/devtools-snippets/#console-save
+       * @param {Object} data -- json object to save
+       * @param {String} file -- file name to save to
+       */
+        function saveJSON(data, filename){
             if(!data) {
                 console.error('No data')
                 return;
@@ -70,7 +70,6 @@
             saveJSON(data, name + '.json');
         }
 
-
         function importJSON() {
             const fileSelector = document.getElementById('fileSelect');
             fileSelector.addEventListener('change', (event) => {
@@ -121,7 +120,6 @@
                 templates = JSON.parse(templates);
                 var $menu = $('#templates_menu');
                 var $delete_menu = $('#templates_delete_menu');
-                //Clear content
                 $menu.html("");
                 $delete_menu.html("");
                 for (var index in templates) {
@@ -146,9 +144,8 @@
 {% block card_content %}
     <p class="text-muted">
         {% trans %}payment_order.new.hint{% endtrans %}<br>
+        {% trans %}payment_order.new.star_hint{% endtrans %}<br>
         {% trans with {'%fsb_email%': fsb_email, '%support_email%': support_email, '%hhv_email%': hhv_email} %}payment_order.new.contact_info{% endtrans %}
-        <br>
-        {% trans %}payment_order.new.fsrkom_hint{% endtrans %}
     </p>
     <p class="text-muted"></p>
 
@@ -200,7 +197,6 @@
                 {{ form_row(form.bank_info.iban, {'attr': {'data-json': 'iban'}}) }}
                 {{ form_row(form.bank_info.bic, {'attr': {'data-json': 'bic'}}) }}
                 {{ form_row(form.bank_info.bank_name, {'attr': {'data-json': 'bank_name'}}) }}
-                {# {{ form_row(form.bank_info.reference) }} #}
             </fieldset>
 
             <fieldset>
@@ -213,16 +209,16 @@
 
                 <div class="input-group mb-3">
                     <input type="text" id="export_name" class="form-control" placeholder="{% trans %}payment_order.new.templates.export_name.placeholder{% endtrans %}">
-                    <div class="input-group-append">
+                    <span class="input-group-text">
                         <button class="btn btn-outline-secondary" onclick="saveTemplate();" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
                         <button class="btn btn-outline-secondary" onclick="exportJSON();" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
-                    </div>
+                    </span>
                 </div>
 
                 <input type="file" class="btn btn-info" id="fileSelect" accept=".json" hidden>
-                <div class="btn-group btn-block mb-3" role="group">
+                <div class="btn-group w-100 mb-3" role="group">
                     <div class="btn-group w-75" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% trans %}payment_order.new.templates.load_template{% endtrans %}
                         </button>
                         <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1">
@@ -234,7 +230,7 @@
                 </div>
 
                 <div class="dropdown">
-                    <button class="btn btn-outline-danger btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-outline-danger w-100 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% trans %}payment_order.new.templates.delete{% endtrans %}
                     </button>
                     <div class="dropdown-menu" id="templates_delete_menu" aria-labelledby="dropdownMenuButton">
@@ -247,12 +243,8 @@
 
     </div>
 
-    <div class="row mb-3">
-        <div class="col-12">
-            {{ form_widget(form.submit) }}
-            {{ form_widget(form.submit_new) }}
-        </div>
-    </div>
+    {{ form_row(form.submit) }}
+    {{ form_row(form.submit_new) }}
 
     {{ form_end(form) }}
 {% endblock %}

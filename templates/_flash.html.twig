@@ -12,14 +12,12 @@
                 'error': 'bg-danger text-white', 'warning': 'bg-warning text-white',
                 'notice': 'bg-info text-white', 'info': 'bg-light'})%}
 
-            <div class="toast shadow" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+            <div class="toast shadow" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
                 <div class="toast-header {{ flash_bg }}">
                     {# <img src="..." class="rounded mr-2" alt="...">#}
                     <i class="fas fa-fw {{ flash_symbol }} mr-2"></i>
                     <strong class="mr-auto">{{ flash_title|trans }}</strong>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="ml-2 mb-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body {{ flash_bg }}">
                     {{ message | trans}}
