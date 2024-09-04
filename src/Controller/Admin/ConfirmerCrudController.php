@@ -58,6 +58,7 @@ class ConfirmerCrudController extends AbstractCrudController
                 ->setEmptyData('')
                 ->hideOnIndex(),
             AssociationField::new('departments', new TM('confirmer.departments'))
+                ->setFormTypeOption('by_reference', false)
                 ->autocomplete()
 
         ];

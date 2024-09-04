@@ -131,6 +131,28 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
         return $this->departments;
     }
 
+    public function addDepartment(Department $department): Confirmer
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments->add($department);
+            if (!$department->getConfirmers()->contains($this)) {
+                $department->getConfirmers()->add($this);
+            }
+        }
+        return $this;
+    }
+
+    public function removeDepartment(Department $department): Confirmer
+    {
+        if ($this->departments->contains($department)) {
+            $this->departments->removeElement($department);
+            if ($department->getConfirmers()->contains($this)) {
+                $department->getConfirmers()->removeElement($this);
+            }
+        }
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->name . ' (' . $this->email . ')';
