@@ -55,5 +55,12 @@
         <target>Der Projektname darf maximal {{ limit }} Zeichen haben, damit er korrekt im Verwendungszweck auftauchen kann. Für detailiertere Angaben (die nicht für den Verwendungszweck nötig sind) nutze bitte das Anmerkungsfeld.</target>
       </segment>
     </unit>
+    <unit id="cBOrru8" name="validator.two_few_confirmers">
+      <segment>
+        <source>validator.two_few_confirmers</source>
+        <target>Zu wenige Bestätigungspersonen!
+Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Person!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

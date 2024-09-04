@@ -2372,5 +2372,53 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
 Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></target>
       </segment>
     </unit>
+    <unit id="r2k7w8D" name="confirmer.label">
+      <segment>
+        <source>confirmer.label</source>
+        <target>Bestätigungsperson</target>
+      </segment>
+    </unit>
+    <unit id="wS9eaHD" name="confirmer.labelp">
+      <segment>
+        <source>confirmer.labelp</source>
+        <target>Bestätigungspersonen</target>
+      </segment>
+    </unit>
+    <unit id="2jLLD3I" name="confirmer.name">
+      <segment>
+        <source>confirmer.name</source>
+        <target>Name</target>
+      </segment>
+    </unit>
+    <unit id="0s3wwDU" name="confirmer.email">
+      <segment>
+        <source>confirmer.email</source>
+        <target>Email</target>
+      </segment>
+    </unit>
+    <unit id="uUpGzQD" name="confirmer.phone">
+      <segment>
+        <source>confirmer.phone</source>
+        <target>Telefon</target>
+      </segment>
+    </unit>
+    <unit id="VdBMem2" name="confirmer.comment">
+      <segment>
+        <source>confirmer.comment</source>
+        <target>Bemerkung</target>
+      </segment>
+    </unit>
+    <unit id="9EsCaIB" name="department.confirmers">
+      <segment>
+        <source>department.confirmers</source>
+        <target>Bestätigungspersonen</target>
+      </segment>
+    </unit>
+    <unit id="udlrdi." name="confirmer.departments">
+      <segment>
+        <source>confirmer.departments</source>
+        <target>Bestätigbare Organisationen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

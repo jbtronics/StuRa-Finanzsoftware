@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This entity describes a person, that can confirm payment orders
  */
-#[ORM\Entity(repositoryClass: BankAccountRepository::class)]
+#[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['email'])]
-class Confirmer implements DBElementInterface, TimestampedElementInterface
+class Confirmer implements DBElementInterface, TimestampedElementInterface, \Stringable
 {
     use TimestampTrait;
 
@@ -71,14 +71,26 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface
         $this->departments = new ArrayCollection();
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): Confirmer
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): Confirmer
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getEmail(): string
@@ -86,9 +98,10 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): Confirmer
     {
         $this->email = $email;
+        return $this;
     }
 
     public function getPhone(): ?string
@@ -96,9 +109,10 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): void
+    public function setPhone(?string $phone): Confirmer
     {
         $this->phone = $phone;
+        return $this;
     }
 
     public function getComment(): string
@@ -106,9 +120,10 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface
         return $this->comment;
     }
 
-    public function setComment(string $comment): void
+    public function setComment(string $comment): Confirmer
     {
         $this->comment = $comment;
+        return $this;
     }
 
     public function getDepartments(): Collection
@@ -116,13 +131,8 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface
         return $this->departments;
     }
 
-    public function setDepartments(Collection $departments): void
+    public function __toString()
     {
-        $this->departments = $departments;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
+        return $this->name . ' (' . $this->email . ')';
     }
 }

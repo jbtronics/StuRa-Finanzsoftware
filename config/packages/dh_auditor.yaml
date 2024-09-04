@@ -38,3 +38,7 @@ dh_auditor:
                         - password
                         - googleAuthenticatorSecret
                         - backupCodes
+                App\Entity\Confirmer:
+                    roles:
+                        view:
+                            - 'ROLE_READ_ORGANISATIONS'

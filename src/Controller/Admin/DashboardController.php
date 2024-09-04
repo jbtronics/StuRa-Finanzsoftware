@@ -19,6 +19,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BankAccount;
+use App\Entity\Confirmer;
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
@@ -225,6 +226,8 @@ final class DashboardController extends AbstractDashboardController
             ->setSubItems($items);
 
         yield MenuItem::linkToCrud('department.labelp', 'fas fa-sitemap', Department::class)
+            ->setPermission('ROLE_READ_ORGANISATIONS');
+        yield MenuItem::linkToCrud('confirmer.labelp', 'fas fa-user-check', Confirmer::class)
             ->setPermission('ROLE_READ_ORGANISATIONS');
         yield MenuItem::linkToCrud('bank_account.labelp', 'fas fa-university', BankAccount::class)
             ->setPermission('ROLE_READ_BANK_ACCOUNTS');

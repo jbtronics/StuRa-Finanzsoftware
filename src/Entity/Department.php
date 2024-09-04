@@ -101,11 +101,11 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     #[ORM\ManyToMany(targetEntity: Confirmer::class)]
     #[ORM\JoinTable(name: 'departments_confirmers')]
-    #[Assert\Expression("this.gettype() == 'fsr' && value.length() < 2", message: 'validator.fsr_must_have_at_least_two_confirmers')]
-    #[Assert\Expression("this.gettype() != 'fsr' && value.length() < 1", message: 'validator.sections_must_have_at_least_one_confirmer')]
+    #[Assert\Expression("(this.gettype() == 'fsr' && value.count() >= 2) || (this.gettype() !== 'fsr' && value.count() >= 1)",
+        message: 'validator.two_few_confirmers')]
     #[Assert\Unique]
     private Collection $confirmers;
-    
+
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $references_export_prefix = null;
 
@@ -396,4 +396,17 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
             unset($this->skip_blocked_validation_tokens[$key]);
         }
     }
+
+    public function getConfirmers(): Collection
+    {
+        return $this->confirmers;
+    }
+
+    public function setConfirmers(Collection $confirmers): Department
+    {
+        $this->confirmers = $confirmers;
+        return $this;
+    }
+
+
 }

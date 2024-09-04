@@ -40,6 +40,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatableMessage as TM;
 
 final class DepartmentCrudController extends AbstractCrudController
 {
@@ -152,27 +153,9 @@ final class DepartmentCrudController extends AbstractCrudController
             //FSR contact info panel
             FormField::addPanel('department.fsr_email_panel.label')
                 ->setHelp('department.fsr_email_panel.help'),
-            CollectionField::new('email_hhv', 'department.email_hhv.label')
-                ->setHelp('department.email_hhv.help')
-                ->setTemplatePath('admin/field/email_collection.html.twig')
-                ->allowAdd()
-                ->allowDelete()
-                ->setFormTypeOption('delete_empty', true)
-                ->setFormTypeOption('entry_options.required', false)
-                ->setFormTypeOption('entry_options.empty_data', '')
-                ->setEntryType(EmailType::class)
-                ->hideOnIndex(),
-
-            CollectionField::new('email_treasurer', 'department.email_treasurer.label')
-                ->setHelp('department.email_hhv.help')
-                ->setTemplatePath('admin/field/email_collection.html.twig')
-                ->allowAdd()
-                ->allowDelete()
-                ->setFormTypeOption('delete_empty', true)
-                ->setFormTypeOption('entry_options.required', false)
-                ->setFormTypeOption('entry_options.empty_data', '')
-                ->setEntryType(EmailType::class)
-                ->hideOnIndex(),
+            AssociationField::new('confirmers', new TM('department.confirmers'))
+                ->autocomplete()
+            ,
 
             FormField::addPanel('department.skip_blocked_validation_tokens.panel.label')
                 ->setHelp('department.skip_blocked_validation_tokens.panel.help'),
