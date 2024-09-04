@@ -62,3 +62,8 @@ form .col-form-label.required:after, form label.required:after {
     right: -2px;
     z-index: 700;
 }
+
+/*** Make form-control placeholders italic ***/
+.form-control::placeholder {
+    font-style: italic;
+}
