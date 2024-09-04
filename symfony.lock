@@ -162,9 +162,6 @@
     "endroid/qr-code": {
         "version": "3.8.2"
     },
-    "fortawesome/font-awesome": {
-        "version": "5.14.0"
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.17",
         "recipe": {
@@ -413,15 +410,6 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
-    },
-    "select2/select2": {
-        "version": "4.0.13"
-    },
-    "slowprog/composer-copy-file": {
-        "version": "0.3.3"
-    },
-    "snapappointments/bootstrap-select": {
-        "version": "v1.13.18"
     },
     "spomky-labs/otphp": {
         "version": "v10.0.1"
@@ -768,6 +756,20 @@
     "symfony/service-contracts": {
         "version": "v2.1.2"
     },
+    "symfony/stimulus-bundle": {
+        "version": "2.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.13",
+            "ref": "6acd9ff4f7fd5626d2962109bd4ebab351d43c43"
+        },
+        "files": [
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js"
+        ]
+    },
     "symfony/stopwatch": {
         "version": "v5.1.2"
     },
@@ -914,9 +916,6 @@
     },
     "tijsverkoyen/css-to-inline-styles": {
         "version": "2.2.3"
-    },
-    "twbs/bootstrap": {
-        "version": "v4.5.0"
     },
     "twig/cssinliner-extra": {
         "version": "v3.0.5"

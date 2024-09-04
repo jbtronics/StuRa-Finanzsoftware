@@ -15,7 +15,6 @@ import "bootstrap";
 import * as bootstrap from "bootstrap";
 
 //Show flash messages
-
 document.addEventListener('DOMContentLoaded', function () {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'))
     const toastList = toastElList.map(function (toastEl) {

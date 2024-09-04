@@ -12,10 +12,6 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
-    'app' => [
-        'path' => './assets/app.js',
-        'entrypoint' => true,
-    ],
     'frontend' => [
         'path' => './assets/frontend.js',
         'entrypoint' => true,
@@ -40,5 +36,11 @@ return [
     '@fortawesome/fontawesome-free/css/solid.min.css' => [
         'version' => '6.6.0',
         'type' => 'css',
+    ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
 ];
