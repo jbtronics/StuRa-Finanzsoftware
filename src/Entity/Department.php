@@ -22,6 +22,8 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\NamedElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Repository\DepartmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -94,28 +96,16 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private ?BankAccount $bank_account = null;
 
     /**
-     * @var string[]
-     * @Assert\All({
-     *     @Assert\Email(),
-     *     @Assert\Expression("(value == null || value == '') || value not in this.getEmailTreasurer()", message="validator.fsr_emails_must_not_be_the_same")
-     * })
+     * @var Collection<Confirmer> The confirmers that are allowed to confirm payment orders for this department.
+     * FSRs have at least two confirmers, sections have at least one.
      */
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    #[ORM\ManyToMany(targetEntity: Confirmer::class)]
+    #[ORM\JoinTable(name: 'departments_confirmers')]
+    #[Assert\Expression("this.gettype() == 'fsr' && value.length() < 2", message: 'validator.fsr_must_have_at_least_two_confirmers')]
+    #[Assert\Expression("this.gettype() != 'fsr' && value.length() < 1", message: 'validator.sections_must_have_at_least_one_confirmer')]
     #[Assert\Unique]
-    #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
-    private ?array $email_hhv = [];
-
-    /**
-     * @var string[]
-     * @Assert\All({
-     *     @Assert\Email()
-     * })
-     */
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    #[Assert\Unique]
-    #[Assert\Expression("!(value === null || value === []) || this.gettype() !== 'fsr'", message: 'validator.fsr_email_must_not_be_empty')]
-    private ?array $email_treasurer = [];
-
+    private Collection $confirmers;
+    
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $references_export_prefix = null;
 
@@ -124,6 +114,11 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     #[ORM\Column(type: Types::JSON)]
     private array $skip_blocked_validation_tokens = [];
+
+    public function __construct()
+    {
+        $this->confirmers = new ArrayCollection();
+    }
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
