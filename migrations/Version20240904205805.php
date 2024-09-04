@@ -14,7 +14,7 @@ final class Version20240904205805 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Migrations for confirmers';
     }
 
     public function up(Schema $schema): void
@@ -26,7 +26,57 @@ final class Version20240904205805 extends AbstractMigration
         $this->addSql('ALTER TABLE departments_confirmers ADD CONSTRAINT FK_5F6563A2AE80F5DF FOREIGN KEY (department_id) REFERENCES departments (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE departments_confirmers ADD CONSTRAINT FK_5F6563A2EBF3C9A FOREIGN KEY (confirmer_id) REFERENCES confirmer (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE bank_accounts_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
-        $this->addSql('ALTER TABLE departments DROP email_hhv, DROP email_treasurer, CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
+
+        //Use the email_hhv and email_treasurer fields to migrate the data to the new format in the confirmer table (email_hhv can contain multiple values, which need to be split by comma)
+        $this->addSql(<<<SQL
+            INSERT INTO confirmer (name, email, phone, comment, last_modified, creation_date)
+            SELECT
+                email_hhv,
+                email_hhv,
+                NULL,
+                'HHV (migriert von alten Format)',
+                NOW(),
+                NOW()
+            FROM departments
+            WHERE email_hhv IS NOT NULL
+        SQL);
+        //And associate the new confirmer with the department
+        $this->addSql(<<<SQL
+            INSERT INTO departments_confirmers (department_id, confirmer_id)
+            SELECT
+                id,
+                (SELECT MIN(id) FROM confirmer WHERE email = email_hhv)
+            FROM departments
+            WHERE email_hhv IS NOT NULL
+        SQL);
+        //Do the same for the email_treasurer field
+        $this->addSql(<<<SQL
+            INSERT INTO confirmer (name, email, phone, comment, last_modified, creation_date)
+            SELECT
+                email_treasurer,
+                email_treasurer,
+                NULL,
+                'Kassenwart (migriert von alten Format)',
+                NOW(),
+                NOW()
+            FROM departments
+            WHERE email_treasurer IS NOT NULL
+        SQL);
+        $this->addSql(<<<SQL
+            INSERT INTO departments_confirmers (department_id, confirmer_id)
+            SELECT
+                id,
+                (SELECT MIN(id) FROM confirmer WHERE email = email_treasurer)
+            FROM departments
+            WHERE email_treasurer IS NOT NULL
+        SQL);
+
+        //Insert an valid JSON array, into skip_blocked_validation_tokens to avoid json validation errors later
+        $this->addSql('UPDATE departments SET skip_blocked_validation_tokens = "[]" WHERE skip_blocked_validation_tokens = ""');
+
+        //For now we do not drop the old fields, as we will need them for the migration later
+        //$this->addSql('ALTER TABLE departments DROP email_hhv, DROP email_treasurer, CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
+        $this->addSql('ALTER TABLE departments CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE departments_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE payment_orders_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE backup_codes backup_codes JSON NOT NULL COMMENT \'(DC2Type:json)\'');
@@ -42,7 +92,7 @@ final class Version20240904205805 extends AbstractMigration
         $this->addSql('DROP TABLE confirmer_audit');
         $this->addSql('DROP TABLE departments_confirmers');
         $this->addSql('ALTER TABLE bank_accounts_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL');
-        $this->addSql('ALTER TABLE departments ADD email_hhv LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', ADD email_treasurer LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
+        $this->addSql('ALTER TABLE departments CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE departments_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE payment_orders_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE backup_codes backup_codes JSON NOT NULL COMMENT \'(DC2Type:json)\'');
