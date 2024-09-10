@@ -7,12 +7,12 @@ doctrine:
             datetime:
                 class: App\Doctrine\Types\UTCDateTimeType
             date:
-                class: App\Doctrine\Types\UTCDateTimeType
+                class: App\Doctrine\Types\UTCDateType
 
             datetime_immutable:
                 class: App\Doctrine\Types\UTCDateTimeImmutableType
             date_immutable:
-                class: App\Doctrine\Types\UTCDateTimeImmutableType
+                class: App\Doctrine\Types\UTCDateImmutableType
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
