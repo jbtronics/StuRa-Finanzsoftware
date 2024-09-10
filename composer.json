@@ -8,7 +8,6 @@
         "ext-iconv": "*",
         "ext-mbstring": "*",
         "ext-zip": "*",
-        "components/jquery": "^3.5",
         "composer/package-versions-deprecated": "1.11.99.4",
         "damienharper/auditor-bundle": "^6.0.0",
         "digitick/sepa-xml": "^2.0.0",
