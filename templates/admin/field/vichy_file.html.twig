@@ -4,9 +4,13 @@
 
 {% if file is not null %}
 
-    <a href="{{ vich_uploader_asset(ent, field.property) }}" target="_blank">{{ file.filename }}</a> (<b>{{ file.size | formatBytes }}</b>, {{ file.mimetype }})
-    <a href="{{ vich_uploader_asset(ent, field.property) }}" download=""><i class="fas fa-download"></i></a>
-
+    {# Check if the file is readable #}
+    {% if file.readable %}
+        <a href="{{ vich_uploader_asset(ent, field.property) }}" target="_blank">{{ file.filename }}</a> (<b>{{ file.size | formatBytes }}</b>, {{ file.mimetype }})
+        <a href="{{ vich_uploader_asset(ent, field.property) }}" download=""><i class="fas fa-download"></i></a>
+    {% else %}
+        <b style="color: red;">Datei existiert nicht oder nicht lesbar! (<i>{{ file.filename }}</i>)</b>
+    {% endif%}
 {% else %}
     <b>{% trans %}file.empty{% endtrans %}</b>
 {% endif %}
