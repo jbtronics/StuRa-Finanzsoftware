@@ -99,7 +99,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * @var Collection<Confirmer> The confirmers that are allowed to confirm payment orders for this department.
      * FSRs have at least two confirmers, sections have at least one.
      */
-    #[ORM\ManyToMany(targetEntity: Confirmer::class)]
+    #[ORM\ManyToMany(targetEntity: Confirmer::class, inversedBy: 'departments')]
     #[ORM\JoinTable(name: 'departments_confirmers')]
     #[Assert\Expression("(this.gettype() == 'fsr' && value.count() >= 2) || (this.gettype() !== 'fsr' && value.count() >= 1)",
         message: 'validator.two_few_confirmers')]
