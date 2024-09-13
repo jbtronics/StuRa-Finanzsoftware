@@ -41,21 +41,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table('departments')]
 class Department implements DBElementInterface, NamedElementInterface, TimestampedElementInterface, \Stringable
 {
-    /**
-     * A department with this type is an FSR ("Fachschaftsrat").
-     */
-    public const TYPE_FSR = 'fsr';
-    /**
-     * A department with this type is an section ("Referat").
-     */
-    public const TYPE_SECTION = 'section';
-    /**
-     * A department with this type is an administrative structure.
-     */
-    public const TYPE_ADMINISTRATIVE = 'misc';
-
-    public const ALLOWED_TYPES = [self::TYPE_FSR, self::TYPE_SECTION, self::TYPE_ADMINISTRATIVE];
-
     use TimestampTrait;
 
     #[ORM\Id]
@@ -68,9 +53,8 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     private string $name = '';
 
     
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Choice(choices: Department::ALLOWED_TYPES)]
-    private string $type = self::TYPE_FSR;
+    #[ORM\Column(type: Types::STRING, enumType: DepartmentTypes::class)]
+    private DepartmentTypes $type = DepartmentTypes::FSR;
 
     /**
      * @var bool If an FSR is blocked it can not submit new payment orders
@@ -101,7 +85,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     #[ORM\ManyToMany(targetEntity: Confirmer::class, inversedBy: 'departments')]
     #[ORM\JoinTable(name: 'departments_confirmers')]
-    #[Assert\Expression("(this.gettype() == 'fsr' && value.count() >= 2) || (this.gettype() !== 'fsr' && value.count() >= 1)",
+    #[Assert\Expression("value.count() >= object.gettype().getMinimumRequiredConfirmers()",
         message: 'validator.two_few_confirmers')]
     #[Assert\Unique]
     private Collection $confirmers;
@@ -122,11 +106,10 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     /**
      * Returns the type of this department (whether it is an FSR, an section or something else)
-     * Allowed types can be found in Department::ALLOWED_TYPES, or the Department::TYPE_* consts.
      *
-     * @return string
+     * @return DepartmentTypes
      */
-    public function getType(): ?string
+    public function getType(): ?DepartmentTypes
     {
         return $this->type;
     }
@@ -135,7 +118,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      * Sets the type of this department (whether it is an FSR, an section or something else)
      * Allowed types can be found in Department::ALLOWED_TYPES, or the Department::TYPE_* consts.
      */
-    public function setType(string $type): self
+    public function setType(DepartmentTypes $type): self
     {
         $this->type = $type;
 
@@ -147,7 +130,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     public function isFSR(): bool
     {
-        return self::TYPE_FSR === $this->type;
+        return DepartmentTypes::FSR === $this->type;
     }
 
     /**
@@ -155,7 +138,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     public function isSection(): bool
     {
-        return self::TYPE_SECTION === $this->type;
+        return DepartmentTypes::SECTION === $this->type;
     }
 
     /**
@@ -163,7 +146,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     public function isAdministrative(): bool
     {
-        return self::TYPE_ADMINISTRATIVE === $this->type;
+        return DepartmentTypes::ADMINISTRATIVE === $this->type;
     }
 
     /**
@@ -408,5 +391,19 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
         return $this;
     }
 
+    /**
+     * Returns the number of confirmations, that are required for a new payment order to be considered confirmed.
+     * This not only depends on the department type, but also on the number of confirmers assigned to this department.
+     * If the department has more confirmers than required, two confirmations are required.
+     * @return int
+     */
+    public function getMinimumRequiredConfirmations(): int
+    {
+        //If we have enough confirmers, always require two confirmations
+        if ($this->confirmers->count() >= 2) {
+            return 2;
+        }
 
+        return $this->type->getMinimumRequiredConfirmers();
+    }
 }
