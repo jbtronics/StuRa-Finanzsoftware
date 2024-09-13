@@ -534,21 +534,21 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     }
 
     /**
-     * Returns the (hashed) token that can be used to access the confirmation1 page of this payment page.
-     * This value be verified with the password_verify() function.
-     * Can be null if no confirmation should be possible for this payment order.
+     * Checks how many confirmations this payment order has.
+     * This is between 0 and 2.
+     * @return int
      */
-    public function getConfirm1Token(): ?string
+    public function getNumberOfConfirmations(): int
     {
-        return $this->confirm1_token;
-    }
+        $count = 0;
+        if ($this->confirmation1->isConfirmed()) {
+            ++$count;
+        }
+        if ($this->confirmation2->isConfirmed()) {
+            ++$count;
+        }
 
-    /**
-     * Returns the (hashed) token that can be used to access the confirmation1 page of this payment page.
-     * This value be created with the password_hash() function.
-     * Can be null if no confirmation should be possible for this payment order.
-     */
-    public function setConfirm1Token(?string $confirm1_token): PaymentOrder
+        return $count;
     {
         $this->confirm1_token = $confirm1_token;
 
@@ -622,7 +622,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     public function isConfirmed(): bool
     {
-        return null !== $this->confirm1_timestamp && null !== $this->confirm2_timestamp;
+        //The payment order is confirmed, if we have enough confirmations
+        return $this->getNumberOfConfirmations() >= $this->requiredConfirmations;
     }
 
     /**
