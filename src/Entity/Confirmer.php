@@ -7,7 +7,6 @@ namespace App\Entity;
 
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
-use App\Repository\BankAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -66,20 +65,18 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
     #[ORM\ManyToMany(targetEntity: Department::class, mappedBy: 'confirmers')]
     private Collection $departments;
 
+    #[ORM\ManyToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer')]
+    private Collection $confirmationTokens;
+
     public function __construct()
     {
         $this->departments = new ArrayCollection();
+        $this->confirmationTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): Confirmer
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getName(): string
@@ -151,6 +148,11 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
             }
         }
         return $this;
+    }
+
+    public function getConfirmationTokens(): Collection
+    {
+        return $this->confirmationTokens;
     }
 
     public function __toString()

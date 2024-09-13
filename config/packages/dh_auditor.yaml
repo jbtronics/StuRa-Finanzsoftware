@@ -38,7 +38,15 @@ dh_auditor:
                         - password
                         - googleAuthenticatorSecret
                         - backupCodes
+
                 App\Entity\Confirmer:
                     roles:
                         view:
                             - 'ROLE_READ_ORGANISATIONS'
+
+                App\Entity\ConfirmationToken:
+                    roles:
+                        view:
+                            - 'ROLE_SHOW_PAYMENT_ORDERS'
+                        ignored_columns:
+                            - hashedToken

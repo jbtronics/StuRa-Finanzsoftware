@@ -1,0 +1,120 @@
+<?php
+
+declare(strict_types=1);
+
+
+namespace App\Entity\Embeddable;
+use App\Entity\ConfirmationToken;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * This embeddable contains all information about a confirmation
+ */
+#[ORM\Embeddable]
+class Confirmation
+{
+    /**
+     * @var bool Whether the confirmation is confirmed or not
+     */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $confirmed = false;
+
+    /**
+     * @var \DateTime|null The timestamp of the confirmation. Null if not confirmed. For historical reasons, null
+     * can also mean unknown (payment order older than this field), but this should not be the case anymore.
+     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $timestamp = null;
+
+    /**
+     * @var string|null The name of the person who confirmed the confirmation. Null if not confirmed
+     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $confirmerName = null;
+
+    /**
+     * @var int|null The ID of the ConfirmationToken used to confirm this confirmation. Null if not confirmed (or if legacy data)
+     */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $confirmationTokenID = null;
+
+    /**
+     * @var bool Whether the confirmation was overridden by an StuRa Finance member
+     */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $confirmationOverriden = false;
+
+    /**
+     * @var string|null An optional remark about the confirmation
+     */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $remark = null;
+
+    public function isConfirmed(): bool
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(bool $confirmed): Confirmation
+    {
+        $this->confirmed = $confirmed;
+        return $this;
+    }
+
+    public function getTimestamp(): ?\DateTime
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(?\DateTime $timestamp): Confirmation
+    {
+        $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    public function getConfirmerName(): ?string
+    {
+        return $this->confirmerName;
+    }
+
+    public function setConfirmerName(?string $confirmerName): Confirmation
+    {
+        $this->confirmerName = $confirmerName;
+        return $this;
+    }
+
+    public function getConfirmationTokenID(): ?int
+    {
+        return $this->confirmationTokenID;
+    }
+
+    public function setConfirmationTokenID(?ConfirmationToken $confirmation): Confirmation
+    {
+        $this->confirmationTokenID = $confirmation?->getId();
+        return $this;
+    }
+
+
+    public function isConfirmationOverriden(): bool
+    {
+        return $this->confirmationOverriden;
+    }
+
+    public function setConfirmationOverriden(bool $confirmationOverriden): Confirmation
+    {
+        $this->confirmationOverriden = $confirmationOverriden;
+        return $this;
+    }
+
+    public function getRemark(): ?string
+    {
+        return $this->remark;
+    }
+
+    public function setRemark(?string $remark): Confirmation
+    {
+        $this->remark = $remark;
+        return $this;
+    }
+}

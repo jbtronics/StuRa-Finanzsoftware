@@ -20,6 +20,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
+use App\Entity\Embeddable\Confirmation;
 use App\Entity\Embeddable\PayeeInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
@@ -92,26 +93,14 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private string $project_name = '';
 
     /**
-     * @var int "Betrag"
+     * @var int|null "Betrag" (in cents)
      */
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\Positive]
     private ?int $amount = null;
 
-    /**
-     * @var bool "mathematisch richtig"
-     */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $mathematically_correct = false;
-
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $exported = false;
-
-    /**
-     * @var bool "sachlich richtig"
-     */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $factually_correct = false;
 
     #[ORM\Column(type: Types::TEXT)]
     private string $comment = '';
@@ -123,17 +112,28 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
     private string $funding_id = '';
 
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $confirm1_token = null;
+    /**
+     * @var Confirmation The first confirmation for this payment order
+     */
+    #[ORM\Embedded(class: Confirmation::class)]
+    #[Assert\Valid]
+    private Confirmation $confirmation1;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $confirm1_timestamp = null;
+    /**
+     * @var Confirmation The second confirmation for this payment order. Depending on the department this may not be
+     * required
+     */
+    #[ORM\Embedded(class: Confirmation::class)]
+    #[Assert\Valid]
+    private Confirmation $confirmation2;
 
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $confirm2_token = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $confirm2_timestamp = null;
+    /**
+     * @var int The number of confirmations required for this payment order. The number is determined by the department
+     * and how many confirmations are required for the department.
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\Range(min: 1, max: 2)]
+    private int $requiredConfirmations = 2;
 
     /**
      * @var bool Is FSR-Kom resolution
@@ -183,6 +183,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
         $this->references = new File();
         $this->printed_form = new File();
+
+        $this->confirmation1 = new Confirmation();
+        $this->confirmation2 = new Confirmation();
     }
 
     public function getId(): ?int
