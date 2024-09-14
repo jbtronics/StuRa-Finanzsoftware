@@ -252,9 +252,6 @@ final class DashboardController extends AbstractDashboardController
             ->displayUserName(true)
             ->addMenuItems([
                 MenuItem::linktoRoute('user.settings.title', 'fas fa-user-cog', 'user_settings'),
-                //It is important to use LinkToUrl here. LinkToCrud will put the route name into a param, but does not change the prefix
-                MenuItem::linkToUrl(Languages::getName('de', 'de').' (DE)', '', '/de/admin'),
-                MenuItem::linkToUrl(Languages::getName('en', 'en').' (EN)', '', '/en/admin'),
             ]);
     }
 
