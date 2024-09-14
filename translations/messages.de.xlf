@@ -2420,5 +2420,29 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Bestätigbare Organisationen</target>
       </segment>
     </unit>
+    <unit id="Eorzg9b" name="ui.toggle_darkmode">
+      <segment>
+        <source>ui.toggle_darkmode</source>
+        <target>Darkmode</target>
+      </segment>
+    </unit>
+    <unit id="R2nX4ip" name="ui.darkmode.light">
+      <segment>
+        <source>ui.darkmode.light</source>
+        <target>Hell</target>
+      </segment>
+    </unit>
+    <unit id="3NHpuW3" name="ui.darkmode.dark">
+      <segment>
+        <source>ui.darkmode.dark</source>
+        <target>Dunkel</target>
+      </segment>
+    </unit>
+    <unit id="4TGOK5_" name="ui.darkmode.auto">
+      <segment>
+        <source>ui.darkmode.auto</source>
+        <target>Automatisch</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
