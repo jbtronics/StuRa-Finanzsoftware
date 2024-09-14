@@ -2444,5 +2444,29 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Automatisch</target>
       </segment>
     </unit>
+    <unit id="KbDpusX" name="payment_order.tab.info">
+      <segment>
+        <source>payment_order.tab.info</source>
+        <target>Info</target>
+      </segment>
+    </unit>
+    <unit id="vjbVYhX" name="payment_order.tab.status">
+      <segment>
+        <source>payment_order.tab.status</source>
+        <target>Status</target>
+      </segment>
+    </unit>
+    <unit id="faq1Fcw" name="payment_order.section.status.confirmation">
+      <segment>
+        <source>payment_order.section.status.confirmation</source>
+        <target>Bestätigungen durch Struktur</target>
+      </segment>
+    </unit>
+    <unit id="uO7.WOr" name="payment_order.section.status.review">
+      <segment>
+        <source>payment_order.section.status.review</source>
+        <target>Prüfung durch StuRa-Finanzer</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

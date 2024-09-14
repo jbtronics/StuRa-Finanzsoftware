@@ -370,12 +370,12 @@ final class PaymentOrderCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         //Documents
-        $documentsPanel = FormField::addPanel('payment_order.group.documents')->collapsible();
+        $documentsPanel = FormField::addFieldset('payment_order.group.documents');
         $printed_form = VichyFileField::new('printed_form_file', 'payment_order.printed_form.label');
         $references = VichyFileField::new('references_file', 'payment_order.references.label');
 
         //Basic informations
-        $infoPanel = FormField::addPanel('payment_order.group.info')->collapsible();
+        $infoPanel = FormField::addFieldset('payment_order.group.info');
         $id = IntegerField::new('id', 'payment_order.id.label');
         $firstName = TextField::new('first_name', 'payment_order.first_name.label');
         $lastName = TextField::new('last_name', 'payment_order.last_name.label');
@@ -421,7 +421,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //$creationDate = TextField::new('creation_date', 'creation_date');
 
         //Status informations
-        $statusPanel = FormField::addPanel('payment_order.group.status')->collapsible();
+        $statusPanel = FormField::addPanel('payment_order.group.status');
         $mathematicallyCorrect = BooleanField::new('mathematically_correct', 'payment_order.mathematically_correct.label')
             ->setHelp('payment_order.mathematically_correct.help')
             //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
@@ -435,19 +435,19 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'))
             ->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
         $booking_date = DateTimeField::new('booking_date', 'payment_order.booking_date.label');
-        $confirmed_1 = DateTimeField::new('confirm1_timestamp', 'payment_order.confirmed_1.label');
-        $confirmed_2 = DateTimeField::new('confirm2_timestamp', 'payment_order.confirmed_2.label');
+        $confirmed_1 = DateTimeField::new('confirmation1.timestamp', 'payment_order.confirmed_1.label');
+        $confirmed_2 = DateTimeField::new('confirmation2.timestamp', 'payment_order.confirmed_2.label');
         $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
 
         //Payee informations
-        $payeePanel = FormField::addPanel('payment_order.group.receiver')->collapsible();
+        $payeePanel = FormField::addPanel('payment_order.group.receiver');
         $bankInfoAccountOwner = TextField::new('bank_info.account_owner', 'bank_info.account_owner.label');
         $bankInfoStreet = TextField::new('bank_info.street', 'bank_info.street.label');
         $bankInfoZipCode = TextField::new('bank_info.zip_code', 'bank_info.zip_code.label');
         $bankInfoCity = TextField::new('bank_info.city', 'bank_info.city.label');
 
         //Payee bank account infos
-        $bankInfoPanel = FormField::addPanel('payment_order.group.bank_info')->collapsible();
+        $bankInfoPanel = FormField::addPanel('payment_order.group.bank_info');
         $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label');
         $bankInfoBic = TextField::new('bank_info.bic', 'bank_info.bic.label')
             ->setRequired(false)
@@ -463,11 +463,16 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         if (Crud::PAGE_DETAIL === $pageName) {
             return [
+                FormField::addTab('payment_order.tab.info', 'fas fa-circle-info'),
+
+
                 //Documents section
                 $documentsPanel,
                 $printed_form,
                 $references,
+
                 //Basic informations
+                FormField::addColumn(),
                 $infoPanel,
                 $id,
                 $firstName,
@@ -482,15 +487,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $comment,
                 $lastModified,
                 $creationDate,
-                //Status infos
-                $statusPanel,
-                $mathematicallyCorrect,
-                $exported,
-                $factuallyCorrect,
-                $booking_date,
-                $confirmed_1,
-                $confirmed_2,
                 //Payee informations
+                FormField::addColumn(),
                 $payeePanel,
                 $bankInfoAccountOwner,
                 $bankInfoStreet,
@@ -502,6 +500,21 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $bankInfoBic,
                 $bankInfoBankName,
                 $bankInfoReference,
+
+                FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),
+                //Status infos
+                FormField::addColumn(),
+                FormField::addPanel('payment_order.section.status.confirmation'),
+                $confirmed_1,
+                $confirmed_2,
+
+                FormField::addColumn(),
+                FormField::addPanel('payment_order.section.status.review'),
+                $mathematicallyCorrect,
+                $exported,
+                $factuallyCorrect,
+                $booking_date,
+
             ];
         }
 
