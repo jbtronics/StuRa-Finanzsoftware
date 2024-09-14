@@ -19,6 +19,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Department;
+use App\Entity\DepartmentTypes;
 use App\Services\EmailConfirmation\ConfirmationTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -107,15 +108,15 @@ final class DepartmentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $choices = [];
-        foreach (Department::ALLOWED_TYPES as $type) {
-            $choices['department.type.'.$type] = $type;
+        foreach (DepartmentTypes::cases() as $type) {
+            $choices['department.type.'.$type->value] = $type;
         }
 
         return [
             //Basic informations
             TextField::new('name', 'department.name.label'),
             ChoiceField::new('type', 'department.type.label')
-                ->setChoices($choices)
+                ->setChoices(DepartmentTypes::cases())
                 ->autocomplete(),
             BooleanField::new('blocked', 'department.blocked.label')
                 ->renderAsSwitch(true)

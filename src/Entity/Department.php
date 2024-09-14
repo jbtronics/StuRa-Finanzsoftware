@@ -85,7 +85,7 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
      */
     #[ORM\ManyToMany(targetEntity: Confirmer::class, inversedBy: 'departments')]
     #[ORM\JoinTable(name: 'departments_confirmers')]
-    #[Assert\Expression("value.count() >= object.gettype().getMinimumRequiredConfirmers()",
+    #[Assert\Expression("value.count() >= this.gettype().getMinimumRequiredConfirmers()",
         message: 'validator.two_few_confirmers')]
     #[Assert\Unique]
     private Collection $confirmers;

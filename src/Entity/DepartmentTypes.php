@@ -5,10 +5,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Symfony\Contracts\Translation\TranslatableInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 /**
  * Represents the different types of departments in the system
  */
-enum DepartmentTypes: string
+enum DepartmentTypes: string implements TranslatableInterface
 {
     /** A "Fachschaftsrat" */
     case FSR = 'fsr';
@@ -31,5 +34,10 @@ enum DepartmentTypes: string
             self::SECTION => 1,
             self::ADMINISTRATIVE => 1,
         };
+    }
+
+    public function trans(TranslatorInterface $translator, ?string $locale = null): string
+    {
+        return $translator->trans('department.type.' . $this->value, [], null, $locale);
     }
 }
