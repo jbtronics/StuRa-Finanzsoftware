@@ -19,6 +19,7 @@
 namespace App\Admin\Filter;
 
 use App\Entity\Department;
+use App\Entity\DepartmentTypes;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Filter\FilterInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -35,8 +36,8 @@ class DepartmentTypeFilter implements FilterInterface
     {
         $choices = [];
 
-        foreach (Department::ALLOWED_TYPES as $type) {
-            $choices['department.type.'.$type] = $type;
+        foreach (DepartmentTypes::cases() as $type) {
+            $choices['department.type.'.$type->value] = $type->value;
         }
 
         $choices['department.type.section_misc'] = 'section_misc';

@@ -11,7 +11,7 @@
 
 {# Dont color rows for unconfirmed or finished payment orders #}
 {% if instance.confirmed is defined and instance.confirmed and instance.bookingDate is defined and instance.bookingDate is null %}
-    {% set start_date = max(instance.confirm1Timestamp, instance.confirm2Timestamp) %}
+    {% set start_date = max(instance.confirmation1.timestamp, instance.confirmation2.timestamp) %}
 
     {% if start_date < date('-14days')  %}
         <span style="visibility: hidden" data-row-class="table-danger"></span>

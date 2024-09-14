@@ -670,6 +670,41 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         return $this;
     }
 
+    public function getConfirmation1(): Confirmation
+    {
+        return $this->confirmation1;
+    }
+
+    public function setConfirmation1(Confirmation $confirmation1): PaymentOrder
+    {
+        $this->confirmation1 = $confirmation1;
+        return $this;
+    }
+
+    public function getConfirmation2(): Confirmation
+    {
+        return $this->confirmation2;
+    }
+
+    public function setConfirmation2(Confirmation $confirmation2): PaymentOrder
+    {
+        $this->confirmation2 = $confirmation2;
+        return $this;
+    }
+
+    public function getRequiredConfirmations(): int
+    {
+        return $this->requiredConfirmations;
+    }
+
+    public function setRequiredConfirmations(int $requiredConfirmations): PaymentOrder
+    {
+        $this->requiredConfirmations = $requiredConfirmations;
+        return $this;
+    }
+
+
+
     public function serialize()
     {
         return serialize($this->getId());
