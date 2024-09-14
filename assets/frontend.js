@@ -11,6 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 
+//TomSelect override
+import './styles/tom-select_extensions.css';
+
 import "bootstrap";
 import * as bootstrap from "bootstrap";
 

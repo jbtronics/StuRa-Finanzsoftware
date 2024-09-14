@@ -1,0 +1,50 @@
+/*
+ * This file is part of Part-DB (https://github.com/Part-DB/Part-DB-symfony).
+ *
+ *  Copyright (C) 2019 - 2022 Jan Böhmer (https://github.com/jbtronics)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.tagsinput.ts-wrapper.multi .ts-control > div {
+    background: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+}
+
+/*********
+ * BS 5.3 compatible dark mode
+ ***************/
+
+.ts-dropdown .active {
+    background-color: var(--bs-secondary-bg) !important;
+    color: var(--bs-body-color) !important;
+}
+
+.ts-dropdown, .ts-control, .ts-control input {
+    color: var(--bs-body-color) !important;
+}
+
+.ts-dropdown, .ts-dropdown.form-control, .ts-dropdown.form-select {
+    background: var(--bs-body-bg);
+}
+
+.ts-dropdown .optgroup-header {
+    color: var(--bs-tertiary-color);
+    background: var(--bs-body-bg);
+    cursor: default;
+}
+
+.ts-dropdown .optgroup {
+    border-top: 1px solid var(--bs-body-bg) !important;
+}
