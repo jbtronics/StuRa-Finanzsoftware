@@ -49,6 +49,6 @@ final class DepartmentChoiceType extends AbstractType
             'autocomplete' => true,
         ]);
 
-        $resolver->setDefault('group_by', fn(Department $choice, $key, $value): string => $this->translator->trans('department.type.'.$choice->getType() ?? 'misc'));
+        $resolver->setDefault('group_by', fn(Department $choice, $key, $value): string => $this->translator->trans('department.type.'.$choice->getType()->value ?? 'misc'));
     }
 }
