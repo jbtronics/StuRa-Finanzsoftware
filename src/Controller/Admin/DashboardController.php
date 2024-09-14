@@ -78,6 +78,10 @@ final class DashboardController extends AbstractDashboardController
 
         $menuItem->setQueryParameter('crudAction', 'index');
 
+        //Add a unique (not parsed) query parameter, so that the correct menu item is selected
+        $hash = substr(md5(serialize($filters)), 0, 8);
+        $menuItem->setQueryParameter('menuHash', $hash);
+
         return $menuItem;
     }
 
