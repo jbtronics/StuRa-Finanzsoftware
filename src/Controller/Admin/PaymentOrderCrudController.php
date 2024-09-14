@@ -18,6 +18,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\ConfirmationField;
 use App\Admin\Field\VichyFileField;
 use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
@@ -45,6 +46,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -435,8 +437,11 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'))
             ->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
         $booking_date = DateTimeField::new('booking_date', 'payment_order.booking_date.label');
-        $confirmed_1 = DateTimeField::new('confirmation1.timestamp', 'payment_order.confirmed_1.label');
-        $confirmed_2 = DateTimeField::new('confirmation2.timestamp', 'payment_order.confirmed_2.label');
+
+        $requiredConfirmations = NumberField::new('required_confirmations', 'payment_order.required_confirmations.label');
+        $confirmation1 = ConfirmationField::new('confirmation1', 'payment_order.confirmation1.label');
+        $confirmation2 = ConfirmationField::new('confirmation2', 'payment_order.confirmation2.label');
+
         $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
 
         //Payee informations
@@ -505,8 +510,10 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 //Status infos
                 FormField::addColumn(),
                 FormField::addPanel('payment_order.section.status.confirmation'),
-                $confirmed_1,
-                $confirmed_2,
+                BooleanField::new('confirmed', 'payment_order.confirmed.label'),
+                $requiredConfirmations,
+                $confirmation1,
+                $confirmation2,
 
                 FormField::addColumn(),
                 FormField::addPanel('payment_order.section.status.review'),
@@ -514,6 +521,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $exported,
                 $factuallyCorrect,
                 $booking_date,
+                $references_exported,
 
             ];
         }

@@ -2468,5 +2468,35 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Prüfung durch StuRa-Finanzer</target>
       </segment>
     </unit>
+    <unit id="PjTs1vJ" name="payment_order.required_confirmations.label">
+      <segment>
+        <source>payment_order.required_confirmations.label</source>
+        <target>Anzahl notwendiger Bestätigungen</target>
+      </segment>
+    </unit>
+    <unit id="DqvNsU7" name="payment_order.confirmation1.label">
+      <segment>
+        <source>payment_order.confirmation1.label</source>
+        <target>Bestätigung 1</target>
+      </segment>
+    </unit>
+    <unit id="Ez3eNtn" name="payment_order.confirmation2.label">
+      <segment>
+        <source>payment_order.confirmation2.label</source>
+        <target>Bestätigung 2</target>
+      </segment>
+    </unit>
+    <unit id="teWJvor" name="confirmation.not_confirmed_yet">
+      <segment>
+        <source>confirmation.not_confirmed_yet</source>
+        <target>Noch nicht bestätigt / nicht notwendig</target>
+      </segment>
+    </unit>
+    <unit id="ORnXSKH" name="confirmation.confirmed">
+      <segment>
+        <source>confirmation.confirmed</source>
+        <target>Bestätigt</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

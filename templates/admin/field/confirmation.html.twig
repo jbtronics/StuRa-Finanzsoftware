@@ -1,0 +1,19 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{# @var confirmation \App\Entity\Embeddable\Confirmation #}
+{% set confirmation = field.value %}
+{% if confirmation.timestamp is null %}
+    <span class="text-muted">{% trans %}confirmation.not_confirmed_yet{% endtrans %}</span>
+{% else %}
+    <b>{% trans %}confirmation.confirmed{% endtrans %}</b><br>
+    {{ confirmation.timestamp|format_datetime }}<br>
+    {{ confirmation.confirmerName }}<br>
+    {% if confirmation.confirmationOverriden %}<i>{% trans %}confirmation.overriden{% endtrans %}</i><br>{% endif %}
+    {% if confirmation.remark %}
+        <code title="Prüfanmerkung">
+            {{ confirmation.remark }}
+        </code>
+    {% endif %}
+{% endif %}
