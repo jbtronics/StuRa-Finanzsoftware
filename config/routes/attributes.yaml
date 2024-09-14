@@ -5,7 +5,6 @@ controllers:
     prefix:
         de: ''
         de_DE: '/de'
-        en: '/en'
 
 #controllers_admin:
 #    resource: ../../src/Controller/Admin
