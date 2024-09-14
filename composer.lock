@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d480fe97835213c7e74ca63beac64109",
+    "content-hash": "487b96fe82a2acea3379cf8ec764ccdd",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2654,16 +2654,16 @@
         },
         {
             "name": "nelmio/security-bundle",
-            "version": "v3.4.1",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioSecurityBundle.git",
-                "reference": "00d275a38ec99230df60160cb62d88fabf8f088e"
+                "reference": "3c4739628eafe886c001210aa0d97b33f3551599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioSecurityBundle/zipball/00d275a38ec99230df60160cb62d88fabf8f088e",
-                "reference": "00d275a38ec99230df60160cb62d88fabf8f088e",
+                "url": "https://api.github.com/repos/nelmio/NelmioSecurityBundle/zipball/3c4739628eafe886c001210aa0d97b33f3551599",
+                "reference": "3c4739628eafe886c001210aa0d97b33f3551599",
                 "shasum": ""
             },
             "require": {
@@ -2722,9 +2722,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioSecurityBundle/issues",
-                "source": "https://github.com/nelmio/NelmioSecurityBundle/tree/v3.4.1"
+                "source": "https://github.com/nelmio/NelmioSecurityBundle/tree/v3.4.2"
             },
-            "time": "2024-09-03T15:05:21+00:00"
+            "time": "2024-09-10T13:22:26+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -3379,16 +3379,16 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
                 "shasum": ""
             },
             "require": {
@@ -3423,9 +3423,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.1"
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
-            "time": "2024-08-21T13:31:24+00:00"
+            "time": "2024-09-11T13:17:53+00:00"
         },
         {
             "name": "scheb/2fa-backup-code",
@@ -10585,20 +10585,20 @@
         },
         {
             "name": "ekino/phpstan-banned-code",
-            "version": "v1.0.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ekino/phpstan-banned-code.git",
-                "reference": "4f0d7c8a0c9f5d222ffc24234aa6c5b3b71bf4c3"
+                "reference": "e1c3e4722753404fd633fec81f67c199e99cfe7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ekino/phpstan-banned-code/zipball/4f0d7c8a0c9f5d222ffc24234aa6c5b3b71bf4c3",
-                "reference": "4f0d7c8a0c9f5d222ffc24234aa6c5b3b71bf4c3",
+                "url": "https://api.github.com/repos/ekino/phpstan-banned-code/zipball/e1c3e4722753404fd633fec81f67c199e99cfe7a",
+                "reference": "e1c3e4722753404fd633fec81f67c199e99cfe7a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3 || ^8.0",
+                "php": "^8.1",
                 "phpstan/phpstan": "^1.0"
             },
             "require-dev": {
@@ -10640,13 +10640,14 @@
             "homepage": "https://github.com/ekino/phpstan-banned-code",
             "keywords": [
                 "PHPStan",
-                "code quality"
+                "code quality",
+                "static analysis"
             ],
             "support": {
                 "issues": "https://github.com/ekino/phpstan-banned-code/issues",
-                "source": "https://github.com/ekino/phpstan-banned-code/tree/v1.0.0"
+                "source": "https://github.com/ekino/phpstan-banned-code/tree/v2.1.0"
             },
-            "time": "2021-11-02T08:37:34+00:00"
+            "time": "2024-08-14T07:20:46+00:00"
         },
         {
             "name": "jbtronics/translation-editor-bundle",
@@ -11758,12 +11759,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "ed0688c3e18bf76d2a17fb243b99acb52c2e29ef"
+                "reference": "fb263701a24214c3176ef23bfa98a7cbc59aa659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ed0688c3e18bf76d2a17fb243b99acb52c2e29ef",
-                "reference": "ed0688c3e18bf76d2a17fb243b99acb52c2e29ef",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/fb263701a24214c3176ef23bfa98a7cbc59aa659",
+                "reference": "fb263701a24214c3176ef23bfa98a7cbc59aa659",
                 "shasum": ""
             },
             "conflict": {
@@ -12215,7 +12216,7 @@
                 "phpmyfaq/phpmyfaq": "<3.2.5|==3.2.5",
                 "phpoffice/common": "<0.2.9",
                 "phpoffice/phpexcel": "<1.8",
-                "phpoffice/phpspreadsheet": "<1.29.1|>=2,<2.2.1",
+                "phpoffice/phpspreadsheet": "<1.29.1|>=2,<2.1.1|>=2.2,<2.2.1",
                 "phpseclib/phpseclib": "<2.0.47|>=3,<3.0.36",
                 "phpservermon/phpservermon": "<3.6",
                 "phpsysinfo/phpsysinfo": "<3.4.3",
@@ -12571,7 +12572,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-10T18:06:22+00:00"
+            "time": "2024-09-13T14:04:35+00:00"
         },
         {
             "name": "sebastian/cli-parser",
