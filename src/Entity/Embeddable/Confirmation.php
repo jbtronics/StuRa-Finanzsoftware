@@ -14,15 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 class Confirmation
 {
-    /**
-     * @var bool Whether the confirmation is confirmed or not
-     */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $confirmed = false;
 
     /**
-     * @var \DateTime|null The timestamp of the confirmation. Null if not confirmed. For historical reasons, null
-     * can also mean unknown (payment order older than this field), but this should not be the case anymore.
+     * @var \DateTime|null The timestamp of the confirmation. Null if not confirmed.
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $timestamp = null;
@@ -53,13 +47,8 @@ class Confirmation
 
     public function isConfirmed(): bool
     {
-        return $this->confirmed;
-    }
-
-    public function setConfirmed(bool $confirmed): Confirmation
-    {
-        $this->confirmed = $confirmed;
-        return $this;
+        //It is confirmed if the confirmation timestamp is set
+        return $this->timestamp !== null;
     }
 
     public function getTimestamp(): ?\DateTime

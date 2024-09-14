@@ -99,8 +99,20 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\Positive]
     private ?int $amount = null;
 
+    /**
+     * @var bool "mathematisch richtig"
+     */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $mathematically_correct = false;
+
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $exported = false;
+
+    /**
+     * @var bool "sachlich richtig"
+     */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $factually_correct = false;
 
     #[ORM\Column(type: Types::TEXT)]
     private string $comment = '';

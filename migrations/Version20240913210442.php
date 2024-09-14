@@ -69,24 +69,24 @@ final class Version20240913210442 extends AbstractMigration
         SQL);
 
         //Add the new fields to the payment_orders table (and delete the obsolete ones later)
-        $this->addSql('ALTER TABLE payment_orders ADD required_confirmations INT NOT NULL, ADD confirmation1_confirmed TINYINT(1) NOT NULL, ADD confirmation1_timestamp DATETIME DEFAULT NULL, ADD confirmation1_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation1_confirmation_token_id INT DEFAULT NULL, ADD confirmation1_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation1_remark LONGTEXT DEFAULT NULL, ADD confirmation2_confirmed TINYINT(1) NOT NULL, ADD confirmation2_timestamp DATETIME DEFAULT NULL, ADD confirmation2_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation2_confirmation_token_id INT DEFAULT NULL, ADD confirmation2_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation2_remark LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE payment_orders ADD required_confirmations INT NOT NULL, ADD confirmation1_timestamp DATETIME DEFAULT NULL, ADD confirmation1_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation1_confirmation_token_id INT DEFAULT NULL, ADD confirmation1_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation1_remark LONGTEXT DEFAULT NULL, ADD confirmation2_timestamp DATETIME DEFAULT NULL, ADD confirmation2_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation2_confirmation_token_id INT DEFAULT NULL, ADD confirmation2_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation2_remark LONGTEXT DEFAULT NULL');
 
         //For each payment_order copy the data from the factually_correct field to the confirmation1_confirmed field
         $this->addSql(<<<SQL
             UPDATE payment_orders
-            SET confirmation1_confirmed = factually_correct,
+            SET
             confirmation1_timestamp = confirm1_timestamp,
-            confirmation1_confirmer_name = "Struktur-HHV zum Prüfzeitpunkt",
-            confirmation1_remark = "Sachlich richtig"
+            confirmation1_confirmer_name = IF(confirm1_timestamp IS NULL, NULL, "Struktur-HHV zum Prüfzeitpunkt"),
+            confirmation1_remark = IF(confirm1_timestamp IS NULL, NULL, "Sachlich richtig")
         SQL);
 
         //For each payment_order copy the data from the mathematically_correct field to the confirmation2_confirmed field
         $this->addSql(<<<SQL
             UPDATE payment_orders
-            SET confirmation2_confirmed = mathematically_correct,
+            SET
             confirmation2_timestamp = confirm2_timestamp,
-            confirmation2_confirmer_name = "Struktur-Kassenwart zum Prüfzeitpunkt",
-            confirmation2_remark = "Rechnerisch richtig"
+            confirmation2_confirmer_name = IF(confirm2_timestamp IS NULL, NULL, "Struktur-Kassenwart zum Prüfzeitpunkt"),
+            confirmation2_remark = IF(confirm2_timestamp IS NULL, NULL, "Rechnerisch richtig")
         SQL);
 
 
@@ -97,7 +97,7 @@ final class Version20240913210442 extends AbstractMigration
         $this->addSql('ALTER TABLE confirmer_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE departments DROP email_hhv, DROP email_treasurer, CHANGE contact_emails contact_emails JSON NOT NULL, CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL');
         $this->addSql('ALTER TABLE departments_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE payment_orders DROP mathematically_correct, DROP factually_correct, DROP confirm1_token, DROP confirm1_timestamp, DROP confirm2_token, DROP confirm2_timestamp, CHANGE printed_form_dimensions printed_form_dimensions LONGTEXT DEFAULT NULL, CHANGE references_dimensions references_dimensions LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE payment_orders DROP confirm1_token, DROP confirm1_timestamp, DROP confirm2_token, DROP confirm2_timestamp, CHANGE printed_form_dimensions printed_form_dimensions LONGTEXT DEFAULT NULL, CHANGE references_dimensions references_dimensions LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE payment_orders_audit CHANGE diffs diffs LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE reset_password_request CHANGE requested_at requested_at DATETIME NOT NULL, CHANGE expires_at expires_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL, CHANGE backup_codes backup_codes JSON NOT NULL');
@@ -115,7 +115,7 @@ final class Version20240913210442 extends AbstractMigration
         $this->addSql('ALTER TABLE confirmer_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE created_at created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE departments ADD email_hhv LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', ADD email_treasurer LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', CHANGE contact_emails contact_emails JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE skip_blocked_validation_tokens skip_blocked_validation_tokens JSON NOT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE departments_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE created_at created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('ALTER TABLE payment_orders ADD mathematically_correct TINYINT(1) NOT NULL, ADD factually_correct TINYINT(1) NOT NULL, ADD confirm1_token VARCHAR(255) DEFAULT NULL, ADD confirm1_timestamp DATETIME DEFAULT NULL, ADD confirm2_token VARCHAR(255) DEFAULT NULL, ADD confirm2_timestamp DATETIME DEFAULT NULL, DROP required_confirmations, DROP confirmation1_confirmed, DROP confirmation1_timestamp, DROP confirmation1_confirmer_name, DROP confirmation1_confirmation_token_id, DROP confirmation1_confirmation_overriden, DROP confirmation1_remark, DROP confirmation2_confirmed, DROP confirmation2_timestamp, DROP confirmation2_confirmer_name, DROP confirmation2_confirmation_token_id, DROP confirmation2_confirmation_overriden, DROP confirmation2_remark, CHANGE printed_form_dimensions printed_form_dimensions LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', CHANGE references_dimensions references_dimensions LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\'');
+        $this->addSql('ALTER TABLE payment_orders ADD confirm1_token VARCHAR(255) DEFAULT NULL, ADD confirm1_timestamp DATETIME DEFAULT NULL, ADD confirm2_token VARCHAR(255) DEFAULT NULL, ADD confirm2_timestamp DATETIME DEFAULT NULL, DROP required_confirmations, DROP confirmation1_timestamp, DROP confirmation1_confirmer_name, DROP confirmation1_confirmation_token_id, DROP confirmation1_confirmation_overriden, DROP confirmation1_remark, DROP confirmation2_timestamp, DROP confirmation2_confirmer_name, DROP confirmation2_confirmation_token_id, DROP confirmation2_confirmation_overriden, DROP confirmation2_remark, CHANGE printed_form_dimensions printed_form_dimensions LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', CHANGE references_dimensions references_dimensions LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\'');
         $this->addSql('ALTER TABLE payment_orders_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE created_at created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE reset_password_request CHANGE requested_at requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE expires_at expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE backup_codes backup_codes JSON NOT NULL COMMENT \'(DC2Type:json)\'');
