@@ -35,7 +35,6 @@
 
             <button class="large expand" href="{{ url('payment_order_confirm', {
                 'id': payment_order.id,
-                'confirm': verification_number,
                 'token': token
             }) }}">{% trans %}payment_order.confirmation_mail.button{% endtrans %}</button>
 

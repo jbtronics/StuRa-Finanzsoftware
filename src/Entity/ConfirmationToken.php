@@ -36,7 +36,7 @@ class ConfirmationToken implements DBElementInterface, TimestampedElementInterfa
     #[ORM\ManyToOne(targetEntity: Confirmer::class, inversedBy: 'confirmationTokens')]
     private Confirmer $confirmer;
 
-    #[ORM\ManyToOne(targetEntity: PaymentOrder::class)]
+    #[ORM\ManyToOne(targetEntity: PaymentOrder::class, inversedBy: 'confirmationTokens')]
     private PaymentOrder $paymentOrder;
 
     public function __construct(Confirmer $confirmer, PaymentOrder $paymentOrder, string $hashedToken)

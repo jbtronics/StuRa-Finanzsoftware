@@ -32,8 +32,7 @@ final readonly class PaymentOrderSendConfirmationEmailsSubscriber implements Eve
     {
         $paymentOrder = $event->getPaymentOrder();
 
-        $this->confirmationSender->sendConfirmation1($paymentOrder);
-        $this->confirmationSender->sendConfirmation2($paymentOrder);
+        $this->confirmationSender->sendAllConfirmationEmails($paymentOrder);
     }
 
     public static function getSubscribedEvents(): array

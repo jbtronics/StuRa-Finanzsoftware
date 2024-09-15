@@ -18,6 +18,8 @@
 
 namespace App\Services\EmailConfirmation;
 
+use App\Entity\ConfirmationToken;
+use App\Entity\Confirmer;
 use App\Entity\PaymentOrder;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,11 +43,97 @@ final readonly class ConfirmationEmailSender
         private TranslatorInterface $translator,
         private string $fsb_email,
         private string $hhv_email,
-        private bool $send_notifications,
-        private array $notifications_bcc
     )
     {
     }
+
+    /**
+     * Generate a confirmationToken and send the confirmation email to the given confirmer.
+     * The confirmer must be an allowed confirmer for the given payment order.
+     * @param  PaymentOrder  $paymentOrder
+     * @param  Confirmer  $confirmer
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function generateAndSendConfirmationEmail(PaymentOrder $paymentOrder, Confirmer $confirmer): void
+    {
+        //Ensure that the confirmer is allowed to confirm the payment order
+        if (!$this->isAllowedConfirmer($confirmer, $paymentOrder)) {
+            throw new \LogicException('The given confirmer is not allowed to confirm the given payment order!');
+        }
+
+        //Check if there already is a confirmation token for this confirmer
+        foreach ($paymentOrder->getConfirmationTokens() as $confirmationToken) {
+            if ($confirmationToken->getConfirmer() === $confirmer) {
+                //Then remove the old token
+                $this->entityManager->remove($confirmationToken);
+                $paymentOrder->removeConfirmationToken($confirmationToken);
+            }
+        }
+
+        $token = $this->tokenGenerator->getToken();
+
+        $confirmationToken = new ConfirmationToken($confirmer, $paymentOrder, $this->hash_token($token));
+        $paymentOrder->addConfirmationToken($confirmationToken);
+
+        //Persist the confirmationToken
+        $this->entityManager->persist($confirmationToken);
+        $this->entityManager->flush();
+
+        //Send the confirmation email
+        $this->sendConfirmationEmail($paymentOrder, $confirmer, $token);
+
+    }
+
+    /**
+     * Generate and send out confirmation emails to all confirmers of this payment order.
+     * @param  PaymentOrder  $paymentOrder
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function sendAllConfirmationEmails(PaymentOrder $paymentOrder): void
+    {
+        if ($paymentOrder->getDepartment() === null) {
+            throw new InvalidArgumentException('The department of the payment order must be set!');
+        }
+
+        //Send a confirmation email, to all confirmers that are allowed to confirm the payment order
+        foreach ($paymentOrder->getDepartment()->getConfirmers() as $confirmer) {
+            $this->generateAndSendConfirmationEmail($paymentOrder, $confirmer);
+        }
+    }
+
+    /**
+     * Clear existing confirmation tokens and send all confirmation emails again.
+     */
+    public function resendConfirmations(PaymentOrder $paymentOrder): void
+    {
+        //Clear all existing tokens
+        foreach ($paymentOrder->getConfirmationTokens() as $confirmationToken) {
+            $this->entityManager->remove($confirmationToken);
+            $paymentOrder->removeConfirmationToken($confirmationToken);
+        }
+
+        //And send all confirmation emails again
+        $this->sendAllConfirmationEmails($paymentOrder);
+    }
+
+    /**
+     * Checks if the given confirmer is allowed to confirm the given payment order.
+     * @param  Confirmer  $confirmer
+     * @param  PaymentOrder  $paymentOrder
+     * @return bool
+     */
+    private function isAllowedConfirmer(Confirmer $confirmer, PaymentOrder $paymentOrder): bool
+    {
+        //An confirmer is allowed, if he is set as responsible in the department of the payment order
+        if ($paymentOrder->getDepartment() === null) {
+            throw new InvalidArgumentException('The department of the payment order must be set!');
+        }
+
+        return $paymentOrder->getDepartment()->getConfirmers()->contains($confirmer);
+    }
+
 
     /**
      * Send the confirmation email to the first verification person for the given payment_order.
@@ -63,7 +151,7 @@ final readonly class ConfirmationEmailSender
             ->getEmailHhv();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
         if ($email !== [] && $this->send_notifications) {
-            $this->sendConfirmation($paymentOrder, $email, $token, 1);
+            $this->sendConfirmationEmail($paymentOrder, $email, $token, 1);
         } else {
             $paymentOrder->setConfirm1Timestamp(new DateTime());
         }
@@ -87,7 +175,7 @@ final readonly class ConfirmationEmailSender
             ->getEmailTreasurer();
         //Dont send the confirmation email if no email is set, otherwise just confirm it
         if ($email !== [] && $this->send_notifications) {
-            $this->sendConfirmation($paymentOrder, $email, $token, 2);
+            $this->sendConfirmationEmail($paymentOrder, $email, $token, 2);
         } else {
             $paymentOrder->setConfirm2Timestamp(new DateTime());
         }
@@ -98,13 +186,12 @@ final readonly class ConfirmationEmailSender
      * Sents a confirmation email for the given payment order for a plaintext token.
      *
      * @param PaymentOrder $paymentOrder        The paymentOrder for which the email should be generated
-     * @param string[]     $email_addresses     The mail addresses that should be added as BCC
+     * @param Confirmer    $confirmer           The mail addresses that should be added as BCC
      * @param string       $token               The plaintext token to access confirmation page.
-     * @param int          $verification_number The verification step (1 or 2)
      *
      * @throws TransportExceptionInterface
      */
-    private function sendConfirmation(PaymentOrder $paymentOrder, array $email_addresses, string $token, int $verification_number): void
+    private function sendConfirmationEmail(PaymentOrder $paymentOrder, Confirmer $confirmer, string $token): void
     {
         //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
         if (null === $paymentOrder->getId()) {
@@ -128,29 +215,20 @@ final readonly class ConfirmationEmailSender
         $email->context([
             'payment_order' => $paymentOrder,
             'token' => $token,
-            'verification_number' => $verification_number,
+            'confirmer' => $confirmer,
         ]);
 
-        $email->addBcc(...$email_addresses);
+        //If the email address contains a comma, we split it and add each part as BCC (this is just for backward compatibility, with migrated confirmers)
+        if (strpos($confirmer->getEmail(), ',') !== false) {
+            $email->addBcc(...explode(',', $confirmer->getEmail()));
+        } else { //Otherwise we just add the email address as recepient, as this is only one email address
+            $email->addTo($confirmer->getEmail());
+        }
+
         $this->mailer->send($email);
     }
 
-    /**
-     * Resend all confirmation emails for cases where a confirmation is missing.
-     * If some part is already confirmed this confirmation is not sent again.
-     * If a confirmation is missing a new token will be generated and sent via email.
-     */
-    public function resendConfirmations(PaymentOrder $paymentOrder): void
-    {
-        //Resend emails that not already were confirmed
-        if (null === $paymentOrder->getConfirm1Timestamp()) {
-            $this->sendConfirmation1($paymentOrder);
-        }
 
-        if (null === $paymentOrder->getConfirm2Timestamp()) {
-            $this->sendConfirmation2($paymentOrder);
-        }
-    }
 
     private function hash_token(string $token): string
     {

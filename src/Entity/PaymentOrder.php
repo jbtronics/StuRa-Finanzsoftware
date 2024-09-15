@@ -25,6 +25,7 @@ use App\Entity\Embeddable\PayeeInfo;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -189,8 +190,16 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
     private \Vich\UploaderBundle\Entity\File $references;
 
+    /**
+     * @var Collection The confirmation tokens that can be used to confirm this payment order
+     */
+    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'paymentOrder', orphanRemoval: true)]
+    private Collection $confirmationTokens;
+
     public function __construct()
     {
+        $this->confirmationTokens = new \Doctrine\Common\Collections\ArrayCollection();
+
         $this->bank_info = new PayeeInfo();
 
         $this->references = new File();
@@ -725,5 +734,27 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     public function getIDString(): string
     {
         return sprintf('ZA%04d', $this->getId());
+    }
+
+    public function getConfirmationTokens(): Collection
+    {
+        return $this->confirmationTokens;
+    }
+
+    public function addConfirmationToken(ConfirmationToken $confirmationToken): self
+    {
+        if (!$this->confirmationTokens->contains($confirmationToken)) {
+            $this->confirmationTokens[] = $confirmationToken;
+            $confirmationToken->setPaymentOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfirmationToken(ConfirmationToken $confirmationToken): self
+    {
+        $this->confirmationTokens->removeElement($confirmationToken);
+
+        return $this;
     }
 }

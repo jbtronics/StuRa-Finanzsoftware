@@ -8,9 +8,9 @@ twig:
         locale_menu: ['de', 'en']
     file_name_pattern: '*.twig'
 
-    #paths:
+    paths:
     #    # point this wherever your css files live
-    #    '%kernel.project_dir%/assets/css': css
+         '%kernel.project_dir%/assets/css': css
 
 when@test:
     twig:
