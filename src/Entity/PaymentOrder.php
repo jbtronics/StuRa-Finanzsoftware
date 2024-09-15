@@ -699,6 +699,10 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
     public function setRequiredConfirmations(int $requiredConfirmations): PaymentOrder
     {
+        if ($requiredConfirmations < 1 || $requiredConfirmations > 2) {
+            throw new \InvalidArgumentException('The number of required confirmations must be between 1 and 2');
+        }
+
         $this->requiredConfirmations = $requiredConfirmations;
         return $this;
     }

@@ -96,6 +96,13 @@ final class PaymentOrderController extends AbstractController
                 } else {
                     $entityManager->persist($new_order);
 
+                    //Determine the number of required confirmations, based on the department
+                    if($new_order->getDepartment() === null) {
+                        throw new RuntimeException('Department must be set before submitting a payment order!');
+                    }
+                    $confirmation_count = $new_order->getDepartment()->getMinimumRequiredConfirmations();
+                    $new_order->setRequiredConfirmations($confirmation_count);
+
                     //Invalidate blocked token if one was given
                     if ($blocked_token) {
                         $new_order->getDepartment()
