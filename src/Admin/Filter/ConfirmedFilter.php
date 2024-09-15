@@ -18,6 +18,7 @@
 
 namespace App\Admin\Filter;
 
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Filter\FilterInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -45,12 +46,22 @@ class ConfirmedFilter implements FilterInterface
             $comparison = 'IS NULL';
             $queryBuilder
                 ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation1.timestamp', $comparison))
-                ->orWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation2.timestamp', $comparison));
+                ->orWhere(
+                    $queryBuilder->expr()->andX(
+                        sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation2.timestamp', $comparison),
+                        sprintf('%s.%s > 1', $filterDataDto->getEntityAlias(), 'requiredConfirmations')
+                    )
+                );
         } else {
             $comparison = 'IS NOT NULL';
             $queryBuilder
                 ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation1.timestamp', $comparison))
-                ->andWhere(sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation2.timestamp', $comparison));
+                ->andWhere(
+                    $queryBuilder->expr()->orX(
+                        sprintf('%s.%s %s', $filterDataDto->getEntityAlias(), 'confirmation2.timestamp', $comparison),
+                        //The second confirmation is not required, if only one confirmation is required
+                        sprintf('%s.%s < 2', $filterDataDto->getEntityAlias(), 'requiredConfirmations')
+                    ));
         }
     }
 }
