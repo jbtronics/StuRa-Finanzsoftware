@@ -2498,5 +2498,11 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Bestätigt</target>
       </segment>
     </unit>
+    <unit id="G.uKB8C" name="confirmation.overriden">
+      <segment>
+        <source>confirmation.overriden</source>
+        <target>Bestätigung durch StuRa-Finanzer!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

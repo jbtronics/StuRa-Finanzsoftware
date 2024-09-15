@@ -18,6 +18,7 @@
 
 namespace App\Services\EmailConfirmation;
 
+use App\Entity\Embeddable\Confirmation;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use Carbon\Carbon;
@@ -66,25 +67,30 @@ final readonly class ManualConfirmationHelper
             $user = $this->security->getUser();
         }
 
-        //Add a comment about the manual confirmation
-        $tmp = $paymentOrder->getComment();
-        //Add line breaks if comment is not empty.
-        if ($tmp !== '' && $tmp !== '0') {
-            $tmp .= '<br><br>';
-        }
-        $tmp .= $this->generateComment($paymentOrder, $reason, $user);
-        $paymentOrder->setComment($tmp);
-
         //Send emails that payment order we manually confirmed
         $this->sendNotification($paymentOrder, $reason, $user);
 
-        //Do the confirmation process where it was not needed
-        if (null === $paymentOrder->getConfirm1Timestamp()) {
-            $paymentOrder->setConfirm1Timestamp(new \DateTime());
+        //We always need at least one confirmation, so do this for the first confirmation
+        $this->performConfirmationIfNeeded($paymentOrder->getConfirmation1(), $reason, $user);
+
+        //If there is a second confirmation, do this for the second confirmation
+        if ($paymentOrder->getRequiredConfirmations() > 1) {
+            $this->performConfirmationIfNeeded($paymentOrder->getConfirmation2(), $reason, $user);
         }
-        if (null === $paymentOrder->getConfirm2Timestamp()) {
-            $paymentOrder->setConfirm2Timestamp(new \DateTime());
+    }
+
+    private function performConfirmationIfNeeded(Confirmation $confirmation, string $reason, User $user): void
+    {
+        //If the confirmation is already confirmed we are finished
+        if ($confirmation->isConfirmed()) {
+            return;
         }
+
+        //Confirm the confirmation
+        $confirmation->setTimestamp(new \DateTime());
+        $confirmation->setConfirmationOverriden(true);
+        $confirmation->setRemark("Bestätigung durch StuRa-Finanzer: " . $reason);
+        $confirmation->setConfirmerName($user->getFullName() . ' (StuRa-Finanzer)');
     }
 
     private function sendNotification(PaymentOrder $paymentOrder, string $reason, User $user): void
@@ -114,23 +120,14 @@ final readonly class ManualConfirmationHelper
             'user' => $user,
         ]);
 
-        //Add confirmation 1 people
-        $email->addBcc(...$paymentOrder->getDepartment()->getEmailHhv());
-        //Add confirmation 2 people
-        $email->addBcc(...$paymentOrder->getDepartment()->getEmailTreasurer());
+        //Add all department confirmation persons
+        foreach($paymentOrder->getDepartment()->getConfirmers() as $person) {
+            $email->addBcc($person->getEmail());
+        }
 
         //Add risky notification people
         $email->addBcc(...$this->notifications_risky);
 
         $this->mailer->send($email);
-    }
-
-    private function generateComment(PaymentOrder $paymentOrder, string $reason, User $user): string
-    {
-        $date = Carbon::now()->toDateTimeLocalString();
-
-        return '<h4>Manuelle Bestätigung</h4>'
-            .'durch '.$user->getFullName().' ('.$user->getUsername().'), '.$date.'<br>'
-            .'<b>Begründung: </b>'.$reason;
     }
 }
