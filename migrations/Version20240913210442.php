@@ -70,6 +70,7 @@ final class Version20240913210442 extends AbstractMigration
 
         //Add the new fields to the payment_orders table (and delete the obsolete ones later)
         $this->addSql('ALTER TABLE payment_orders ADD required_confirmations INT NOT NULL, ADD confirmation1_timestamp DATETIME DEFAULT NULL, ADD confirmation1_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation1_confirmation_token_id INT DEFAULT NULL, ADD confirmation1_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation1_remark LONGTEXT DEFAULT NULL, ADD confirmation2_timestamp DATETIME DEFAULT NULL, ADD confirmation2_confirmer_name VARCHAR(255) DEFAULT NULL, ADD confirmation2_confirmation_token_id INT DEFAULT NULL, ADD confirmation2_confirmation_overriden TINYINT(1) NOT NULL, ADD confirmation2_remark LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE payment_orders ADD confirmation1_confirmer_id INT DEFAULT NULL, ADD confirmation2_confirmer_id INT DEFAULT NULL');
 
         //For each payment_order copy the data from the factually_correct field to the confirmation1_confirmed field
         $this->addSql(<<<SQL
@@ -77,6 +78,7 @@ final class Version20240913210442 extends AbstractMigration
             SET
             confirmation1_timestamp = confirm1_timestamp,
             confirmation1_confirmer_name = IF(confirm1_timestamp IS NULL, NULL, "Struktur-HHV zum Prüfzeitpunkt"),
+            confirmation1_confirmer_id = (SELECT MIN(id) FROM confirmer WHERE email = 'hhv@legacy.invalid'),
             confirmation1_remark = IF(confirm1_timestamp IS NULL, NULL, "Sachlich richtig")
         SQL);
 
@@ -86,6 +88,7 @@ final class Version20240913210442 extends AbstractMigration
             SET
             confirmation2_timestamp = confirm2_timestamp,
             confirmation2_confirmer_name = IF(confirm2_timestamp IS NULL, NULL, "Struktur-Kassenwart zum Prüfzeitpunkt"),
+            confirmation2_confirmer_id = (SELECT MIN(id) FROM confirmer WHERE email = 'kv@legacy.invalid'),
             confirmation2_remark = IF(confirm2_timestamp IS NULL, NULL, "Rechnerisch richtig")
         SQL);
 
@@ -120,5 +123,6 @@ final class Version20240913210442 extends AbstractMigration
         $this->addSql('ALTER TABLE reset_password_request CHANGE requested_at requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE expires_at expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\', CHANGE backup_codes backup_codes JSON NOT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE user_audit CHANGE diffs diffs JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE created_at created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('ALTER TABLE payment_orders DROP confirmation1_confirmer_id, DROP confirmation2_confirmer_id');
     }
 }

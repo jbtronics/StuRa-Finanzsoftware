@@ -25,6 +25,7 @@ use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
 use App\Form\PaymentOrderType;
 use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
+use App\Services\PaymentOrder\ConfirmationHelper;
 use App\Services\PaymentReferenceGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,6 +54,7 @@ final class PaymentOrderController extends AbstractController
         private readonly UserProvider $userProvider,
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $messageBus,
+        private readonly ConfirmationHelper $confirmationHelper,
     )
     {
     }
@@ -221,7 +223,8 @@ final class PaymentOrderController extends AbstractController
     public function confirmation(
         ConfirmationToken $token,
         #[MapQueryParameter] ?string $secret,
-        Request $request): Response
+        Request $request
+    ): Response
     {
         //If no secret was given, then show an error, as the token was invalid
         if (null === $secret) {
@@ -238,12 +241,9 @@ final class PaymentOrderController extends AbstractController
         //We use the paymentOrder that was stored in the token, as it is the only way to get the paymentOrder
         $paymentOrder = $token->getPaymentOrder();
 
-        $already_confirmed = false;
-
-        $canConfirm = true;
-
         $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
-            'disabled' => !$canConfirm,
+            //Disable confirmation form if already confirmed
+            'disabled' => $paymentOrder->isConfirmed() || $this->confirmationHelper->hasAlreadyConfirmed($token->getConfirmer(), $paymentOrder),
         ]);
 
         //Check if the payment order can still be deleted
@@ -283,29 +283,19 @@ final class PaymentOrderController extends AbstractController
         //Handle confirmation form
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'payment_order.confirmation.success');
-            /*
-            //Write confirmation to DB
-            if (1 === $confirm_step) {
-                $paymentOrder->setConfirm1Timestamp(new DateTime());
-            } elseif (2 === $confirm_step) {
-                $paymentOrder->setConfirm2Timestamp(new DateTime());
-            }
+            //Do confirmation
+            $this->confirmationHelper->confirm($paymentOrder, $token, $form->get('remark')->getData());
 
             //Add hintful information about who did this, to audit log
-            $emails = (1 === $confirm_step) ? $paymentOrder->getDepartment()
-                ->getEmailHhv() : $paymentOrder->getDepartment()
-                ->getEmailTreasurer();
-            $username = sprintf('%s [Confirmation %d]', implode(', ', $emails), $confirm_step);
-            $this->userProvider->setManualUsername($username, implode(',', $emails));
-            $em->flush();
+            $this->userProvider->setManualUsername($token->getConfirmer()->getName(), $token->getConfirmer()->getEmail());
+
+            $this->entityManager->flush();
+            $this->addFlash('success', 'payment_order.confirmation.success');
 
             //Rerender form if it was confirmed, to apply the disabled state
             $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
                 'disabled' => true,
             ]);
-            $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
-            */
         }
 
         return $this->render('PaymentOrder/confirm/confirm.html.twig', [
@@ -314,7 +304,6 @@ final class PaymentOrderController extends AbstractController
             'token' => $token,
             'deletion_form' => $deletion_form->createView(),
             'paymentOrder_is_undeletable' => $isUndeleteable,
-            'already_confirmed' => $already_confirmed,
         ]);
     }
 }

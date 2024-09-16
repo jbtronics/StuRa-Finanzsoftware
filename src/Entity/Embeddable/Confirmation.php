@@ -33,6 +33,9 @@ class Confirmation
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $confirmationTokenID = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $confirmerID = null;
+
     /**
      * @var bool Whether the confirmation was overridden by an StuRa Finance member
      */
@@ -83,6 +86,18 @@ class Confirmation
         $this->confirmationTokenID = $confirmation?->getId();
         return $this;
     }
+
+    public function getConfirmerID(): ?int
+    {
+        return $this->confirmerID;
+    }
+
+    public function setConfirmerID(?int $confirmerID): Confirmation
+    {
+        $this->confirmerID = $confirmerID;
+        return $this;
+    }
+
 
 
     public function isConfirmationOverriden(): bool

@@ -25,7 +25,7 @@
 {% macro confirmation_form(form, confirmer) %}
     {# @var confirmer \App\Entity\Confirmer #}
 
-    <h5>Jetzt bestätigen <small class="text-body-secondary">(als {{ confirmer.name }})</small></h5>
+    <h4>Jetzt bestätigen <small class="text-body-secondary">(als {{ confirmer.name }})</small></h4>
 
     {{ form(form) }}
 {% endmacro %}
