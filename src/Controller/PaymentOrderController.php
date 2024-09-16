@@ -19,6 +19,7 @@
 namespace App\Controller;
 
 use App\Audit\UserProvider;
+use App\Entity\ConfirmationToken;
 use App\Entity\PaymentOrder;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
@@ -34,6 +35,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
@@ -50,7 +52,7 @@ final class PaymentOrderController extends AbstractController
     public function __construct(
         private readonly UserProvider $userProvider,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus,
     )
     {
     }
@@ -177,54 +179,82 @@ final class PaymentOrderController extends AbstractController
         $target->setBankInfo($source->getBankInfo());
     }
 
-    #[Route(path: '/{id}/confirm', name: 'payment_order_confirm')]
-    public function confirmation(?PaymentOrder $paymentOrder, Request $request, EntityManagerInterface $em): Response
+    /**
+     * This route allows to handle the old confirmation links, which were send out via email in the old system
+     * @param  PaymentOrder|null  $paymentOrder
+     * @param  Request  $request
+     * @return Response
+     */
+    #[Route(path: '/{id}/confirm', name: 'payment_order_confirm_legacy')]
+    public function confirmationLegacy(?PaymentOrder $paymentOrder, Request $request): Response
     {
         if($paymentOrder === null) {
             $this->addFlash('error', 'payment_order.can_not_be_found');
             return $this->redirectToRoute('homepage');
         }
 
-        //Check if we have one of the valid confirm numbers
-        $confirm_step = $request->query->getInt('confirm');
-        if (1 !== $confirm_step && 2 !== $confirm_step) {
-            $this->addFlash('error', 'payment_order.confirmation.invalid_step');
+        //We can not search directly for a confirmation token, therefore iterate over all available and check if they
+        //match the given token
+        $secret = $request->query->get('token');
 
-            return $this->redirectToRoute('homepage');
-        }
-
-        //Check if given token is correct for this step
-        $correct_token = (1 === $confirm_step) ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
-        if (null === $correct_token) {
-            throw new RuntimeException('This payment_order can not be confirmed! No token is set.');
-        }
-
-        $given_token = (string) $request->query->get('token');
-        if (!password_verify($given_token, $correct_token)) {
+        if (null === $secret) {
             $this->addFlash('error', 'payment_order.confirmation.invalid_token');
-
             return $this->redirectToRoute('homepage');
         }
+
+        foreach ($paymentOrder->getConfirmationTokens() as $token) {
+            if (password_verify($secret, $token->getHashedToken())) {
+                //Redirect to our new confirmation route
+                return $this->redirectToRoute('payment_order_confirm', [
+                    'token' => $token->getId(),
+                    'secret' => $secret,
+                ]);
+            }
+        }
+
+        //If no matching token was found, then show an error, as the token was invalid
+        $this->addFlash('error', 'payment_order.confirmation.invalid_token');
+        return $this->redirectToRoute('homepage');
+    }
+
+    #[Route(path: '/token/{token}/confirm', name: 'payment_order_confirm')]
+    public function confirmation(
+        ConfirmationToken $token,
+        #[MapQueryParameter] ?string $secret,
+        Request $request): Response
+    {
+        //If no secret was given, then show an error, as the token was invalid
+        if (null === $secret) {
+            $this->addFlash('error', 'payment_order.confirmation.invalid_token');
+            return $this->redirectToRoute('homepage');
+        }
+
+        //Check if given token is correct
+        if (!password_verify($secret, $token->getHashedToken())) {
+            $this->addFlash('error', 'payment_order.confirmation.invalid_token');
+            return $this->redirectToRoute('homepage');
+        }
+
+        //We use the paymentOrder that was stored in the token, as it is the only way to get the paymentOrder
+        $paymentOrder = $token->getPaymentOrder();
 
         $already_confirmed = false;
 
-        //Check if it was already confirmed from this side and disable form if needed
-        $confirm_timestamp = (1 === $confirm_step) ? $paymentOrder->getConfirm1Timestamp() : $paymentOrder->getConfirm2Timestamp();
-        if (null !== $confirm_timestamp) {
-            $already_confirmed = true;
-        }
+        $canConfirm = true;
+
         $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
-            'disabled' => null !== $confirm_timestamp,
+            'disabled' => !$canConfirm,
         ]);
 
-        $paymentOrder_is_undeletable = $paymentOrder->isExported()
+        //Check if the payment order can still be deleted
+        $isUndeleteable = $paymentOrder->isExported()
             || $paymentOrder->isMathematicallyCorrect()
             || $paymentOrder->isFactuallyCorrect()
             || null != $paymentOrder->getBookingDate();
 
         $deletion_form = $this->createFormBuilder()
             ->add('delete', SubmitType::class, [
-                'disabled' => $paymentOrder_is_undeletable,
+                'disabled' => $isUndeleteable,
                 'label' => 'payment_order.confirm.delete.btn',
                 'attr' => [
                     'class' => 'btn btn-danger'
@@ -234,16 +264,11 @@ final class PaymentOrderController extends AbstractController
         //Handle deletion form
         $deletion_form->handleRequest($request);
         if ($deletion_form->isSubmitted() && $deletion_form->isValid()) {
-            if ($paymentOrder_is_undeletable) {
+            if ($isUndeleteable) {
                 throw new RuntimeException("This payment order is already exported or booked and therefore can not be deleted by user!");
             }
 
-            $blame_user = "unknown";
-            if ($confirm_step === 1) {
-                $blame_user = implode(",", $paymentOrder->getDepartment()->getEmailHhv());
-            } elseif ($confirm_step === 2) {
-                $blame_user = implode(',', $paymentOrder->getDepartment()->getEmailTreasurer());
-            }
+            $blame_user = $token->getConfirmer()->getName();
 
             $message = new PaymentOrderDeletedNotification($paymentOrder, $blame_user, PaymentOrderDeletedNotification::DELETED_WHERE_FRONTEND);
             $this->messageBus->dispatch($message);
@@ -259,6 +284,7 @@ final class PaymentOrderController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'payment_order.confirmation.success');
+            /*
             //Write confirmation to DB
             if (1 === $confirm_step) {
                 $paymentOrder->setConfirm1Timestamp(new DateTime());
@@ -279,14 +305,14 @@ final class PaymentOrderController extends AbstractController
                 'disabled' => true,
             ]);
             $this->addFlash('info', 'payment_order.confirmation.already_confirmed');
+            */
         }
 
         return $this->render('PaymentOrder/confirm/confirm.html.twig', [
             'entity' => $paymentOrder,
-            'confirmation_nr' => $confirm_step,
             'form' => $form->createView(),
             'deletion_form' => $deletion_form->createView(),
-            'paymentOrder_is_undeletable' => $paymentOrder_is_undeletable,
+            'paymentOrder_is_undeletable' => $isUndeleteable,
             'already_confirmed' => $already_confirmed,
         ]);
     }

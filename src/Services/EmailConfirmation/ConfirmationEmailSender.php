@@ -81,7 +81,7 @@ final readonly class ConfirmationEmailSender
         $this->entityManager->flush();
 
         //Send the confirmation email
-        $this->sendConfirmationEmail($paymentOrder, $confirmer, $token);
+        $this->sendConfirmationEmail($confirmationToken, $token);
 
     }
 
@@ -136,67 +136,22 @@ final readonly class ConfirmationEmailSender
 
 
     /**
-     * Send the confirmation email to the first verification person for the given payment_order.
-     * Email addresses are taken from department (and are added as BCC)
-     * A token is generated, send via email and saved in hashed form in the payment order.
-     * Calling this function will flush database.
-     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
-     * no email is sent.
-     */
-    public function sendConfirmation1(PaymentOrder $paymentOrder): void
-    {
-        $token = $this->tokenGenerator->getToken();
-        $paymentOrder->setConfirm1Token($this->hash_token($token));
-        $email = $paymentOrder->getDepartment()
-            ->getEmailHhv();
-        //Dont send the confirmation email if no email is set, otherwise just confirm it
-        if ($email !== [] && $this->send_notifications) {
-            $this->sendConfirmationEmail($paymentOrder, $email, $token, 1);
-        } else {
-            $paymentOrder->setConfirm1Timestamp(new DateTime());
-        }
-
-        $this->entityManager->flush();
-    }
-
-    /**
-     * Send the confirmation email to the second verification person for the given payment_order.
-     * Email addresses are taken from department (and are added as BCC)
-     * A token is generated, send via email and saved in hashed form in the payment order.
-     * Calling this function will flush database.
-     * If no applicable emails are found (or email notifications are disabled) the payment order will be confirmed and
-     * no email is sent.
-     */
-    public function sendConfirmation2(PaymentOrder $paymentOrder): void
-    {
-        $token = $this->tokenGenerator->getToken();
-        $paymentOrder->setConfirm2Token($this->hash_token($token));
-        $email = $paymentOrder->getDepartment()
-            ->getEmailTreasurer();
-        //Dont send the confirmation email if no email is set, otherwise just confirm it
-        if ($email !== [] && $this->send_notifications) {
-            $this->sendConfirmationEmail($paymentOrder, $email, $token, 2);
-        } else {
-            $paymentOrder->setConfirm2Timestamp(new DateTime());
-        }
-        $this->entityManager->flush();
-    }
-
-    /**
      * Sents a confirmation email for the given payment order for a plaintext token.
      *
      * @param PaymentOrder $paymentOrder        The paymentOrder for which the email should be generated
      * @param Confirmer    $confirmer           The mail addresses that should be added as BCC
-     * @param string       $token               The plaintext token to access confirmation page.
+     * @param string       $secret               The plaintext token to access confirmation page.
      *
      * @throws TransportExceptionInterface
      */
-    private function sendConfirmationEmail(PaymentOrder $paymentOrder, Confirmer $confirmer, string $token): void
+    private function sendConfirmationEmail(ConfirmationToken $confirmationToken, string $secret): void
     {
-        //We can not continue if the payment order is not serialized / has an ID (as we cannot generate an URL for it)
-        if (null === $paymentOrder->getId()) {
-            throw new InvalidArgumentException('$paymentOrder must be serialized / have an ID so than an confirmation URL can be generated!');
+        if ($confirmationToken->getId() === null) {
+            throw new InvalidArgumentException('The confirmation token must be set!');
         }
+
+        $paymentOrder = $confirmationToken->getPaymentOrder();
+        $confirmer = $confirmationToken->getConfirmer();
 
         $email = new TemplatedEmail();
 
@@ -214,7 +169,8 @@ final readonly class ConfirmationEmailSender
         $email->htmlTemplate('mails/confirmation.html.twig');
         $email->context([
             'payment_order' => $paymentOrder,
-            'token' => $token,
+            'secret' => $secret,
+            'token' => $confirmationToken,
             'confirmer' => $confirmer,
         ]);
 

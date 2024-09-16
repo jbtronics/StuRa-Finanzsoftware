@@ -34,8 +34,8 @@
             <p>{% trans %}payment_order.confirmation_email.vpn_hint{% endtrans %}</p>
 
             <button class="large expand" href="{{ url('payment_order_confirm', {
-                'id': payment_order.id,
-                'token': token
+                'token': token.id,
+                'secret': secret
             }) }}">{% trans %}payment_order.confirmation_mail.button{% endtrans %}</button>
 
             <br>
