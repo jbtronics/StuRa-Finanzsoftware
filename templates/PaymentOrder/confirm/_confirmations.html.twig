@@ -1,0 +1,65 @@
+{# @var entity \App\Entity\PaymentOrder #}
+{# @var token \App\Entity\ConfirmationToken #}
+
+{% macro confirmation_header(confirmation) %}
+    {# @var confirmation \App\Entity\Embeddable\Confirmation #}
+    {% if confirmation.confirmed %}
+        {{ confirmation.timestamp | format_datetime }} ({{ confirmation.confirmerName }})
+    {% else %}
+        <i>{% trans %}payment_order.confirmation.missing{% endtrans %}</i>
+    {% endif %}
+{% endmacro %}
+
+{% macro confirmation_confirmed(confirmation) %}
+    <b>{% trans %}confirmation.confirmed{% endtrans %}</b><br>
+    {{ confirmation.timestamp|format_datetime }}<br>
+    {{ confirmation.confirmerName }}<br>
+    {% if confirmation.confirmationOverriden %}<i>{% trans %}confirmation.overriden{% endtrans %}</i><br>{% endif %}
+    {% if confirmation.remark %}
+        <code title="Prüfanmerkung">
+            {{ confirmation.remark }}
+        </code>
+    {% endif %}
+{% endmacro %}
+
+{% macro confirmation_form(form, confirmer) %}
+    {# @var confirmer \App\Entity\Confirmer #}
+
+    <h5>Jetzt bestätigen <small class="text-body-secondary">(als {{ confirmer.name }})</small></h5>
+
+    {{ form(form) }}
+{% endmacro %}
+
+<div class="accordion" id="confirmationsAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#confirmationOneCollapse" aria-expanded="true" aria-controls="collapseOne">
+                <b class="me-1">{% trans %}payment_order.confirmation{% endtrans%} 1 / {{ entity.requiredConfirmations }}:</b> {{ _self.confirmation_header(entity.confirmation1) }}
+            </button>
+        </h2>
+        <div id="confirmationOneCollapse" class="accordion-collapse collapse show" data-bs-parent="#confirmationsAccordion">
+            <div class="accordion-body">
+                {% if entity.confirmation1.confirmed %}
+                    {{ _self.confirmation_confirmed(entity.confirmation1) }}
+                {% else %}
+                    {{ _self.confirmation_form(form, token.confirmer) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {# The accordion is only required if we need more than one confirmations  #}
+    {% if entity.requiredConfirmations > 1 %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#confirmationTwoCollapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <b class="me-1">{% trans %}payment_order.confirmation{% endtrans%} 2 / {{ entity.requiredConfirmations }}:</b> {{ _self.confirmation_header(entity.confirmation1) }}
+                </button>
+            </h2>
+            <div id="confirmationTwoCollapse" class="accordion-collapse collapse" data-bs-parent="#aconfirmationsAccordion">
+                <div class="accordion-body">
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

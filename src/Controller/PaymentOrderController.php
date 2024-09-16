@@ -311,6 +311,7 @@ final class PaymentOrderController extends AbstractController
         return $this->render('PaymentOrder/confirm/confirm.html.twig', [
             'entity' => $paymentOrder,
             'form' => $form->createView(),
+            'token' => $token,
             'deletion_form' => $deletion_form->createView(),
             'paymentOrder_is_undeletable' => $isUndeleteable,
             'already_confirmed' => $already_confirmed,

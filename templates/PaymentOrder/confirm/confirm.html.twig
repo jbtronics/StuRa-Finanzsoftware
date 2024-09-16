@@ -19,8 +19,6 @@
         </p>
     {% endif %}
 
-    {{ form_start(form) }}
-
     <h4>{% trans %}payment_order.confirm.title_1{% endtrans %}</h4>
     <p class="">
         {% trans with {'%fsb_email%': entity.department.fsr ? fsb_email : hhv_email } %}payment_order.confirm.hint_1{% endtrans %}
@@ -84,8 +82,6 @@
         </tr>
     </table>
 
-    {{ form_row(form.check_1) }}
-
 
     <h4>{% trans %}payment_order.confirm.title_2{% endtrans %}</h4>
     <p class="">
@@ -96,7 +92,6 @@
     ) }}" class="btn btn-secondary" target="_blank">
         <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_references{% endtrans %}
     </a>
-    {{ form_row(form.check_2) }}
 
     <br>
     <h4>{% trans %}payment_order.confirm.title_3{% endtrans %}</h4>
@@ -109,14 +104,13 @@
     ) }}" class="btn btn-secondary" target="_blank">
         <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_form{% endtrans %}
     </a>
-    {{ form_row(form.check_3) }}
-
-    {{ form_row(form.submit) }}
-    {{ form_end(form) }}
 
 {% endblock %}
 
 {% block additional_content %}
+    <br>
+    {% include('PaymentOrder/confirm/_confirmations.html.twig') %}
+
     <br>
     {% include('PaymentOrder/confirm/_payment_order_delete.html.twig') %}
 {% endblock %}

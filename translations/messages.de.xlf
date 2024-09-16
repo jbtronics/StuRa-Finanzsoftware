@@ -2504,5 +2504,23 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Bestätigung durch StuRa-Finanzer!</target>
       </segment>
     </unit>
+    <unit id="tcyBk7h" name="payment_order.confirmation">
+      <segment>
+        <source>payment_order.confirmation</source>
+        <target>Bestätigung</target>
+      </segment>
+    </unit>
+    <unit id="MP13mZ8" name="payment_order.confirmation.missing">
+      <segment>
+        <source>payment_order.confirmation.missing</source>
+        <target>Fehlend</target>
+      </segment>
+    </unit>
+    <unit id="VZR6eOF" name="payment_order.confirm.remark.label">
+      <segment>
+        <source>payment_order.confirm.remark.label</source>
+        <target>Anmerkungen (optional):</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
