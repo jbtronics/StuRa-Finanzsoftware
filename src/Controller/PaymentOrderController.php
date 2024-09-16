@@ -241,9 +241,11 @@ final class PaymentOrderController extends AbstractController
         //We use the paymentOrder that was stored in the token, as it is the only way to get the paymentOrder
         $paymentOrder = $token->getPaymentOrder();
 
+        //Disable confirmation form if already confirmed
+        $formDisabled = $paymentOrder->isConfirmed() || $this->confirmationHelper->hasAlreadyConfirmed($token->getConfirmer(), $paymentOrder);
+
         $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
-            //Disable confirmation form if already confirmed
-            'disabled' => $paymentOrder->isConfirmed() || $this->confirmationHelper->hasAlreadyConfirmed($token->getConfirmer(), $paymentOrder),
+            'disabled' => $formDisabled,
         ]);
 
         //Check if the payment order can still be deleted
@@ -282,7 +284,7 @@ final class PaymentOrderController extends AbstractController
 
         //Handle confirmation form
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$formDisabled && $form->isSubmitted() && $form->isValid()) {
             //Do confirmation
             $this->confirmationHelper->confirm($paymentOrder, $token, $form->get('remark')->getData());
 
