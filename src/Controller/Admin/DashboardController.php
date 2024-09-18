@@ -239,12 +239,47 @@ final class DashboardController extends AbstractDashboardController
             ->setPermission('ROLE_READ_USER');
 
         $version = $this->app_version.'-'.$this->gitVersionInfo->getGitCommitHash() ?? '';
-        yield MenuItem::section('Version '.$version, 'fas fa-info');
+        yield MenuItem::section('Version '.$version, $this->infoIconEasterEgg());
         yield MenuItem::linktoRoute('dashboard.menu.audits', 'fas fa-binoculars', 'dh_auditor_list_audits')
             ->setPermission('ROLE_VIEW_AUDITS');
         yield MenuItem::linktoRoute('dashboard.menu.homepage', 'fas fa-home', 'homepage');
         yield MenuItem::linkToUrl('dashboard.menu.stura', 'fab fa-rebel', 'https://www.stura.uni-jena.de/');
         yield MenuItem::linkToUrl('dashboard.menu.github', 'fab fa-github', 'https://github.com/jbtronics/StuRa-Finanzsoftware');
+    }
+
+    /**
+     * A little easteregg, that show different icons for the version info, depending on the date
+     * @param  \DateTimeInterface|null  $dateTime
+     * @return string
+     */
+    private function infoIconEasterEgg(?\DateTimeInterface $dateTime = null): string
+    {
+        if ($dateTime === null) {
+            $dateTime = new \DateTimeImmutable();
+        }
+
+        $day = (int) $dateTime->format('d');
+        $month = (int) $dateTime->format('m');
+
+        return 'fas ' . match ([$day, $month]) {
+                [31, 10] => 'fa-ghost',
+                [24, 12] => 'fa-gifts',
+                [25, 12] => 'fa-sleigh',
+                [31, 12] => 'fa-champagne-glasses',
+                [1, 1] => 'fa-clover',
+                [29, 2] => 'fa-frog',
+                [13, 4] => 'fa-cake-candles',
+                [4, 5] => 'fa-jedi',
+                [14, 3] => 'fa-chart-pie',
+                [20, 9] => 'fa-children',
+                [3, 10] => 'fa-flag',
+                [9, 5] => 'fa-earth-europe',
+
+                [1, 10] => 'fa-snowflake',
+                [1, 4] => 'fa-sun',
+
+                default => 'fa-info'
+            };
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
