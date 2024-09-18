@@ -65,7 +65,7 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
     #[ORM\ManyToMany(targetEntity: Department::class, mappedBy: 'confirmers')]
     private Collection $departments;
 
-    #[ORM\ManyToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer')]
+    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer')]
     private Collection $confirmationTokens;
 
     public function __construct()
