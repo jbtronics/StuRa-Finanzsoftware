@@ -2513,7 +2513,7 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
     <unit id="MP13mZ8" name="payment_order.confirmation.missing">
       <segment>
         <source>payment_order.confirmation.missing</source>
-        <target>Fehlend</target>
+        <target>Ausstehend</target>
       </segment>
     </unit>
     <unit id="VZR6eOF" name="payment_order.confirm.remark.label">
