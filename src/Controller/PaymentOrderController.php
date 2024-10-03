@@ -116,9 +116,9 @@ final class PaymentOrderController extends AbstractController
                     $username = sprintf('%s %s (%s) [New PaymentOrder]',
                         $new_order->getFirstName(),
                         $new_order->getLastName(),
-                        $new_order->getContactEmail()
+                        $new_order->getSubmitterEmail()
                     );
-                    $this->userProvider->setManualUsername($username, $new_order->getContactEmail());
+                    $this->userProvider->setManualUsername($username, $new_order->getSubmitterEmail());
 
                     $entityManager->flush();
 
@@ -176,7 +176,7 @@ final class PaymentOrderController extends AbstractController
     {
         $target->setFirstName($source->getFirstName());
         $target->setLastName($source->getLastName());
-        $target->setContactEmail($source->getContactEmail());
+        $target->setSubmitterEmail($source->getSubmitterEmail());
         $target->setDepartment($source->getDepartment());
         $target->setBankInfo($source->getBankInfo());
     }

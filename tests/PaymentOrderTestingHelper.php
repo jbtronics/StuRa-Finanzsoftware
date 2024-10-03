@@ -30,7 +30,7 @@ class PaymentOrderTestingHelper
         $payment_order = static::getDummyPaymentOrder($data['id'] ?? 1);
         $payment_order->setFirstName($data['first_name'])
             ->setLastName($data['last_name'])
-            ->setContactEmail($data['contact_email'])
+            ->setSubmitterEmail($data['contact_email'])
             ->setAmount($data['amount'])
             ->setProjectName($data['project_name'])
             ->setFundingId($data['funding_id'] ?? '')

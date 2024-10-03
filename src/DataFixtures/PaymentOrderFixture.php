@@ -19,7 +19,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');
-        $payment_order->setContactEmail('test@invalid.com');
+        $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('M-123-2020');
         $payment_order->setProjectName('Test');
         $payment_order->setFsrKomResolution(true);
@@ -45,7 +45,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');
-        $payment_order->setContactEmail('test@invalid.com');
+        $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test');
         $payment_order->setFsrKomResolution(false);
@@ -71,7 +71,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');
-        $payment_order->setContactEmail('test@invalid.com');
+        $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');
         $payment_order->setFsrKomResolution(false);
@@ -97,7 +97,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order = new PaymentOrder();
         $payment_order->setFirstName('John');
         $payment_order->setLastName('Doe');
-        $payment_order->setContactEmail('test@invalid.com');
+        $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');
         $payment_order->setFsrKomResolution(true);

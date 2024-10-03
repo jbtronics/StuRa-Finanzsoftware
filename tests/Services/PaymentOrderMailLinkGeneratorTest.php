@@ -56,7 +56,7 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
         $department->setName('Physik');
         $payment_order->setDepartment($department)
             ->setProjectName('Test project');
-        $payment_order->setContactEmail('test@invalid.com');
+        $payment_order->setSubmitterEmail('test@invalid.com');
 
         $contact_link = $this->service->generateContactMailLink($payment_order);
         self::assertSame('mailto:test@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D', $contact_link);
@@ -72,7 +72,7 @@ class PaymentOrderMailLinkGeneratorTest extends WebTestCase
         $department->setName('Physik');
         $payment_order->setDepartment($department)
             ->setProjectName('Test project');
-        $payment_order->setContactEmail('');
+        $payment_order->setSubmitterEmail('');
 
         $contact_link = $this->service->generateContactMailLink($payment_order);
         self::assertSame('mailto:test1@invalid.com,test2@invalid.com?subject=R%C3%BCckfrage%20Zahlungsauftrag%20-%20Physik%3A%20Test%20project%20%5BZA0001%5D', $contact_link);

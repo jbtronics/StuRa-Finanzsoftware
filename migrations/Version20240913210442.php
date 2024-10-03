@@ -79,7 +79,7 @@ final class Version20240913210442 extends AbstractMigration
             confirmation1_timestamp = confirm1_timestamp,
             confirmation1_confirmer_name = IF(confirm1_timestamp IS NULL, NULL, "Struktur-HHV zum Prüfzeitpunkt"),
             confirmation1_confirmer_id = (SELECT MIN(id) FROM confirmer WHERE email = 'hhv@legacy.invalid'),
-            confirmation1_remark = IF(confirm1_timestamp IS NULL, NULL, "Sachlich richtig")
+            confirmation1_remark = NULL
         SQL);
 
         //For each payment_order copy the data from the mathematically_correct field to the confirmation2_confirmed field
@@ -87,9 +87,9 @@ final class Version20240913210442 extends AbstractMigration
             UPDATE payment_orders
             SET
             confirmation2_timestamp = confirm2_timestamp,
-            confirmation2_confirmer_name = IF(confirm2_timestamp IS NULL, NULL, "Struktur-Kassenwart zum Prüfzeitpunkt"),
+            confirmation2_confirmer_name = IF(confirm2_timestamp IS NULL, NULL, "Struktur-KV zum Prüfzeitpunkt"),
             confirmation2_confirmer_id = (SELECT MIN(id) FROM confirmer WHERE email = 'kv@legacy.invalid'),
-            confirmation2_remark = IF(confirm2_timestamp IS NULL, NULL, "Rechnerisch richtig")
+            confirmation2_remark = NULL
         SQL);
 
 

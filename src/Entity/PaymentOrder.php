@@ -58,23 +58,23 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Embedded(class: PayeeInfo::class)]
-    #[Assert\Valid]
-    private PayeeInfo $bank_info;
+    /*******************************************************************************************************************
+     * Submitter info
+     ******************************************************************************************************************/
 
     /**
-     * @var string "Vorname"
+     * @var string The name of the person, which has submitted this payment order
      */
     #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
-    private string $first_name = '';
+    private string $submitter_name = '';
 
     /**
-     * @var string "Nachname"
+     * @var string The email of the personn, who has submitted this payment order
      */
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\NotBlank]
-    private string $last_name = '';
+    #[ORM\Column(type: Types::STRING, nullable: false)]
+    #[Assert\Email]
+    private string $submitter_email = '';
 
     /**
      * @var Department|null "Struktur/Organisation"
@@ -85,6 +85,50 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[FSRNotBlocked(groups: ['fsr_blocked'])]
     private ?Department $department = null;
 
+    /*******************************************************************************************************************
+     * Mittelfreigabe Informations
+     ******************************************************************************************************************/
+
+    /**
+     * @var string "Mittelfreigabe / Finanzantrag" Number for the submitting department
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
+    #[Assert\NotBlank()]
+    private string $funding_id = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
+    #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old')]
+    #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
+    private ?\DateTime $resolution_date = null;
+
+    /**
+     * @var int|null "Betrag" (in cents). The amount sum that will be paid out.
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\Positive]
+    private ?int $amount = null;
+
+    /**
+     * @var string "Mittelfreigabe / Finanzantrag" ID of the supporting deparment (when the FSR-kom pays part of the amount).
+     * This is optional.
+     */
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
+    private ?string $supporting_funding_id = '';
+
+    /**
+     * @var int|null The amount that will be paid out by the supporting department (in cents).
+     * This is required together with the supporting_funding_id.
+     */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Positive]
+    private ?int $supporting_amount = null;
+
+    /*******************************************************************************************************************
+     * Verwendungszweck block
+     ******************************************************************************************************************/
     /**
      * @var string "Projektbezeichnung"
      */
@@ -93,12 +137,58 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::STRING)]
     private string $project_name = '';
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $invoice_number = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $customer_number = null;
+
+    /*******************************************************************************************************************
+     * Miscellaneous
+     ******************************************************************************************************************/
+
+    #[ORM\Embedded(class: PayeeInfo::class)]
+    #[Assert\Valid]
+    private PayeeInfo $bank_info;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private string $comment = '';
+
     /**
-     * @var int|null "Betrag" (in cents)
+     * @var bool Is FSR-Kom resolution
      */
-    #[ORM\Column(type: Types::INTEGER)]
-    #[Assert\Positive]
-    private ?int $amount = null;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $fsr_kom_resolution = false;
+
+    /*******************************************************************************************************************
+     * Files
+     ******************************************************************************************************************/
+
+    /*
+    * Associated files
+    */
+    #[Assert\File(maxSize: '1024k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    #[Vich\UploadableField(mapping: 'payment_orders_form', fileNameProperty: 'printed_form.name', size: 'printed_form.size', mimeType: 'printed_form.mimeType', originalName: 'printed_form.originalName', dimensions: 'printed_form.dimensions')]
+    private ?\Symfony\Component\HttpFoundation\File\File $printed_form_file = null;
+
+
+    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
+    private \Vich\UploaderBundle\Entity\File $printed_form;
+
+    #[Assert\NotBlank(groups: ['frontend'])]
+    #[Assert\File(maxSize: '10M', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
+    #[Vich\UploadableField(mapping: 'payment_orders_references', fileNameProperty: 'references.name', size: 'references.size', mimeType: 'references.mimeType', originalName: 'references.originalName', dimensions: 'references.dimensions')]
+    private ?\Symfony\Component\HttpFoundation\File\File $references_file = null;
+
+
+    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
+    private \Vich\UploaderBundle\Entity\File $references;
+
+
+
+    /******************************************************************************************************************
+     * Confirmations and status infos
+     *******************************************************************************************************************/
 
     /**
      * @var bool "mathematisch richtig"
@@ -114,16 +204,6 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $factually_correct = false;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private string $comment = '';
-
-    /**
-     * @var string "Mittelfreigabe / Finanzantrag"
-     */
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
-    private string $funding_id = '';
 
     /**
      * @var Confirmation The first confirmation for this payment order
@@ -148,47 +228,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\Range(min: 1, max: 2)]
     private int $requiredConfirmations = 2;
 
-    /**
-     * @var bool Is FSR-Kom resolution
-     */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $fsr_kom_resolution = false;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
-    #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old')]
-    #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
-    private ?\DateTime $resolution_date = null;
-
-    #[ORM\Column(type: Types::STRING, nullable: false)]
-    #[Assert\Email]
-    private string $contact_email = '';
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $booking_date = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $references_exported = false;
-
-    /*
-     * Associated files
-     */
-    #[Assert\File(maxSize: '1024k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
-    #[Vich\UploadableField(mapping: 'payment_orders_form', fileNameProperty: 'printed_form.name', size: 'printed_form.size', mimeType: 'printed_form.mimeType', originalName: 'printed_form.originalName', dimensions: 'printed_form.dimensions')]
-    private ?\Symfony\Component\HttpFoundation\File\File $printed_form_file = null;
-
-    
-    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
-    private \Vich\UploaderBundle\Entity\File $printed_form;
-
-    #[Assert\NotBlank(groups: ['frontend'])]
-    #[Assert\File(maxSize: '10M', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'validator.upload_pdf')]
-    #[Vich\UploadableField(mapping: 'payment_orders_references', fileNameProperty: 'references.name', size: 'references.size', mimeType: 'references.mimeType', originalName: 'references.originalName', dimensions: 'references.dimensions')]
-    private ?\Symfony\Component\HttpFoundation\File\File $references_file = null;
-
-    
-    #[ORM\Embedded(class: \Vich\UploaderBundle\Entity\File::class)]
-    private \Vich\UploaderBundle\Entity\File $references;
 
     /**
      * @var Collection The confirmation tokens that can be used to confirm this payment order
@@ -584,17 +628,17 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /**
      * Returns the email of the person which has submitted this payment order and which is used for answering questions.
      */
-    public function getContactEmail(): string
+    public function getSubmitterEmail(): string
     {
-        return $this->contact_email;
+        return $this->submitter_email;
     }
 
     /**
      * Sets the email of the person which has submitted this payment order and which is used for answering questions.
      */
-    public function setContactEmail(string $contact_email): PaymentOrder
+    public function setSubmitterEmail(string $submitter_email): PaymentOrder
     {
-        $this->contact_email = $contact_email;
+        $this->submitter_email = $submitter_email;
 
         return $this;
     }
