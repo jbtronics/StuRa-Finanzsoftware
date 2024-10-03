@@ -51,7 +51,20 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 {
     use TimestampTrait;
 
-    public const FUNDING_ID_REGEX = '/^(FA|M)-\d{3,4}-20\d{2}(_\d{2})?$/';
+    /**
+     * Legacy regex for the funding IDs. (e.g. FA-0001-2020)
+     */
+    public const FUNDING_ID_REGEX_LEGACY = '/^(FA|M)-\d{3,4}-20\d{2}(_\d{2})?$/';
+
+    /**
+     * Regex for new funding IDs of the StuRa or FSR-Kom (e.g. FA-0001-2020_01)
+     */
+    public const FUNDING_ID_STURA_FSRKOM = '/^(FA|M)-\d{3,4}-20\d{2}_\d{2}$/';
+
+    /**
+     * Regex for new funding IDs of the departments (e.g. M-PAF-0001-2024_25)
+     */
+    public const FUNDING_ID_DEPARTMENT = '/^(FA|M)-\w{3,5}-\d{3,4}-20\d{2}_\d{2}/';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -93,8 +106,15 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * @var string "Mittelfreigabe / Finanzantrag" Number for the submitting department
      */
     #[ORM\Column(type: Types::STRING)]
-    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
-    #[Assert\NotBlank()]
+    #[Assert\AtLeastOneOf([
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_DEPARTMENT),
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
+    ], groups: ['frontend'])]
+    #[Assert\AtLeastOneOf([
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_DEPARTMENT),
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
+        new Assert\Regex(PaymentOrder::FUNDING_ID_REGEX_LEGACY),
+    ], groups: ['backend'])]
     private string $funding_id = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -115,7 +135,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * This is optional.
      */
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Assert\Regex(PaymentOrder::FUNDING_ID_REGEX)]
+    #[Assert\Regex(PaymentOrder::FUNDING_ID_STURA_FSRKOM)]
+    #[Assert\Expression("value === null || this.getSupportingAmount() !== null", message: 'validator.supporting_funding_id.needed_for_supporting_amount')]
     private ?string $supporting_funding_id = '';
 
     /**
@@ -124,6 +145,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Assert\Positive]
+    #[Assert\LessThan(propertyPath: 'amount')]
+    #[Assert\Expression("value === null || this.getSupportingFundingId() !== null", message: 'validator.supporting_amount.needed_for_supporting_funding_id')]
     private ?int $supporting_amount = null;
 
     /*******************************************************************************************************************
@@ -138,9 +161,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private string $project_name = '';
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Assert\Length(max: 20)]
     private ?string $invoice_number = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Assert\Length(max: 20)]
     private ?string $customer_number = null;
 
     /*******************************************************************************************************************

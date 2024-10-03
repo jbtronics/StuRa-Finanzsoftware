@@ -48,6 +48,7 @@ class PayeeInfo
     private string $city = '';
 
     #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank()]
     #[Assert\Iban]
     private string $iban = '';
 
