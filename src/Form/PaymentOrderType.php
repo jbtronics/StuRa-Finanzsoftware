@@ -36,25 +36,16 @@ class PaymentOrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('first_name', TextType::class, [
-            'label' => 'payment_order.first_name.label',
+        $builder->add('submitter_name', TextType::class, [
+            'label' => 'payment_order.submitter_name.label',
             'empty_data' => '',
             'attr' => [
-                'placeholder' => 'payment_order.first_name.placeholder',
+                'placeholder' => 'payment_order.submitter_name.placeholder',
                 'autocomplete' => 'given_name',
             ],
         ]);
 
-        $builder->add('last_name', TextType::class, [
-            'label' => 'payment_order.last_name.label',
-            'empty_data' => '',
-            'attr' => [
-                'placeholder' => 'payment_order.last_name.placeholder',
-                'autocomplete' => 'family_name',
-            ],
-        ]);
-
-        $builder->add('contact_email', EmailType::class, [
+        $builder->add('submitter_email', EmailType::class, [
             'label' => 'payment_order.contact_email.label',
             'empty_data' => '',
             'attr' => [
@@ -63,39 +54,15 @@ class PaymentOrderType extends AbstractType
             ],
         ]);
 
-        $builder->add('project_name', TextType::class, [
-            'label' => 'payment_order.project_name.label',
-            'help' => 'payment_order.project_name.help',
-            'empty_data' => '',
-            'attr' => [
-                'placeholder' => 'payment_order.project_name.placeholder',
-            ],
+        $builder->add('department', DepartmentChoiceType::class, [
+            'label' => 'payment_order.department.label',
         ]);
 
         $builder->add('funding_id', TextType::class, [
             'label' => 'payment_order.funding_id.label',
-            'help' => 'payment_order.funding_id.help',
-            'required' => false,
-            'empty_data' => '',
             'attr' => [
                 'placeholder' => 'payment_order.funding_id.placeholder',
             ],
-        ]);
-
-        $builder->add('fsr_kom_resolution', CheckboxType::class, [
-            'label' => 'payment_order.fsr_kom.label',
-            'required' => false,
-        ]);
-
-        $builder->add('resolution_date', DateType::class, [
-            'label' => 'payment_order.resolution_date.label',
-            'required' => false,
-            'html5' => true,
-            'widget' => 'single_text',
-        ]);
-
-        $builder->add('department', DepartmentChoiceType::class, [
-            'label' => 'payment_order.department.label',
         ]);
 
         $builder->add('amount', MoneyType::class, [
@@ -105,6 +72,54 @@ class PaymentOrderType extends AbstractType
             'attr' => [
                 'placeholder' => 'payment_order.amount.placeholder',
             ],
+        ]);
+
+        $builder->add('supporting_amount', MoneyType::class, [
+            'label' => 'payment_order.supporting_amount.label',
+            'divisor' => 100,
+            'currency' => 'EUR',
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'payment_order.amount.placeholder',
+            ],
+        ]);
+
+        $builder->add('supporting_funding_id', TextType::class, [
+            'label' => 'payment_order.supporting_funding_id.label',
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'payment_order.supporting_funding_id.placeholder',
+            ],
+        ]);
+
+        $builder->add('fsr_kom_resolution', CheckboxType::class, [
+            'label' => 'payment_order.fsr_kom.label',
+            'required' => false,
+        ]);
+
+
+        $builder->add('resolution_date', DateType::class, [
+            'label' => 'payment_order.resolution_date.label',
+            'required' => false,
+            'html5' => true,
+            'widget' => 'single_text',
+        ]);
+
+        $builder->add('project_name', TextType::class, [
+            'label' => 'payment_order.project_name.label',
+            'attr' => [
+                'placeholder' => 'payment_order.project_name.placeholder',
+            ],
+        ]);
+
+
+        $builder->add('invoice_number', TextType::class, [
+            'label' => 'payment_order.invoice_number.label',
+            'required' => false,
+        ]);
+        $builder->add('customer_number', TextType::class, [
+            'label' => 'payment_order.customer_number.label',
+            'required' => false
         ]);
 
         $builder->add('bank_info', PayeeInfoType::class, [
@@ -120,7 +135,6 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('references_file', VichFileType::class, [
             'label' => 'payment_order.references.label',
-            'help' => 'payment_order.references.help',
         ]);
 
         $builder->add('comment', TextareaType::class, [

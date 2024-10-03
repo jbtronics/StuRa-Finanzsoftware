@@ -72,14 +72,15 @@ class PayeeInfoType extends AbstractType
             ],
         ]);
 
-        $builder->add('bic', TextType::class, [
+        //Hide BIC field on frontend
+        /*$builder->add('bic', TextType::class, [
             'label' => 'bank_info.bic.label',
             'required' => false,
             'empty_data' => '',
             'attr' => [
                 'placeholder' => 'bank_info.bic.placeholder',
             ],
-        ]);
+        ]);*/
 
         $builder->add('bank_name', TextType::class, [
             'label' => 'bank_info.bank_name.label',

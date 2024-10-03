@@ -436,7 +436,7 @@
     <unit id="IidAUjY" name="payment_order.new.account_info">
       <segment>
         <source>payment_order.new.account_info</source>
-        <target>Kontodaten Zahlungsempfänger*in</target>
+        <target>Zahlungsempfänger*in</target>
       </segment>
     </unit>
     <unit id="OxCscUL" name="payment_order.new.general">
@@ -1205,13 +1205,13 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="2lDQ7WR" name="payment_order.funding_id.label">
       <segment>
         <source>payment_order.funding_id.label</source>
-        <target>Mittelfreigabe / Finanzantrag</target>
+        <target>Mittelfreigabe FSR/Referat</target>
       </segment>
     </unit>
     <unit id="n32Jsyv" name="payment_order.funding_id.placeholder">
       <segment>
         <source>payment_order.funding_id.placeholder</source>
-        <target>M-000-2021_22 oder FA-000-2021_22</target>
+        <target>M-SUS-123-2024_25</target>
       </segment>
     </unit>
     <unit id="la1VeQg" name="payment_order.funding_id.help">
@@ -1259,7 +1259,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="U1nhaZQ" name="payment_order.references.label">
       <segment>
         <source>payment_order.references.label</source>
-        <target>Rechnungen</target>
+        <target>Belege</target>
       </segment>
     </unit>
     <unit id="1_4xBRy" name="payment_order.printed_form.help">
@@ -2520,6 +2520,72 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
       <segment>
         <source>payment_order.confirm.remark.label</source>
         <target>Anmerkungen (optional):</target>
+      </segment>
+    </unit>
+    <unit id="DeiJ2tN" name="payment_order.submitter_name.label">
+      <segment>
+        <source>payment_order.submitter_name.label</source>
+        <target>Name Auftraggeber*in</target>
+      </segment>
+    </unit>
+    <unit id="q7T5z55" name="payment_order.submitter_name.placeholder">
+      <segment>
+        <source>payment_order.submitter_name.placeholder</source>
+        <target>Max Musterfrau</target>
+      </segment>
+    </unit>
+    <unit id="Jutzjz4" name="payment_order.supporting_funding_id.label">
+      <segment>
+        <source>payment_order.supporting_funding_id.label</source>
+        <target>Mittelfreigabe FSR-Kom/StuRa oder Finanzantrag</target>
+      </segment>
+    </unit>
+    <unit id="CCp3K6t" name="payment_order.supporting_funding_id.placeholder">
+      <segment>
+        <source>payment_order.supporting_funding_id.placeholder</source>
+        <target>M-123-2024_25 oder FA-123-2024_25</target>
+      </segment>
+    </unit>
+    <unit id="DVtnZOD" name="payment_order.supporting_amount.label">
+      <segment>
+        <source>payment_order.supporting_amount.label</source>
+        <target>Übernommener Betrag</target>
+      </segment>
+    </unit>
+    <unit id="o7qEmaa" name="payment_order.invoice_number.label">
+      <segment>
+        <source>payment_order.invoice_number.label</source>
+        <target>Rechnungsnummer</target>
+      </segment>
+    </unit>
+    <unit id="rUhcZEe" name="payment_order.customer_number.label">
+      <segment>
+        <source>payment_order.customer_number.label</source>
+        <target>Kundennummer</target>
+      </segment>
+    </unit>
+    <unit id="rvRHZgn" name="payment_order.new.submitter_info">
+      <segment>
+        <source>payment_order.new.submitter_info</source>
+        <target>Auftraggeber*in</target>
+      </segment>
+    </unit>
+    <unit id="43syWth" name="payment_order.new.payment_info">
+      <segment>
+        <source>payment_order.new.payment_info</source>
+        <target>Mittelfreigabe</target>
+      </segment>
+    </unit>
+    <unit id="ImLeVbj" name="payment_order.new.reference_line">
+      <segment>
+        <source>payment_order.new.reference_line</source>
+        <target>Überweisungszweck</target>
+      </segment>
+    </unit>
+    <unit id="QP0D4yK" name="payment_order.new.invoice_and_customer_number_hint">
+      <segment>
+        <source>payment_order.new.invoice_and_customer_number_hint</source>
+        <target>Wenn du eine Rechnung bezahlst, gib hier die Rechnungs- und Kundennummer (soweit vorhanden) an, sodass diese Daten korrekt im Überweisungszweck auftauchen und der Händler die Zahlung zuordnen kann.</target>
       </segment>
     </unit>
   </file>

@@ -156,32 +156,46 @@
     <div class="row">
 
         <div class="col-sm-6">
+            {# "Auftraggeberin" section #}
             <fieldset>
-                <legend>{% trans %}payment_order.new.general{% endtrans %}</legend>
+                <legend>{% trans %}payment_order.new.submitter_info{% endtrans %}</legend>
                 <small class="text-muted">{% trans %}payment_order.new.name_hint{% endtrans %}</small>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        {{ form_row(form.first_name, {'attr': {'data-json': 'first_name'}}) }}
-                    </div>
-                    <div class="col-sm-6">
-                        {{ form_row(form.last_name, {'attr': {'data-json': 'last_name'}}) }}
-                    </div>
-                </div>
-
-                {{ form_row(form.contact_email, {'attr': {'data-json': 'contact_email'}}) }}
+                {{ form_row(form.submitter_name, {'attr': {'data-json': 'submitter_name'}}) }}
+                {{ form_row(form.submitter_email, {'attr': {'data-json': 'contact_email'}}) }}
                 {{ form_row(form.department, {'attr': {'data-json': 'department'}}) }}
-                {{ form_row(form.project_name) }}
+            </fieldset>
+
+            {# "Mittelfreigabe" section #}
+            <fieldset class="mt-2">
+                <legend>{% trans %}payment_order.new.payment_info{% endtrans %}</legend>
                 {{ form_row(form.amount) }}
                 {{ form_row(form.funding_id) }}
-                {{ form_row(form.fsr_kom_resolution) }}
                 {{ form_row(form.resolution_date) }}
+
+                {{ form_row(form.fsr_kom_resolution) }}
+
+                {{ form_row(form.supporting_amount) }}
+                {{ form_row(form.supporting_funding_id) }}
+
             </fieldset>
 
             {{ form_row(form.references_file) }}
+
         </div>
 
         <div class="col-sm-6">
+
+            {# "Verwendungszweck" #}
+            <fieldset>
+                <legend>{% trans %}payment_order.new.reference_line{% endtrans %}</legend>
+                {{ form_row(form.project_name) }}
+
+                <small class="text-muted">{% trans %}payment_order.new.invoice_and_customer_number_hint{% endtrans %}</small>
+                {{ form_row(form.invoice_number) }}
+                {{ form_row(form.customer_number) }}
+            </fieldset>
+
             <fieldset>
                 <legend>{% trans %}payment_order.new.account_info{% endtrans %}</legend>
                 {{ form_row(form.bank_info.account_owner, {'attr': {'data-json': 'account_owner'}}) }}
@@ -195,7 +209,6 @@
                     </div>
                 </div>
                 {{ form_row(form.bank_info.iban, {'attr': {'data-json': 'iban'}}) }}
-                {{ form_row(form.bank_info.bic, {'attr': {'data-json': 'bic'}}) }}
                 {{ form_row(form.bank_info.bank_name, {'attr': {'data-json': 'bank_name'}}) }}
             </fieldset>
 

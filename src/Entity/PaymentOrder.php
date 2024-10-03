@@ -46,7 +46,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: PaymentOrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table('payment_orders')]
-#[Vich\Uploadable()]
+#[Vich\Uploadable]
 class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \Serializable
 {
     use TimestampTrait;
@@ -145,7 +145,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Assert\Positive]
-    #[Assert\LessThan(propertyPath: 'amount')]
+    #[Assert\LessThanOrEqual(propertyPath: 'amount')]
     #[Assert\Expression("value === null || this.getSupportingFundingId() !== null", message: 'validator.supporting_amount.needed_for_supporting_funding_id')]
     private ?int $supporting_amount = null;
 
@@ -305,61 +305,66 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         return $this;
     }
 
-    /**
-     * Returns the full name of person which has submitted this payment order.
-     */
-    public function getFullName(): string
+    public function getSubmitterName(): string
     {
-        if ($this->getFirstName() === '' || $this->getFirstName() === '0') {
-            return $this->getLastName();
-        }
-        if ($this->getLastName() === '' || $this->getLastName() === '0') {
-            return $this->getFirstName();
-        }
-
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->submitter_name;
     }
 
-    /**
-     * Returns the first name of the person which has submitted this payment order.
-     */
-    public function getFirstName(): string
+    public function setSubmitterName(string $submitter_name): PaymentOrder
     {
-        return $this->first_name;
-    }
-
-    /**
-     * Sets the first name of the person which has submitted this payment order.
-     */
-    public function setFirstName(string $first_name): PaymentOrder
-    {
-        $this->first_name = $first_name;
-
+        $this->submitter_name = $submitter_name;
         return $this;
     }
 
-    /**
-     * Returns the last name of the person which has submitted this payment order.
-     */
-    public function getLastName(): string
+    public function getSupportingFundingId(): ?string
     {
-        return $this->last_name;
+        return $this->supporting_funding_id;
     }
 
-    /**
-     * Sets the last name of the person which has submitted this payment order.
-     */
-    public function setLastName(string $last_name): PaymentOrder
+    public function setSupportingFundingId(?string $supporting_funding_id): PaymentOrder
     {
-        $this->last_name = $last_name;
-
+        $this->supporting_funding_id = $supporting_funding_id;
         return $this;
     }
+
+    public function getSupportingAmount(): ?int
+    {
+        return $this->supporting_amount;
+    }
+
+    public function setSupportingAmount(?int $supporting_amount): PaymentOrder
+    {
+        $this->supporting_amount = $supporting_amount;
+        return $this;
+    }
+
+    public function getInvoiceNumber(): ?string
+    {
+        return $this->invoice_number;
+    }
+
+    public function setInvoiceNumber(?string $invoice_number): PaymentOrder
+    {
+        $this->invoice_number = $invoice_number;
+        return $this;
+    }
+
+    public function getCustomerNumber(): ?string
+    {
+        return $this->customer_number;
+    }
+
+    public function setCustomerNumber(?string $customer_number): PaymentOrder
+    {
+        $this->customer_number = $customer_number;
+        return $this;
+    }
+
 
     /**
      * Returns the department for which this payment order was submitted.
      *
-     * @return Department
+     * @return Department|null
      */
     public function getDepartment(): ?Department
     {
@@ -786,17 +791,6 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     }
 
 
-
-    public function serialize()
-    {
-        return serialize($this->getId());
-    }
-
-    public function unserialize($serialized): void
-    {
-        $this->id = unserialize($serialized);
-    }
-
     /**
      * Get the ID as string like ZA0005.
      */
@@ -825,5 +819,27 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         $this->confirmationTokens->removeElement($confirmationToken);
 
         return $this;
+    }
+
+    public function serialize(): ?string
+    {
+        return serialize($this->getId());
+    }
+
+    public function unserialize($data): void
+    {
+        $this->id = unserialize($data, ['allowed_classes' => false]);
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->id = $data['id'];
     }
 }
