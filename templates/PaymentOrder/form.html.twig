@@ -153,7 +153,7 @@
 
     {{ form_errors(form) }}
 
-    <div class="row">
+    <div class="row" {{ stimulus_controller('templates') }}>
 
         <div class="col-sm-6">
             {# "Auftraggeberin" section #}
@@ -228,25 +228,24 @@
                     </span>
                 </div>
 
-                <input type="file" class="btn btn-info" id="fileSelect" accept=".json" hidden>
                 <div class="btn-group w-100 mb-3" role="group">
                     <div class="btn-group w-75" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% trans %}payment_order.new.templates.load_template{% endtrans %}
                         </button>
-                        <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1">
+                        <div class="dropdown-menu" id="templates_menu"  aria-labelledby="btnGroupDrop1" {{ stimulus_target('templates', 'menu') }}>
                             <span class="p-2">{% trans %}payment_order.new.templates.no_templates{% endtrans %}</span>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-secondary w-25" onclick="importJSON();">{% trans %}payment_order.new.templates.upload{% endtrans %}</button>
+                    <button type="button" class="btn btn-outline-secondary w-25" {{ stimulus_action('templates', 'importJSON') }}>{% trans %}payment_order.new.templates.upload{% endtrans %}</button>
                 </div>
 
                 <div class="dropdown">
                     <button class="btn btn-outline-danger w-100 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% trans %}payment_order.new.templates.delete{% endtrans %}
                     </button>
-                    <div class="dropdown-menu" id="templates_delete_menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu" id="templates_delete_menu" {{ stimulus_target('templates', 'delete_menu') }} aria-labelledby="dropdownMenuButton">
                         <span class="p-2">{% trans %}payment_order.new.templates.no_templates{% endtrans %}</span>
                     </div>
                 </div>
