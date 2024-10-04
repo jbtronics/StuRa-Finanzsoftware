@@ -113,9 +113,8 @@ final class PaymentOrderController extends AbstractController
                             ->invalidateSkipBlockedValidationToken($blocked_token);
                     }
 
-                    $username = sprintf('%s %s (%s) [New PaymentOrder]',
-                        $new_order->getFirstName(),
-                        $new_order->getLastName(),
+                    $username = sprintf('%s (%s) [New PaymentOrder]',
+                        $new_order->getSubmitterName(),
                         $new_order->getSubmitterEmail()
                     );
                     $this->userProvider->setManualUsername($username, $new_order->getSubmitterEmail());
