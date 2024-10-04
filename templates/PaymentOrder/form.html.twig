@@ -17,7 +17,8 @@
 
     {{ form_errors(form) }}
 
-    <div class="row" {{ stimulus_controller('templates', {"transNotEmpty": "payment_order.new.templates.not_allowed_to_be_empty"|trans, "transDeleteConfirm": "payment_order.new.templates.remove_confirm"|trans}) }}>
+    <div class="row" {{ stimulus_controller('templates', {"transNotEmpty": "payment_order.new.templates.not_allowed_to_be_empty"|trans,
+        "transDeleteConfirm": "payment_order.new.templates.remove_confirm"|trans, "transNameExists": "payment_order.new.templates.name_already_used"|trans}) }}>
 
         <div class="col-sm-6">
             {# "Auftraggeberin" section #}

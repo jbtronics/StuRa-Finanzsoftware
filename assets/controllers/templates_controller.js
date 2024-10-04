@@ -5,7 +5,7 @@ const STORAGE_KEY = "payment_order_templates";
 export default class extends Controller {
 
     static targets = ['menu', 'delete_menu', 'new_name'];
-    static values = {transNotEmpty: String, transDeleteConfirm: String}
+    static values = {transNotEmpty: String, transDeleteConfirm: String, transNameExists: String}
 
 
     _templates = [];
@@ -96,6 +96,14 @@ export default class extends Controller {
         if (!name) {
             alert(this.transNotEmptyValue);
             return;
+        }
+
+        //Check if this name already exists
+        for (const template of this._templates) {
+            if (template.name === name) {
+                alert(this.transNameExistsValue);
+                return;
+            }
         }
 
         let data = this._serializeForm();

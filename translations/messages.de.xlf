@@ -2588,5 +2588,13 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
         <target>Wenn du eine Rechnung bezahlst, gib hier die Rechnungs- und Kundennummer (soweit vorhanden) an, sodass diese Daten korrekt im Überweisungszweck auftauchen und der Händler die Zahlung zuordnen kann.</target>
       </segment>
     </unit>
+    <unit id="6VYiXXd" name="payment_order.new.templates.name_already_used">
+      <segment>
+        <source>payment_order.new.templates.name_already_used</source>
+        <target>Es existiert bereits eine Vorlage mit diesem Namen!
+
+Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speichere eine neue unter diesem Namen.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
