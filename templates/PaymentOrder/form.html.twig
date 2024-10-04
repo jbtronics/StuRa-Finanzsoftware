@@ -85,12 +85,10 @@
 
                 <div class="input-group mb-3">
                     <input type="text" id="export_name" class="form-control" placeholder="{% trans %}payment_order.new.templates.export_name.placeholder{% endtrans %}" {{ stimulus_target('templates', 'new_name') }}>
-                    <span class="input-group-text">
-                        <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}"
-                                type="button" {{ stimulus_action('templates', 'saveTemplate') }}>{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
-                        <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}"
-                                type="button" {{ stimulus_action('templates', 'exportTemplate') }}>{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
-                    </span>
+                    <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}"
+                            type="button" {{ stimulus_action('templates', 'saveTemplate') }}>{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
+                    <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}"
+                            type="button" {{ stimulus_action('templates', 'exportTemplate') }}>{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
                 </div>
 
                 <div class="btn-group w-100 mb-3" role="group">
