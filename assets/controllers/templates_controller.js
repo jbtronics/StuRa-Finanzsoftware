@@ -52,8 +52,13 @@ export default class extends Controller {
     _serializeForm()
     {
         let data = {};
-        let inputs = this.element.querySelectorAll('input[data-json]');
+        let inputs = this.element.querySelectorAll('[data-json]');
         for (let input of inputs) {
+            //Synchronize tomselect if existing on this element
+            if (input.tomselect) {
+                input.tomselect.sync();
+            }
+
             //Only add the input to the data if it has a value
             if (input.value) {
                 data[input.dataset.json] = input.value;
@@ -70,9 +75,14 @@ export default class extends Controller {
     deserializeForm(data)
     {
         for (const [key, value] of Object.entries(data)) {
-            let input = this.element.querySelector(`input[data-json="${key}"]`);
+            let input = this.element.querySelector(`[data-json="${key}"]`);
             if (input) {
                 input.value = value;
+
+                //Synchronize tomselect if existing on this element
+                if (input.tomselect) {
+                    input.tomselect.sync();
+                }
             }
         }
     }
