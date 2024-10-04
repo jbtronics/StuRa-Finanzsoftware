@@ -3,6 +3,12 @@
 {% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i> {% trans %}payment_order.new{% endtrans %}{% endblock %}
 
 {% block head_javascripts %}
+    {# Only allow to upload PDF: change the accept filter of the file input, as soon as the DOM is available #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('payment_order_references_file_file').accept = '.pdf';
+        });
+    </script>
 {% endblock %}
 
 {% block card_content %}
