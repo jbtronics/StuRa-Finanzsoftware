@@ -26,6 +26,16 @@ export default class extends Controller {
         }
 
         console.debug("Found templates: ", this._templates.length);
+
+        //Try to migrate old templates to new system
+        for (const template of this._templates) {
+            //Merge first and last name into the new submitter_name field
+            if (template['first_name'] || template['last_name']) {
+                template['submitter_name'] = `${template['first_name']} ${template['last_name']}`;
+                delete template['first_name'];
+                delete template['last_name'];
+            }
+        }
     }
 
 
