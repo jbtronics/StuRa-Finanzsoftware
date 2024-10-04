@@ -92,11 +92,6 @@ class PaymentOrderType extends AbstractType
             ],
         ]);
 
-        $builder->add('fsr_kom_resolution', CheckboxType::class, [
-            'label' => 'payment_order.fsr_kom.label',
-            'required' => false,
-        ]);
-
 
         $builder->add('resolution_date', DateType::class, [
             'label' => 'payment_order.resolution_date.label',
