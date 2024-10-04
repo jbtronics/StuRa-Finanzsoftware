@@ -3,142 +3,6 @@
 {% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i> {% trans %}payment_order.new{% endtrans %}{% endblock %}
 
 {% block head_javascripts %}
-    <script>
-
-        /* function to save JSON to file from browser
-       * adapted from http://bgrins.github.io/devtools-snippets/#console-save
-       * @param {Object} data -- json object to save
-       * @param {String} file -- file name to save to
-       */
-        function saveJSON(data, filename){
-            if(!data) {
-                console.error('No data')
-                return;
-            }
-
-            if(!filename) filename = 'console.json'
-
-            if(typeof data === "object"){
-                data = JSON.stringify(data, undefined, 4)
-            }
-
-            var blob = new Blob([data], {type: 'text/json'}),
-                e    = document.createEvent('MouseEvents'),
-                a    = document.createElement('a')
-
-            a.download = filename
-            a.href = window.URL.createObjectURL(blob)
-            a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
-            e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-            a.dispatchEvent(e)
-        }
-
-        function deserializeForm(data)
-        {
-            for (var prop in data) {
-                if(prop === 'department') {
-                    //Update selected department
-                    $("#payment_order_department").val(data[prop]).selectpicker("render");
-                } else {
-                    $("input[data-json='" + prop + "']").val(data[prop]);
-                }
-            }
-        }
-
-        function serializeForm()
-        {
-            var data = {};
-
-            $("[data-json]").each(function(index) {
-                var key = $(this).data('json');
-                var value = $(this).val();
-
-                data[key] = value;
-            });
-
-            return data;
-        }
-
-        function exportJSON() {
-            var data = serializeForm();
-            var name = $("#export_name").val();
-            if(!name) {
-                alert("{% trans %}payment_order.new.templates.not_allowed_to_be_empty{% endtrans %}");
-                return;
-            }
-
-            saveJSON(data, name + '.json');
-        }
-
-        function importJSON() {
-            const fileSelector = document.getElementById('fileSelect');
-            fileSelector.addEventListener('change', (event) => {
-                var file = document.getElementById('fileSelect').files[0];
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var content = e.target.result;
-                    deserializeForm(JSON.parse(content));
-                }
-                reader.readAsText(file);
-            });
-
-            fileSelector.click();
-        }
-
-        function saveTemplate() {
-            var templates = localStorage.getItem('payment_order_templates') == null ? [] : JSON.parse(localStorage.getItem('payment_order_templates'));
-
-            var name = $("#export_name").val();
-            if(!name) {
-                alert("{% trans %}payment_order.new.templates.not_allowed_to_be_empty{% endtrans %}");
-                return;
-            }
-            templates.push({
-                name: name,
-                data: serializeForm(),
-            });
-            localStorage.setItem('payment_order_templates', JSON.stringify(templates));
-            updateTemplateList();
-        }
-
-        function loadTemplate(json_string) {
-            deserializeForm(JSON.parse(json_string));
-        }
-
-        function removeTemplate(index) {
-            var templates = localStorage.getItem('payment_order_templates') == null ? [] : JSON.parse(localStorage.getItem('payment_order_templates'));
-            if(confirm("{% trans %}payment_order.new.templates.remove_confirm{% endtrans %}")) {
-                templates[index] = undefined;
-                localStorage.setItem('payment_order_templates', JSON.stringify(templates));
-                updateTemplateList();
-            }
-        }
-
-        function updateTemplateList() {
-            var templates = localStorage.getItem('payment_order_templates');
-            if (templates) {
-                templates = JSON.parse(templates);
-                var $menu = $('#templates_menu');
-                var $delete_menu = $('#templates_delete_menu');
-                $menu.html("");
-                $delete_menu.html("");
-                for (var index in templates) {
-                    if (!templates[index]) continue;
-                    var button = $("<button class='dropdown-item' type='button'>" + templates[index].name + "</button>");
-                    button.attr("onclick", "loadTemplate('" + JSON.stringify(templates[index]['data']) + "');");
-                    $menu.append(button);
-
-                    var delete_button = $("<button class='dropdown-item' type='button'>" + templates[index].name + "</button>");
-                    delete_button.attr("onclick", "removeTemplate(" + index + ");");
-                    $delete_menu.append(delete_button);
-                }
-            }
-        }
-
-        window.addEventListener('load', updateTemplateList, false);
-
-    </script>
-
 {% endblock %}
 
 {% block card_content %}
@@ -153,7 +17,7 @@
 
     {{ form_errors(form) }}
 
-    <div class="row" {{ stimulus_controller('templates') }}>
+    <div class="row" {{ stimulus_controller('templates', {"transNotEmpty": "payment_order.new.templates.not_allowed_to_be_empty"|trans, "transDeleteConfirm": "payment_order.new.templates.remove_confirm"|trans}) }}>
 
         <div class="col-sm-6">
             {# "Auftraggeberin" section #}
@@ -221,10 +85,12 @@
                 <legend>{% trans %}payment_order.new.templates.caption{% endtrans %}</legend>
 
                 <div class="input-group mb-3">
-                    <input type="text" id="export_name" class="form-control" placeholder="{% trans %}payment_order.new.templates.export_name.placeholder{% endtrans %}">
+                    <input type="text" id="export_name" class="form-control" placeholder="{% trans %}payment_order.new.templates.export_name.placeholder{% endtrans %}" {{ stimulus_target('templates', 'new_name') }}>
                     <span class="input-group-text">
-                        <button class="btn btn-outline-secondary" onclick="saveTemplate();" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
-                        <button class="btn btn-outline-secondary" onclick="exportJSON();" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}" type="button">{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
+                        <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.save_template.title{% endtrans %}"
+                                type="button" {{ stimulus_action('templates', 'saveTemplate') }}>{% trans %}payment_order.new.templates.save_template{% endtrans %}</button>
+                        <button class="btn btn-outline-secondary" title="{% trans %}payment_order.new.templates.download_template.title{% endtrans %}"
+                                type="button" {{ stimulus_action('templates', 'exportTemplate') }}>{% trans %}payment_order.new.templates.download_template{% endtrans %}</button>
                     </span>
                 </div>
 
