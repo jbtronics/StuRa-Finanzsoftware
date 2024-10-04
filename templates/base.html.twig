@@ -7,16 +7,20 @@
 
     <title>{% block title %}StuRa Finanzanträge{% endblock %}</title>
 
+    {# Darkmode javascript, which is invoked, at beginning of page load to avoid flicker #}
+    <script>
+        const darkmode =localStorage.getItem('darkmode') ?? 'auto'
+        if (darkmode === 'dark' || (darkmode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+        }
+    </script>
+
     {% block importmap %}{{ importmap('frontend') }}{% endblock %}
 
     {% block stylesheets %}
-        <!-- Bootstrap CSS -->
-        {# <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.css") }}">
-        <link rel="stylesheet" href="{{ asset("assets/css/bootstrap-select.css") }}">
-        <link rel="stylesheet" href="{{ asset('styles.css') }}">
-
-        <link rel="stylesheet" href="{{ asset("assets/css/fa-all.css") }}"> #}
     {% endblock %}
+
+
 
     {% block head_javascripts %}
 
