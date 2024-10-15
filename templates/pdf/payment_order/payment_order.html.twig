@@ -16,7 +16,8 @@
 {% endblock %}
 
 {% block header %}
-    {{ paymentOrder.iDString }}
+    <span style="float: left;">Zahlungsauftrag <b>{{ paymentOrder.iDString }}</b></span>
+    <span style="float: right;">Formular erzeugt {{ "now"|format_datetime("short") }}</span>
 {% endblock %}
 
 {% block content %}
