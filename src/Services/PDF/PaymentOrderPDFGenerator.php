@@ -29,11 +29,25 @@ use TCPDF;
  */
 class PaymentOrderPDFGenerator
 {
+    public function __construct(private readonly TwigPDFRenderer $PDFRenderer)
+    {
+    }
+
+    public function generatePDF(PaymentOrder $paymentOrder): string
+    {
+        $context = [
+            'paymentOrder' => $paymentOrder,
+        ];
+
+        return $this->PDFRenderer->renderTemplate('pdf/payment_order/payment_order.html.twig', $context);
+    }
+
+
     /**
      * Generates a PDF from the given PaymentOrder.
      * The raw PDF content is returned as string.
      */
-    public function generatePDF(PaymentOrder $paymentOrder): string
+    public function generatePDFOld(PaymentOrder $paymentOrder): string
     {
         if (null === $paymentOrder->getDepartment()) {
             throw new LogicException('$paymentOrder must have an associated department!');

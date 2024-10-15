@@ -1,0 +1,19 @@
+{% extends "pdf/base.html.twig" %}
+
+{% block body %}
+    <header class="header-line">
+        {% block header %}{% endblock %}
+    </header>
+
+    {% block before_main %}{% endblock %}
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    {% block after_main %}{% endblock %}
+
+    <footer class="footer-line">
+        {% block footer %}{% endblock %}
+    </footer>
+{% endblock %}

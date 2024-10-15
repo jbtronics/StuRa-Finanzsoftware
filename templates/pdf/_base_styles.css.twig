@@ -1,0 +1,139 @@
+@page {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*font-family: "DejaVu Sans";*/
+    font-family: 'Roboto Condensed';
+}
+
+main {
+    margin: 10mm 10mm;
+}
+
+div.page-third1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 210mm;
+    height: 105mm;
+    padding: 5mm 22mm;
+}
+
+div.page-third2 {
+    position: fixed;
+    top: 105mm;
+    left: 0;
+    width: 210mm;
+    height: 100mm;
+    padding: 5mm 22mm;
+}
+
+div.page-third3 {
+    position: fixed;
+    top: 205mm;
+    left: 0;
+    width: 210mm;
+    height: 92mm;
+    padding: 5mm 22mm;
+}
+
+div.fold-mark {
+    position: fixed;
+    top: 105mm;
+    left: 4mm;
+    width: 4mm;
+    height: 0;
+    border: 0;
+    border-top: 0.1mm solid black;
+}
+
+div.fold-mark2 {
+    position: fixed;
+    top: 205mm;
+    left: 4mm;
+    width: 4mm;
+    height: 0;
+    border: 0;
+    border-top: 0.1mm solid black;
+}
+
+div.center-mark {
+    position: fixed;
+    top: calc(297mm/2);
+    left: 4mm;
+    width: 6mm;
+    height: 0;
+    border: 0;
+    border-top: 0.1mm solid black;
+}
+
+header.header-line {
+    position: absolute;
+    top: 5mm;
+    left: 0;
+    font-size: 9pt;
+    color: darkgray;
+    padding-right: 25mm;
+    padding-left: 20mm;
+}
+
+footer.footer-line {
+    position: fixed;
+    bottom: 10mm;
+    left: 0;
+    font-size: 9pt;
+
+    color: #848484;
+    padding-right: 25mm;
+    padding-left: 15mm;
+}
+
+.hint-text {
+    color: #848484;
+    font-size: 6pt;
+    font-weight: lighter;
+}
+
+.border {
+    border: solid 0.3mm black;
+    padding: 0 3mm;
+}
+
+div.address-field {
+    position: absolute;
+    top: 45mm;
+    left: 17mm;
+    height: 45mm;
+    width: 85mm;
+    font-size: 11pt;
+    line-height: 1.0;
+}
+
+div.address-field > div.return-address-zone {
+    position: absolute;
+    top: 2mm;
+    left: 5mm;
+    width: 80mm;
+    height: 5mm;
+    font-size: 7pt;
+    border-bottom: 0.2mm solid black;
+
+}
+
+div.address-field > div.comment-zone {
+    position: absolute;
+    top: 5mm;
+    left: 5mm;
+    width: 80mm;
+    height: 12.7mm;
+}
+
+div.address-field > div.address-zone {
+    position: absolute;
+    top: 12.0mm;
+    left: 5mm;
+    width: 80mm;
+    height: 27.3mm;
+}
