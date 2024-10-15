@@ -41,14 +41,14 @@
             <td>{{ paymentOrder.department.name }}</td>
         </tr>
 
-        <br>
+        <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Projektbezeichnung:</td>
             <td>{{ paymentOrder.projectName }}</td>
         </tr>
 
-        <br>
+        <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Mittelfreigabe / Finanzantrag:</td>
@@ -67,7 +67,7 @@
             <td>{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
         </tr>
 
-        <br>
+        <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Zahlungsempfänger*in:</td>
@@ -78,7 +78,7 @@
             <td>{{ paymentOrder.bankInfo.address }}</td>
         </tr>
 
-        <br>
+        <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>IBAN:</td>
