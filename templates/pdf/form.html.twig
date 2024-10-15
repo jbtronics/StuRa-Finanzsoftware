@@ -1,10 +1,28 @@
 {% extends "pdf/header_footer.html.twig" %}
 
+{% block styles %}
+    {{ parent() }}
+    {{ include("pdf/_form_styles.css.twig") }}
+{% endblock %}
+
 {% block main %}
 
+
+
+    {# Marks on the sides for center and folding #}
     <div class="fold-mark"></div>
     <div class="center-mark"></div>
     <div class="fold-mark2"></div>
+
+    <aside style="float: right;">
+        <div style="line-height: 0.8; display: inline-block;">
+            <b>Studierendenschaft der FSU Jena</b><br>
+            Finanzen des Studierendenrates<br>
+            Carl-Zeiss-Straße 3<br>
+            07743 Jena
+        </div>
+        <img style="height: 20mm;" src="{{ include('pdf/StuRa-Logo.svg.base64') }}">
+    </aside>
 
     {% block content %}
 

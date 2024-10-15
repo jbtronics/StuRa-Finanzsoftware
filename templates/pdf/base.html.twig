@@ -7,6 +7,10 @@
     </style>
 </head>
 <body>
+
+{# Load some umlauts hiddenly, this prevents ß to be rendered as ?? later #}
+<span style="display: none;">äöüß</span>
+
 {% block body %}{% endblock body %}
 </body>
 </html>

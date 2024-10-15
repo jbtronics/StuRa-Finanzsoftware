@@ -1,13 +1,33 @@
 {% extends "pdf/form.html.twig" %}
+{% import "pdf/payment_order/confirmations.macro.twig" as confirmations %}
 
 {# @var paymentOrder \App\Entity\PaymentOrder #}
+
+{% block title %}
+    Zahlungsauftrag {{ paymentOrder.iDString }}
+{% endblock %}
 
 {% block header %}
     {{ paymentOrder.iDString }}
 {% endblock %}
 
 {% block content %}
-    <h1>Test</h1>
+    {# Title section #}
+    <p style="line-height: 1.0; font-weight: normal; margin-top: 0;">
+        <span style="font-size: 14pt; color: #848484;">Zahlungsauftrag</span><br>
+        <b style="font-size: 26pt;">{{ paymentOrder.iDString }}</b><br>
+        <i style="font-size: 13pt;">{{ paymentOrder.projectName|u.truncate(50)  }}</i>
+    </p>
 
-    {{ paymentOrder.iDString }}
+    {# Data section #}
+
+    {# Confirmation section #}
+    <hr>
+    <h3 style="margin: 0;">Bestätigungen ({{ paymentOrder.numberOfConfirmations }} / {{ paymentOrder.requiredConfirmations }})</h3>
+
+    {{ confirmations.confirmation_signature(paymentOrder.confirmation1) }}
+    {% if paymentOrder.requiredConfirmations > 1 %}
+        {{ confirmations.confirmation_signature(paymentOrder.confirmation2) }}
+    {% endif %}
+
 {% endblock %}
