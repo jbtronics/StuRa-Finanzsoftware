@@ -1,3 +1,10 @@
+:root {
+    --body-margin-left: 20mm;
+    --body-margin-right: 20mm;
+    --body-margin-top: 20mm;
+    --body-margin-bottom: 15mm;
+}
+
 @page {
     margin: 0;
     padding: 0;
@@ -10,7 +17,7 @@ body {
 }
 
 main {
-    margin: 17mm 15mm;
+    margin: var(--body-margin-top) var(--body-margin-right) var(--body-margin-bottom) var(--body-margin-left);
 }
 
 div.page-third1 {
@@ -72,9 +79,9 @@ div.center-mark {
 
 header.header-line {
     position: absolute;
-    top: 5mm;
-    left: 15mm;
-    right: 15mm;
+    top: 8mm;
+    left: var(--body-margin-left);
+    right: var(--body-margin-right);
     font-size: 9pt;
     color: #848484;
     padding-right: 0;
@@ -82,13 +89,11 @@ header.header-line {
 
 footer.footer-line {
     position: fixed;
-    bottom: 10mm;
-    left: 0;
+    bottom: 8mm;
+    left: var(--body-margin-left);
+    right: var(--body-margin-right);
     font-size: 9pt;
-
     color: #848484;
-    padding-right: 15mm;
-    padding-left: 15mm;
 }
 
 .hint-text {
