@@ -3,6 +3,14 @@
 
 {# @var paymentOrder \App\Entity\PaymentOrder #}
 
+{% macro valOrNull(value) %}
+    {% if value %}
+        {{ value }}
+    {% else %}
+        -
+    {% endif %}
+{% endmacro %}
+
 {% block title %}
     Zahlungsauftrag {{ paymentOrder.iDString }}
 {% endblock %}
@@ -20,10 +28,73 @@
     </p>
 
     {# Data section #}
+    <hr>
+
+    <table class="table-form">
+        <tr>
+            <td>Name Auftraggeber:</td>
+            <td>{{ paymentOrder.submitterName }}</td>
+        </tr>
+        <tr>
+            <td>Struktur:</td>
+            <td>{{ paymentOrder.department.name }}</td>
+        </tr>
+
+        <br>
+
+        <tr>
+            <td>Projektbezeichnung:</td>
+            <td>{{ paymentOrder.projectName }}</td>
+        </tr>
+
+        <br>
+
+        <tr>
+            <td>Mittelfreigabe / Finanzantrag:</td>
+            <td>{{ _self.valOrNull(paymentOrder.fundingId) }} {% if paymentOrder.resolutionDate %}({{ paymentOrder.resolutionDate | format_date }}){% endif %}</td>
+        </tr>
+        <tr>
+            <td>Gesamtbetrag:</td>
+            <td>{{ (paymentOrder.amount/100) | format_currency("EUR") }}</td>
+        </tr>
+        <tr>
+            <td>Unterstützende Mittelfreigabe:</td>
+            <td>{{ _self.valOrNull(paymentOrder.supportingFundingId) }} (TODO Beschlussdatum)</td>
+        </tr>
+        <tr>
+            <td>Unterstützter Betrag:</td>
+            <td>{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
+        </tr>
+
+        <br>
+
+        <tr>
+            <td>Zahlungsempfänger*in:</td>
+            <td>{{ paymentOrder.bankInfo.accountOwner }}</td>
+        </tr>
+        <tr>
+            <td>Anschrift:</td>
+            <td>{{ paymentOrder.bankInfo.address }}</td>
+        </tr>
+
+        <br>
+
+        <tr>
+            <td>IBAN:</td>
+            <td>{{ paymentOrder.bankInfo.iban }}</td>
+        </tr>
+        <tr>
+            <td>Verwendungszweck:</td>
+            <td>{{ paymentOrder.bankInfo.reference }}</td>
+        </tr>
+
+    </table>
+
 
     {# Confirmation section #}
     <hr>
     <h3 style="margin: 0;">Bestätigungen ({{ paymentOrder.numberOfConfirmations }} / {{ paymentOrder.requiredConfirmations }})</h3>
+    <span>Eingereicht: {{ paymentOrder.creationDate | format_datetime("short") }}</span>
 
     {{ confirmations.confirmation_signature(paymentOrder.confirmation1) }}
     {% if paymentOrder.requiredConfirmations > 1 %}

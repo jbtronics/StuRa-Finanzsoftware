@@ -8,7 +8,7 @@
 {% macro confirmation_signature(confirmation) %}
     {# @var confirmation \App\Entity\Embeddable\Confirmation #}
     {% if confirmation.confirmed %}
-        {{ _self.signature("Bestätigt, " ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName) }}
+        {{ _self.signature("Bestätigt: " ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName) }}
     {% else %}
         {{ _self.signature("Datum", "Unterschrift") }}
     {% endif %}
