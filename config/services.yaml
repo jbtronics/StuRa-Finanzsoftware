@@ -67,15 +67,6 @@ services:
             $fsr_kom_bank_account_id: '%app.fsr_kom_account_id%'
 
 
-    # Workaround for a issue with auditor bundle (see https://github.com/DamienHarper/auditor-bundle/issues/228)
-    DH\Auditor\Provider\Doctrine\Auditing\Transaction\TransactionManager:
-        arguments: [ '@DH\Auditor\Provider\Doctrine\DoctrineProvider' ]
-
-    DH\Auditor\Provider\Doctrine\Auditing\Event\DoctrineSubscriber:
-        arguments: [ '@DH\Auditor\Provider\Doctrine\Auditing\Transaction\TransactionManager' ]
-        tags:
-            - { name: doctrine.event_subscriber }
-
     dh_auditor.anonymized_security_provider:
         class: 'App\Audit\AnonymizedIPSecurityProvider'
         arguments:
