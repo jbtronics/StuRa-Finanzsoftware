@@ -4,6 +4,12 @@
 {% block page_title 'dashboard.title'|trans %}
 
 {% block page_content %}
+    {% if not is_productive %}
+        <div class="alert alert-warning rounded mb-2">
+            <h1>Testumgebung. Kein produktiver Betrieb! Nicht für echte Eingaben verwenden!</h1>
+        </div>
+    {% endif %}
+
     <div class="alert alert-info rounded">
         <h1>{% trans %}dashboard.welcome{% endtrans %}</h1>
         <h4>{% trans %}dashboard.explanation{% endtrans %}</h4>
