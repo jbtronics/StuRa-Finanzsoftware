@@ -1,12 +1,15 @@
 {% extends "mails/base_mail.html.twig" %}
 
 {# @var payment_order \App\Entity\PaymentOrder #}
+{# @var confirmer \App\Entity\Confirmer #}
 
 {% block content %}
     <row>
         <columns>
             <h4>{% trans %}payment_order.confirmation_mail.title{% endtrans %}</h4>
             <br>
+            Hallo {{ confirmer.name }},
+            <br><br>
             <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email} %}payment_order.confirmation_mail.info{% endtrans %}</p>
 
             <callout class="secondary">
@@ -40,7 +43,13 @@
 
             <br>
 
-            <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email } %}payment_order.confirmation_mail.why{% endtrans %}</p>
+            <p>Diese Mail ist nur für dich, {{ confirmer.name }} ({{ confirmer.email }}), bestimmt. Leite diese an niemanden weiter,
+            da ansonsten Aktionen in deinem Namen durchgeführt werden können. Die anderen Finanzverantwortlichen deiner Strukturen
+            erhalten alle ihre individuelle E-Mail.</p>
+
+            <p>Du erhältst diese E-Mail, da du als Finanzverantwortlichen für den oben genannten FSR / Referat eingetragen bist.
+            Sollte dies nicht stimmen, melde dich bitte bei <a href="mailto:{{ hhv_email }}">{{ hhv_email }}</a>
+            </p>
 
         </columns>
     </row>
