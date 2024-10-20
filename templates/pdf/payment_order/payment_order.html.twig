@@ -22,10 +22,10 @@
 
 {% block content %}
     {# Title section #}
-    <p style="line-height: 1.0; font-weight: normal; margin-top: 0;">
+    <p style="line-height: 1.0; font-weight: normal; margin-top: 0; margin-bottom: 1mm;">
         <span style="font-size: 14pt; color: #848484;">Zahlungsauftrag</span><br>
         <b style="font-size: 26pt;">{{ paymentOrder.iDString }}</b><br>
-        <i style="font-size: 13pt;">{{ paymentOrder.projectName|u.truncate(50)  }}</i>
+        <i style="font-size: 13pt;">{{ paymentOrder.projectName|u.truncate(60)  }}</i>
     </p>
 
     {# Data section #}
@@ -105,5 +105,11 @@
     {% if paymentOrder.requiredConfirmations > 1 %}
         {{ confirmations.confirmation_signature(paymentOrder.confirmation2) }}
     {% endif %}
+{% endblock %}
 
+{% block footer %}
+    <p style="margin: 0;">
+       Fettgedruckte Werte weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
+        Die letzte Änderung erfolgte <i>TODO Datum</i> durch <i>TOOD Finanzername</i>.
+    </p>
 {% endblock %}

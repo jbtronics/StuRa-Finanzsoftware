@@ -16,6 +16,7 @@ parameters:
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
     app.notifications_risky: '%env(csv:NOTIFICATIONS_RISKY)%'
     app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
+    app.is_productive: '%env(bool:IS_PRODUCTIVE)%'
 
 services:
     # default configuration for services in *this* file
