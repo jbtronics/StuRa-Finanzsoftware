@@ -12,27 +12,7 @@
             <br><br>
             <p>{% trans with {'%fsb_email%': payment_order.department.fsr ? fsb_email : hhv_email} %}payment_order.confirmation_mail.info{% endtrans %}</p>
 
-            <callout class="secondary">
-                <row>
-                    <columns>
-                        <p>
-                            <b>{% trans %}payment_order.notification_user.department{% endtrans %}: </b> {{ payment_order.department.name }}
-                        </p>
-                        <p>
-                            <b>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </b> {{ payment_order.projectName }}
-                        </p>
-                        <p>
-                            <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amountString }} €
-                        </p>
-                        <p>
-                            <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
-                        </p>
-                        <p>
-                            <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> {{ payment_order.iDString }}
-                        </p>
-                    </columns>
-                </row>
-            </callout>
+            {% include "mails/_payment_order_table.html.twig" %}
 
             <p>{% trans %}payment_order.confirmation_email.vpn_hint{% endtrans %}</p>
 
