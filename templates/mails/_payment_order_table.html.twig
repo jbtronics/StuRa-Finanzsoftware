@@ -1,20 +1,24 @@
 <callout class="secondary">
     <row>
         <columns>
+            <h5>{{ payment_order.iDString }}</h5>
             <p>
-                <b>{% trans %}payment_order.notification_user.department{% endtrans %}: </b> {{ payment_order.department.name }}
+                <b>Struktur: </b> {{ payment_order.department.name }}
             </p>
             <p>
                 <b>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </b> {{ payment_order.projectName }}
             </p>
             <p>
-                <b>{% trans %}payment_order.notification_user.amount{% endtrans %}: </b> {{ payment_order.amountString }} €
+                <b>Gesamtbetrag: </b> {{ payment_order.amountString }} € {% if payment_order.fundingId is not empty %}({{ payment_order.fundingId }}) {% endif %}
+            </p>
+            <p>
+                <b>Zahlungsempfänger</b>: {{ payment_order.bankInfo.accountOwner }}
+            </p>
+            <p>
+                <b>Name Auftraggeber</b>: {{ payment_order.submitterName }}
             </p>
             <p>
                 <b>{% trans %}payment_order.notification_user.datetime{% endtrans %}</b> {{ payment_order.creationDate | format_datetime }}
-            </p>
-            <p>
-                <b>{% trans %}payment_order.notification_user.id{% endtrans %}: </b> {{ payment_order.iDString }}
             </p>
         </columns>
     </row>
