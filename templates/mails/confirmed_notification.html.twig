@@ -1,0 +1,26 @@
+{% extends "mails/base_mail.html.twig" %}
+
+{# @var payment_order \App\Entity\PaymentOrder #}
+
+{% block content %}
+    <row>
+        <columns>
+            <h4>Zahlungsauftrag {{ payment_order.iDString }} bestätigt</h4>
+            <br>
+
+            <p>Untenstehender Zahlungsauftrag wurde durch euch bestätigt. Bitte druckt das angehängte Formular aus
+            und unterschreibt es. Anschließend gebt es zusammen mit allen nicht digital vorliegenden Originalbelegen
+            bei den StuRa-Finanzen ab, damit der Auftrag weiter bearbeitet werden kann!</p>
+
+            {% include "mails/_payment_order_table.html.twig" %}
+
+            <br>
+
+            <p>Du erhältst diese E-Mail, da du als Finanzverantwortlichen für den oben genannten FSR / Referat eingetragen bist.
+                Sollte dies nicht stimmen, melde dich bitte bei <a href="mailto:{{ hhv_email }}">{{ hhv_email }}</a>
+            </p>
+
+        </columns>
+    </row>
+
+{% endblock %}

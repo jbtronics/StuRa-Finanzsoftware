@@ -21,16 +21,19 @@ namespace App\Event;
 use App\Entity\PaymentOrder;
 use Symfony\Contracts\EventDispatcher\Event;
 
-final class PaymentOrderSubmittedEvent extends Event
+/**
+ * This event is triggered if an payment order was submitted.
+ */
+final class PaymentOrderSubmittedEvent extends Event implements PaymentOrderEventInterface
 {
     public const NAME = 'payment_order.submitted';
 
-    public function __construct(private readonly PaymentOrder $payment_order)
+    public function __construct(private readonly PaymentOrder $paymentOrder)
     {
     }
 
     public function getPaymentOrder(): PaymentOrder
     {
-        return $this->payment_order;
+        return $this->paymentOrder;
     }
 }

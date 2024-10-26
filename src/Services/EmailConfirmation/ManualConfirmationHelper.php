@@ -21,7 +21,7 @@ namespace App\Services\EmailConfirmation;
 use App\Entity\Embeddable\Confirmation;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
-use Carbon\Carbon;
+use App\Event\PaymentOrderConfirmedEvent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
@@ -41,7 +41,8 @@ final readonly class ManualConfirmationHelper
         private MailerInterface $mailer,
         array $notifications_risky,
         private string $fsb_email,
-        private string $hhv_email
+        private string $hhv_email,
+        private readonly \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher,
     )
     {
         $this->notifications_risky = array_filter($notifications_risky);
@@ -77,6 +78,10 @@ final readonly class ManualConfirmationHelper
         if ($paymentOrder->getRequiredConfirmations() > 1) {
             $this->performConfirmationIfNeeded($paymentOrder->getConfirmation2(), $reason, $user);
         }
+
+        //Trigger the confirmed event
+        $event = new PaymentOrderConfirmedEvent($paymentOrder);
+        $this->eventDispatcher->dispatch($event);
     }
 
     private function performConfirmationIfNeeded(Confirmation $confirmation, string $reason, User $user): void

@@ -21,6 +21,7 @@ namespace App\Controller;
 use App\Audit\UserProvider;
 use App\Entity\ConfirmationToken;
 use App\Entity\PaymentOrder;
+use App\Event\PaymentOrderConfirmedEvent;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Form\PaymentOrderConfirmationType;
 use App\Form\PaymentOrderType;
@@ -55,12 +56,13 @@ final class PaymentOrderController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $messageBus,
         private readonly ConfirmationHelper $confirmationHelper,
+        private readonly EventDispatcherInterface $eventDispatcher
     )
     {
     }
 
     #[Route(path: '/new', name: 'payment_order_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $dispatcher,
+    public function new(Request $request, EntityManagerInterface $entityManager,
         PaymentReferenceGenerator $paymentReferenceGenerator, RateLimiterFactory $paymentOrderSubmitLimiter): Response
     {
         $limiter = $paymentOrderSubmitLimiter->create($request->getClientIp());
@@ -131,7 +133,7 @@ final class PaymentOrderController extends AbstractController
 
                     //Dispatch event so an email can be sent
                     $event = new PaymentOrderSubmittedEvent($new_order);
-                    $dispatcher->dispatch($event, $event::NAME);
+                    $this->eventDispatcher->dispatch($event, $event::NAME);
 
                     //Redirect to homepage, if no further paymentOrders should be submitted
                     //Otherwise create a new form for further ones
@@ -173,8 +175,7 @@ final class PaymentOrderController extends AbstractController
 
     private function copyProperties(PaymentOrder $source, PaymentOrder $target): void
     {
-        $target->setFirstName($source->getFirstName());
-        $target->setLastName($source->getLastName());
+        $target->setSubmitterName($source->getSubmitterName());
         $target->setSubmitterEmail($source->getSubmitterEmail());
         $target->setDepartment($source->getDepartment());
         $target->setBankInfo($source->getBankInfo());
@@ -292,6 +293,12 @@ final class PaymentOrderController extends AbstractController
 
             $this->entityManager->flush();
             $this->addFlash('success', 'payment_order.confirmation.success');
+
+            //If the payment order is now confirmed, trigger the event
+            if ($paymentOrder->isConfirmed()) {
+                $event = new PaymentOrderConfirmedEvent($paymentOrder);
+                $this->eventDispatcher->dispatch($event, $event::NAME);
+            }
 
             //Rerender form if it was confirmed, to apply the disabled state
             $form = $this->createForm(PaymentOrderConfirmationType::class, null, [
