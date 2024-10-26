@@ -1585,7 +1585,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="IX2p1z." name="payment_order.confirm.step_1">
       <segment>
         <source>payment_order.confirm.step_1</source>
-        <target>Haushaltsverantwortlicher / Bestätigung 1</target>
+        <target>Bestätigung 1</target>
       </segment>
     </unit>
     <unit id="ojac6uH" name="payment_order.name.label">

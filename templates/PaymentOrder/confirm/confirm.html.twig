@@ -1,10 +1,28 @@
 {% extends "main_card.html.twig" %}
 {% set confirmation_nr = 1 %}
 
+{% block title %}Bestätigung {{ entity.iDString }}{% endblock %}
+
+{% block card_type %}
+    {% if entity.confirmed %}
+        bg-success text-white
+    {% else %}
+        bg-primary text-white
+    {% endif %}
+{% endblock %}
+
+{% block card_border %}
+    {% if entity.confirmed %}
+        border-success
+    {% else %}
+        border-primary
+    {% endif %}
+{% endblock %}
+
 {% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i>
-    {% trans %}payment_order.confirm_title{% endtrans %}
-    #{{ entity.id }}
-    ({% if confirmation_nr == 1 %}{% trans %}payment_order.confirm.step_1{% endtrans %}{% else %}{% trans %}payment_order.confirm.step_2{% endtrans %}{% endif %})
+    Zahlungsauftrag
+    {{ entity.iDString }}
+    (<i>{% if entity.confirmed %}Bestätigt{% else %}Bestätigung {{ entity.numberOfConfirmations }} / {{ entity.requiredConfirmations }}{% endif %}</i>)
 {% endblock %}
 
 {% block prefix_content%}
