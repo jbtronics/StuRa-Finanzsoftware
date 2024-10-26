@@ -1627,7 +1627,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="U1gJ_hx" name="payment_order.confirm.title_3">
       <segment>
         <source>payment_order.confirm.title_3</source>
-        <target>Schritt 3: Zahlungsauftrag ausdrucken und unterschreiben</target>
+        <target>Schritt 3: Zahlungsauftrag bestätigen</target>
       </segment>
     </unit>
     <unit id="uXLM_xq" name="payment_order.confirm.step_2">
@@ -1681,7 +1681,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="9Csxh7g" name="payment_order.confirm.hint_1">
       <segment>
         <source>payment_order.confirm.hint_1</source>
-        <target><![CDATA[Prüfe ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Tabelle ein Fehler ist, bestätige den Auftrag keinesfalls und melde dich bitte ungehend bei <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
+        <target><![CDATA[Prüfe, ob die übermittelten Daten korrekt sind.<br> Wenn in der untenstehenden Informationen ein Fehler ist, bestätige den Auftrag keinesfalls und lösche den Zahlungsauftrag über untenstehenden Button. Bei Fragen melde dich bitte bei <a href="mailto:%fsb_email%">%fsb_email%</a>.]]></target>
       </segment>
     </unit>
     <unit id="w_Xc3Lt" name="payment_order.confirm.check1.label">
@@ -1693,7 +1693,7 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="t8gocrc" name="payment_order.confirm.hint_2">
       <segment>
         <source>payment_order.confirm.hint_2</source>
-        <target><![CDATA[Schaue dir die eingereichten Belege an und prüfe, ob sie den Zahlungsauftrag ausreichend begründen. <br><i>Wichtig ist, dass alle Belege bei euch im Original vorliegen!</i>]]></target>
+        <target><![CDATA[Schaue dir die eingereichten Belege an und prüfe, ob sie den Zahlungsauftrag ausreichend begründen. <br><i>Wichtig ist, dass alle Belege bei euch im Original vorliegen!</i>. <br>Alle nicht digital vorliegenden Belege müssen später beim StuRa eingereicht werden.]]></target>
       </segment>
     </unit>
     <unit id="dhI6VR7" name="payment_order.confirm.check2.label">
@@ -1705,7 +1705,8 @@ Geben Sie unten die Daten des Kontos an, von welchem das Geld überwiesen werden
     <unit id="M.gjN8U" name="payment_order.confirm.hint_3">
       <segment>
         <source>payment_order.confirm.hint_3</source>
-        <target>Drucke den unten stehenden Zahlungsauftrag aus, unterschreibe ihn und hefte ihn zu den Belegen ab.</target>
+        <target><![CDATA[Wenn alles korrekt ist, benutze untenstehendes Formular, um den Zahlungsauftrag in deinem Namen zu bestätigen.<br>
+Du kannst dort auch sehen, wie viele verschiedene Personen diesen Zahlungsauftrag bestätigen müssen, und ob bereits Bestätigungen vorliegen.]]></target>
       </segment>
     </unit>
     <unit id=".6wa._B" name="payment_order.confirm.check3.label">

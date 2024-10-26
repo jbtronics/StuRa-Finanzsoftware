@@ -1,7 +1,7 @@
 {% extends "main_card.html.twig" %}
 {% set confirmation_nr = 1 %}
 
-{% block title %}Bestätigung {{ entity.iDString }}{% endblock %}
+{% block title %}Zahlungsauftrag {{ entity.iDString }}{% endblock %}
 
 {% block card_type %}
     {% if entity.confirmed %}
@@ -30,15 +30,6 @@
 {% endblock %}
 
 {% block card_content %}
-
-    {#
-    {% if already_confirmed %}
-        <p>
-            <b class="text-danger">{% trans %}payment_order.confirmation.already_confirmed_hint{% endtrans %}</b>
-        </p>
-    {% endif %}
-    #}
-
 
     <h4>{% trans %}payment_order.confirm.title_1{% endtrans %}</h4>
     <p class="">
@@ -114,17 +105,37 @@
         <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_references{% endtrans %}
     </a>
 
-    <br>
+    <br><br>
     <h4>{% trans %}payment_order.confirm.title_3{% endtrans %}</h4>
 
     <p class="">
         {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_3{% endtrans %}
     </p>
-    <a href="{{ path('file_payment_order_form',
-        {'id': entity.id, 'secret': app.request.query.get('secret'), 'token': token.id}
-    ) }}" class="btn btn-secondary" target="_blank">
-        <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_form{% endtrans %}
-    </a>
+
+    <h4>Schritt 4: Auftragsformular ausdrucken und unterschreiben</h4>
+
+    <p>Sobald alle Bestätigungen vorliegen, erhältst du per E-Mail ein Zahlungsauftragsformular, dass ihr ausdruckt und unterschreibt.
+        Anschließend reicht ihr das unterschriebene Formular zusammen mit allen nicht digital vorliegenden Belegen bei den StuRa-Finanzen ein.</p>
+
+    {% if entity.confirmed %}
+        <p class="mb-1">Das Bestätigungsformular wurde erstellt und kann heruntergeladen werden:</p>
+
+        <a href="{{ path('file_payment_order_form',
+            {'id': entity.id, 'secret': app.request.query.get('secret'), 'token': token.id}
+        ) }}" class="btn btn-secondary" target="_blank">
+            <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_form{% endtrans %}
+        </a>
+    {% else %}
+        <p class="mb-1 text-danger"><b>Achtung: </b> Das endgültige Bestätigungsformular wurde noch nicht erstellt.
+            Bitte unterschreibe das Bestätigungsformular, dass du nach allen Bestätigungen per E-Mail erhältst, da dies
+            dann auch genaue Informationen über die Bestätigungen enthält.
+            Du kannst aber <a href="{{ path('file_payment_order_form',
+                {'id': entity.id, 'secret': app.request.query.get('secret'), 'token': token.id}
+            ) }}" target="_blank">
+                hier eine Vorschau herunterladen,
+            </a> um zu sehen, wie das Formular aussehen wird.
+        </p>
+    {% endif %}
 
 {% endblock %}
 
