@@ -22,8 +22,10 @@ use App\Entity\Embeddable\Confirmation;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Event\PaymentOrderConfirmedEvent;
+use App\Services\ReplyEmailDecisonMaker;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -40,9 +42,8 @@ final readonly class ManualConfirmationHelper
         private TranslatorInterface $translator,
         private MailerInterface $mailer,
         array $notifications_risky,
-        private string $fsb_email,
-        private string $hhv_email,
-        private readonly \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher,
+        private ReplyEmailDecisonMaker $replyEmailDecisonMaker,
+        private EventDispatcherInterface $eventDispatcher,
     )
     {
         $this->notifications_risky = array_filter($notifications_risky);
@@ -108,7 +109,7 @@ final readonly class ManualConfirmationHelper
         $email = new TemplatedEmail();
 
         $email->priority(Email::PRIORITY_HIGHEST);
-        $email->replyTo($paymentOrder->getDepartment()->isFSR() ? $this->fsb_email : $this->hhv_email);
+        $email->replyTo($this->replyEmailDecisonMaker->getReplyToMailForPaymentOrder($paymentOrder));
 
         $email->subject(
             $this->translator->trans(

@@ -21,6 +21,7 @@ namespace App\EventSubscriber;
 use App\Audit\UserProvider;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\PDF\PaymentOrderPDFGenerator;
+use App\Services\ReplyEmailDecisonMaker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,9 +40,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
-
-        private readonly string $fsb_email,
-        private readonly string $hhv_email,
+        private readonly ReplyEmailDecisonMaker $replyEmailDecisonMaker,
         private readonly bool $send_notifications,
         private array $notifications_bcc
     )
@@ -67,7 +66,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
             $email->addBcc(...$this->notifications_bcc);
         }
 
-        $email->replyTo($department->isFSR() ? $this->fsb_email : $this->hhv_email);
+        $email->replyTo($this->replyEmailDecisonMaker->getReplyToMailForPaymentOrder($payment_order));
 
         $email->priority(Email::PRIORITY_HIGH);
         $email->subject($this->translator->trans(
