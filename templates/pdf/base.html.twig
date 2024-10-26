@@ -1,0 +1,24 @@
+<html lang="de">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="author" content="StuRa-Zahlungsauftragssystem by Jan Böhmer">
+    <style>
+        {% include "pdf/_base_styles.css.twig" %}
+        {% block styles %}{% endblock styles %}
+    </style>
+</head>
+<body>
+
+{# Load some umlauts hiddenly, this prevents ß to be rendered as ?? later #}
+<span style="display: none;">äöüß</span>
+
+{% if not is_productive %}
+    <div class="watermark">
+        TESTING<br>
+        <small style="font-size: 64pt;">{{ app_version(true) }}</small>
+    </div>
+{% endif %}
+
+{% block body %}{% endblock body %}
+</body>
+</html>

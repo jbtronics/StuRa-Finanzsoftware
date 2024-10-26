@@ -16,6 +16,7 @@ parameters:
     app.notifications_bcc: '%env(csv:NOTIFICATIONS_BCC)%'
     app.notifications_risky: '%env(csv:NOTIFICATIONS_RISKY)%'
     app.fsr_kom_account_id: '%env(int:FSR_KOM_ACCOUNT_ID)%'
+    app.is_productive: '%env(bool:IS_PRODUCTIVE)%'
 
 services:
     # default configuration for services in *this* file
@@ -67,15 +68,6 @@ services:
             $fsr_kom_bank_account_id: '%app.fsr_kom_account_id%'
 
 
-    # Workaround for a issue with auditor bundle (see https://github.com/DamienHarper/auditor-bundle/issues/228)
-    DH\Auditor\Provider\Doctrine\Auditing\Transaction\TransactionManager:
-        arguments: [ '@DH\Auditor\Provider\Doctrine\DoctrineProvider' ]
-
-    DH\Auditor\Provider\Doctrine\Auditing\Event\DoctrineSubscriber:
-        arguments: [ '@DH\Auditor\Provider\Doctrine\Auditing\Transaction\TransactionManager' ]
-        tags:
-            - { name: doctrine.event_subscriber }
-
     dh_auditor.anonymized_security_provider:
         class: 'App\Audit\AnonymizedIPSecurityProvider'
         arguments:
@@ -97,6 +89,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Services\PDF\DompdfFactory:
+        arguments:
+            $fontDirectory: '%kernel.project_dir%/var/dompdf/fonts/'
+            $tmpDirectory: '%kernel.project_dir%/var/dompdf/tmp/'
 
 
 when@test:

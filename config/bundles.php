@@ -22,4 +22,5 @@ return [
     Jbtronics\TranslationEditorBundle\JbtronicsTranslationEditorBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
+    Jbtronics\DompdfFontLoaderBundle\DompdfFontLoaderBundle::class => ['all' => true],
 ];

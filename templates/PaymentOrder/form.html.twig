@@ -12,6 +12,12 @@
 {% endblock %}
 
 {% block card_content %}
+    {% if not is_productive %}
+        <div class="alert alert-warning">
+            Testumgebung. Kein produktiver Betrieb! Nicht für echte Eingaben verwenden!
+        </div>
+    {% endif %}
+
     <p class="text-muted">
         {% trans %}payment_order.new.hint{% endtrans %}<br>
         {% trans %}payment_order.new.star_hint{% endtrans %}<br>

@@ -142,13 +142,13 @@
     <unit id="3VFuvCg" name="department.blocked.label">
       <segment>
         <source>department.blocked.label</source>
-        <target>Blockiert</target>
+        <target>Gesperrt</target>
       </segment>
     </unit>
     <unit id="l6BhnYm" name="department.blocked.help">
       <segment>
         <source>department.blocked.help</source>
-        <target>Blockierte FSRe können keine Zahlungsaufträge einreichen und erhalten einen Hinweis den FSB zu kontaktieren.</target>
+        <target>Gesperrte FSRe können keine Zahlungsaufträge einreichen und erhalten einen Hinweis, den FSB zu kontaktieren.</target>
       </segment>
     </unit>
     <unit id="UzElk4s" name="department.label">

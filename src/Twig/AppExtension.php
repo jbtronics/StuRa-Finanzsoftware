@@ -18,14 +18,21 @@
 
 namespace App\Twig;
 
+use App\Services\GitVersionInfo;
 use Carbon\Carbon;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 final class AppExtension extends AbstractExtension
 {
-    public function __construct(private readonly RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack,
+        private readonly GitVersionInfo $gitVersionInfo,
+        #[Autowire(param: 'app.version')]
+        private readonly string $appVersion,
+    )
     {
     }
 
@@ -35,6 +42,23 @@ final class AppExtension extends AbstractExtension
             new TwigFilter('formatBytes', $this->formatBytes(...)),
             new TwigFilter('format_datetime_diff', $this->formatDatetimeDiff(...)),
         ];
+    }
+
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('app_version', $this->appVersion(...)),
+        ];
+    }
+
+    public function appVersion(bool $with_commit_number = false): string
+    {
+        $appVersion = $this->appVersion;
+        if ($with_commit_number) {
+            $appVersion .= '-'.$this->gitVersionInfo->getGitCommitHash();
+        }
+
+        return $appVersion;
     }
 
     public function formatDatetimeDiff(\DateTimeInterface|\Carbon\WeekDay|\Carbon\Month|string|int|float|null $dateTime, $other = null, array $options = [

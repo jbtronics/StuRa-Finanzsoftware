@@ -6,6 +6,8 @@ twig:
         fsb_email: '%app.fsb_email%'
         hhv_email: '%app.hhv_email%'
         locale_menu: ['de', 'en']
+        is_productive: '%app.is_productive%'
+
     file_name_pattern: '*.twig'
 
     paths:

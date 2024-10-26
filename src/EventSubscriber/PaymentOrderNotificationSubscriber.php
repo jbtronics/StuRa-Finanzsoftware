@@ -21,6 +21,7 @@ namespace App\EventSubscriber;
 use App\Audit\UserProvider;
 use App\Event\PaymentOrderSubmittedEvent;
 use App\Services\PDF\PaymentOrderPDFGenerator;
+use App\Services\ReplyEmailDecisonMaker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,11 +40,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
-        private readonly PaymentOrderPDFGenerator $paymentOrderPDFGenerator,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserProvider $userProvider,
-        private readonly string $fsb_email,
-        private readonly string $hhv_email,
+        private readonly ReplyEmailDecisonMaker $replyEmailDecisonMaker,
         private readonly bool $send_notifications,
         private array $notifications_bcc
     )
@@ -69,7 +66,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
             $email->addBcc(...$this->notifications_bcc);
         }
 
-        $email->replyTo($department->isFSR() ? $this->fsb_email : $this->hhv_email);
+        $email->replyTo($this->replyEmailDecisonMaker->getReplyToMailForPaymentOrder($payment_order));
 
         $email->priority(Email::PRIORITY_HIGH);
         $email->subject($this->translator->trans(
@@ -88,30 +85,12 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
         $this->mailer->send($email);
     }
 
-    public function generatePDF(PaymentOrderSubmittedEvent $event): void
-    {
-        $payment_order = $event->getPaymentOrder();
-        $pdf_content = $this->paymentOrderPDFGenerator->generatePDF($payment_order);
 
-        //Create temporary file
-        $tmpfname = tempnam(sys_get_temp_dir(), 'stura');
-        file_put_contents($tmpfname, $pdf_content);
-
-        $file = new UploadedFile($tmpfname, 'form.pdf', null, null, true);
-
-        $payment_order->setPrintedFormFile($file);
-
-        $this->userProvider->setManualUsername('[Automatic form generation]', UserProvider::INTERNAL_USER_IDENTIFIER);
-
-        //Save to database and let VichUploadBundle handle everything else (it will also remove the temp file)
-        $this->entityManager->flush();
-    }
 
     public static function getSubscribedEvents(): array
     {
         return [
             PaymentOrderSubmittedEvent::NAME => [
-                ['generatePDF', 10],
                 ['sendUserEmail', 0],
             ],
         ];

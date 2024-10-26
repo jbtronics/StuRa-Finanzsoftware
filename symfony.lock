@@ -159,6 +159,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.0"
     },
+    "jbtronics/dompdf-font-loader-bundle": {
+        "version": "v1.1.2"
+    },
     "jbtronics/translation-editor-bundle": {
         "version": "dev-master"
     },

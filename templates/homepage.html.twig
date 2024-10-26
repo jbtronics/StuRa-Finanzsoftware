@@ -1,6 +1,12 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
+    {% if not is_productive %}
+        <div class="alert alert-warning">
+            Testumgebung. Kein produktiver Betrieb! Nicht für echte Eingaben verwenden!
+        </div>
+    {% endif %}
+
     <div class="bg-body-tertiary p-5 rounded">
         <h1 class="fs-1">{% trans %}homepage.welcome{% endtrans %}</h1>
         <p class="fs-4">{% trans %}homepage.explaination{% endtrans %}</p>

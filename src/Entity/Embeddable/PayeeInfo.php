@@ -161,6 +161,14 @@ class PayeeInfo
     }
 
     /**
+     * @return string|null The IBAN formatted with spaces between every 4 characters.
+     */
+    public function getIbanFormatted(): string
+    {
+        return chunk_split($this->iban ?? '', 4, ' ');
+    }
+
+    /**
      * Returns the IBAN of the receivers bank account without spaces.
      * This is useful for SEPA exporter and other places where a IBAN in a machine-readable form is needed.
      */

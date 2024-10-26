@@ -21,6 +21,7 @@ namespace App\Services\EmailConfirmation;
 use App\Entity\ConfirmationToken;
 use App\Entity\Confirmer;
 use App\Entity\PaymentOrder;
+use App\Services\ReplyEmailDecisonMaker;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
@@ -41,8 +42,7 @@ final readonly class ConfirmationEmailSender
         private ConfirmationTokenGenerator $tokenGenerator,
         private EntityManagerInterface $entityManager,
         private TranslatorInterface $translator,
-        private string $fsb_email,
-        private string $hhv_email,
+        private ReplyEmailDecisonMaker $replyEmailDecisonMaker,
     )
     {
     }
@@ -156,7 +156,7 @@ final readonly class ConfirmationEmailSender
         $email = new TemplatedEmail();
 
         $email->priority(Email::PRIORITY_HIGH);
-        $email->replyTo($paymentOrder->getDepartment()->isFSR() ? $this->fsb_email : $this->hhv_email);
+        $email->replyTo($this->replyEmailDecisonMaker->getReplyToMailForPaymentOrder($paymentOrder));
 
         $email->subject(
             $this->translator->trans(
