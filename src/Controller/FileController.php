@@ -18,7 +18,9 @@
 
 namespace App\Controller;
 
+use App\Entity\ConfirmationToken;
 use App\Entity\PaymentOrder;
+use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +32,13 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  * @see \App\Tests\Controller\FileContollerTest
  */
 #[Route(path: '/file')]
-final class FileContoller extends AbstractController
+final class FileController extends AbstractController
 {
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
+
+    }
+
     #[Route(path: '/payment_order/{id}/form', name: 'file_payment_order_form')]
     public function paymentOrderForm(PaymentOrder $paymentOrder, DownloadHandler $downloadHandler, Request $request): Response
     {
@@ -73,27 +80,30 @@ final class FileContoller extends AbstractController
     private function checkPermission(PaymentOrder $paymentOrder, Request $request): void
     {
         //Check if a valid confirmation token was given, then give access without proper role
-        if ($request->query->has('token') && $request->query->has('confirm')) {
-            //Check if we have one of the valid confirm numbers
-            $confirm_step = $request->query->getInt('confirm');
-            if (1 !== $confirm_step && 2 !== $confirm_step) {
-                throw new RuntimeException('Invalid value for confirm! Expected 1 or 2');
+        if ($request->query->has('token') && $request->query->has('secret')) {
+            //Try to retrieve the token from DB
+            $token = $this->entityManager->find(ConfirmationToken::class , $request->query->get('token'));
+            if ($token === null) {
+                goto role_check;
             }
 
-            //Check if given token is correct for this step
-            $correct_token = 1 === $confirm_step ? $paymentOrder->getConfirm1Token() : $paymentOrder->getConfirm2Token();
-            if (null === $correct_token) {
-                throw new RuntimeException('This payment_order can not be confirmed! No token is set.');
+            //Check if the token is really for the payment order
+            if ($token->getPaymentOrder() !== $paymentOrder) {
+                goto role_check;
             }
 
-            $given_token = (string) $request->query->get('token');
-            if (password_verify($given_token, $correct_token)) {
+            //Check if the secret is correct
+            $secret_hash = $token->getHashedToken();
+
+            $given_secret = (string) $request->query->get('secret');
+            if (password_verify($given_secret, $secret_hash)) {
                 //If password is correct, skip role checking.
                 return;
             }
         }
 
-        //If we dont return anywhere before, we has to check the user roles
-        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+        role_check:
+            //If we dont return anywhere before, we has to check the user roles
+            $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
     }
 }

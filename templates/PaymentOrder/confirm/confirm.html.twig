@@ -91,7 +91,7 @@
         {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_2{% endtrans %}
     </p>
     <a href="{{ path('file_payment_order_references',
-        {'id': entity.id, 'confirm': app.request.query.get('confirm'), 'token': app.request.query.get('token')}
+        {'id': entity.id, 'secret': app.request.query.get('secret'), 'token': token.id}
     ) }}" class="btn btn-secondary" target="_blank">
         <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_references{% endtrans %}
     </a>
@@ -103,7 +103,7 @@
         {% trans with {'%fsb_email%': 'fsb@stura.uni-jena.de'} %}payment_order.confirm.hint_3{% endtrans %}
     </p>
     <a href="{{ path('file_payment_order_form',
-        {'id': entity.id, 'confirm': app.request.query.get('confirm'), 'token': app.request.query.get('token')}
+        {'id': entity.id, 'secret': app.request.query.get('secret'), 'token': token.id}
     ) }}" class="btn btn-secondary" target="_blank">
         <i class="fas fa-download"></i> {% trans %}payment_order.confirm.download_form{% endtrans %}
     </a>
