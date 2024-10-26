@@ -81,7 +81,7 @@ final readonly class ManualConfirmationHelper
 
         //Trigger the confirmed event
         $event = new PaymentOrderConfirmedEvent($paymentOrder);
-        $this->eventDispatcher->dispatch($event);
+        $this->eventDispatcher->dispatch($event, $event::NAME);
     }
 
     private function performConfirmationIfNeeded(Confirmation $confirmation, string $reason, User $user): void
