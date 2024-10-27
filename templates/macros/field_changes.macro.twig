@@ -1,0 +1,6 @@
+{% macro field(field_changes, field, symbol = "‡") %}
+    {# @var \App\Entity\FieldChanges field_changes #}
+    {% if field_changes.wasChanged(field) %}
+        <b>{{ symbol }}</b>
+    {% endif %}
+{% endmacro %}

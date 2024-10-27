@@ -1,6 +1,9 @@
 {% extends "pdf/form.html.twig" %}
 {% import "pdf/payment_order/confirmations.macro.twig" as confirmations %}
 
+{% import "macros/field_changes.macro.twig" as fc %}
+{% set changes = paymentOrder.fieldChanges %}
+
 {# @var paymentOrder \App\Entity\PaymentOrder #}
 
 {% macro valOrNull(value) %}
@@ -34,63 +37,68 @@
     <table class="table-form">
         <tr>
             <td>Name Auftraggeber:</td>
-            <td>{{ paymentOrder.submitterName }}</td>
+            <td>{{ fc.field(changes, "submitter_name") }}{{ paymentOrder.submitterName }}</td>
         </tr>
         <tr>
             <td>Struktur:</td>
-            <td>{{ paymentOrder.department.name }}</td>
+            <td>{{ fc.field(changes, "department") }}{{ paymentOrder.department.name }}</td>
         </tr>
 
         <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Projektbezeichnung:</td>
-            <td>{{ paymentOrder.projectName }}</td>
+            <td>{{ fc.field(changes, "project_name") }}{{ paymentOrder.projectName }}</td>
         </tr>
 
         <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Mittelfreigabe / Finanzantrag:</td>
-            <td>{{ _self.valOrNull(paymentOrder.fundingId) }} {% if paymentOrder.resolutionDate %}({{ paymentOrder.resolutionDate | format_date }}){% endif %}</td>
+            <td>{{ fc.field(changes, "funding_id") }}{{ _self.valOrNull(paymentOrder.fundingId) }}
+                {% if paymentOrder.resolutionDate %}({{ fc.field(changes, "resolution_date") }}{{ paymentOrder.resolutionDate | format_date }}){% endif %}
+            </td>
         </tr>
         <tr>
             <td>Gesamtbetrag:</td>
-            <td>{{ (paymentOrder.amount/100) | format_currency("EUR") }}</td>
+            <td>{{ fc.field(changes, "amount") }}{{ (paymentOrder.amount/100) | format_currency("EUR") }}</td>
         </tr>
         <tr>
             <td>Unterstützende Mittelfreigabe:</td>
-            <td>{{ _self.valOrNull(paymentOrder.supportingFundingId) }} (TODO Beschlussdatum)</td>
+            <td>{{ fc.field(changes, "supporting_funding_id") }}{{ _self.valOrNull(paymentOrder.supportingFundingId) }}
+                {% if paymentOrder.supportingFundingDate %}({{ fc.field(changes,"supporting_funding_date") }}{{ paymentOrder.supportingFundingDate }}){% endif %}
+            </td>
         </tr>
         <tr>
             <td>Unterstützter Betrag:</td>
-            <td>{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
+            <td>{{ fc.field(changes, "supporting_amount") }}{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
         </tr>
 
         <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>Zahlungsempfänger*in:</td>
-            <td>{{ paymentOrder.bankInfo.accountOwner }}</td>
+            <td>{{ fc.field(changes, "bank_info.account_owner") }}{{ paymentOrder.bankInfo.accountOwner }}</td>
         </tr>
         <tr>
             <td>Anschrift:</td>
-            <td>{{ paymentOrder.bankInfo.address }}</td>
+            <td>{{ fc.field(changes, "bank_info.street") }}{{ fc.field(changes, "bank_info.zip_code") }}{{ fc.field(changes, "bank_info.city") }}
+                {{ paymentOrder.bankInfo.address }}</td>
         </tr>
 
         <tr class="spacer"><td></td><td></td></tr>
 
         <tr>
             <td>IBAN:</td>
-            <td>{{ paymentOrder.bankInfo.ibanFormatted }}
+            <td>{{ fc.field(changes, "bank_info.iban") }}{{ paymentOrder.bankInfo.ibanFormatted }}
                 {% if paymentOrder.bankInfo.bic is not empty %}
-                    (BIC: {{ paymentOrder.bankInfo.bic }})
+                    (BIC: {{ fc.field(changes, "bank_info.bic") }}{{ paymentOrder.bankInfo.bic }})
                 {% endif %}
             </td>
         </tr>
         <tr>
             <td>Verwendungszweck:</td>
-            <td>{{ paymentOrder.bankInfo.reference }}</td>
+            <td>{{ fc.field(changes, "bank_info.reference") }}{{ paymentOrder.bankInfo.reference }}</td>
         </tr>
     </table>
 
@@ -112,8 +120,10 @@
 {% endblock %}
 
 {% block footer %}
-    <p style="margin: 0;">
-        Fettgedruckte Werte weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
-        Die letzte Änderung erfolgte <i>TODO Datum</i> durch <i>TOOD Finanzername</i>.
-    </p>
+    {% if paymentOrder.fieldChanges.mostRecentChangedField is not null %}
+        <p style="margin: 0;">
+            Werte mit einem <b>‡</b> am Anfang weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
+            Die letzte Änderung erfolgte <i>{{ paymentOrder.fieldChanges.mostRecentChangeDate | format_datetime("short") }}</i> durch <i>{{ paymentOrder.fieldChanges.mostRecentChangeUser }}</i>.
+        </p>
+    {% endif %}
 {% endblock %}

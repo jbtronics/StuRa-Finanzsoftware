@@ -60,6 +60,16 @@ class FieldChanges
     }
 
     /**
+     * Check if the given field was ever changed
+     * @param  string  $field
+     * @return bool
+     */
+    public function wasChanged(string $field): bool
+    {
+        return isset($this->changedFields[$field]);
+    }
+
+    /**
      * Returns the date of the most recent change, or null if no field was ever changed
      * @return \DateTimeImmutable|null
      */

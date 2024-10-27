@@ -348,6 +348,17 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         return $this;
     }
 
+    public function getSupportingFundingDate(): ?DateTime
+    {
+        return $this->supporting_funding_date;
+    }
+
+    public function setSupportingFundingDate(?DateTime $supporting_funding_date): PaymentOrder
+    {
+        $this->supporting_funding_date = $supporting_funding_date;
+        return $this;
+    }
+
     public function getSupportingAmount(): ?int
     {
         return $this->supporting_amount;
