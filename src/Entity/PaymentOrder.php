@@ -259,6 +259,16 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $references_exported = false;
 
+    /******************************************************************************************************************
+     * Misc
+     *****************************************************************************************************************/
+
+    /**
+     * @var FieldChanges|null The changes that were made to this payment order (or null if old case, where no changes were tracked)
+     */
+    #[ORM\Column(type: 'field_changes', nullable: true)]
+    private ?FieldChanges $fieldChanges = null;
+
     /**
      * @var Collection The confirmation tokens that can be used to confirm this payment order
      */
@@ -819,6 +829,20 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         $this->confirmationTokens->removeElement($confirmationToken);
 
         return $this;
+    }
+
+    /**
+     * Returns information about the changes that were made to this payment order.
+     * @return FieldChanges
+     */
+    public function getFieldChanges(): FieldChanges
+    {
+        //If no field changes are set, create a new one
+        if ($this->fieldChanges === null) {
+            $this->fieldChanges = FieldChanges::new();
+        }
+
+        return $this->fieldChanges;
     }
 
     public function serialize(): ?string
