@@ -6,8 +6,10 @@ declare(strict_types=1);
 namespace App\EntityListener;
 
 use App\Entity\PaymentOrder;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener]
 class PaymentOrderChangedFieldsListener
@@ -41,8 +43,18 @@ class PaymentOrderChangedFieldsListener
         'bank_info.reference',
     ];
 
+    public function __construct(private readonly Security $security)
+    {
+    }
+
     public function preUpdate(PaymentOrder $paymentOrder, PreUpdateEventArgs $eventArgs): void
     {
+        //Ensure that we have an logged in user. We do not track other changes
+        $user = $this->security->getUser();
+        if (!$user instanceof User) {
+            return;
+        }
+
         $entity = $paymentOrder;
 
         // get the changed fields
@@ -56,8 +68,6 @@ class PaymentOrderChangedFieldsListener
             return;
         }
 
-        //TODO: Determine Username
-        $user = 'StuRa Finanzen';
 
         //Otherwise add the change to the field_changes property for each changed field
 
@@ -65,7 +75,7 @@ class PaymentOrderChangedFieldsListener
         $fieldChanges = clone $entity->getFieldChanges();
 
         foreach ($fieldsToBeSaved as $field) {
-            $fieldChanges->changeField($field, $user);
+            $fieldChanges->changeField($field, $user->getFullName());
         }
 
         $entity->setFieldChanges($fieldChanges);
