@@ -1,6 +1,10 @@
 {% extends "main_card.html.twig" %}
 {% set confirmation_nr = 1 %}
 
+{% import "macros/field_changes.macro.twig" as fc %}
+{# @var \App\Entity\FieldChanges changes #}
+{% set changes = entity.fieldChanges %}
+
 {% block title %}Zahlungsauftrag {{ entity.iDString }}{% endblock %}
 
 {% block card_type %}
@@ -42,18 +46,18 @@
         <tbody>
         <tr>
             <td>{% trans %}payment_order.name.label{% endtrans %}</td>
-            <td>{{ entity.submitterName }} ({{ entity.submitterEmail }})</td>
+            <td>{{ fc.icon(changes, "submitter_name") }}{{ entity.submitterName }} ({{ fc.icon(changes, "submitter_email") }}{{ entity.submitterEmail }})</td>
         </tr>
         <tr>
             <td>{% trans %}payment_order.department.label{% endtrans %}</td>
-            <td>{{ entity.department.name }}</td>
+            <td>{{ fc.icon(changes, "department") }}{{ entity.department.name }}</td>
         </tr>
         </tbody>
 
         <tbody class="table-group-divider">
         <tr>
             <td>{% trans %}payment_order.project_name.label{% endtrans %}</td>
-            <td>{{ entity.projectName }}</td>
+            <td>{{ fc.icon(changes, "project_name") }}{{ entity.projectName }}</td>
         </tr>
 
         {# For legacy payment orders #}
@@ -68,31 +72,31 @@
         <tbody class="table-group-divider">
         <tr>
             <td>Mittelfreigabe / Finanzantrag</td>
-            <td>{{ entity.fundingId }}
+            <td>{{ fc.icon(changes, "funding_id") }}{{ entity.fundingId }}
                 {% if entity.resolutionDate %}
-                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ entity.resolutionDate | format_date }})</span>
+                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ fc.icon(changes, "resolution_date") }}{{ entity.resolutionDate | format_date }})</span>
                 {% endif %}
             </td>
         </tr>
 
         <tr>
             <td>Gesamtbetrag</td>
-            <td>{{ (entity.amount/100) | format_currency("EUR") }}</td>
+            <td>{{ fc.icon(changes, "amount") }}{{ (entity.amount/100) | format_currency("EUR") }}</td>
         </tr>
 
         <tr>
             <td>Unterstützende Mittelfreigabe</td>
             <td>
-                {{ entity.supportingFundingId ?? '' }}
+                {{ fc.icon(changes, "suppporting_funding_id") }}{{ entity.supportingFundingId ?? '' }}
                 {% if entity.supportingFundingDate %}
-                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ entity.supportingFundingDate | format_date }})</span>
+                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ fc.icon(changes, "supporting_fundinng_date") }}{{ entity.supportingFundingDate | format_date }})</span>
                 {% endif %}
             </td>
         </tr>
 
         <tr>
             <td>Unterstützer Betrag</td>
-            <td>{% if entity.supportingAmount %}{{ (entity.supportingAmount/100) | format_currency("EUR") }}{% endif %}</td>
+            <td>{{ fc.icon(changes, "suppporting_amount") }}{% if entity.supportingAmount %}{{ (entity.supportingAmount/100) | format_currency("EUR") }}{% endif %}</td>
         </tr>
 
         </tbody>
@@ -100,19 +104,19 @@
         <tbody class="table-group-divider">
         <tr>
             <td>{% trans %}bank_info.account_owner.label{% endtrans %}</td>
-            <td>{{ entity.bankInfo.accountOwner }}</td>
+            <td>{{ fc.icon(changes, "account_owner") }}{{ entity.bankInfo.accountOwner }}</td>
         </tr>
         <tr>
             <td>{% trans %}bank_info.address.label{% endtrans %}</td>
-            <td>{{ entity.bankInfo.address }}</td>
+            <td>{{ fc.icon(changes, "bank_info.street") }}{{ fc.icon(changes, "bank_info.zip_code") }}{{ fc.icon(changes, "bank_info.city") }}{{ entity.bankInfo.address }}</td>
         </tr>
         <tr>
             <td>{% trans %}payment_order.invoice_number.label{% endtrans %}</td>
-            <td>{{ entity.invoiceNumber ?? '' }}</td>
+            <td>{{ fc.icon(changes, "invoice_number") }}{{ entity.invoiceNumber ?? '' }}</td>
         </tr>
         <tr>
             <td>{% trans %}payment_order.customer_number.label{% endtrans %}</td>
-            <td>{{ entity.customerNumber ?? '' }}</td>
+            <td>{{ fc.icon(changes, "customer_number") }}{{ entity.customerNumber ?? '' }}</td>
         </tr>
         </tbody>
 
@@ -122,16 +126,16 @@
         <tr>
             <td>{% trans %}bank_info.iban.label{% endtrans %}</td>
             <td>
-                {{ entity.bankInfo.ibanFormatted }}
+                {{ fc.icon(changes, "bank_info.iban") }}{{ entity.bankInfo.ibanFormatted }}
                 {% if entity.bankInfo.bic is not empty %}
-                    (BIC: {{ entity.bankInfo.bic }})
+                    (BIC: {{ fc.icon(changes, "bank_info.bic") }}{{ entity.bankInfo.bic }})
                 {% endif %}
             </td>
         </tr>
 
         <tr>
             <td>{% trans %}bank_info.reference.label{% endtrans %}</td>
-            <td>{{ entity.bankInfo.reference }}</td>
+            <td>{{ fc.icon(changes, "bank_info.reference") }}{{ entity.bankInfo.reference }}</td>
         </tr>
         </tbody>
 
@@ -146,6 +150,13 @@
         </tr>
         </tbody>
     </table>
+
+    {% if changes.mostRecentChangedField is not null %}
+        <p class="text-primary">
+            Werte mit einem <i class="fa-solid fa-user-pen"></i> am Anfang weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
+            Die letzte Änderung erfolgte <i>{{ changes.mostRecentChangeDate | format_datetime("short") }}</i> durch <i>{{ changes.mostRecentChangeUser }}</i>.
+        </p>
+    {% endif %}
 
 
     <h4>{% trans %}payment_order.confirm.title_2{% endtrans %}</h4>
