@@ -6,13 +6,9 @@ doctrine:
             # UTC datetimes
             datetime:
                 class: App\Doctrine\Types\UTCDateTimeType
-            date:
-                class: App\Doctrine\Types\UTCDateType
 
             datetime_immutable:
                 class: App\Doctrine\Types\UTCDateTimeImmutableType
-            date_immutable:
-                class: App\Doctrine\Types\UTCDateImmutableType
 
             field_changes:
                 class: App\Doctrine\Types\FieldChangesTypes
