@@ -82,7 +82,11 @@
 
         <tr>
             <td>IBAN:</td>
-            <td>{{ paymentOrder.bankInfo.ibanFormatted }}</td>
+            <td>{{ paymentOrder.bankInfo.ibanFormatted }}
+                {% if paymentOrder.bankInfo.bic is not empty %}
+                    (BIC: {{ paymentOrder.bankInfo.bic }})
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td>Verwendungszweck:</td>
@@ -109,7 +113,7 @@
 
 {% block footer %}
     <p style="margin: 0;">
-       Fettgedruckte Werte weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
+        Fettgedruckte Werte weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
         Die letzte Änderung erfolgte <i>TODO Datum</i> durch <i>TOOD Finanzername</i>.
     </p>
 {% endblock %}
