@@ -30,7 +30,7 @@ class FieldChanges
      * @param  \DateTimeImmutable|null  $dateTime
      * @return void
      */
-    public function changeField(string $fieldName, string $user, ?\DateTimeImmutable $dateTime): void
+    public function changeField(string $fieldName, string $user, ?\DateTimeImmutable $dateTime = null): void
     {
         $this->changedFields[$fieldName] = [
             'date' => $dateTime ?? new \DateTimeImmutable(),

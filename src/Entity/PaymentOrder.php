@@ -22,6 +22,7 @@ use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
 use App\Entity\Embeddable\Confirmation;
 use App\Entity\Embeddable\PayeeInfo;
+use App\EntityListener\PaymentOrderChangedFieldsListener;
 use App\Repository\PaymentOrderRepository;
 use App\Validator\FSRNotBlocked;
 use DateTime;
@@ -47,6 +48,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table('payment_orders')]
 #[Vich\Uploadable]
+#[ORM\EntityListeners([PaymentOrderChangedFieldsListener::class])]
 class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \Serializable
 {
     use TimestampTrait;
@@ -275,8 +277,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /**
      * @var FieldChanges|null The changes that were made to this payment order (or null if old case, where no changes were tracked)
      */
-    #[ORM\Column(type: 'field_changes', nullable: true)]
-    private ?FieldChanges $fieldChanges = null;
+    #[ORM\Column(type: 'field_changes', nullable: true, name: 'field_changes')]
+    private ?FieldChanges $field_changes = null;
 
     /**
      * @var Collection The confirmation tokens that can be used to confirm this payment order
@@ -847,11 +849,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     public function getFieldChanges(): FieldChanges
     {
         //If no field changes are set, create a new one
-        if ($this->fieldChanges === null) {
-            $this->fieldChanges = FieldChanges::new();
+        if ($this->field_changes === null) {
+            $this->field_changes = FieldChanges::new();
         }
 
-        return $this->fieldChanges;
+        return $this->field_changes;
     }
 
     public function serialize(): ?string
