@@ -144,6 +144,7 @@ export default class extends Controller {
             menu.innerHTML = "";
             for (const template of this._templates) {
                 const item = document.createElement('button');
+                item.type = 'button';
                 item.textContent = template.name;
                 item.classList.add('dropdown-item');
 
