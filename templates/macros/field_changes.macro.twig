@@ -1,13 +1,17 @@
-{% macro field(field_changes, field, symbol = "‡") %}
-    {# @var \App\Entity\FieldChanges field_changes #}
-    {% if field_changes.wasChanged(field) %}
-        <b>{{ symbol }}</b>
-    {% endif %}
-{% endmacro %}
+{%- macro field(field_changes, field, symbol = "‡") -%}
+    {% apply spaceless %}
+        {# @var \App\Entity\FieldChanges field_changes #}
+        {% if field_changes.wasChanged(field) %}
+            <b>{{ symbol }}</b>&nbsp;
+        {% endif %}
+    {% endapply %}
+{%- endmacro -%}
 
-{% macro icon(field_changes, field, icon = "fa-solid fa-user-pen text-primary") %}
-    {# @var \App\Entity\FieldChanges field_changes #}
-    {% if field_changes.wasChanged(field) %}
-        <i class="{{ icon }}" title="Letzte Änderung {{ field_changes.mostRecentChangeForField(field)['date'] | format_datetime("short") }} durch {{ field_changes.mostRecentChangeForField(field)['user'] }}"></i>
-    {% endif %}
-{% endmacro %}
+{%- macro icon(field_changes, field, icon = "fa-solid fa-user-pen text-primary") -%}
+    {% apply spaceless %}
+        {# @var \App\Entity\FieldChanges field_changes #}
+        {% if field_changes.wasChanged(field) %}
+            <i class="{{ icon }}" title="Letzte Änderung {{ field_changes.mostRecentChangeForField(field)['date'] | format_datetime("short") }} durch {{ field_changes.mostRecentChangeForField(field)['user'] }}"></i>&nbsp;
+        {% endif %}
+    {% endapply %}
+{%- endmacro -%}
