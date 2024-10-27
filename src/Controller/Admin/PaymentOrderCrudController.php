@@ -19,10 +19,12 @@
 namespace App\Controller\Admin;
 
 use App\Admin\Field\ConfirmationField;
+use App\Admin\Field\FieldChangesField;
 use App\Admin\Field\VichyFileField;
 use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
+use App\Entity\FieldChanges;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Helpers\ZIPBinaryFileResponseFacade;
@@ -526,6 +528,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $factuallyCorrect,
                 $booking_date,
                 $references_exported,
+
+                FormField::addPanel('payment_order.section.edited_fields'),
+                FieldChangesField::new('field_changes', ""),
 
             ];
         }

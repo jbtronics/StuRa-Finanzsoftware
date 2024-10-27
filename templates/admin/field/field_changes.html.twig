@@ -1,0 +1,30 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{# @var changes \App\Entity\FieldChanges #}
+{% set changes = field.value %}
+
+{% if changes.mostRecentChangedField is null %}
+    <span>Keine Änderungen bisher</span>
+{% else %}
+    Letzte Änderung <b>{{ changes.mostRecentChangeDate | format_datetime("short") }}</b> durch <b>{{ changes.mostRecentChangeUser }}</b><br>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Feld</th>
+                <th>Datum</th>
+                <th>Benutzer</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for field, data in changes.changedFields %}
+            <tr>
+                <td><b>{{ field }}</b></td>
+                <td>{{ data["date"] |format_datetime("short") }}</td>
+                <td>{{ data["user"] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

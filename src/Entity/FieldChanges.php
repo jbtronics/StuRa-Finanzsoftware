@@ -85,6 +85,15 @@ class FieldChanges
         return $this->changedFields[$this->lastChangedField]['user'];
     }
 
+    /**
+     * Returns all fields that were changed, along with the date and user of the change
+     * @return array[]
+     * @phpstan-return array<string, array{"date": \DateTimeImmutable, "user": string}>
+     */
+    public function getChangedFields(): array
+    {
+        return $this->changedFields;
+    }
 
     /**
      * Serialize the FieldChanges object to a JSON array, which can be easily stored in a database

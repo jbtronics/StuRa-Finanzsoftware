@@ -2597,5 +2597,11 @@ Von den mit ** markierten Feldern muss mindestens eines ausgefüllt werden.]]></
 Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speichere eine neue unter diesem Namen.</target>
       </segment>
     </unit>
+    <unit id="pOnITkA" name="payment_order.section.edited_fields">
+      <segment>
+        <source>payment_order.section.edited_fields</source>
+        <target>Bearbeitete Informationen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
