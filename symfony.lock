@@ -905,9 +905,6 @@
     "symplify/symplify-kernel": {
         "version": "8.3.48"
     },
-    "tecnickcom/tcpdf": {
-        "version": "6.3.5"
-    },
     "theseer/tokenizer": {
         "version": "1.2.0"
     },

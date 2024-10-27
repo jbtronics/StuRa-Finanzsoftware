@@ -61,7 +61,6 @@
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
         "symfonycasts/reset-password-bundle": "^1.6",
-        "tecnickcom/tcpdf": "^6.3",
         "twig/cssinliner-extra": "^3.0",
         "twig/extra-bundle": "^3.0",
         "twig/inky-extra": "^3.0",
