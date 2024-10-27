@@ -10,6 +10,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[AsEntityListener]
 class PaymentOrderChangedFieldsListener
@@ -43,7 +44,7 @@ class PaymentOrderChangedFieldsListener
         'bank_info.reference',
     ];
 
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly Security $security, private readonly RequestStack $requestStack)
     {
     }
 
@@ -52,6 +53,11 @@ class PaymentOrderChangedFieldsListener
         //Ensure that we have an logged in user. We do not track other changes
         $user = $this->security->getUser();
         if (!$user instanceof User) {
+            return;
+        }
+
+        //Ensure that the change is done through the backend
+        if (!$this->isBackendChange()) {
             return;
         }
 
@@ -85,6 +91,17 @@ class PaymentOrderChangedFieldsListener
             $eventArgs->getObjectManager()->getClassMetadata(PaymentOrder::class),
             $entity
         );
+    }
 
+    /**
+     * Check if the change is done through the backend
+     * @return bool
+     */
+    private function isBackendChange(): bool
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        //The request must containn the backend path "/admin" to be considered a backend change
+        return $request !== null && str_contains($request->getPathInfo(), '/admin');
     }
 }
