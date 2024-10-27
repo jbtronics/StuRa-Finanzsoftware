@@ -58,13 +58,6 @@ class PaymentOrderType extends AbstractType
             'label' => 'payment_order.department.label',
         ]);
 
-        $builder->add('funding_id', TextType::class, [
-            'label' => 'payment_order.funding_id.label',
-            'attr' => [
-                'placeholder' => 'payment_order.funding_id.placeholder',
-            ],
-        ]);
-
         $builder->add('amount', MoneyType::class, [
             'label' => 'payment_order.amount.label',
             'divisor' => 100,
@@ -73,6 +66,22 @@ class PaymentOrderType extends AbstractType
                 'placeholder' => 'payment_order.amount.placeholder',
             ],
         ]);
+
+        $builder->add('funding_id', TextType::class, [
+            'label' => 'payment_order.funding_id.label',
+            'attr' => [
+                'placeholder' => 'payment_order.funding_id.placeholder',
+            ],
+        ]);
+
+        $builder->add('resolution_date', DateType::class, [
+            'label' => 'payment_order.resolution_date.label',
+            'required' => false,
+            'html5' => true,
+            'widget' => 'single_text',
+        ]);
+
+
 
         $builder->add('supporting_amount', MoneyType::class, [
             'label' => 'payment_order.supporting_amount.label',
@@ -92,13 +101,13 @@ class PaymentOrderType extends AbstractType
             ],
         ]);
 
-
-        $builder->add('resolution_date', DateType::class, [
-            'label' => 'payment_order.resolution_date.label',
+        $builder->add('supporting_funding_date', DateType::class, [
+            'label' => 'payment_order.supporting_resolution_date.label',
             'required' => false,
             'html5' => true,
             'widget' => 'single_text',
         ]);
+
 
         $builder->add('project_name', TextType::class, [
             'label' => 'payment_order.project_name.label',

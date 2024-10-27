@@ -50,8 +50,14 @@
                 {{ form_row(form.funding_id) }}
                 {{ form_row(form.resolution_date) }}
 
+                <hr>
+                <h6>Unterstützende Mittelfreigabe</h6>
+                <p>Wenn ein Teil des Zahlungsauftrags aus einer weiteren Mittelfreigabe (z.B. durch einen FSR-Kom Beschluss) finanziert werden soll, gib die
+                Daten dazu hier unten an.</p>
+
                 {{ form_row(form.supporting_amount) }}
                 {{ form_row(form.supporting_funding_id) }}
+                {{ form_row(form.supporting_funding_date) }}
 
             </fieldset>
 

@@ -2603,5 +2603,11 @@ Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speic
         <target>Bearbeitete Informationen</target>
       </segment>
     </unit>
+    <unit id="28eXnC2" name="payment_order.supporting_resolution_date.label">
+      <segment>
+        <source>payment_order.supporting_resolution_date.label</source>
+        <target>Beschlussdatum unterstützende Mittelfreigabe</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
