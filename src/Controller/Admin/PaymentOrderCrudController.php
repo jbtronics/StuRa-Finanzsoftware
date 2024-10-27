@@ -385,9 +385,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //Basic informations
         $infoPanel = FormField::addFieldset('payment_order.group.info');
         $id = IntegerField::new('id', 'payment_order.id.label');
-        $firstName = TextField::new('first_name', 'payment_order.first_name.label');
-        $lastName = TextField::new('last_name', 'payment_order.last_name.label');
-        $contact_email = EmailField::new('contact_email', 'payment_order.contact_email.label')
+        $submitterName = TextField::new('submitter_name', 'Name Auftraggeber');
+        $submitterEmail = EmailField::new('submitter_email', 'payment_order.contact_email.label')
             ->setFormTypeOption('empty_data', '')
             ->setRequired(false);
 
@@ -486,9 +485,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 FormField::addColumn(),
                 $infoPanel,
                 $id,
-                $firstName,
-                $lastName,
-                $contact_email,
+                $submitterName,
+                $submitterEmail,
                 $projectName,
                 $department,
                 $amount,
@@ -540,9 +538,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $references,
                 //Basic informations
                 $infoPanel,
-                $firstName,
-                $lastName,
-                $contact_email,
+                $submitterName,
+                $submitterEmail,
                 $projectName,
                 $department,
                 $amount,
