@@ -74,16 +74,47 @@ class PaymentReferenceGeneratorTest extends WebTestCase
         //Test project name padding
         yield ['veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890 Physik FA-123-2020 ZA0001', 'veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890123456', 'Physik', 'FA-123-2020', 1];
         //Test project FSR name padding
-        yield ['Test PhysikLongLongLongLongLongLongLongLongLongLon FA-123-2020 ZA0001', 'Test', 'PhysikLongLongLongLongLongLongLongLongLongLong', 'FA-123-2020', 1];
+        yield ['Test PhysikLongLongLongLongLongLongLongL FA-123-2020 ZA0001', 'Test', 'PhysikLongLongLongLongLongLongLongLongLongLong', 'FA-123-2020', 1];
         //Even long funding IDs should not be padded
         yield ['Test Physik FA-999-2020 ZA0001', 'Test', 'Physik', 'FA-999-2020', 1];
         yield ['Test Physik M-9999-2020 ZA0001', 'Test', 'Physik', 'M-9999-2020', 1];
         //Test everything very long
-        yield ['veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890 PhysikLongLongLongLongLongLongLongLongLongLon FA-999-2020 ZA123456789',
+        yield ['veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890 PhysikLongLongLongLongLongLongLongL FA-999-2020 ZA123456789',
             'veryveryveryveryverylonglonglonglonglonglonglonglonglonglong1234567890123456',
             'PhysikLongLongLongLongLongLongLongLongLongLong',
             'FA-999-2020',
             123456789,
         ];
+        //Test for new long funding IDs
+        yield ['Test Queerparadies M-QUEER-1234-2024_25 ZA12345', 'Test', 'Queerparadies', 'M-QUEER-1234-2024_25', 12345];
+    }
+
+    public function testGeneratePaymentReferenceWithInvoiceAndCustomerNr(): void
+    {
+        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder(1);
+        $department = new Department();
+        $department->setName('Long Long Long Department Name');
+        $payment_order->setProjectName('Test Very Very Long Project Name')
+            ->setDepartment($department)
+            ->setFundingId('M-QUEER-1234-2024_25')
+            ->setInvoiceNumber('12345678901234567890')
+            ->setCustomerNumber('LONG-CUSTOMER-NUMBER2345');
+
+        $tmp = $this->service->generatePaymentReference($payment_order);
+
+        static::assertSame('R.-Nr. 12345678901234567890 Kd.-Nr. LONG-CUSTOMER-NUMBER234 Test Very Very Long Project Name Long Long Long  M-QUEER-1234-2024_25 ZA0001', $tmp);
+
+        //Test for invoice number missing
+        $payment_order->setInvoiceNumber(null);
+
+        $tmp = $this->service->generatePaymentReference($payment_order);
+        static::assertSame('Kd.-Nr. LONG-CUSTOMER-NUMBER234 Test Very Very Long Project Name Long Long Long  M-QUEER-1234-2024_25 ZA0001', $tmp);
+
+        //Test for customer number missing
+        $payment_order->setInvoiceNumber('12345678901234567890');
+        $payment_order->setCustomerNumber(null);
+
+        $tmp = $this->service->generatePaymentReference($payment_order);
+        static::assertSame('R.-Nr. 12345678901234567890 Test Very Very Long Project Name Long Long Long  M-QUEER-1234-2024_25 ZA0001', $tmp);
     }
 }

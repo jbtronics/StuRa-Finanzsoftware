@@ -161,11 +161,11 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private string $project_name = '';
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Assert\Length(max: 20)]
+    #[Assert\Length(max: 23)]
     private ?string $invoice_number = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Assert\Length(max: 20)]
+    #[Assert\Length(max: 23)]
     private ?string $customer_number = null;
 
     /*******************************************************************************************************************

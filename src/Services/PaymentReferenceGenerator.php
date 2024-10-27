@@ -47,17 +47,47 @@ final class PaymentReferenceGenerator
     public function generatePaymentReference(PaymentOrder $paymentOrder): string
     {
         //Max 140 chars are allowed for a payment reference
-        //Format: [ProjectName 70] [FSR Name 45] [?Funding ID 11] ZA[PaymentOrder ID]
+        //Format: R.-Nr. [Invoice-Number 20] Kd.-Nr. [Customer-Number 20]
+        //Format: [ProjectName 70] [FSR Name 35] [?Funding ID 20] ZA[PaymentOrder ID 9]
+
+        if (!empty($paymentOrder->getInvoiceNumber()) || !empty($paymentOrder->getCustomerNumber())) {
+            $tmp = $this->paymentReferenceWithInvoiceAndCustomerNr($paymentOrder);
+        } else {
+            $tmp = $this->paymentReferenceWithoutInvoiceOrCustomerNr($paymentOrder);
+        }
+
+        if (mb_strlen($tmp) > 140) {
+            return new RuntimeException('Generated Payment reference exceeds 140 characters! This should not happen unless you have a very long ID...');
+        }
+
+        return $tmp;
+    }
+
+    private function paymentReferenceWithInvoiceAndCustomerNr(PaymentOrder $paymentOrder): string
+    {
+        //Max 140 chars are allowed for a payment reference
+        //Format: R.-Nr. [Invoice-Number 23] Kd.-Nr. [Customer-Number 23] [ProjectName 45] [FSR Name 19] [?Funding ID 20] ZA[PaymentOrder ID 9] = 139
+
+        $tmp = '';
+        if (!empty($paymentOrder->getInvoiceNumber())) {
+            $tmp .= 'R.-Nr. ' . mb_strimwidth($paymentOrder->getInvoiceNumber(), 0, 23, '');
+            $tmp .= ' ';
+        }
+        if (!empty($paymentOrder->getCustomerNumber())) {
+            $tmp .= 'Kd.-Nr. ' . mb_strimwidth($paymentOrder->getCustomerNumber(), 0, 23, '');
+            $tmp .= ' ';
+        }
 
         //Project name
-        $tmp = mb_strimwidth($paymentOrder->getProjectName(), 0, 70, '');
+        $tmp .= mb_strimwidth($paymentOrder->getProjectName(), 0, 45, '');
         $tmp .= ' ';
         //FSR Name
-        $tmp .= mb_strimwidth((string) $paymentOrder->getDepartment()->getName(), 0, 45, '');
+        $tmp .= mb_strimwidth((string) $paymentOrder->getDepartment()->getName(), 0, 15, '');
         $tmp .= ' ';
+
         //Funding ID if existing
         if ($paymentOrder->getFundingId() !== '' && $paymentOrder->getFundingId() !== '0') {
-            $tmp .= mb_strimwidth($paymentOrder->getFundingId(), 0, 11, '');
+            $tmp .= mb_strimwidth($paymentOrder->getFundingId(), 0, 20, '');
             $tmp .= ' ';
         }
 
@@ -67,9 +97,31 @@ final class PaymentReferenceGenerator
         }
         $tmp .= $paymentOrder->getIDString();
 
-        if (mb_strlen($tmp) > 140) {
-            return new RuntimeException('Generated Payment reference exceeds 140 characters! This should not happen unless you have a very long ID...');
+        return $tmp;
+    }
+
+    private function paymentReferenceWithoutInvoiceOrCustomerNr(PaymentOrder $paymentOrder): string
+    {
+        //Max 140 chars are allowed for a payment reference
+        //Format: [ProjectName 70] [FSR Name 35] [?Funding ID 20] ZA[PaymentOrder ID 9]  = 139
+
+        //Project name
+        $tmp = mb_strimwidth($paymentOrder->getProjectName(), 0, 70, '');
+        $tmp .= ' ';
+        //FSR Name
+        $tmp .= mb_strimwidth((string) $paymentOrder->getDepartment()->getName(), 0, 35, '');
+        $tmp .= ' ';
+        //Funding ID if existing
+        if ($paymentOrder->getFundingId() !== '' && $paymentOrder->getFundingId() !== '0') {
+            $tmp .= mb_strimwidth($paymentOrder->getFundingId(), 0, 20, '');
+            $tmp .= ' ';
         }
+
+        //ZA + ID
+        if (null === $paymentOrder->getId()) {
+            throw new RuntimeException('ID is null. You have to persist the PaymentOrder before using this function!');
+        }
+        $tmp .= $paymentOrder->getIDString();
 
         return $tmp;
     }
