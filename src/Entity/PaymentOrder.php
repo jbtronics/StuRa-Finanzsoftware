@@ -140,6 +140,15 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private ?string $supporting_funding_id = '';
 
     /**
+     * The day, when the supporting funding was decided
+     * @var DateTime|null
+     */
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
+    #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old')]
+    private ?\DateTime $supporting_funding_date = null;
+
+    /**
      * @var int|null The amount that will be paid out by the supporting department (in cents).
      * This is required together with the supporting_funding_id.
      */

@@ -15,7 +15,7 @@ doctrine:
                 class: App\Doctrine\Types\UTCDateImmutableType
 
             field_changes:
-                class: App\Doctrine\Types\FieldChangesType
+                class: App\Doctrine\Types\FieldChangesTypes
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
