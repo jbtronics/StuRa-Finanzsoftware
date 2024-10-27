@@ -23,14 +23,9 @@ class PaymentOrderChangedFieldsListener
         //TODO
     ];
 
-    public function preUpdate(PreUpdateEventArgs $eventArgs): void
+    public function preUpdate(PaymentOrder $paymentOrder, PreUpdateEventArgs $eventArgs): void
     {
-        $entity = $eventArgs->getObject();
-
-        // only act on PaymentOrder entities
-        if (!$entity instanceof PaymentOrder) {
-            return;
-        }
+        $entity = $paymentOrder;
 
         // get the changed fields
         $changedFields = array_keys($eventArgs->getEntityChangeSet());
@@ -47,12 +42,21 @@ class PaymentOrderChangedFieldsListener
         $user = 'StuRa Finanzen';
 
         //Otherwise add the change to the field_changes property for each changed field
-        $fieldChanges = $entity->getFieldChanges();
+
+        //We need to clone the field changes to get a fresh instance and enforce doctrine to recalculate the changeset
+        $fieldChanges = clone $entity->getFieldChanges();
+
         foreach ($fieldsToBeSaved as $field) {
             $fieldChanges->changeField($field, $user);
         }
 
-        //As changes are not tracked anymore, we write out the changes to the database changeset ourselves
-        $eventArgs->setNewValue('field_changes', $fieldChanges);
+        $entity->setFieldChanges($fieldChanges);
+
+        //Let doctrine recalculate the changeset
+        $eventArgs->getObjectManager()->getUnitOfWork()->recomputeSingleEntityChangeSet(
+            $eventArgs->getObjectManager()->getClassMetadata(PaymentOrder::class),
+            $entity
+        );
+
     }
 }

@@ -844,6 +844,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
     /**
      * Returns information about the changes that were made to this payment order.
+     * The reference might change during the lifecycle of this payment order, so do not store the reference in a long-term
+     * use variable.
      * @return FieldChanges
      */
     public function getFieldChanges(): FieldChanges
@@ -854,6 +856,17 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         }
 
         return $this->field_changes;
+    }
+
+    /**
+     * Change the fields changes instance of this object. Should only be used by the entity listener.
+     * @param  FieldChanges  $fieldChanges
+     * @return $this
+     */
+    public function setFieldChanges(FieldChanges $fieldChanges): self
+    {
+        $this->field_changes = $fieldChanges;
+        return $this;
     }
 
     public function serialize(): ?string
