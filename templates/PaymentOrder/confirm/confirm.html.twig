@@ -22,7 +22,7 @@
 {% block card_title %}<i class="fas fa-file-invoice-dollar fa-fw"></i>
     Zahlungsauftrag
     {{ entity.iDString }}
-    (<i>{% if entity.confirmed %}Bestätigt{% else %}Bestätigung {{ entity.numberOfConfirmations }} / {{ entity.requiredConfirmations }}{% endif %}</i>)
+    (<i>{% if entity.confirmed %}Bestätigt{% else %}Bestätigung {{ entity.numberOfConfirmations + 1 }} / {{ entity.requiredConfirmations }}{% endif %}</i>)
 {% endblock %}
 
 {% block prefix_content%}
@@ -35,43 +35,69 @@
     <p class="">
         {% trans with {'%fsb_email%': entity.department.fsr ? fsb_email : hhv_email } %}payment_order.confirm.hint_1{% endtrans %}
     </p>
-    <table class="table table-striped table-bordered table-hover table-sm">
-        <tr>
-            <td>{% trans %}payment_order.id.label{% endtrans %}</td>
-            <td>#{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <td>{% trans %}payment_order.submitted_date.label{% endtrans %}</td>
-            <td>{{ entity.creationDate | format_datetime }}</td>
-        </tr>
+
+    <h4>{{ entity.iDString }} <small class="text-body-secondary">{{ entity.projectName }}</small></h4>
+
+    <table class="table table-striped table-hover table-sm">
+        <tbody>
         <tr>
             <td>{% trans %}payment_order.name.label{% endtrans %}</td>
-            <td>{{ entity.submitterName }}</td>
+            <td>{{ entity.submitterName }} ({{ entity.submitterEmail }})</td>
         </tr>
         <tr>
             <td>{% trans %}payment_order.department.label{% endtrans %}</td>
             <td>{{ entity.department.name }}</td>
         </tr>
+        </tbody>
+
+        <tbody class="table-group-divider">
         <tr>
             <td>{% trans %}payment_order.project_name.label{% endtrans %}</td>
             <td>{{ entity.projectName }}</td>
         </tr>
+
+        {# For legacy payment orders #}
+        {% if entity.fsrKomResolution %}
+            <tr>
+                <td>{% trans %}payment_order.fsr_kom.label{% endtrans %}</td>
+                <td>{{ entity.fsrKomResolution ? 'Yes'|trans : 'No'|trans }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+
+        <tbody class="table-group-divider">
         <tr>
-            <td>{% trans %}payment_order.funding_id.label{% endtrans %}</td>
-            <td>{{ entity.fundingId }}</td>
+            <td>Mittelfreigabe / Finanzantrag</td>
+            <td>{{ entity.fundingId }}
+                {% if entity.resolutionDate %}
+                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ entity.resolutionDate | format_date }})</span>
+                {% endif %}
+            </td>
         </tr>
+
         <tr>
-            <td>{% trans %}payment_order.fsr_kom.label{% endtrans %}</td>
-            <td>{{ entity.fsrKomResolution ? 'Yes'|trans : 'No'|trans }}</td>
+            <td>Gesamtbetrag</td>
+            <td>{{ (entity.amount/100) | format_currency("EUR") }}</td>
         </tr>
+
         <tr>
-            <td>{% trans %}payment_order.resolution_date.label{% endtrans %}</td>
-            <td>{{ entity.resolutionDate is null ? '' : entity.resolutionDate | format_date }}</td>
+            <td>Unterstützende Mittelfreigabe</td>
+            <td>
+                {{ entity.supportingFundingId ?? '' }}
+                {% if entity.supportingFundingDate %}
+                    <span title="{% trans %}payment_order.resolution_date.label{% endtrans %}">({{ entity.supportingFundingDate | format_date }})</span>
+                {% endif %}
+            </td>
         </tr>
+
         <tr>
-            <td>{% trans %}payment_order.amount.label{% endtrans %}</td>
-            <td>{{ entity.amountString }} €</td>
+            <td>Unterstützer Betrag</td>
+            <td>{% if entity.supportingAmount %}{{ (entity.supportingAmount/100) | format_currency("EUR") }}{% endif %}</td>
         </tr>
+
+        </tbody>
+
+        <tbody class="table-group-divider">
         <tr>
             <td>{% trans %}bank_info.account_owner.label{% endtrans %}</td>
             <td>{{ entity.bankInfo.accountOwner }}</td>
@@ -81,17 +107,44 @@
             <td>{{ entity.bankInfo.address }}</td>
         </tr>
         <tr>
-            <td>{% trans %}bank_info.iban.label{% endtrans %}</td>
-            <td>{{ entity.bankInfo.ibanFormatted }}</td>
+            <td>{% trans %}payment_order.invoice_number.label{% endtrans %}</td>
+            <td>{{ entity.invoiceNumber ?? '' }}</td>
         </tr>
         <tr>
-            <td>{% trans %}bank_info.bic.label{% endtrans %}</td>
-            <td>{{ entity.bankInfo.bic }}</td>
+            <td>{% trans %}payment_order.customer_number.label{% endtrans %}</td>
+            <td>{{ entity.customerNumber ?? '' }}</td>
         </tr>
+        </tbody>
+
+
+
+        <tbody class="table-group-divider">
+        <tr>
+            <td>{% trans %}bank_info.iban.label{% endtrans %}</td>
+            <td>
+                {{ entity.bankInfo.ibanFormatted }}
+                {% if entity.bankInfo.bic is not empty %}
+                    (BIC: {{ entity.bankInfo.bic }})
+                {% endif %}
+            </td>
+        </tr>
+
         <tr>
             <td>{% trans %}bank_info.reference.label{% endtrans %}</td>
             <td>{{ entity.bankInfo.reference }}</td>
         </tr>
+        </tbody>
+
+        <tbody class="table-group-divider">
+        <tr>
+            <td>{% trans %}payment_order.submitted_date.label{% endtrans %}</td>
+            <td>{{ entity.creationDate | format_datetime }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.id.label{% endtrans %}</td>
+            <td>{{ entity.iDString }}</td>
+        </tr>
+        </tbody>
     </table>
 
 
