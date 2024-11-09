@@ -21,9 +21,11 @@ namespace App\Controller\Admin;
 use App\Admin\Field\ConfirmationField;
 use App\Admin\Field\FieldChangesField;
 use App\Admin\Field\VichyFileField;
+use App\Admin\Filter\CheckFilter;
 use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
+use App\Entity\Embeddable\Check;
 use App\Entity\FieldChanges;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
@@ -64,7 +66,13 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class PaymentOrderCrudController extends AbstractCrudController
 {
-    public function __construct(private readonly PaymentOrderMailLinkGenerator $mailToGenerator, private readonly DashboardControllerRegistry $dashboardControllerRegistry, private EntityManagerInterface $entityManager, private readonly ConfirmationEmailSender $confirmationEmailSender, private readonly AdminUrlGenerator $adminURLGenerator, private readonly MessageBusInterface $messageBus)
+    public function __construct(
+        private readonly PaymentOrderMailLinkGenerator $mailToGenerator,
+        private EntityManagerInterface $entityManager,
+        private readonly ConfirmationEmailSender $confirmationEmailSender,
+        private readonly AdminUrlGenerator $adminURLGenerator,
+        private readonly MessageBusInterface $messageBus
+    )
     {
     }
 
@@ -163,9 +171,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->add(EntityFilter::new('department', 'payment_order.department.label'))
             ->add(DepartmentTypeFilter::new('department_type', 'payment_order.department_type.label'))
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
-            ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(CheckFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(CheckFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(BooleanFilter::new('exported', 'payment_order.exported.label'))
-            ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(TextFilter::new('funding_id', 'payment_order.funding_id.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
@@ -431,7 +439,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         //Status informations
         $statusPanel = FormField::addPanel('payment_order.group.status');
-        $mathematicallyCorrect = BooleanField::new('mathematically_correct', 'payment_order.mathematically_correct.label')
+        $mathematicallyCorrect = BooleanField::new('mathematically_correct.checked', 'payment_order.mathematically_correct.label')
             ->setHelp('payment_order.mathematically_correct.help')
             //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
             //factually and mathematically correct status
@@ -439,7 +447,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->renderAsSwitch($this->isGranted('ROLE_PO_MATHEMATICALLY'));
         $exported = BooleanField::new('exported', 'payment_order.exported.label')
             ->setHelp('payment_order.exported.help');
-        $factuallyCorrect = BooleanField::new('factually_correct', 'payment_order.factually_correct.label')
+        $factuallyCorrect = BooleanField::new('factually_correct.checked', 'payment_order.factually_correct.label')
             ->setHelp('payment_order.factually_correct.help')
             ->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'))
             ->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
