@@ -329,10 +329,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
 
-        $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')
-            ->linkToUrl(fn(PaymentOrder $paymentOrder): string => $this->mailToGenerator->getHHVMailLink($paymentOrder))
-            ->setCssClass('btn btn-secondary text-dark');
-
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed())
@@ -342,15 +338,15 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->linkToCrudAction('checkMathematicallyCorrect')
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_MATHEMATICALLY')
                 && $paymentOrder->isConfirmed()
-                && !$paymentOrder->isMathematicallyCorrect())
+                && !$paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
         $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
             ->linkToCrudAction('checkFactuallyCorrect')
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_FACTUALLY')
                 && $paymentOrder->isConfirmed()
-                && !$paymentOrder->isFactuallyCorrect()
-                && $paymentOrder->isMathematicallyCorrect())
+                && !$paymentOrder->isFactuallyCorrectChecked()
+                && $paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
@@ -364,8 +360,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
-        $actions->add(Crud::PAGE_EDIT, $hhv_action);
-        $actions->add(Crud::PAGE_DETAIL, $hhv_action);
 
         $actions->disable(Crud::PAGE_NEW);
 
