@@ -46,7 +46,7 @@ final class PaymentOrderManualConfirmController extends AbstractController
         if ($paymentOrder->isConfirmed()) {
             $this->addFlash('error', 'payment_order.manual_confirm.already_confirmed');
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         $form = $this->createForm(PaymentOrderManualConfirmationType::class);
@@ -60,7 +60,7 @@ final class PaymentOrderManualConfirmController extends AbstractController
             //Show a success flash notification
             $this->addFlash('success', 'payment_order.manual_confirm.success');
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin/payment_order/manual_confirm.html.twig', [
