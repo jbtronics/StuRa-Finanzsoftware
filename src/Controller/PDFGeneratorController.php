@@ -27,12 +27,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/admin/pdf')]
 final class PDFGeneratorController extends AbstractController
 {
-    #[Route(path: '/payment_order/{id}')]
-    public function pdf(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
+    public function __construct(private PaymentOrderPDFGenerator $paymentOrderPDFGenerator)
+    {
+    }
+
+    #[Route(path: '/payment_order/{id}/structure', name: "payment_order_pdf_structure")]
+    public function pdfStructure(PaymentOrder $paymentOrder): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
 
-        $data = $paymentOrderPDFGenerator->generatePDF($paymentOrder);
+        $data = $this->paymentOrderPDFGenerator->generatePDF($paymentOrder);
         $response = new Response($data);
 
         $response->headers->set('Content-type', 'application/pdf');
@@ -42,4 +46,22 @@ final class PDFGeneratorController extends AbstractController
 
         return $response;
     }
+
+    #[Route(path: '/payment_order/{id}/stura', name: "payment_order_pdf_stura")]
+    public function pdfStuRa(PaymentOrder $paymentOrder, PaymentOrderPDFGenerator $paymentOrderPDFGenerator): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
+        $data = $this->paymentOrderPDFGenerator->generateStuRaPDF($paymentOrder);
+        $response = new Response($data);
+
+        $response->headers->set('Content-type', 'application/pdf');
+        $response->headers->set('Content-length', strlen($data));
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-Disposition', 'inline');
+
+        return $response;
+    }
+
+
 }

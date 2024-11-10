@@ -1,6 +1,10 @@
-{% macro signature(left, bottom) %}
+{% macro signature(left, bottom, left_raw=false) %}
     <div class="signature-area" style="margin-top: 20mm;">
-        <span style="display: inline;">{{ left }}</span>
+        {% if left_raw %}
+            <span style="display: inline;">{{ left|raw }}</span>
+        {% else %}
+            <span style="display: inline;">{{ left }}</span>
+        {% endif %}
         <div style="border-top: solid 0.2mm black; margin-left: 80mm;">{{ bottom }}</div>
     </div>
 {% endmacro %}
@@ -9,12 +13,28 @@
     {# @var confirmation \App\Entity\Embeddable\Confirmation #}
     {% if confirmation.confirmed %}
         {% if confirmation.confirmationOverriden %}
-            {{ _self.signature("Durch StuRa bestätigt: " ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName) }}
+            {{ _self.signature("<b>Durch StuRa bestätigt: </b>" ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName, true) }}
         {% else %}
-            {{ _self.signature("Bestätigt: " ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName) }}
+            {{ _self.signature("<b>Bestätigt: </b>" ~ confirmation.timestamp | format_datetime("short"), confirmation.confirmerName, true) }}
         {% endif %}
 
     {% else %}
         {{ _self.signature("Datum", "Unterschrift") }}
     {% endif %}
+{% endmacro %}
+
+{% macro check_signatur(check) %}
+    {# @var check \App\Entity\Embeddable\Check #}
+
+    {% if check.checked %}
+        {% if check.timestamp is null %}
+            {% set date = "Unbekannt (alte Daten)" %}
+        {% else %}
+            {% set date = check.timestamp | format_datetime("short") %}
+        {% endif %}
+        {{ _self.signature("<b>Geprüft:</b> " ~ date, check.confirmerName, true) }}
+    {% else %}
+        {{ _self.signature("Datum", "Unterschrift") }}
+    {% endif %}
+
 {% endmacro %}

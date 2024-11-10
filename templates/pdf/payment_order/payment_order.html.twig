@@ -6,14 +6,6 @@
 
 {# @var paymentOrder \App\Entity\PaymentOrder #}
 
-{% macro valOrNull(value) %}
-    {% if value %}
-        {{ value }}
-    {% else %}
-        -
-    {% endif %}
-{% endmacro %}
-
 {% block title %}
     Zahlungsauftrag {{ paymentOrder.iDString }}
 {% endblock %}
@@ -34,89 +26,26 @@
     {# Data section #}
     <hr>
 
-    <table class="table-form">
-        <tr>
-            <td>Name Auftraggeber:</td>
-            <td>{{ fc.field(changes, "submitter_name") }}{{ paymentOrder.submitterName }}</td>
-        </tr>
-        <tr>
-            <td>Struktur:</td>
-            <td>{{ fc.field(changes, "department") }}{{ paymentOrder.department.name }}</td>
-        </tr>
+    {% include "pdf/payment_order/_table.html.twig" %}
 
-        <tr class="spacer"><td></td><td></td></tr>
-
-        <tr>
-            <td>Projektbezeichnung:</td>
-            <td>{{ fc.field(changes, "project_name") }}{{ paymentOrder.projectName }}</td>
-        </tr>
-
-        <tr class="spacer"><td></td><td></td></tr>
-
-        <tr>
-            <td>Mittelfreigabe / Finanzantrag:</td>
-            <td>{{ fc.field(changes, "funding_id") }}{{ _self.valOrNull(paymentOrder.fundingId) }}
-                {% if paymentOrder.resolutionDate %}({{ fc.field(changes, "resolution_date") }}{{ paymentOrder.resolutionDate | format_date }}){% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Gesamtbetrag:</td>
-            <td>{{ fc.field(changes, "amount") }}{{ (paymentOrder.amount/100) | format_currency("EUR") }}</td>
-        </tr>
-        <tr>
-            <td>Unterstützende Mittelfreigabe:</td>
-            <td>{{ fc.field(changes, "supporting_funding_id") }}{{ _self.valOrNull(paymentOrder.supportingFundingId) }}
-                {% if paymentOrder.supportingFundingDate %}({{ fc.field(changes,"supporting_funding_date") }}{{ paymentOrder.supportingFundingDate | format_date }}){% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Unterstützter Betrag:</td>
-            <td>{{ fc.field(changes, "supporting_amount") }}{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
-        </tr>
-
-        <tr class="spacer"><td></td><td></td></tr>
-
-        <tr>
-            <td>Zahlungsempfänger*in:</td>
-            <td>{{ fc.field(changes, "bank_info.account_owner") }}{{ paymentOrder.bankInfo.accountOwner }}</td>
-        </tr>
-        <tr>
-            <td>Anschrift:</td>
-            <td>{{ fc.field(changes, "bank_info.street") }}{{ fc.field(changes, "bank_info.zip_code") }}{{ fc.field(changes, "bank_info.city") }}
-                {{ paymentOrder.bankInfo.address }}</td>
-        </tr>
-
-        <tr class="spacer"><td></td><td></td></tr>
-
-        <tr>
-            <td>IBAN:</td>
-            <td>{{ fc.field(changes, "bank_info.iban") }}{{ paymentOrder.bankInfo.ibanFormatted }}
-                {% if paymentOrder.bankInfo.bic is not empty %}
-                    (BIC: {{ fc.field(changes, "bank_info.bic") }}{{ paymentOrder.bankInfo.bic }})
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Verwendungszweck:</td>
-            <td>{{ fc.field(changes, "bank_info.reference") }}{{ paymentOrder.bankInfo.reference }}</td>
-        </tr>
-    </table>
-
-
-    <p style="text-align: center; font-weight: bold; border: black solid 1px; padding-bottom: 2px;">
-        Dieses Dokument muss erst ausgedruckt, dann unterschrieben und anschließend mit allen
-        nicht digital vorliegenden Originalbelegen bei den StuRa-Finanzen abgegeben werden!
-    </p>
+    {% block data_remarks %}
+        <p style="text-align: center; font-weight: bold; border: black solid 1px; padding-bottom: 2px;">
+            Dieses Dokument muss erst ausgedruckt, dann unterschrieben und anschließend mit allen
+            nicht digital vorliegenden Originalbelegen bei den StuRa-Finanzen abgegeben werden!
+        </p>
+    {% endblock %}
 
     {# Confirmation section #}
     <hr>
-    <h3 style="margin: 0;">Bestätigungen ({{ paymentOrder.numberOfConfirmations }} / {{ paymentOrder.requiredConfirmations }})</h3>
-    <span>Eingereicht: {{ paymentOrder.creationDate | format_datetime("short") }}</span>
+    {% block confirmations %}
+        <h3 style="margin: 0;">Bestätigungen ({{ paymentOrder.numberOfConfirmations }} / {{ paymentOrder.requiredConfirmations }})</h3>
+        <span><b>Eingereicht:</b> {{ paymentOrder.creationDate | format_datetime("short") }}</span>
 
-    {{ confirmations.confirmation_signature(paymentOrder.confirmation1) }}
-    {% if paymentOrder.requiredConfirmations > 1 %}
-        {{ confirmations.confirmation_signature(paymentOrder.confirmation2) }}
-    {% endif %}
+        {{ confirmations.confirmation_signature(paymentOrder.confirmation1) }}
+        {% if paymentOrder.requiredConfirmations > 1 %}
+            {{ confirmations.confirmation_signature(paymentOrder.confirmation2) }}
+        {% endif %}
+    {% endblock %}
 {% endblock %}
 
 {% block footer %}

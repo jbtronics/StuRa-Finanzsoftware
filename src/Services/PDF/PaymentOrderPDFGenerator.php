@@ -41,4 +41,18 @@ class PaymentOrderPDFGenerator
 
         return $this->PDFRenderer->renderTemplate('pdf/payment_order/payment_order.html.twig', $context);
     }
+
+    /**
+     * Generates a PDF document for the StuR financers, containing their checks
+     * @param  PaymentOrder  $paymentOrder
+     * @return string
+     */
+    public function generateStuRaPDF(PaymentOrder $paymentOrder): string
+    {
+        $context = [
+            'paymentOrder' => $paymentOrder,
+        ];
+
+        return $this->PDFRenderer->renderTemplate('pdf/payment_order/payment_order_stura.html.twig', $context);
+    }
 }

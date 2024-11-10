@@ -1,0 +1,47 @@
+{% extends "pdf/payment_order/payment_order.html.twig" %}
+
+{% import "pdf/payment_order/confirmations.macro.twig" as confirmations %}
+
+{% block title %}
+    Zahlungsauftrag {{ paymentOrder.iDString }} (StuRa-Finanzer)
+{% endblock %}
+
+{% block data_remarks %}
+{% endblock %}
+
+{% block confirmations %}
+    <h3 style="margin: 0;">Prüfung durch StuRa</h3>
+    <p style="font-size: 9pt; margin: 0;">
+        <b>Eingereicht:</b> {{ paymentOrder.creationDate | format_datetime("short") }}
+    </p>
+    {% if paymentOrder.confirmed %}
+        <p style="font-size: 9pt; margin: 0;">
+            <b>Bestätigt durch:</b>
+            {{ paymentOrder.confirmation1.confirmerName }} ({{ paymentOrder.confirmation1.timestamp | format_datetime("short") }})
+            {% if paymentOrder.requiredConfirmations > 1 %}
+                &amp;
+                {{ paymentOrder.confirmation2.confirmerName }} ({{ paymentOrder.confirmation2.timestamp | format_datetime("short") }})
+            {% endif %}
+        </p>
+    {% endif %}
+
+    <h4 style="margin: 0;">Rechnerische Prüfung (KV):</h4>
+    {% if paymentOrder.mathematicallyCorrect.remark is not empty %}
+        <p style="margin: 0; font-size: 9pt;">
+            <b>Prüfanmerkung</b>: {{ paymentOrder.mathematicallyCorrect.remark | u.truncate(160) }}
+        </p>
+    {% endif %}
+
+    {{ confirmations.check_signatur(paymentOrder.mathematicallyCorrect) }}
+
+    <h4 style="margin: 0;">Sachliche Prüfung (HHV):</h4>
+    {% if paymentOrder.factuallyCorrect.remark is not empty %}
+        <p style="margin: 0; font-size: 9pt;">
+            <b>Prüfanmerkung</b>: {{ paymentOrder.factuallyCorrect.remark | u.truncate(160) }}
+        </p>
+    {% endif %}
+
+    {{ confirmations.check_signatur(paymentOrder.factuallyCorrect) }}
+
+
+{% endblock %}

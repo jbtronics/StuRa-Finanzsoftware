@@ -1,0 +1,80 @@
+{% import "macros/field_changes.macro.twig" as fc %}
+{% set changes = paymentOrder.fieldChanges %}
+
+{% macro valOrNull(value) %}
+    {% if value %}
+        {{ value }}
+    {% else %}
+        -
+    {% endif %}
+{% endmacro %}
+
+{# @var paymentOrder \App\Entity\PaymentOrder #}
+
+<table class="table-form">
+    <tr>
+        <td>Name Auftraggeber:</td>
+        <td>{{ fc.field(changes, "submitter_name") }}{{ paymentOrder.submitterName }}</td>
+    </tr>
+    <tr>
+        <td>Struktur:</td>
+        <td>{{ fc.field(changes, "department") }}{{ paymentOrder.department.name }}</td>
+    </tr>
+
+    <tr class="spacer"><td></td><td></td></tr>
+
+    <tr>
+        <td>Projektbezeichnung:</td>
+        <td>{{ fc.field(changes, "project_name") }}{{ paymentOrder.projectName }}</td>
+    </tr>
+
+    <tr class="spacer"><td></td><td></td></tr>
+
+    <tr>
+        <td>Mittelfreigabe / Finanzantrag:</td>
+        <td>{{ fc.field(changes, "funding_id") }}{{ _self.valOrNull(paymentOrder.fundingId) }}
+            {% if paymentOrder.resolutionDate %}({{ fc.field(changes, "resolution_date") }}{{ paymentOrder.resolutionDate | format_date }}){% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Gesamtbetrag:</td>
+        <td>{{ fc.field(changes, "amount") }}{{ (paymentOrder.amount/100) | format_currency("EUR") }}</td>
+    </tr>
+    <tr>
+        <td>Unterstützende Mittelfreigabe:</td>
+        <td>{{ fc.field(changes, "supporting_funding_id") }}{{ _self.valOrNull(paymentOrder.supportingFundingId) }}
+            {% if paymentOrder.supportingFundingDate %}({{ fc.field(changes,"supporting_funding_date") }}{{ paymentOrder.supportingFundingDate | format_date }}){% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Unterstützter Betrag:</td>
+        <td>{{ fc.field(changes, "supporting_amount") }}{% if paymentOrder.supportingAmount %}{{ (paymentOrder.supportingAmount / 100) | format_currency("EUR") }}{% else %}-{% endif %}</td>
+    </tr>
+
+    <tr class="spacer"><td></td><td></td></tr>
+
+    <tr>
+        <td>Zahlungsempfänger*in:</td>
+        <td>{{ fc.field(changes, "bank_info.account_owner") }}{{ paymentOrder.bankInfo.accountOwner }}</td>
+    </tr>
+    <tr>
+        <td>Anschrift:</td>
+        <td>{{ fc.field(changes, "bank_info.street") }}{{ fc.field(changes, "bank_info.zip_code") }}{{ fc.field(changes, "bank_info.city") }}
+            {{ paymentOrder.bankInfo.address }}</td>
+    </tr>
+
+    <tr class="spacer"><td></td><td></td></tr>
+
+    <tr>
+        <td>IBAN:</td>
+        <td>{{ fc.field(changes, "bank_info.iban") }}{{ paymentOrder.bankInfo.ibanFormatted }}
+            {% if paymentOrder.bankInfo.bic is not empty %}
+                (BIC: {{ fc.field(changes, "bank_info.bic") }}{{ paymentOrder.bankInfo.bic }})
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Verwendungszweck:</td>
+        <td>{{ fc.field(changes, "bank_info.reference") }}{{ paymentOrder.bankInfo.reference }}</td>
+    </tr>
+</table>
