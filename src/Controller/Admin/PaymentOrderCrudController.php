@@ -18,12 +18,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\CheckField;
 use App\Admin\Field\ConfirmationField;
 use App\Admin\Field\FieldChangesField;
 use App\Admin\Field\VichyFileField;
+use App\Admin\Filter\CheckFilter;
 use App\Admin\Filter\ConfirmedFilter;
 use App\Admin\Filter\DepartmentTypeFilter;
 use App\Admin\Filter\MoneyAmountFilter;
+use App\Entity\Embeddable\Check;
 use App\Entity\FieldChanges;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
@@ -64,7 +67,13 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class PaymentOrderCrudController extends AbstractCrudController
 {
-    public function __construct(private readonly PaymentOrderMailLinkGenerator $mailToGenerator, private readonly DashboardControllerRegistry $dashboardControllerRegistry, private EntityManagerInterface $entityManager, private readonly ConfirmationEmailSender $confirmationEmailSender, private readonly AdminUrlGenerator $adminURLGenerator, private readonly MessageBusInterface $messageBus)
+    public function __construct(
+        private readonly PaymentOrderMailLinkGenerator $mailToGenerator,
+        private EntityManagerInterface $entityManager,
+        private readonly ConfirmationEmailSender $confirmationEmailSender,
+        private readonly AdminUrlGenerator $adminURLGenerator,
+        private readonly MessageBusInterface $messageBus
+    )
     {
     }
 
@@ -163,9 +172,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->add(EntityFilter::new('department', 'payment_order.department.label'))
             ->add(DepartmentTypeFilter::new('department_type', 'payment_order.department_type.label'))
             ->add(MoneyAmountFilter::new('amount', 'payment_order.amount.label'))
-            ->add(BooleanFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(CheckFilter::new('factually_correct', 'payment_order.factually_correct.label'))
+            ->add(CheckFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(BooleanFilter::new('exported', 'payment_order.exported.label'))
-            ->add(BooleanFilter::new('mathematically_correct', 'payment_order.mathematically_correct.label'))
             ->add(ConfirmedFilter::new('confirmed', 'payment_order.confirmed.label'))
             ->add(TextFilter::new('funding_id', 'payment_order.funding_id.label'))
             ->add(DateTimeFilter::new('creation_date', 'creation_date'))
@@ -187,40 +196,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $this->confirmationEmailSender->resendConfirmations($payment_order);
 
         $this->addFlash('success', 'payment_order.action.resend_confirmation.success');
-
-        return $this->redirect($context->getReferrer() ?? '/admin');
-    }
-
-    /**
-     * Handler for action if user click "check mathematically" button in admin page.
-     */
-    public function checkMathematicallyCorrect(AdminContext $context): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
-
-        /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()
-            ->getInstance();
-        $payment_order->setMathematicallyCorrect(true);
-        $this->entityManager->flush();
-        $this->addFlash('success', 'payment_order.action.mathematically_correct.success');
-
-        return $this->redirect($context->getReferrer() ?? '/admin');
-    }
-
-    /**
-     * Handler for action if user click "check factually" button in admin page.
-     */
-    public function checkFactuallyCorrect(AdminContext $context): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
-
-        /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()
-            ->getInstance();
-        $payment_order->setFactuallyCorrect(true);
-        $this->entityManager->flush();
-        $this->addFlash('success', 'payment_order.action.factually_correct.success');
 
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
@@ -321,28 +296,24 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
 
-        $hhv_action = Action::new('contactHHV', 'payment_order.action.contact_hhv', 'fas fa-comment-dots')
-            ->linkToUrl(fn(PaymentOrder $paymentOrder): string => $this->mailToGenerator->getHHVMailLink($paymentOrder))
-            ->setCssClass('btn btn-secondary text-dark');
-
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed())
             ->setCssClass('btn btn-secondary text-dark');
 
         $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
-            ->linkToCrudAction('checkMathematicallyCorrect')
+            ->linkToRoute('payment_order_check', fn (PaymentOrder $paymentOrder) => ['type' => 'mathematically_correct', 'id' => $paymentOrder->getId()])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_MATHEMATICALLY')
                 && $paymentOrder->isConfirmed()
-                && !$paymentOrder->isMathematicallyCorrect())
+                && !$paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
         $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
-            ->linkToCrudAction('checkFactuallyCorrect')
+            ->linkToRoute('payment_order_check', fn (PaymentOrder $paymentOrder) => ['type' => 'factually_correct', 'id' => $paymentOrder->getId()])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_FACTUALLY')
                 && $paymentOrder->isConfirmed()
-                && !$paymentOrder->isFactuallyCorrect()
-                && $paymentOrder->isMathematicallyCorrect())
+                && !$paymentOrder->isFactuallyCorrectChecked()
+                && $paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
         $manual_confirmation = Action::new('manual_confirmation', 'payment_order.action.manual_confirmation', 'fas fa-exclamation-triangle')
@@ -356,8 +327,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
-        $actions->add(Crud::PAGE_EDIT, $hhv_action);
-        $actions->add(Crud::PAGE_DETAIL, $hhv_action);
 
         $actions->disable(Crud::PAGE_NEW);
 
@@ -430,8 +399,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //$creationDate = TextField::new('creation_date', 'creation_date');
 
         //Status informations
-        $statusPanel = FormField::addPanel('payment_order.group.status');
-        $mathematicallyCorrect = BooleanField::new('mathematically_correct', 'payment_order.mathematically_correct.label')
+        $statusPanel = FormField::addFieldset('payment_order.group.status');
+        $mathematicallyCorrect = BooleanField::new('mathematically_correct.checked', 'payment_order.mathematically_correct.label')
             ->setHelp('payment_order.mathematically_correct.help')
             //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
             //factually and mathematically correct status
@@ -439,7 +408,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->renderAsSwitch($this->isGranted('ROLE_PO_MATHEMATICALLY'));
         $exported = BooleanField::new('exported', 'payment_order.exported.label')
             ->setHelp('payment_order.exported.help');
-        $factuallyCorrect = BooleanField::new('factually_correct', 'payment_order.factually_correct.label')
+        $factuallyCorrect = BooleanField::new('factually_correct.checked', 'payment_order.factually_correct.label')
             ->setHelp('payment_order.factually_correct.help')
             ->setFormTypeOption('disabled', !$this->isGranted('ROLE_PO_FACTUALLY'))
             ->renderAsSwitch($this->isGranted('ROLE_PO_FACTUALLY'));
@@ -452,14 +421,14 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
 
         //Payee informations
-        $payeePanel = FormField::addPanel('payment_order.group.receiver');
+        $payeePanel = FormField::addFieldset('payment_order.group.receiver');
         $bankInfoAccountOwner = TextField::new('bank_info.account_owner', 'bank_info.account_owner.label');
         $bankInfoStreet = TextField::new('bank_info.street', 'bank_info.street.label');
         $bankInfoZipCode = TextField::new('bank_info.zip_code', 'bank_info.zip_code.label');
         $bankInfoCity = TextField::new('bank_info.city', 'bank_info.city.label');
 
         //Payee bank account infos
-        $bankInfoPanel = FormField::addPanel('payment_order.group.bank_info');
+        $bankInfoPanel = FormField::addFieldset('payment_order.group.bank_info');
         $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label');
         $bankInfoBic = TextField::new('bank_info.bic', 'bank_info.bic.label')
             ->setRequired(false)
@@ -515,21 +484,21 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),
                 //Status infos
                 FormField::addColumn(),
-                FormField::addPanel('payment_order.section.status.confirmation'),
+                FormField::addFieldset('payment_order.section.status.confirmation'),
                 BooleanField::new('confirmed', 'payment_order.confirmed.label'),
                 $requiredConfirmations,
                 $confirmation1,
                 $confirmation2,
 
                 FormField::addColumn(),
-                FormField::addPanel('payment_order.section.status.review'),
-                $mathematicallyCorrect,
+                FormField::addFieldset('payment_order.section.status.review'),
+                CheckField::new('mathematically_correct', 'payment_order.mathematically_correct.label'),
+                CheckField::new('factually_correct', 'payment_order.factually_correct.label'),
                 $exported,
-                $factuallyCorrect,
                 $booking_date,
                 $references_exported,
 
-                FormField::addPanel('payment_order.section.edited_fields'),
+                FormField::addFieldset('payment_order.section.edited_fields'),
                 FieldChangesField::new('field_changes', ""),
 
             ];

@@ -50,7 +50,7 @@ class PaymentOrderChangedFieldsListener
 
     public function preUpdate(PaymentOrder $paymentOrder, PreUpdateEventArgs $eventArgs): void
     {
-        //Ensure that we have an logged in user. We do not track other changes
+        //Ensure that we have a logged-in user. We do not track other changes
         $user = $this->security->getUser();
         if (!$user instanceof User) {
             return;

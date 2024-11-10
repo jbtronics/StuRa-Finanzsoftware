@@ -1,0 +1,19 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{# @var check \App\Entity\Embeddable\Check #}
+
+{% set check = field.value %}
+{% if not check.checked %}
+    <span class="text-muted">Noch nicht geprüft</span>
+{% else %}
+    <b>Geprüft</b><br>
+    {{ check.timestamp|format_datetime }}<br>
+    {{ check.confirmerName }}<br>
+    {% if check.remark %}
+        <code title="Prüfanmerkung">
+            {{ check.remark }}
+        </code>
+    {% endif %}
+{% endif %}

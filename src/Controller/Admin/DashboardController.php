@@ -53,7 +53,7 @@ final class DashboardController extends AbstractDashboardController
             ->setTitle('StuRa Finanzen');
     }
 
-    #[Route(path: '/admin', name: 'admin_dashboard')]
+    #[Route(path: '/admin', name: 'admin')]
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig');

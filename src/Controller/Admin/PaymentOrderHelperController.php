@@ -21,16 +21,26 @@ namespace App\Controller\Admin;
 use App\Entity\PaymentOrder;
 use App\Form\PaymentOrderManualConfirmationType;
 use App\Services\EmailConfirmation\ManualConfirmationHelper;
+use App\Services\PaymentOrder\CheckHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * This controller contains various helping methods for the PaymentOrder entity.
+ */
 #[Route(path: '/admin/payment_order')]
-final class PaymentOrderManualConfirmController extends AbstractController
+final class PaymentOrderHelperController extends AbstractController
 {
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
+    }
+
     #[Route(path: '/{id}/confirm', name: 'payment_order_manual_confirm')]
     public function manualConfirmation(
         PaymentOrder $paymentOrder,
@@ -46,7 +56,7 @@ final class PaymentOrderManualConfirmController extends AbstractController
         if ($paymentOrder->isConfirmed()) {
             $this->addFlash('error', 'payment_order.manual_confirm.already_confirmed');
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         $form = $this->createForm(PaymentOrderManualConfirmationType::class);
@@ -60,12 +70,66 @@ final class PaymentOrderManualConfirmController extends AbstractController
             //Show a success flash notification
             $this->addFlash('success', 'payment_order.manual_confirm.success');
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin/payment_order/manual_confirm.html.twig', [
             'entity' => $paymentOrder,
             'notifications_risky' => array_filter($notifications_risky),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * This method show a detail form where the user can check the factually_correct or mathematically_correct field
+     * with a optional remark
+     * @param  PaymentOrder  $paymentOrder
+     * @param  string  $type
+     * @param  Request  $request
+     * @return void
+     */
+    #[Route(path: '/{id}/check/{type}', name: 'payment_order_check')]
+    public function doCheck(
+        PaymentOrder $paymentOrder,
+        string $type,
+        Request $request,
+        CheckHelper $checkHelper,
+
+    ): Response {
+        //Ensure that the type is valid
+        if (!in_array($type, CheckHelper::ALLOWED_FIELDS, true)) {
+            throw $this->createNotFoundException();
+        }
+
+        //Check if the current user is allowed to check the field
+        if ($type === CheckHelper::FACTUALLY_CORRECT) {
+            $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
+        }
+        if ($type === CheckHelper::MATHEMATICALLY_CORRECT) {
+            $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
+        }
+
+        //Create the form
+        $form = $this->createFormBuilder()
+            ->add('remark', TextareaType::class, ['required' => false, 'label' => 'Anmerkung'])
+            ->add('submit', SubmitType::class, ['label' => 'Prüfen'])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $remark = $form->get('remark')->getData();
+            $checkHelper->check($paymentOrder, $type, $remark);
+
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'payment_order.check.success');
+
+            return $this->redirectToRoute('admin_payment_order_detail', ['entityId' => $paymentOrder->getId()]);
+        }
+
+        return $this->render('admin/payment_order/check.html.twig', [
+            'entity' => $paymentOrder,
+            'type' => $type,
             'form' => $form->createView(),
         ]);
     }

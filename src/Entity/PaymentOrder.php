@@ -20,6 +20,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\DBElementInterface;
 use App\Entity\Contracts\TimestampedElementInterface;
+use App\Entity\Embeddable\Check;
 use App\Entity\Embeddable\Confirmation;
 use App\Entity\Embeddable\PayeeInfo;
 use App\EntityListener\PaymentOrderChangedFieldsListener;
@@ -227,19 +228,21 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      *******************************************************************************************************************/
 
     /**
-     * @var bool "mathematisch richtig"
+     * @var Check "mathematisch richtig"
      */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $mathematically_correct = false;
+    #[ORM\Embedded(Check::class)]
+    #[Assert\Valid]
+    private Check $mathematically_correct;
+
+    /**
+     * @var Check "sachlich richtig"
+     */
+    #[ORM\Embedded(Check::class)]
+    #[Assert\Valid]
+    private Check $factually_correct;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $exported = false;
-
-    /**
-     * @var bool "sachlich richtig"
-     */
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $factually_correct = false;
 
     /**
      * @var Confirmation The first confirmation for this payment order
@@ -297,6 +300,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
         $this->confirmation1 = new Confirmation();
         $this->confirmation2 = new Confirmation();
+
+        $this->mathematically_correct = new Check();
+        $this->factually_correct = new Check();
     }
 
     public function getId(): ?int
@@ -468,23 +474,31 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     }
 
     /**
-     * Returns whether this payment order was checked as mathematically correct.
-     * This means it was checked that the amount and data in this payment order matches the data on the invoice.
+     * Returns the check object for "mathematically correct".
+     * @return Check
      */
-    public function isMathematicallyCorrect(): bool
+    public function getMathematicallyCorrect(): Check
     {
         return $this->mathematically_correct;
     }
 
     /**
-     * Sets whether this payment order was checked as mathematically correct.
+     * Returns whether this payment order was checked as mathematically correct.
      * This means it was checked that the amount and data in this payment order matches the data on the invoice.
      */
-    public function setMathematicallyCorrect(bool $mathematically_correct): PaymentOrder
+    public function isMathematicallyCorrectChecked(): bool
     {
-        $this->mathematically_correct = $mathematically_correct;
+        return $this->mathematically_correct->isChecked();
+    }
 
-        return $this;
+
+    /**
+     * Returns the check object for "factually correct".
+     * @return Check
+     */
+    public function getFactuallyCorrect(): Check
+    {
+        return $this->factually_correct;
     }
 
     /**
@@ -492,24 +506,9 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * This means it was checked that this payment is really needed. In our context it also means that an payment order
      * was payed out and is finished.
      */
-    public function isFactuallyCorrect(): bool
+    public function isFactuallyCorrectChecked(): bool
     {
-        return $this->factually_correct;
-    }
-
-    /**
-     * Sets whether this payment order was checked as factually correct.
-     * This means it was checked that this payment is really needed. In our context it also means that an payment order
-     * was payed out and is finished.
-     */
-    public function setFactuallyCorrect(bool $factually_correct): PaymentOrder
-    {
-        $this->factually_correct = $factually_correct;
-
-        //Update the status of booking date
-        $this->booking_date = $factually_correct ? new \DateTime() : null;
-
-        return $this;
+        return $this->factually_correct->isChecked();
     }
 
     /**
@@ -706,7 +705,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     }
 
     /**
-     * Returns whether this is an payment order for an resolution of the FSR-Kom (these are handled differently).
+     * Returns whether this is a payment order for a resolution of the FSR-Kom (these are handled differently).
      */
     public function isFsrKomResolution(): bool
     {
@@ -714,7 +713,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     }
 
     /**
-     * Sets whether this is an payment order for an resolution of the FSR-Kom (these are handled differently).
+     * Sets whether this is a payment order for a resolution of the FSR-Kom (these are handled differently).
      */
     public function setFsrKomResolution(bool $fsr_kom_resolution): PaymentOrder
     {
@@ -758,7 +757,6 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /**
      * Manually set the datetime when this payment was booked in banking.
      * Set to null if payment_order was not booked yet.
-     * The value is set automatically to now when the "factually_checked" field is set.
      */
     public function setBookingDate(?DateTime $booking_date): PaymentOrder
     {

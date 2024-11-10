@@ -1,0 +1,17 @@
+{% extends "@EasyAdmin/page/content.html.twig" %}
+{% form_theme form "@EasyAdmin/crud/form_theme.html.twig" %}
+{% import "admin/payment_order/tables.macro.twig" as tables %}
+
+{% block page_title %}
+    {% if type == 'factually_correct' %}Sachliche{% else %}Rechnerische{% endif %}
+    Prüfung von {{ entity.iDString }}{% endblock %}
+
+{% block page_content %}
+
+    {{ tables.paymentOrder(entity) }}
+
+    <p>Es kann eine optionale Anmerkung zur Prüfung angegeben werden</p>
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+{% endblock %}
