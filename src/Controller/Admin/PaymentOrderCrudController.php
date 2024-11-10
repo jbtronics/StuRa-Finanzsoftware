@@ -399,7 +399,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
         //$creationDate = TextField::new('creation_date', 'creation_date');
 
         //Status informations
-        $statusPanel = FormField::addPanel('payment_order.group.status');
+        $statusPanel = FormField::addFieldset('payment_order.group.status');
         $mathematicallyCorrect = BooleanField::new('mathematically_correct.checked', 'payment_order.mathematically_correct.label')
             ->setHelp('payment_order.mathematically_correct.help')
             //Disable fields (and show coloumns as read only tags) if user does not have proper permissions to change
@@ -421,14 +421,14 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $references_exported = BooleanField::new('references_exported', 'payment_order.references_exported.label');
 
         //Payee informations
-        $payeePanel = FormField::addPanel('payment_order.group.receiver');
+        $payeePanel = FormField::addFieldset('payment_order.group.receiver');
         $bankInfoAccountOwner = TextField::new('bank_info.account_owner', 'bank_info.account_owner.label');
         $bankInfoStreet = TextField::new('bank_info.street', 'bank_info.street.label');
         $bankInfoZipCode = TextField::new('bank_info.zip_code', 'bank_info.zip_code.label');
         $bankInfoCity = TextField::new('bank_info.city', 'bank_info.city.label');
 
         //Payee bank account infos
-        $bankInfoPanel = FormField::addPanel('payment_order.group.bank_info');
+        $bankInfoPanel = FormField::addFieldset('payment_order.group.bank_info');
         $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label');
         $bankInfoBic = TextField::new('bank_info.bic', 'bank_info.bic.label')
             ->setRequired(false)
@@ -484,21 +484,21 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),
                 //Status infos
                 FormField::addColumn(),
-                FormField::addPanel('payment_order.section.status.confirmation'),
+                FormField::addFieldset('payment_order.section.status.confirmation'),
                 BooleanField::new('confirmed', 'payment_order.confirmed.label'),
                 $requiredConfirmations,
                 $confirmation1,
                 $confirmation2,
 
                 FormField::addColumn(),
-                FormField::addPanel('payment_order.section.status.review'),
+                FormField::addFieldset('payment_order.section.status.review'),
                 CheckField::new('mathematically_correct', 'payment_order.mathematically_correct.label'),
                 CheckField::new('factually_correct', 'payment_order.factually_correct.label'),
                 $exported,
                 $booking_date,
                 $references_exported,
 
-                FormField::addPanel('payment_order.section.edited_fields'),
+                FormField::addFieldset('payment_order.section.edited_fields'),
                 FieldChangesField::new('field_changes', ""),
 
             ];
