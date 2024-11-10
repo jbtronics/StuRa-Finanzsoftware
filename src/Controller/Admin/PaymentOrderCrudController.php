@@ -199,40 +199,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
-    /**
-     * Handler for action if user click "check mathematically" button in admin page.
-     */
-    public function checkMathematicallyCorrect(AdminContext $context): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_PO_MATHEMATICALLY');
-
-        /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()
-            ->getInstance();
-        $payment_order->setMathematicallyCorrect(true);
-        $this->entityManager->flush();
-        $this->addFlash('success', 'payment_order.action.mathematically_correct.success');
-
-        return $this->redirect($context->getReferrer() ?? '/admin');
-    }
-
-    /**
-     * Handler for action if user click "check factually" button in admin page.
-     */
-    public function checkFactuallyCorrect(AdminContext $context): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_PO_FACTUALLY');
-
-        /** @var PaymentOrder $payment_order */
-        $payment_order = $context->getEntity()
-            ->getInstance();
-        $payment_order->setFactuallyCorrect(true);
-        $this->entityManager->flush();
-        $this->addFlash('success', 'payment_order.action.factually_correct.success');
-
-        return $this->redirect($context->getReferrer() ?? '/admin');
-    }
-
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
@@ -335,14 +301,14 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setCssClass('btn btn-secondary text-dark');
 
         $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
-            ->linkToCrudAction('checkMathematicallyCorrect')
+            ->linkToRoute('payment_order_check', fn (PaymentOrder $paymentOrder) => ['type' => 'mathematically_correct', 'id' => $paymentOrder->getId()])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_MATHEMATICALLY')
                 && $paymentOrder->isConfirmed()
                 && !$paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
         $factually_correct_action = Action::new('factuallyCorrect', 'payment_order.action.factually_correct', 'fas fa-check')
-            ->linkToCrudAction('checkFactuallyCorrect')
+            ->linkToRoute('payment_order_check', fn (PaymentOrder $paymentOrder) => ['type' => 'factually_correct', 'id' => $paymentOrder->getId()])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_PO_FACTUALLY')
                 && $paymentOrder->isConfirmed()
                 && !$paymentOrder->isFactuallyCorrectChecked()

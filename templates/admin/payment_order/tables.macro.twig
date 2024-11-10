@@ -1,0 +1,32 @@
+{% macro paymentOrder(entity) %}
+    {# @var \App\Entity\PaymentOrder entity #}
+
+    <table class="table table-sm table-striped table-bordered mt-2">
+        <tbody>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.department{% endtrans %}:</td>
+            <td>{{ entity.department.name }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.project_name{% endtrans %}: </td>
+            <td>{{ entity.projectName }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.amount{% endtrans %}: </td>
+            <td>{{ entity.amountString }} €</td>
+        </tr>
+        <tr>
+            <td>Mittelfreigabe</td>
+            <td>{{ entity.fundingId }} {% if entity.resolutionDate %}({{ entity.resolutionDate | format_date }}){% endif %}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.datetime{% endtrans %}</td>
+            <td>{{ entity.creationDate | format_datetime }}</td>
+        </tr>
+        <tr>
+            <td>{% trans %}payment_order.notification_user.id{% endtrans %}: </td>
+            <td>{{ entity.iDString }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endmacro %}

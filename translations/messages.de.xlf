@@ -2609,5 +2609,11 @@ Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speic
         <target>Beschlussdatum unterstützende Mittelfreigabe</target>
       </segment>
     </unit>
+    <unit id="rBSkRZS" name="payment_order.check.success">
+      <segment>
+        <source>payment_order.check.success</source>
+        <target>Zahlungsauftrag wurde erfolgreich geprüft</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
