@@ -3,10 +3,16 @@
 {% import "pdf/payment_order/confirmations.macro.twig" as confirmations %}
 
 {% block title %}
-    Zahlungsauftrag {{ paymentOrder.iDString }} (StuRa-Finanzer)
+    Zahlungsauftrag {{ paymentOrder.iDString }} (StuRa-Finanzen)
 {% endblock %}
 
 {% block data_remarks %}
+    {# Should be empty #}
+{% endblock %}
+
+{% block header %}
+    <span style="float: left;">Zahlungsauftrag <b>{{ paymentOrder.iDString }}</b> (StuRa-Finanzen)</span>
+    <span style="float: right;">Formular erzeugt {{ "now"|format_datetime("short") }}</span>
 {% endblock %}
 
 {% block confirmations %}
@@ -28,7 +34,7 @@
     <h4 style="margin: 0;">Rechnerische Prüfung (KV):</h4>
     {% if paymentOrder.mathematicallyCorrect.remark is not empty %}
         <p style="margin: 0; font-size: 9pt;">
-            <b>Prüfanmerkung</b>: {{ paymentOrder.mathematicallyCorrect.remark | u.truncate(160) }}
+            <b>Prüfanmerkung</b>: {{ paymentOrder.mathematicallyCorrect.remark | u.truncate(180, '...') }}
         </p>
     {% endif %}
 
@@ -37,7 +43,7 @@
     <h4 style="margin: 0;">Sachliche Prüfung (HHV):</h4>
     {% if paymentOrder.factuallyCorrect.remark is not empty %}
         <p style="margin: 0; font-size: 9pt;">
-            <b>Prüfanmerkung</b>: {{ paymentOrder.factuallyCorrect.remark | u.truncate(160) }}
+            <b>Prüfanmerkung</b>: {{ paymentOrder.factuallyCorrect.remark | u.truncate(180, '...') }}
         </p>
     {% endif %}
 
