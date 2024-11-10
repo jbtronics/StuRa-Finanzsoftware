@@ -18,6 +18,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\CheckField;
 use App\Admin\Field\ConfirmationField;
 use App\Admin\Field\FieldChangesField;
 use App\Admin\Field\VichyFileField;
@@ -491,9 +492,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
                 FormField::addColumn(),
                 FormField::addPanel('payment_order.section.status.review'),
-                $mathematicallyCorrect,
+                CheckField::new('mathematically_correct', 'payment_order.mathematically_correct.label'),
+                CheckField::new('factually_correct', 'payment_order.factually_correct.label'),
                 $exported,
-                $factuallyCorrect,
                 $booking_date,
                 $references_exported,
 
