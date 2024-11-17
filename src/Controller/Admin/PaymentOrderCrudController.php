@@ -324,7 +324,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_MANUAL_CONFIRMATION')
                 && !$paymentOrder->isConfirmed());
 
-        $pdf_form_action = Action::new('pdf_form', 'payment_order.action.pdf_form', 'fas fa-file-invoice')
+        $pdf_form_action = Action::new('pdf_form', 'payment_order.action.pdf_form', 'fas fa-file-contract')
             ->linkToRoute('payment_order_pdf_stura', fn(PaymentOrder $paymentOrder): array => [
                 'id' => $paymentOrder->getId(),
             ])
