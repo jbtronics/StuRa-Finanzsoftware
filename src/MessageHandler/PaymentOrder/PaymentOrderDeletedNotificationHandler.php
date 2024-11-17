@@ -63,11 +63,10 @@ final readonly class PaymentOrderDeletedNotificationHandler
         ]);
 
         //Send the email to the FSR officers and the HHV/FSB
-        $email_addresses = array_merge(
-            $paymentOrder->getDepartment()->getEmailHhv(),
-            $paymentOrder->getDepartment()->getEmailTreasurer(),
-            [$reply_to_email]
-        );
+        $email_addresses = $paymentOrder->getDepartment()?->getConfirmers()->map(
+            fn($confirmer) => $confirmer->getEmail()
+        )->toArray() ?? [];
+        $email_addresses[] = $reply_to_email;
 
         $email->addBcc(...$email_addresses);
 
