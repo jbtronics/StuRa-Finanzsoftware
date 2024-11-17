@@ -51,7 +51,7 @@
 {% block footer %}
     {% if paymentOrder.fieldChanges.mostRecentChangedField is not null %}
         <p style="margin: 0;">
-            Werte mit einem <b>‡</b> am Anfang weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
+            Werte mit einem <b>✎</b>-Symbol am Anfang weisen darauf hin, dass dieses Feld von den StuRa-Finanzer*innen bearbeitet wurde.<br>
             Die letzte Änderung erfolgte <i>{{ paymentOrder.fieldChanges.mostRecentChangeDate | format_datetime("short") }}</i> durch <i>{{ paymentOrder.fieldChanges.mostRecentChangeUser }}</i>.
         </p>
     {% endif %}

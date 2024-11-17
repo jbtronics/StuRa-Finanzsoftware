@@ -1,8 +1,8 @@
-{%- macro field(field_changes, field, symbol = "‡") -%}
+{%- macro field(field_changes, field, symbol = "✎") -%}
     {% apply spaceless %}
         {# @var \App\Entity\FieldChanges field_changes #}
         {% if field_changes.wasChanged(field) %}
-            <b>{{ symbol }}</b>&nbsp;
+            <b style="font-size: larger; letter-spacing: -2px;">{{ symbol }}</b>&nbsp;
         {% endif %}
     {% endapply %}
 {%- endmacro -%}
