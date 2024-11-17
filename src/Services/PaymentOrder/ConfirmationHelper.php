@@ -61,7 +61,7 @@ final class ConfirmationHelper
      * @param  PaymentOrder  $paymentOrder The confirmation token to use
      * @param  ConfirmationToken  $confirmationToken
      * @param  string|null  $remark An optional remark about the confirmation
-     * @return bool
+     * @return void
      */
     public function confirm(PaymentOrder $paymentOrder, ConfirmationToken $confirmationToken, ?string $remark = null): void
     {

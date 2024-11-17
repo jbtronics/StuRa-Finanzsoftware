@@ -256,52 +256,6 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
     }
 
     /**
-     * Returns the list of email addresses that should receive a confirmation email for the first confirmation.
-     *
-     * @return string[]
-     */
-    public function getEmailHhv(): array
-    {
-        //Handle empty fields from older migrations
-        return $this->email_hhv ?? [];
-    }
-
-    /**
-     * Sets the list of email addresses that should receive a confirmation email for the first confirmation.
-     *
-     * @param string[] $email_hhv
-     */
-    public function setEmailHhv(array $email_hhv): Department
-    {
-        $this->email_hhv = $email_hhv;
-
-        return $this;
-    }
-
-    /**
-     * Returns the list of email addresses that should receive a confirmation email for the second confirmation.
-     *
-     * @return string[]
-     */
-    public function getEmailTreasurer(): array
-    {
-        //Handle empty fields from older migrations
-        return $this->email_treasurer ?? [];
-    }
-
-    /**
-     * Sets the list of email addresses that should receive a confirmation email for the second confirmation.
-     *
-     * @param string[] $email_treasurer
-     */
-    public function setEmailTreasurer(array $email_treasurer): Department
-    {
-        $this->email_treasurer = $email_treasurer;
-
-        return $this;
-    }
-
-    /**
      * Returns the prefix that is used in filenames when exporting references.
      *
      * @return string

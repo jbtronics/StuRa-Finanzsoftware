@@ -284,7 +284,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     private ?FieldChanges $field_changes = null;
 
     /**
-     * @var Collection The confirmation tokens that can be used to confirm this payment order
+     * @var Collection<ConfirmationToken> The confirmation tokens that can be used to confirm this payment order
      */
     #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'paymentOrder', orphanRemoval: true)]
     private Collection $confirmationTokens;

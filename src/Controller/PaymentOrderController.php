@@ -250,8 +250,8 @@ final class PaymentOrderController extends AbstractController
 
         //Check if the payment order can still be deleted
         $isUndeleteable = $paymentOrder->isExported()
-            || $paymentOrder->isMathematicallyCorrect()
-            || $paymentOrder->isFactuallyCorrect()
+            || $paymentOrder->isMathematicallyCorrectChecked()
+            || $paymentOrder->isFactuallyCorrectChecked()
             || null != $paymentOrder->getBookingDate();
 
         $deletion_form = $this->createFormBuilder()

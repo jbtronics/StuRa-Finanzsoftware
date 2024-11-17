@@ -86,7 +86,7 @@ final class PaymentOrderHelperController extends AbstractController
      * @param  PaymentOrder  $paymentOrder
      * @param  string  $type
      * @param  Request  $request
-     * @return void
+     * @return Response
      */
     #[Route(path: '/{id}/check/{type}', name: 'payment_order_check')]
     public function doCheck(

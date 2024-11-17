@@ -17,8 +17,7 @@ final class PaymentOrderFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $payment_order = new PaymentOrder();
-        $payment_order->setFirstName('John');
-        $payment_order->setLastName('Doe');
+        $payment_order->setSubmitterName('John Doe');
         $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('M-123-2020');
         $payment_order->setProjectName('Test');
@@ -43,8 +42,7 @@ final class PaymentOrderFixture extends Fixture
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
-        $payment_order->setFirstName('John');
-        $payment_order->setLastName('Doe');
+        $payment_order->setSubmitterName('John Doe');
         $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test');
@@ -69,8 +67,7 @@ final class PaymentOrderFixture extends Fixture
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
-        $payment_order->setFirstName('John');
-        $payment_order->setLastName('Doe');
+        $payment_order->setSubmitterName('John Doe');
         $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');
@@ -95,8 +92,7 @@ final class PaymentOrderFixture extends Fixture
         $manager->persist($payment_order);
 
         $payment_order = new PaymentOrder();
-        $payment_order->setFirstName('John');
-        $payment_order->setLastName('Doe');
+        $payment_order->setSubmitterName('John Doe');
         $payment_order->setSubmitterEmail('test@invalid.com');
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');

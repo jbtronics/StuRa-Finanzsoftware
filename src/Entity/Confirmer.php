@@ -60,11 +60,14 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
     private string $comment = '';
 
     /**
-     * @var Collection The departments the confirmer is responsible for
+     * @var Collection<Department> The departments the confirmer is responsible for
      */
     #[ORM\ManyToMany(targetEntity: Department::class, mappedBy: 'confirmers')]
     private Collection $departments;
 
+    /**
+     * @var Collection<ConfirmationToken> The confirmation tokens that belong to this confirmer
+     */
     #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer')]
     private Collection $confirmationTokens;
 

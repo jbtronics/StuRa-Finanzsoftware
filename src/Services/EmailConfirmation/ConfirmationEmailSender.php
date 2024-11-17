@@ -138,8 +138,7 @@ final readonly class ConfirmationEmailSender
     /**
      * Sents a confirmation email for the given payment order for a plaintext token.
      *
-     * @param PaymentOrder $paymentOrder        The paymentOrder for which the email should be generated
-     * @param Confirmer    $confirmer           The mail addresses that should be added as BCC
+     * @param ConfirmationToken $confirmationToken The confirmation token to send the email for.
      * @param string       $secret               The plaintext token to access confirmation page.
      *
      * @throws TransportExceptionInterface

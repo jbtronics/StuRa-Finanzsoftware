@@ -99,7 +99,7 @@ class BankAccount implements DBElementInterface, NamedElementInterface, Timestam
     }
 
     /**
-     * @return string|null The IBAN formatted with spaces between every 4 characters.
+     * @return string The IBAN formatted with spaces between every 4 characters.
      */
     public function getIbanFormatted(): string
     {

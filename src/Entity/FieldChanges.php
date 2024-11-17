@@ -136,7 +136,7 @@ class FieldChanges
      */
     public static function new(): self
     {
-        return new self([], null, self::SCHEMA_VERSION);
+        return new self([], null);
     }
 
     /**
