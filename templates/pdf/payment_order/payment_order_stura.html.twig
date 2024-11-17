@@ -34,7 +34,7 @@
     <h4 style="margin: 0;">Rechnerische Prüfung (KV):</h4>
     {% if paymentOrder.mathematicallyCorrect.remark is not empty %}
         <p style="margin: 0; font-size: 9pt;">
-            <b>Prüfanmerkung</b>: {{ paymentOrder.mathematicallyCorrect.remark | u.truncate(180, '...') }}
+            <b>Prüfanmerkung</b>: {{ paymentOrder.mathematicallyCorrect.remark | u.truncate(220, '...') }}
         </p>
     {% endif %}
 
@@ -43,7 +43,7 @@
     <h4 style="margin: 0;">Sachliche Prüfung (HHV):</h4>
     {% if paymentOrder.factuallyCorrect.remark is not empty %}
         <p style="margin: 0; font-size: 9pt;">
-            <b>Prüfanmerkung</b>: {{ paymentOrder.factuallyCorrect.remark | u.truncate(180, '...') }}
+            <b>Prüfanmerkung</b>: {{ paymentOrder.factuallyCorrect.remark | u.truncate(220, '...') }}
         </p>
     {% endif %}
 
