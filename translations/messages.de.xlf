@@ -2615,5 +2615,11 @@ Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speic
         <target>Zahlungsauftrag wurde erfolgreich geprüft</target>
       </segment>
     </unit>
+    <unit id="g0PNLqP" name="payment_order.action.pdf_form">
+      <segment>
+        <source>payment_order.action.pdf_form</source>
+        <target>Prüfformular anzeigen</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

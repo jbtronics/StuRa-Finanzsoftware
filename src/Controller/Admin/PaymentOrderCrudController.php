@@ -324,6 +324,13 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_MANUAL_CONFIRMATION')
                 && !$paymentOrder->isConfirmed());
 
+        $pdf_form_action = Action::new('pdf_form', 'payment_order.action.pdf_form', 'fas fa-file-invoice')
+            ->linkToRoute('payment_order_pdf_stura', fn(PaymentOrder $paymentOrder): array => [
+                'id' => $paymentOrder->getId(),
+            ])
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() && $paymentOrder->isMathematicallyCorrectChecked())
+            ->setCssClass('btn btn-success');
+
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
@@ -343,7 +350,12 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_DETAIL, $manual_confirmation);
         $actions->add(Crud::PAGE_EDIT, $manual_confirmation);
 
-        return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
+        $actions->add(Crud::PAGE_DETAIL, $pdf_form_action);
+        $actions->add(Crud::PAGE_EDIT, $pdf_form_action);
+
+        $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
+
+        return $actions;
     }
 
     public function configureFields(string $pageName): iterable
