@@ -41,8 +41,18 @@
         <h3 style="margin: 0;">Bestätigungen ({{ paymentOrder.numberOfConfirmations }} / {{ paymentOrder.requiredConfirmations }})</h3>
         <span><b>Eingereicht:</b> {{ paymentOrder.creationDate | format_datetime("short") }}</span>
 
+        {% if paymentOrder.confirmation1.remark is not empty %}
+            <p style="margin: 0; font-size: 9pt;">
+                <b>Anmerkung zu Bestätigung 1</b>: {{ paymentOrder.confirmation1.remark | u.truncate(220, '...') }}
+            </p>
+        {% endif %}
         {{ confirmations.confirmation_signature(paymentOrder.confirmation1) }}
         {% if paymentOrder.requiredConfirmations > 1 %}
+            {% if paymentOrder.confirmation2.remark is not empty %}
+                <p style="margin: 0; font-size: 9pt;">
+                    <b>Anmerkung zu Bestätigung 2</b>: {{ paymentOrder.confirmation2.remark | u.truncate(220, '...') }}
+                </p>
+            {% endif %}
             {{ confirmations.confirmation_signature(paymentOrder.confirmation2) }}
         {% endif %}
     {% endblock %}
