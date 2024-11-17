@@ -1,0 +1,20 @@
+{% extends "mails/base_mail.html.twig" %}
+
+{# @var payment_order \App\Entity\PaymentOrder #}
+
+{% block content %}
+    <row>
+        <columns>
+            <h4>Zahlungsauftrag {{ payment_order.iDString }} geprüft</h4>
+            <br>
+
+            <p>Untenstehender Zahlungsauftrag wurde durch fertig geprüft. Anbei befindet sich das Formular zum
+            Unterschreiben.</p>
+
+            {% include "mails/_payment_order_table.html.twig" %}
+
+            <br>
+        </columns>
+    </row>
+
+{% endblock %}

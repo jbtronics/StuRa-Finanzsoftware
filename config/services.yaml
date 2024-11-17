@@ -8,6 +8,7 @@ parameters:
     app.timezone: 'Europe/Berlin'
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
+    app.form_email: '%env(STURA_FORM_EMAIL)%'
     app.hhv_email: '%env(HHV_EMAIL)%'
     app.mail.from_email: '%env(FROM_EMAIL)%'
     app.mail.from_name: '%env(FROM_NAME)%'
@@ -94,7 +95,6 @@ services:
         arguments:
             $fontDirectory: '%kernel.project_dir%/var/dompdf/fonts/'
             $tmpDirectory: '%kernel.project_dir%/var/dompdf/tmp/'
-
 
 when@test:
     services:

@@ -7,8 +7,11 @@ namespace App\Services\PaymentOrder;
 
 use App\Entity\PaymentOrder;
 use App\Entity\User;
+use App\Event\PaymentOrderCheckFinishedEvent;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * A helper class that provides methods to check/uncheck the factually_correct or mathematically_correct check objects
@@ -21,7 +24,7 @@ final class CheckHelper
 
     public const ALLOWED_FIELDS = [self::FACTUALLY_CORRECT, self::MATHEMATICALLY_CORRECT];
 
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly Security $security, private readonly EventDispatcherInterface $eventDispatcher)
     {
 
     }
@@ -81,7 +84,10 @@ final class CheckHelper
             }
         }
 
-        //TODO: Add an event if both checks are checked
+        //If both fields are checked now, dispatch the check finished event
+        if ($paymentOrder->getFactuallyCorrect()->isChecked() && $paymentOrder->getMathematicallyCorrect()->isChecked()) {
+            $this->eventDispatcher->dispatch(new PaymentOrderCheckFinishedEvent($paymentOrder), PaymentOrderCheckFinishedEvent::NAME);
+        }
     }
 
     /**
