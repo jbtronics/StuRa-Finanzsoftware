@@ -19,10 +19,16 @@
         <b>{% trans %}dashboard.warning{% endtrans %}</b>
     </div>
 
+    {% macro format_day(val) %}
+        {% if val is not null %}
+            {{ val | format_number }} Tage
+        {% endif %}
+    {% endmacro %}
+
     {% if is_granted("ROLE_SHOW_PAYMENT_ORDERS") %}
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Statistik</h5>
+                <h5 class="card-title">Statistiken</h5>
 
                 <h6>Anzahl Aufträge</h6>
                 <table class="table table-sm table-striped table-hover">
@@ -150,6 +156,42 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <h6>Bearbeitungsdauer (von Einreichung zu Überweisung)</h6>
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Metrik</th>
+                        <th>Letzten 3 Tage</th>
+                        <th>Letzten 7 Tage</th>
+                        <th>Letzten 30 Tage</th>
+                        <th>Letzten 90 Tage</th>
+                        <th>Letzten 365 Tage</th>
+                        <th>Gesamt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Durchschnitt</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime("-3 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime("-7 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime("-30 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime("-90 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime("-365 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.averageProcessingTime()) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Standardabweichung</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime("-3 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime("-7 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime("-30 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime("-90 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime("-365 days")) }}</td>
+                            <td>{{ _self.format_day(statistics.stdDevProcessingTime()) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
 

@@ -30,6 +30,7 @@ doctrine:
         dql:
             numeric_functions:
                 stddev: DoctrineExtensions\Query\Mysql\StdDev
+                unix_timestamp: DoctrineExtensions\Query\Mysql\UnixTimestamp
 
         mappings:
             App:
