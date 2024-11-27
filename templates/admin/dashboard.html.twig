@@ -19,4 +19,140 @@
         <b>{% trans %}dashboard.warning{% endtrans %}</b>
     </div>
 
+    {% if is_granted("ROLE_SHOW_PAYMENT_ORDERS") %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Statistik</h5>
+
+                <h6>Anzahl Aufträge</h6>
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Metrik</th>
+                        <th>Letzten 24h</th>
+                        <th>Letzten 3 Tage</th>
+                        <th>Letzten 7 Tage</th>
+                        <th>Letzten 30 Tage</th>
+                        <th>Letzten 90 Tage</th>
+                        <th>Letzten 365 Tage</th>
+                        <th>Gesamt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Eingereicht</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-1 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-3 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-7 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-30 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-90 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount("-365 days") }}</td>
+                        <td>{{ statistics.submittedPaymentOrdersCount() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Rechnerisch Geprüft</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-1 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-3 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-7 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-30 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-90 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount("-365 days") }}</td>
+                        <td>{{ statistics.mathematicallyCheckedPaymentOrdersCount() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sachlich Geprüft</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-1 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-3 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-7 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-30 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-90 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount("-365 days") }}</td>
+                        <td>{{ statistics.factuallyCheckedPaymentOrdersCount() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Überwiesen</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-1 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-3 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-7 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-30 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-90 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount("-365 days") }}</td>
+                        <td>{{ statistics.bookedPaymentOrdersCount() }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h6>Geldbeträge</h6>
+
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Metrik</th>
+                        <th>Letzten 24h</th>
+                        <th>Letzten 3 Tage</th>
+                        <th>Letzten 7 Tage</th>
+                        <th>Letzten 30 Tage</th>
+                        <th>Letzten 90 Tage</th>
+                        <th>Letzten 365 Tage</th>
+                        <th>Gesamt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Summe</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-1days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-3days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-7 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-30 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-90 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue("-365 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersTotalValue() | format_currency("EUR") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Durchschnitt</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-1days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-3days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-7 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-30 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-90 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue("-365 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersAverageValue() | format_currency("EUR") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Standardabweichung</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-1days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-3days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-7 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-30 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-90 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue("-365 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersStdDevValue() | format_currency("EUR") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-1days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-3days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-7 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-30 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-90 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue("-365 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMinValue() | format_currency("EUR") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Maximum</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-1days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-3days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-7 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-30 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-90 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue("-365 days") | format_currency("EUR") }}</td>
+                        <td>{{ statistics.paymentOrdersMaxValue() | format_currency("EUR") }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    {% endif %}
+
 {% endblock %}

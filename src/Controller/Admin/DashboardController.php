@@ -25,6 +25,7 @@ use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Services\GitVersionInfo;
+use App\Services\Statistics\PaymentOrderStatistics;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -43,7 +44,7 @@ final class DashboardController extends AbstractDashboardController
 {
     private const FILTER_DATETIME_FORMAT = 'Y-m-d\TH:i:s';
 
-    public function __construct(private readonly string $app_version, private readonly GitVersionInfo $gitVersionInfo)
+    public function __construct(private readonly string $app_version, private readonly GitVersionInfo $gitVersionInfo, private readonly PaymentOrderStatistics $orderStatistics)
     {
     }
 
@@ -56,7 +57,9 @@ final class DashboardController extends AbstractDashboardController
     #[Route(path: '/admin', name: 'admin')]
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        return $this->render('admin/dashboard.html.twig', [
+            'statistics' => $this->orderStatistics,
+        ]);
     }
 
     private function addFiltersToMenuItem(CrudMenuItem $menuItem, array $filters): CrudMenuItem
