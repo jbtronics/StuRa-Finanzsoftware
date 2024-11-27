@@ -35,6 +35,7 @@ use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -65,6 +66,8 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+
+#[AdminCrud(routePath: '/payment_order')]
 final class PaymentOrderCrudController extends AbstractCrudController
 {
     public function __construct(
