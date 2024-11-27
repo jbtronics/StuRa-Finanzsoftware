@@ -16,6 +16,9 @@ return [
         'path' => './assets/frontend.js',
         'entrypoint' => true,
     ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+    ],
     'bootstrap' => [
         'version' => '5.3.3',
     ],
@@ -27,34 +30,41 @@ return [
         'type' => 'css',
     ],
     '@fortawesome/fontawesome-free' => [
-        'version' => '6.6.0',
+        'version' => '6.7.1',
     ],
     '@fortawesome/fontawesome-free/css/fontawesome.min.css' => [
-        'version' => '6.6.0',
+        'version' => '6.7.1',
         'type' => 'css',
     ],
     '@fortawesome/fontawesome-free/css/solid.min.css' => [
-        'version' => '6.6.0',
+        'version' => '6.7.1',
         'type' => 'css',
     ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
-    '@symfony/stimulus-bundle' => [
-        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
     'tom-select' => [
-        'version' => '2.3.1',
+        'version' => '2.4.1',
     ],
     'tom-select/dist/css/tom-select.default.css' => [
-        'version' => '2.3.1',
+        'version' => '2.4.1',
         'type' => 'css',
     ],
     'tom-select/dist/css/tom-select.bootstrap5.css' => [
-        'version' => '2.3.1',
+        'version' => '2.4.1',
         'type' => 'css',
     ],
     'es-module-shims' => [
-        'version' => '1.10.0',
+        'version' => '1.10.1',
+    ],
+    '@orchidjs/sifter' => [
+        'version' => '1.1.0',
+    ],
+    '@orchidjs/unicode-variants' => [
+        'version' => '1.1.2',
+    ],
+    'tom-select/dist/css/tom-select.default.min.css' => [
+        'version' => '2.4.1',
+        'type' => 'css',
     ],
 ];
