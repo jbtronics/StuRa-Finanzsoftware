@@ -10,6 +10,21 @@
         </div>
     {% endif %}
 
+    {% if is_granted("ROLE_SHOW_PAYMENT_ORDERS") %}
+        <form method="get" action="{{ url("admin_payment_order_goto") }}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Zahlungsauftrag aufrufen:</h5>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1" style="height: 38px;"><b>ZA</b></span>
+                    <input type="number" name="id" min="1" required class="form-control" placeholder="Auftragsnummer" aria-label="ZA-Nummer" aria-describedby="basic-addon1">
+                    <button class="btn btn-outline-secondary" type="submit" style="height: 36px;">Go</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    {% endif %}
+
     <div class="alert alert-info rounded">
         <h1>{% trans %}dashboard.welcome{% endtrans %}</h1>
         <h4>{% trans %}dashboard.explanation{% endtrans %}</h4>

@@ -133,4 +133,26 @@ final class PaymentOrderHelperController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route(path: '/payment_order/goto', name: "admin_payment_order_goto")]
+    public function goToPaymentOrder(
+        Request $request,
+    ): Response
+    {
+        //Check if the user is allowed to access this route
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
+        //Extract the payment order id from the request
+        $paymentOrderId = $request->query->getInt('id', 0);
+
+        //Check if the payment order exists
+        $paymentOrder = $this->entityManager->getRepository(PaymentOrder::class)->find($paymentOrderId);
+
+        if ($paymentOrder === null) {
+            $this->addFlash('danger', 'Es konnte kein Zahlungsauftrag mit der ID ' . $paymentOrderId . ' gefunden werden.');
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->redirectToRoute('admin_payment_order_detail', ['entityId' => $paymentOrder->getId()]);
+    }
 }
