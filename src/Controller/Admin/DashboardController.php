@@ -310,6 +310,8 @@ final class DashboardController extends AbstractDashboardController
             ->addJsFile('assets/js/jquery.slim.js')
             ->addJsFile('assets/js/select2.full.min.js')
             ->addCssFile('assets/css/select2.min.css')
-            ->addCssFile('admin_styles.css');
+            ->addCssFile('admin_styles.css')
+            ->addAssetMapperEntry('backend')
+            ;
     }
 }

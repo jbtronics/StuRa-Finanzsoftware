@@ -216,61 +216,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
             $actions->addBatchAction(Action::new('sepaXMLExport', 'payment_order.action.export_xml')
                 ->linkToCrudAction('sepaXMLExport')
                 ->addCssClass('btn btn-primary')
+                //Together with some backend.js logic, this attribute will prevent the modal from showing
                 ->setHtmlAttributes([
-                    /*'onclick' => '$("#modal-batch-action").on("shown.bs.modal", function(e){
-                        $("#modal-batch-action").addClass("d-none");
-                        $("#modal-batch-action-button").trigger("click");
-                    });'*/
-                    //Very ugly hack to skip the confirmation dialog.
-                    'onclick' => '
-                        let $actionElement = $(this);
-                        $("#modal-batch-action").addClass("d-none");
-                        $actionElement.off("click");
-
-                        const actionName = $actionElement.attr("data-action-name");
-                        const selectedItems = $("input[type=\'checkbox\'].form-batch-checkbox:checked");
-               
-                        $form = document.createElement("form");
-                        $form.setAttribute("action", $actionElement.attr("data-action-url"));
-                        $form.setAttribute("method", "POST");
-
-                        $actionNameInput = document.createElement("input");
-                        $actionNameInput.setAttribute("type", "hidden");
-                        $actionNameInput.setAttribute("name", "batchActionName");
-                        $actionNameInput.setAttribute("value", $actionElement.attr("data-action-name"));
-                        $form.appendChild($actionNameInput);
-
-                        $entityFqcnInput = document.createElement("input");
-                        $entityFqcnInput.setAttribute("type", "hidden");
-                        $entityFqcnInput.setAttribute("name", "entityFqcn");
-                        $entityFqcnInput.setAttribute("value", $actionElement.attr("data-entity-fqcn"));
-                        $form.appendChild($entityFqcnInput);
-
-                        $actionUrlInput = document.createElement("input");
-                        $actionUrlInput.setAttribute("type", "hidden");
-                        $actionUrlInput.setAttribute("name", "batchActionUrl");
-                        $actionUrlInput.setAttribute("value", $actionElement.attr("data-action-url"));
-                        $form.appendChild($actionUrlInput);
-
-                        $csrfTokenInput = document.createElement("input");
-                        $csrfTokenInput.setAttribute("type", "hidden");
-                        $csrfTokenInput.setAttribute("name", "batchActionCsrfToken");
-                        $csrfTokenInput.setAttribute("value", $actionElement.attr("data-action-csrf-token"));
-                        $form.appendChild($csrfTokenInput);
-
-                        selectedItems.each((i, item) => {
-                            $entityIdInput = document.createElement("input");
-                            $entityIdInput.setAttribute("type", "hidden");
-                            $entityIdInput.setAttribute("name", `batchActionEntityIds[${i}]`);
-                            $entityIdInput.setAttribute("value", item.value);
-                            $form.appendChild($entityIdInput);
-                        });
-
-                        document.body.appendChild($form);
-
-                        //modalTitle.text(titleContentWithPlaceholders);
-                        $form.submit();
-                    '
+                    'data-action-batch-no-confirm' => 'true',
                 ])
                 ->setIcon('fas fa-file-export')
             );
@@ -280,6 +228,10 @@ final class PaymentOrderCrudController extends AbstractCrudController
             $actions->addBatchAction(Action::new('referencesExport', 'payment.order.action.export.export_references')
                     ->linkToCrudAction('referencesExport')
                     ->addCssClass('btn btn-primary')
+                    //Together with some backend.js logic, this attribute will prevent the modal from showing
+                    ->setHtmlAttributes([
+                        'data-action-batch-no-confirm' => 'true',
+                    ])
                     ->setIcon('fas fa-file-invoice')
             );
         //}
@@ -330,6 +282,10 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $pdf_form_action = Action::new('pdf_form', 'payment_order.action.pdf_form', 'fas fa-file-contract')
             ->linkToRoute('payment_order_pdf_stura', fn(PaymentOrder $paymentOrder): array => [
                 'id' => $paymentOrder->getId(),
+            ])
+            //Together with some backend.js logic, this attribute will prevent the modal from showing
+            ->setHtmlAttributes([
+                'data-action-batch-no-confirm' => 'true',
             ])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() && $paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
