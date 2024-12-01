@@ -35,6 +35,7 @@ use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentOrderMailLinkGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -85,6 +86,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
         return PaymentOrder::class;
     }
 
+    #[AdminAction(routePath: '/action-sepa-xml-export', routeName: 'admin_action_payment_order_sepa_xml_export', methods: ['POST'])]
     public function sepaXMLExport(BatchActionDto $batchActionDto): Response
     {
         return $this->redirect(
@@ -94,6 +96,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
         );
     }
 
+    #[AdminAction(routePath: '/action-references-export', routeName: 'admin_action_payment_order_references_export', methods: ['POST'])]
     public function referencesExport(BatchActionDto $batchActionDto): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
@@ -282,10 +285,6 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $pdf_form_action = Action::new('pdf_form', 'payment_order.action.pdf_form', 'fas fa-file-contract')
             ->linkToRoute('payment_order_pdf_stura', fn(PaymentOrder $paymentOrder): array => [
                 'id' => $paymentOrder->getId(),
-            ])
-            //Together with some backend.js logic, this attribute will prevent the modal from showing
-            ->setHtmlAttributes([
-                'data-action-batch-no-confirm' => 'true',
             ])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() && $paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
