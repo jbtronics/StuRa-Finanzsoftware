@@ -195,6 +195,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
     /**
      * Handler for action if user click "resend" button in admin page.
      */
+    #[AdminAction(routePath: '/action-resend-confirmation', routeName: 'admin_action_payment_order_resend_confirmation', methods: ['POST', 'GET'])]
     public function resendConfirmationEmail(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_EDIT_PAYMENT_ORDERS');
@@ -205,7 +206,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         $this->addFlash('success', 'payment_order.action.resend_confirmation.success');
 
-        return $this->redirect($context->getReferrer() ?? '/admin');
+        return $this->redirectToRoute('admin_payment_order_detail', ['entityId' => $payment_order->getId()]);
     }
 
     /**
