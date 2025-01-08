@@ -1253,7 +1253,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="IZIxTyG" name="payment_order.printed_form.label">
       <segment>
         <source>payment_order.printed_form.label</source>
-        <target>Zahlungsauftragsformular</target>
+        <target>Struktur-Formular</target>
       </segment>
     </unit>
     <unit id="U1nhaZQ" name="payment_order.references.label">
