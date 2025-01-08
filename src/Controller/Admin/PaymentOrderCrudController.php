@@ -34,6 +34,7 @@ use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Services\PaymentOrderMailLinkGenerator;
+use App\Services\PaymentReferenceGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
@@ -76,7 +77,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         private EntityManagerInterface $entityManager,
         private readonly ConfirmationEmailSender $confirmationEmailSender,
         private readonly AdminUrlGenerator $adminURLGenerator,
-        private readonly MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus,
+        private readonly PaymentReferenceGenerator $paymentReferenceGenerator,
     )
     {
     }
@@ -206,6 +208,25 @@ final class PaymentOrderCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?? '/admin');
     }
 
+    /**
+     * Handler for action if the user clicks on the "update reference" button in the admin page.
+     * This should regenerate the reference from the invoice and reference number of the payment order.
+     * @param  AdminContext  $context
+     * @return Response
+     */
+    #[AdminAction(routePath: '/action-update-reference', routeName: 'admin_action_payment_order_update_reference', methods: ['POST', 'GET'])]
+    public function updateReference(AdminContext $context): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_EDIT_PAYMENT_ORDERS');
+
+        $payment_order = $context->getEntity()->getInstance();
+
+        $this->paymentReferenceGenerator->setPaymentReference($payment_order);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('admin_payment_order_edit', ['entityId' => $payment_order->getId()]);
+    }
+
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
@@ -289,6 +310,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() && $paymentOrder->isMathematicallyCorrectChecked())
             ->setCssClass('btn btn-success');
 
+        $regenerate_reference = Action::new('update_reference', 'Verwendungszweck aktualisieren', 'fas fa-arrows-rotate')
+            ->linkToCrudAction('updateReference');
+
         $actions->add(Crud::PAGE_EDIT, $emailAction);
         $actions->add(Crud::PAGE_DETAIL, $emailAction);
 
@@ -301,6 +325,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         $actions->add(Crud::PAGE_DETAIL, $resend_confirmation_action);
         $actions->add(Crud::PAGE_EDIT, $resend_confirmation_action);
+
+        $actions->add(Crud::PAGE_EDIT, $regenerate_reference);
 
         $actions->add(Crud::PAGE_DETAIL, $mathematically_correct_action);
         $actions->add(Crud::PAGE_DETAIL, $factually_correct_action);
@@ -420,7 +446,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $invoiceNumber = TextField::new('invoice_number', 'payment_order.invoice_number.label')
             ->setRequired(false);
         $customerNumber = TextField::new('customer_number', 'payment_order.customer_number.label')
-            ->setRequired(false);
+            ->setRequired(false)
+            ->setHelp('Wenn die Rechnungs- oder Kundennummer geändert wird, muss der Verwendungszweck aktualisiert werden (Button "Verwendungszweck aktualisieren")!');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $department, $amount, $mathematicallyCorrect, $factuallyCorrect, $funding_id_index, $creationDate];
