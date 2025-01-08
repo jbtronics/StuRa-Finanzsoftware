@@ -2621,5 +2621,23 @@ Wenn du diese überschreiben möchtest, lösche die bestehende Vorlage und speic
         <target>Prüfformular anzeigen</target>
       </segment>
     </unit>
+    <unit id="ZJRoZVP" name="user.settings.info">
+      <segment>
+        <source>user.settings.info</source>
+        <target>Benutzerinformationen</target>
+      </segment>
+    </unit>
+    <unit id=".x7SSlD" name="user.role.user">
+      <segment>
+        <source>user.role.user</source>
+        <target>Benutzer</target>
+      </segment>
+    </unit>
+    <unit id="0XFa7oE" name="user.info.change_hint">
+      <segment>
+        <source>user.info.change_hint</source>
+        <target>Um diese Angaben zu ändern, kontaktiere einen Administrator.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
