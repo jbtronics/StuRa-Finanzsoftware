@@ -22,6 +22,7 @@ use App\Entity\Department;
 use App\Entity\DepartmentTypes;
 use App\Services\EmailConfirmation\ConfirmationTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -62,6 +63,7 @@ final class DepartmentCrudController extends AbstractCrudController
             ->setSearchFields(['id', 'name', 'type', 'comment']);
     }
 
+    #[AdminAction(routePath: '/action-generated-skip-token', routeName: 'admin_department_generate_skip_token', methods: ['GET', 'POST'])]
     public function generateSkipToken(AdminContext $context): Response
     {
         $this->denyAccessUnlessGranted('ROLE_EDIT_ORGANISATIONS');
@@ -73,7 +75,7 @@ final class DepartmentCrudController extends AbstractCrudController
         $department->addSkipBlockedValidationToken($this->tokenGenerator->getToken());
         $this->entityManager->flush();
 
-        return $this->redirect($context->getReferrer() ?? '/admin');
+        return $this->redirectToRoute('admin_department_detail', ['entityId' => $department->getId()]);
     }
 
     public function configureActions(Actions $actions): Actions
