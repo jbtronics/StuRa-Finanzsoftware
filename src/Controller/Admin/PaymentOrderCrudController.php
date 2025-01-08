@@ -360,6 +360,17 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setRequired(false);
         $resolution_date = DateField::new('resolution_date', 'payment_order.resolution_date.label')
             ->setRequired(false);
+
+        //Supporting values
+        $supportingAmount = MoneyField::new('supporting_amount', 'Unterstützender Betrag')
+            ->setCurrency('EUR')
+            ->setStoredAsCents();
+        $supportingFundingID = TextField::new('supporting_funding_id', 'Unterstützende Mittelfreigabe')
+            ->setRequired(false)
+            ->setEmptyData('');
+        $supportingFundingDate = DateField::new('supporting_funding_date', 'Datum der unterstützenden MF')
+            ->setRequired(false);
+
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')
             ->setRequired(false)
             ->setFormTypeOption('empty_data', '');
@@ -428,15 +439,18 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $id,
                 $submitterName,
                 $submitterEmail,
-                $projectName,
                 $department,
-                $amount,
+                $projectName,
                 $funding_id,
+                $amount,
                 $resolution_date,
-                $fsr_kom,
+                $supportingAmount,
+                $supportingFundingID,
+                $supportingFundingDate,
                 $comment,
                 $lastModified,
                 $creationDate,
+                $fsr_kom,
 
                 //Payee informations
                 FormField::addColumn(),
@@ -484,15 +498,16 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $infoPanel,
                 $submitterName,
                 $submitterEmail,
-                $projectName,
                 $department,
-                $amount,
+                $projectName,
                 $funding_id,
+                $amount,
                 $resolution_date,
-                $fsr_kom,
+                $supportingAmount,
+                $supportingFundingID,
+                $supportingFundingDate,
                 $comment,
-
-
+                $fsr_kom,
 
                 //Payee informations
                 FormField::addColumn(),

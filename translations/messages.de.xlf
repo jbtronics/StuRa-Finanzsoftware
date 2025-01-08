@@ -184,7 +184,7 @@
     <unit id="SX4qX8Q" name="payment_order.amount.label">
       <segment>
         <source>payment_order.amount.label</source>
-        <target>Betrag</target>
+        <target>Gesamtbetrag</target>
       </segment>
     </unit>
     <unit id="vJEF49c" name="payment_order.label">
@@ -1205,7 +1205,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="2lDQ7WR" name="payment_order.funding_id.label">
       <segment>
         <source>payment_order.funding_id.label</source>
-        <target>Mittelfreigabe FSR/Referat</target>
+        <target>Mittelfreigabe</target>
       </segment>
     </unit>
     <unit id="n32Jsyv" name="payment_order.funding_id.placeholder">
