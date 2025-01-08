@@ -42,7 +42,7 @@
 
     {% if is_granted("ROLE_SHOW_PAYMENT_ORDERS") %}
         {% cache "admin_dashboard_po_statistics" ttl(3600) %}
-            <div class="card">
+            <div class="card mt-3">
                 <div class="card-body">
                     <h5 class="card-title">Statistiken <small class="text-muted">(Stand {{ "now"|format_datetime }})</small></h5>
 
