@@ -437,6 +437,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $comment,
                 $lastModified,
                 $creationDate,
+
                 //Payee informations
                 FormField::addColumn(),
                 $payeePanel,
@@ -476,11 +477,10 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         if (Crud::PAGE_EDIT === $pageName) {
             return [
-                //Documents section
-                $documentsPanel,
-                $printed_form,
-                $references,
+                FormField::addTab('payment_order.tab.info', 'fas fa-circle-info'),
+
                 //Basic informations
+                FormField::addColumn(),
                 $infoPanel,
                 $submitterName,
                 $submitterEmail,
@@ -491,13 +491,11 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $resolution_date,
                 $fsr_kom,
                 $comment,
-                //Status infos
-                $statusPanel,
-                $mathematicallyCorrect,
-                $exported,
-                $factuallyCorrect,
-                $references_exported,
+
+
+
                 //Payee informations
+                FormField::addColumn(),
                 $payeePanel,
                 $bankInfoAccountOwner,
                 $bankInfoStreet,
@@ -509,6 +507,22 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $bankInfoBic,
                 $bankInfoBankName,
                 $bankInfoReference,
+
+
+                FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),
+                //Status infos
+                $statusPanel,
+                $mathematicallyCorrect,
+                $exported,
+                $factuallyCorrect,
+                $references_exported,
+
+
+                FormField::addTab('Dokumente', 'fas fa-file'),
+                //Documents section
+                $documentsPanel,
+                $printed_form,
+                $references,
             ];
         }
 

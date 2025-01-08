@@ -1940,7 +1940,7 @@ Du kannst dort auch sehen, wie viele verschiedene Personen diesen Zahlungsauftra
     <unit id="uD9OTtF" name="payment_order.fsr_kom.label">
       <segment>
         <source>payment_order.fsr_kom.label</source>
-        <target>Umbuchung vom FSR-Kom Konto auf FSR-Konto?</target>
+        <target>Umbuchung vom FSR-Kom Konto auf FSR-Konto? [ALT]</target>
       </segment>
     </unit>
     <unit id="UHwgUW." name="payment_order.resolution_date.label">
