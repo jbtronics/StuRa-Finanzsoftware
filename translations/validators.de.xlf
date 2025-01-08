@@ -62,5 +62,11 @@
 Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Person!</target>
       </segment>
     </unit>
+    <unit id="aKu1fAw" name="validator.supporting_amount.needed_for_supporting_funding_id">
+      <segment>
+        <source>validator.supporting_amount.needed_for_supporting_funding_id</source>
+        <target>Alle drei Angaben der unterstützenden Mittelfreigabe (Betrag, MF-Nummer und Beschlussdatum) müssen angegeben werden, wenn eines der Angaben gewünscht ist!</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

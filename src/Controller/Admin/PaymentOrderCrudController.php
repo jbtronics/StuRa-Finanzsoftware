@@ -366,8 +366,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setCurrency('EUR')
             ->setStoredAsCents();
         $supportingFundingID = TextField::new('supporting_funding_id', 'Unterstützende Mittelfreigabe')
-            ->setRequired(false)
-            ->setEmptyData('');
+            ->setRequired(false);
         $supportingFundingDate = DateField::new('supporting_funding_date', 'Datum der unterstützenden MF')
             ->setRequired(false);
 
@@ -418,6 +417,10 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $bankInfoReference = TextField::new('bank_info.reference', 'bank_info.reference.label')
             ->setRequired(false)
             ->setFormTypeOption('empty_data', '');
+        $invoiceNumber = TextField::new('invoice_number', 'payment_order.invoice_number.label')
+            ->setRequired(false);
+        $customerNumber = TextField::new('customer_number', 'payment_order.customer_number.label')
+            ->setRequired(false);
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $projectName, $department, $amount, $mathematicallyCorrect, $factuallyCorrect, $funding_id_index, $creationDate];
@@ -459,12 +462,16 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $bankInfoStreet,
                 $bankInfoZipCode,
                 $bankInfoCity,
+
                 //Banking informations
                 $bankInfoPanel,
                 $bankInfoIban,
                 $bankInfoBic,
                 $bankInfoBankName,
                 $bankInfoReference,
+                $invoiceNumber,
+                $customerNumber,
+
 
                 FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),
                 //Status infos
@@ -522,6 +529,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 $bankInfoBic,
                 $bankInfoBankName,
                 $bankInfoReference,
+                $invoiceNumber,
+                $customerNumber,
 
 
                 FormField::addTab('payment_order.tab.status', 'fas fa-list-check'),

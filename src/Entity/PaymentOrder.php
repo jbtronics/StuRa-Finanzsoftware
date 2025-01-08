@@ -140,7 +140,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Assert\Regex(PaymentOrder::FUNDING_ID_STURA_FSRKOM)]
     #[Assert\Expression("value === null || this.getSupportingAmount() !== null", message: 'validator.supporting_funding_id.needed_for_supporting_amount')]
-    private ?string $supporting_funding_id = '';
+    private ?string $supporting_funding_id = null;
 
     /**
      * The day, when the supporting funding was decided
