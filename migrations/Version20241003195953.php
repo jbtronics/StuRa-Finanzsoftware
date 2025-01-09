@@ -34,9 +34,4 @@ final class Version20241003195953 extends AbstractMigration
     {
         $this->addSql('ALTER TABLE payment_orders ADD first_name VARCHAR(255) NOT NULL, ADD last_name VARCHAR(255) NOT NULL, ADD contact_email VARCHAR(255) NOT NULL, DROP submitter_name, DROP submitter_email, DROP supporting_funding_id, DROP supporting_amount, DROP invoice_number, DROP customer_number');
     }
-
-    public function isTransactional(): bool
-    {
-        return false;
-    }
 }
