@@ -59,7 +59,8 @@
       <segment>
         <source>validator.two_few_confirmers</source>
         <target>Zu wenige Bestätigungspersonen!
-Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Person!</target>
+Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Person!
+(Alternativ kann die Struktur gesperrt werden)</target>
       </segment>
     </unit>
     <unit id="aKu1fAw" name="validator.supporting_amount.needed_for_supporting_funding_id">
