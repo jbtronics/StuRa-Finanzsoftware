@@ -271,7 +271,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         $emailAction = Action::new('sendEmail', 'payment_order.action.email', 'fas fa-envelope')
             ->linkToUrl(fn(PaymentOrder $paymentOrder): string => $this->mailToGenerator->generateContactMailLink($paymentOrder))
-            ->setCssClass('btn btn-secondary text-dark');
+            ->setCssClass('btn btn-secondary');
 
         //Hide action if no contact emails are associated with department
         $emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
@@ -279,7 +279,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $this->isGranted('ROLE_EDIT_PAYMENT_ORDERS') && !$paymentOrder->isConfirmed())
-            ->setCssClass('btn btn-secondary text-dark');
+            ->setCssClass('btn btn-secondary');
 
         $mathematically_correct_action = Action::new('mathematicallyCorrect', 'payment_order.action.mathematically_correct', 'fas fa-check')
             ->linkToRoute('payment_order_check', fn (PaymentOrder $paymentOrder) => ['type' => 'mathematically_correct', 'id' => $paymentOrder->getId()])
