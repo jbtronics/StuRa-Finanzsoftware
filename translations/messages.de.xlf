@@ -1712,7 +1712,7 @@ Du kannst dort auch sehen, wie viele verschiedene Personen diesen Zahlungsauftra
     <unit id=".6wa._B" name="payment_order.confirm.check3.label">
       <segment>
         <source>payment_order.confirm.check3.label</source>
-        <target>Ich bestätige, dass ich den Zahlungsauftrag unterschrieben und abgeheftet habe.</target>
+        <target>Ich bestätige, dass ich den Zahlungsauftrag ausdrucken, unterschreiben und zusammen mit den Originalbelegen abgeben werde.</target>
       </segment>
     </unit>
     <unit id="YA5xZMy" name="flash.info">
