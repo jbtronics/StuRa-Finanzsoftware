@@ -8,7 +8,7 @@ parameters:
     app.timezone: 'Europe/Berlin'
     app.support_email: '%env(SUPPORT_EMAIL)%'
     app.fsb_email: '%env(FSB_EMAIL)%'
-    app.form_email: '%env(STURA_FORM_EMAIL)%'
+    app.notification_email: '%env(STURA_NOTIFICATION_EMAIL)%'
     app.hhv_email: '%env(HHV_EMAIL)%'
     app.mail.from_email: '%env(FROM_EMAIL)%'
     app.mail.from_name: '%env(FROM_NAME)%'

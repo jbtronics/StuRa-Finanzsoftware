@@ -21,6 +21,7 @@ namespace App\MessageHandler\PaymentOrder;
 use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\ReplyEmailDecisonMaker;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Mime\Email;
@@ -33,7 +34,8 @@ final readonly class PaymentOrderDeletedNotificationHandler
     public function __construct(
         private MailerInterface $mailer,
         private ReplyEmailDecisonMaker $reply_decision_maker,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        #[Autowire('%app.notification_email%')] private string $notificationEmail,
     )
     {
     }
@@ -66,7 +68,7 @@ final readonly class PaymentOrderDeletedNotificationHandler
         $email_addresses = $paymentOrder->getDepartment()?->getConfirmers()->map(
             fn($confirmer) => $confirmer->getEmail()
         )->toArray() ?? [];
-        $email_addresses[] = $reply_to_email;
+        $email_addresses[] = $this->notificationEmail;
 
         $email->addBcc(...$email_addresses);
 

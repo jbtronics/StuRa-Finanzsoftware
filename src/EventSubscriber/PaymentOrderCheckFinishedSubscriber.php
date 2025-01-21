@@ -26,7 +26,7 @@ class PaymentOrderCheckFinishedSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly PaymentOrderPDFGenerator $paymentOrderPDFGenerator,
-        #[Autowire('%app.form_email%')] private readonly string $formEmail
+        #[Autowire('%app.notification_email%')] private readonly string $formEmail
     )
     {
     }
