@@ -53,8 +53,8 @@ class PaymentOrderControllerTest extends WebTestCase
         //Success submit returns to homepage
         self::assertResponseRedirects('/');
 
-        //Assert that 3 emails are sent (2 confirmation + 1 notification email)
-        self::assertEmailCount(3);
+        //Assert that 3 emails are sent (3 confirmation + 1 notification email)
+        self::assertEmailCount(4);
 
         //Check if an element was created
         $repo = self::getContainer()->get(PaymentOrderRepository::class);
@@ -64,7 +64,7 @@ class PaymentOrderControllerTest extends WebTestCase
         ]);
 
         //Do some basic validation
-        self::assertSame('John', $new_payment_order->getSubmitterName());
+        self::assertSame('John Doe', $new_payment_order->getSubmitterName());
         self::assertSame('DE68500105175596424738', $new_payment_order->getBankInfo()->getIbanWithoutSpaces());
 
         //Test if file was uploaded and put into correct place
@@ -93,13 +93,13 @@ class PaymentOrderControllerTest extends WebTestCase
         //Success submit does not redirect but returns a new form
         self::assertResponseIsSuccessful();
 
-        //Assert that 3 emails are sent (2 confirmation + 1 notification email)
-        self::assertEmailCount(3);
+        //Assert that 3 emails are sent (3 confirmation + 1 notification email)
+        self::assertEmailCount(4);
 
         $buttonCrawlerNode = $crawler->selectButton('Absenden und weiteren Auftrag erstellen');
         $form = $buttonCrawlerNode->form();
         //Most inputs should stay the same...
-        self::assertInputValueSame('payment_order[first_name]', 'John');
+        self::assertInputValueSame('payment_order[submitter_name]', 'John Doe');
         //Except project_name, amount and other fields
         self::assertInputValueSame('payment_order[amount]', '');
         self::assertInputValueSame('payment_order[project_name]', '');
@@ -207,27 +207,26 @@ class PaymentOrderControllerTest extends WebTestCase
         //Success submit does not redirect but returns a new form
         self::assertResponseRedirects('/');
 
-        //Assert that 3 emails are sent (2 confirmation + 1 notification email)
-        self::assertEmailCount(3);
+        //Assert that 3 emails are sent (3 confirmation + 1 notification email)
+        self::assertEmailCount(4);
     }
 
     protected function fillPaymentOrderFormData(Form $form): void
     {
         $form->setValues([
             'payment_order[department]' => '3',
-            'payment_order[first_name]' => 'John',
-            'payment_order[last_name]' => 'Doe',
-            'payment_order[contact_email]' => 'j.doe@invalid.com',
+            'payment_order[submitter_name]' => 'John Doe',
+            'payment_order[submitter_email]' => 'j.doe@invalid.com',
             'payment_order[project_name]' => 'Form Test',
             'payment_order[amount]' => '31,12',
-            'payment_order[resolution_date]' => '2020-12-31',
+            'payment_order[funding_id]' => 'M-PAF-123-2024_25',
+            'payment_order[resolution_date]' => (new \DateTime())->format('Y-m-d'),
             'payment_order[comment]' => '',
             'payment_order[bank_info][account_owner]' => 'John Doe',
             'payment_order[bank_info][street]' => 'Street 1',
             'payment_order[bank_info][zip_code]' => '12345',
             'payment_order[bank_info][city]' => 'City',
             'payment_order[bank_info][iban]' => 'DE68500105175596424738',
-            'payment_order[bank_info][bic]' => '',
             'payment_order[bank_info][bank_name]' => 'Bank',
         ]);
 
@@ -263,12 +262,12 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertResponseRedirects('/');
     }
 
-    public function testConfirmation1(): void
+    public function testConfirmation(): void
     {
         $client = self::createClient();
         $client->catchExceptions(false);
 
-        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=token1');
+        $client->request('GET', '/payment_order/token/1/confirm?secret=token1');
 
         //With correct token page must be rendered successfully
         self::assertResponseIsSuccessful();
@@ -289,56 +288,24 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertTrue($payment_order->getConfirmation1()->isConfirmed());
     }
 
-    public function testConfirmation2(): void
+    public function testOldConfirmation1(): void
+    {
+        $client = self::createClient();
+        $client->catchExceptions(false);
+
+        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=token1');
+
+        //It should get redirected to the new url
+        self::assertResponseRedirects('/payment_order/token/1/confirm?secret=token1');
+    }
+
+    public function testOldConfirmation2(): void
     {
         $client = self::createClient();
         $client->catchExceptions(false);
 
         $client->request('GET', '/payment_order/1/confirm?confirm=2&token=token2');
 
-        //With correct token page must be rendered successfully
-        self::assertResponseIsSuccessful();
-
-        $client->submitForm('Zahlungsauftrag bestätigen', [
-            'payment_order_confirmation[check_1]' => '1',
-            'payment_order_confirmation[check_2]' => '1',
-            'payment_order_confirmation[check_3]' => '1',
-        ]);
-
-        self::assertResponseIsSuccessful();
-
-        $repo = self::getContainer()->get(PaymentOrderRepository::class);
-        /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
-        $payment_order = $repo->find(1);
-
-        //And check if it was marked as confirmed
-        self::assertTrue($payment_order->getConfirmation2()->isConfirmed());
-    }
-
-    public function testConfirmation1WithoutAllCheckboxesChecked(): void
-    {
-        $client = self::createClient();
-        $client->catchExceptions(false);
-
-        $repo = self::getContainer()->get(PaymentOrderRepository::class);
-        /** @var PaymentOrder $payment_order Retrieve the payment order we just confirmed */
-        $payment_order = $repo->find(1);
-
-        $client->request('GET', '/payment_order/1/confirm?confirm=1&token=token1');
-
-        //With correct token page must be rendered successfully
-        self::assertResponseIsSuccessful();
-
-        //Submit form with one check mark missing
-        $client->submitForm('Zahlungsauftrag bestätigen', [
-            'payment_order_confirmation[check_1]' => '1',
-            'payment_order_confirmation[check_2]' => '1',
-            //'payment_order_confirmation[check_3]' => null,
-        ]);
-
-        self::assertResponseIsSuccessful();
-
-        //If a check mark was missing the payment order must not be confirmed
-        self::assertTrue($payment_order->getConfirmation1()->isConfirmed());
+        self::assertResponseRedirects('/payment_order/token/2/confirm?secret=token2');
     }
 }
