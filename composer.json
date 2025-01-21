@@ -17,7 +17,7 @@
         "doctrine/orm": "^3.2.2",
         "dompdf/dompdf": "^3.0",
         "easycorp/easyadmin-bundle": "^4.10.3",
-        "endroid/qr-code": "^5.0.9",
+        "endroid/qr-code": "^6.0.3",
         "jbtronics/dompdf-font-loader-bundle": "^1.1",
         "league/html-to-markdown": "^5.0",
         "nelmio/security-bundle": "^v3.3.0",
@@ -74,7 +74,7 @@
     "require-dev": {
         "ext-dom": "*",
         "dama/doctrine-test-bundle": "^v8.2.0",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "doctrine/doctrine-fixtures-bundle": "^4.0.0",
         "ekino/phpstan-banned-code": "^v3.0.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^2.1.2",
