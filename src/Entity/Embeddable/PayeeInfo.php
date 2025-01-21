@@ -61,7 +61,7 @@ class PayeeInfo
     private string $bank_name = '';
 
     #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: '140')]
+    #[Assert\Length(max: 140)]
     private ?string $reference = '';
 
     public function __construct()

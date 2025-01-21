@@ -1,11 +1,12 @@
 parameters:
     level: 5
     paths:
-        - bin/
-        - config/
-        - public/
         - src/
         - tests/
+
+    excludePaths:
+        - src/Doctrine/Purger/*
+        - tests/bootstrap.php
 
     symfony:
             containerXmlPath: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
@@ -13,3 +14,4 @@ parameters:
     doctrine:
         objectManagerLoader: tests/object-manager.php
         allowNullablePropertyForRequiredField: true
+

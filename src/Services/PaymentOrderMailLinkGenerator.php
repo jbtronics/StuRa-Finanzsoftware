@@ -75,7 +75,7 @@ final readonly class PaymentOrderMailLinkGenerator
     {
         $mailTo = new MailTo();
 
-        if ($paymentOrder->getSubmitterEmail() !== '' && $paymentOrder->getSubmitterEmail() !== '0') {
+        if ($paymentOrder->getSubmitterEmail() !== '') {
             $mailTo->setRecipients($paymentOrder->getSubmitterEmail());
         } elseif ($paymentOrder->getDepartment()->getContactEmails() !== []) {
             $mailTo->setRecipients($paymentOrder->getDepartment()->getContactEmails());

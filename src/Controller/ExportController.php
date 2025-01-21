@@ -133,7 +133,7 @@ final class ExportController extends AbstractController
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-type', $mime_type);
         $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
-        $response->headers->set('Content-length', strlen($content));
+        $response->headers->set('Content-length', (string) strlen($content));
         $response->setContent($content);
 
         return $response;

@@ -64,7 +64,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
         $identifier = null;
         $username = null;
 
-        if (null !== $tokenUser && $tokenUser instanceof UserInterface) {
+        if (null !== $tokenUser) {
             //Use full name of the user if possible
             if ($tokenUser instanceof \App\Entity\User) {
                 $identifier = $tokenUser->getUsername();
@@ -78,7 +78,7 @@ class UserProvider implements UserProviderInterface, EventSubscriber
             }
         }
 
-        if (null !== $impersonatorUser && $impersonatorUser instanceof UserInterface) {
+        if (null !== $impersonatorUser) {
             $username .= sprintf('[impersonator %s]', $impersonatorUser->getUserIdentifier());
         }
 

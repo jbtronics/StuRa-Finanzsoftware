@@ -44,7 +44,7 @@ final class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('app_version', $this->appVersion(...)),
@@ -65,7 +65,7 @@ final class AppExtension extends AbstractExtension
         'parts' => 2,
     ]): string
     {
-        Carbon::setLocale($this->requestStack->getCurrentRequest()->getLocale() ?? 'de');
+        Carbon::setLocale($this->requestStack->getCurrentRequest()?->getLocale() ?? 'de');
 
         return Carbon::parse($dateTime)->diffForHumans($other, $options);
     }
@@ -78,7 +78,7 @@ final class AppExtension extends AbstractExtension
     public function formatBytes(int $bytes, $precision = 2): string
     {
         $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        $factor = floor((strlen($bytes) - 1) / 3);
+        $factor = floor((strlen((string) $bytes) - 1) / 3);
 
         return sprintf("%.{$precision}f", $bytes / (1024 ** $factor)).@$size[$factor];
     }

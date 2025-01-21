@@ -241,7 +241,7 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('user.labelp', 'fas fa-user', User::class)
             ->setPermission('ROLE_READ_USER');
 
-        $version = $this->app_version.'-'.$this->gitVersionInfo->getGitCommitHash() ?? '';
+        $version = $this->app_version.'-'.($this->gitVersionInfo->getGitCommitHash() ?? '');
         yield MenuItem::section('Version '.$version, $this->infoIconEasterEgg());
         yield MenuItem::linktoRoute('dashboard.menu.audits', 'fas fa-binoculars', 'dh_auditor_list_audits')
             ->setPermission('ROLE_VIEW_AUDITS');

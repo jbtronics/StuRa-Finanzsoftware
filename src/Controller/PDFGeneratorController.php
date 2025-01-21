@@ -40,7 +40,7 @@ final class PDFGeneratorController extends AbstractController
         $response = new Response($data);
 
         $response->headers->set('Content-type', 'application/pdf');
-        $response->headers->set('Content-length', strlen($data));
+        $response->headers->set('Content-length', (string) strlen($data));
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-Disposition', 'inline');
 
@@ -56,7 +56,7 @@ final class PDFGeneratorController extends AbstractController
         $response = new Response($data);
 
         $response->headers->set('Content-type', 'application/pdf');
-        $response->headers->set('Content-length', strlen($data));
+        $response->headers->set('Content-length', (string) strlen($data));
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-Disposition', 'inline');
 

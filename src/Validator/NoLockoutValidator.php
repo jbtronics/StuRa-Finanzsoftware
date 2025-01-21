@@ -32,8 +32,6 @@ final class NoLockoutValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        /** @var NoLockout $constraint */
-
         if (null === $value || '' === $value) {
             return;
         }

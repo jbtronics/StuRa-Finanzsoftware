@@ -31,8 +31,6 @@ final class FSRNotBlockedValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        /** @var FSRNotBlocked $constraint */
-
         if (!$constraint instanceof FSRNotBlocked) {
             throw new UnexpectedTypeException($constraint, FSRNotBlocked::class);
         }
