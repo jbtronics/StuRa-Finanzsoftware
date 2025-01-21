@@ -3,13 +3,15 @@
 namespace App\DataFixtures;
 
 use App\Entity\BankAccount;
+use App\Entity\Confirmer;
 use App\Entity\Department;
 use App\Entity\DepartmentTypes;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class DepartmentFixture extends Fixture
+final class DepartmentFixture extends Fixture implements DependentFixtureInterface
 {
     public const DEPARTMENT1_REFERENCE = 'department1';
     public const DEPARTMENT2_REFERENCE = 'department2';
@@ -35,8 +37,9 @@ final class DepartmentFixture extends Fixture
         $department->setBlocked(true);
         $department->setSkipBlockedValidationTokens(['token1', 'token2']);
         $department->setContactEmails(['test@invalid.com', 'test@invalid.de']);
-        $department->setEmailHhv(['hhv@invalid.com']);
-        $department->setEmailTreasurer(['treasurer@invalid.com', 'treasurer2@invalid.com']);
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::HHV_1, Confirmer::class));
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::TREASURER_1, Confirmer::class));
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::TREASURER_2, Confirmer::class));
         $this->addReference(self::DEPARTMENT2_REFERENCE, $department);
         $manager->persist($department);
 
@@ -46,8 +49,9 @@ final class DepartmentFixture extends Fixture
         $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT1_REFERENCE, BankAccount::class));
         $department->setComment('Test');
         $department->setContactEmails(['test@invalid.com', 'test@invalid.de']);
-        $department->setEmailHhv(['hhv@invalid.com']);
-        $department->setEmailTreasurer(['treasurer@invalid.com', 'treasurer2@invalid.com']);
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::HHV_1, Confirmer::class));
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::TREASURER_1, Confirmer::class));
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::TREASURER_2, Confirmer::class));
         $this->addReference(self::DEPARTMENT3_REFERENCE, $department);
         $manager->persist($department);
 
@@ -63,10 +67,17 @@ final class DepartmentFixture extends Fixture
         $department->setName('Department 5');
         $department->setType(DepartmentTypes::SECTION);
         $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT3_REFERENCE, BankAccount::class));
-        $department->setEmailHhv(['hhv@invalid.com']);
+        $department->getConfirmers()->add($this->getReference(ConfirmerFixture::HHV_1, Confirmer::class));
         $this->addReference(self::DEPARTMENT5_REFERENCE, $department);
         $manager->persist($department);
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            ConfirmerFixture::class
+        ];
     }
 }

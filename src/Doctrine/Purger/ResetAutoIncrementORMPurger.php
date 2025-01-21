@@ -31,12 +31,8 @@ use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
-use function array_reverse;
-use function assert;
-use function count;
-use function is_callable;
-use function method_exists;
-use function preg_match;
+use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
+
 
 /**
  * Class responsible for purging databases of data before reloading data fixtures.
@@ -160,7 +156,7 @@ class ResetAutoIncrementORMPurger implements PurgerInterface, ORMPurgerInterface
 
         foreach ($orderedTables as $tbl) {
             // If we have a filter expression, check it and skip if necessary
-            if (! $emptyFilterExpression && ! preg_match($filterExpr, (string) $tbl)) {
+            if (in_array($tbl, $this->excluded)) {
                 continue;
             }
 
@@ -301,20 +297,15 @@ class ResetAutoIncrementORMPurger implements PurgerInterface, ORMPurgerInterface
         return $this->em->getConfiguration()->getQuoteStrategy()->getTableName($class, $platform);
     }
 
+    /** @param ManyToManyOwningSideMapping|mixed[] $assoc */
     private function getJoinTableName(
-        array $assoc,
+        $assoc,
         ClassMetadata $class,
-        AbstractPlatform $platform
+        AbstractPlatform $platform,
     ): string {
-        if (isset($assoc['joinTable']['schema']) && ! method_exists($class, 'getSchemaName')) {
-            return $assoc['joinTable']['schema'] . '.' .
-                $this->em->getConfiguration()
-                    ->getQuoteStrategy()
-                    ->getJoinTableName($assoc, $class, $platform);
-        }
-
         return $this->em->getConfiguration()->getQuoteStrategy()->getJoinTableName($assoc, $class, $platform);
     }
+
 
     private function getDeleteFromTableSQL(string $tableName, AbstractPlatform $platform): string
     {

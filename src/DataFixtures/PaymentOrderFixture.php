@@ -2,17 +2,28 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\ConfirmationToken;
+use App\Entity\Confirmer;
 use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-final class PaymentOrderFixture extends Fixture
+final class PaymentOrderFixture extends Fixture implements DependentFixtureInterface
 {
     public function __construct()
     {
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            DepartmentFixture::class,
+            ConfirmerFixture::class,
+        ];
     }
 
     public function load(ObjectManager $manager): void
@@ -26,8 +37,21 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT3_REFERENCE, Department::class));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
-        $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
-        $payment_order->setConfirm2Token(password_hash('token2', PASSWORD_DEFAULT));
+        
+        $token1 = new ConfirmationToken(
+            confirmer: $this->getReference(ConfirmerFixture::HHV_1, Confirmer::class),
+            paymentOrder: $payment_order,
+            hashedToken: password_hash('token1', PASSWORD_DEFAULT)
+        );
+        $payment_order->addConfirmationToken($token1);
+
+        $token2 = new ConfirmationToken(
+            confirmer: $this->getReference(ConfirmerFixture::TREASURER_1, Confirmer::class),
+            paymentOrder: $payment_order,
+            hashedToken: password_hash('token2', PASSWORD_DEFAULT)
+        );
+        $payment_order->addConfirmationToken($token2);
+
         $payment_order->getBankInfo()
             ->setAccountOwner('John Doe');
         $payment_order->getBankInfo()
@@ -51,8 +75,12 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT2_REFERENCE, Department::class));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
-        $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
-        $payment_order->setConfirm2Token(null);
+        $token1 = new ConfirmationToken(
+            confirmer: $this->getReference(ConfirmerFixture::HHV_1, Confirmer::class),
+            paymentOrder: $payment_order,
+            hashedToken: password_hash('token1', PASSWORD_DEFAULT)
+        );
+        $payment_order->addConfirmationToken($token1);
         $payment_order->getBankInfo()
             ->setAccountOwner('John Doe');
         $payment_order->getBankInfo()

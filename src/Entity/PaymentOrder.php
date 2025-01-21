@@ -286,7 +286,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /**
      * @var Collection<ConfirmationToken> The confirmation tokens that can be used to confirm this payment order
      */
-    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'paymentOrder', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'paymentOrder', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $confirmationTokens;
 
     public function __construct()
