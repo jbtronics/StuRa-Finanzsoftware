@@ -20,10 +20,9 @@ namespace App\Tests\Services\EmailConfirmation;
 
 use App\Entity\Confirmer;
 use App\Entity\Department;
+use App\Entity\PaymentOrder;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
-use App\Tests\PaymentOrderTestingHelper;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -38,32 +37,45 @@ class ConfirmationEmailSenderTest extends WebTestCase
 
     protected ?Confirmer $confirmer1 = null;
     protected ?Confirmer $confirmer2 = null;
+    protected ?Department $department = null;
+
+    protected ?PaymentOrder $paymentOrder = null;
+
+    protected ?EntityManagerInterface $em = null;
 
     protected function setUp(): void
     {
         self::bootKernel();
         $this->service = self::getContainer()->get(ConfirmationEmailSender::class);
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
+
+        $this->department = new Department();
+        $this->department->setName('Test Department');
+        $this->em->persist($this->department);
 
         $this->confirmer1 = new Confirmer();
         $this->confirmer1->setEmail('test@invalid.com')->setName('Test 1');
+        $this->em->persist($this->confirmer1);
 
         $this->confirmer2 = new Confirmer();
         $this->confirmer2->setEmail('test2@invalid.com')->setName('Test 2');
+        $this->em->persist($this->confirmer2);
+
+        $this->department->getConfirmers()->add($this->confirmer1);
+        $this->department->getConfirmers()->add($this->confirmer2);
+
+        $this->payment_order = (new PaymentOrder())->setDepartment($this->department);
+        $this->payment_order->setAmount(1234);
+        $this->em->persist($this->payment_order);
     }
 
-    public function testSendConfirmation1SendEmail(): void
+    public function testGenerateAndSendConfirmationEmail(): void
     {
-        $department = new Department();
-
-        $department->getConfirmers()->add($this->confirmer1);
-        $department->getConfirmers()->add($this->confirmer2);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        $this->service->sendConfirmation1($payment_order);
+        $this->service->generateAndSendConfirmationEmail($this->payment_order, $this->confirmer1);
 
         //It is important that a token was set and no timestamp
-        self::assertNotEmpty($payment_order->getConfirmationTokens()[0]->getHashedToken());
-        self::assertFalse($payment_order->getConfirmation1()->isConfirmed());
+        self::assertNotEmpty($this->payment_order->getConfirmationTokens()[0]->getHashedToken());
+        self::assertFalse($this->payment_order->getConfirmation1()->isConfirmed());
 
         //Ensure that an email was sent
         self::assertEmailCount(1);
@@ -71,8 +83,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
         $email = self::getMailerMessage(0);
 
         //Email addresses are sent as BCC, and all emails in array must be present
-        self::assertEmailAddressContains($email, 'bcc', 'test@invalid.com');
-        self::assertEmailAddressContains($email, 'bcc', 'test2@invalid.com');
+        self::assertEmailAddressContains($email, 'to', 'test@invalid.com');
 
         //The from email is the one configured in .env
         self::assertEmailAddressContains($email, 'from', 'from@invalid.com');
@@ -80,90 +91,11 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertEmailAddressContains($email, 'reply-to', 'fsb@invalid.com');
     }
 
-    public function testSendConfirmation2SendEmail(): void
+    public function testSendAllConfirmationEmails(): void
     {
-        $department = new Department();
-        $department->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        $this->service->sendConfirmation2($payment_order);
-
-        //It is important that a token was set and no timestamp
-        self::assertNotEmpty($payment_order->getConfirm2Token());
-        self::assertNull($payment_order->getConfirm2Timestamp());
-
-        //Ensure that an email was sent
-        self::assertEmailCount(1);
-
-        $email = self::getMailerMessage(0);
-
-        //Email addresses are sent as BCC, and all emails in array must be present
-        self::assertEmailAddressContains($email, 'bcc', 'test@invalid.com');
-        self::assertEmailAddressContains($email, 'bcc', 'test2@invalid.com');
-
-        //The from email is the one configured in .env
-        self::assertEmailAddressContains($email, 'from', 'from@invalid.com');
-        //Reply to is FSB email
-        self::assertEmailAddressContains($email, 'reply-to', 'fsb@invalid.com');
-    }
-
-    public function testResendConfirmationsAlreadyConfirmed(): void
-    {
-        $department = new Department();
-        $department
-            ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
-            ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        //Confirm payment order and set tokens
-        $payment_order->setConfirm1Timestamp(new DateTime())
-            ->setConfirm2Timestamp(new DateTime());
-        $payment_order->setConfirm1Token('test')
-            ->setConfirm2Token('test');
-
-        $this->service->resendConfirmations($payment_order);
-
-        //Ensure that no emails was sent
-        self::assertEmailCount(0);
-        //Ensure that tokens did not change
-        self::assertSame('test', $payment_order->getConfirm1Token());
-        self::assertSame('test', $payment_order->getConfirm2Token());
-    }
-
-    public function testResendConfirmationsSend2Emails(): void
-    {
-        $department = new Department();
-        $department
-            ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
-            ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        $this->service->resendConfirmations($payment_order);
+        $this->service->sendAllConfirmationEmails($this->payment_order);
 
         //Ensure that 2 emails was sent
         self::assertEmailCount(2);
-    }
-
-    public function testResendConfirmationsSend1Email(): void
-    {
-        $department = new Department();
-        $department
-            ->setEmailTreasurer(['test@invalid.com', 'test2@invalid.com'])
-            ->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        //Confirm payment order and set tokens
-        $payment_order->setConfirm1Timestamp(new DateTime());
-        $payment_order->setConfirm1Token('test')
-            ->setConfirm2Token('test');
-
-        $this->service->resendConfirmations($payment_order);
-
-        //Ensure that no emails was sent
-        self::assertEmailCount(1);
-        //Ensure that tokens did not change
-        self::assertSame('test', $payment_order->getConfirm1Token());
-        //Token must change as a new one is generated
-        self::assertNotSame('test', $payment_order->getConfirm2Token());
     }
 }
