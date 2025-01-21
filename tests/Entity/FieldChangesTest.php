@@ -46,8 +46,8 @@ class FieldChangesTest extends TestCase
     public function testSerializeToJSONArray(): void
     {
         $fieldChanges = FieldChanges::new();
-        $fieldChanges->changeField('test', 'user', new \DateTimeImmutable('2021-01-01'));
-        $fieldChanges->changeField('test2', 'user2', new \DateTimeImmutable('2022-01-01'));
+        $fieldChanges->changeField('test', 'user', new \DateTimeImmutable('2021-01-01', new \DateTimeZone('UTC')));
+        $fieldChanges->changeField('test2', 'user2', new \DateTimeImmutable('2022-01-01', new \DateTimeZone('UTC')));
 
         $this->assertEquals([
             '$$' => ['v' => 1],
@@ -101,15 +101,15 @@ class FieldChangesTest extends TestCase
 
         $this->assertEquals('test2', $fieldChanges->getMostRecentChangedField());
         $this->assertEquals('user2', $fieldChanges->getMostRecentChangeUser());
-        $this->assertEquals(new \DateTimeImmutable('2022-01-01'), $fieldChanges->getMostRecentChangeDate());
+        $this->assertEquals(new \DateTimeImmutable('2022-01-01', new \DateTimeZone('UTC')), $fieldChanges->getMostRecentChangeDate());
 
         $this->assertEquals([
-            'date' => new \DateTimeImmutable('2021-01-01'),
+            'date' => new \DateTimeImmutable('2021-01-01', new \DateTimeZone('UTC')),
             'user' => 'user'
         ], $fieldChanges->getMostRecentChangeForField('test'));
 
         $this->assertEquals([
-            'date' => new \DateTimeImmutable('2022-01-01'),
+            'date' => new \DateTimeImmutable('2022-01-01', new \DateTimeZone('UTC')),
             'user' => 'user2'
         ], $fieldChanges->getMostRecentChangeForField('test2'));
     }

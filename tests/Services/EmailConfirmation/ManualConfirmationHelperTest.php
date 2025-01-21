@@ -18,10 +18,12 @@
 
 namespace App\Tests\Services\EmailConfirmation;
 
+use App\Entity\Confirmer;
 use App\Entity\Department;
 use App\Entity\User;
 use App\Services\EmailConfirmation\ManualConfirmationHelper;
 use App\Tests\PaymentOrderTestingHelper;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ManualConfirmationHelperTest extends WebTestCase
@@ -58,18 +60,21 @@ class ManualConfirmationHelperTest extends WebTestCase
             ->setUsername('test');
 
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
-        $payment_order->setDepartment(new Department());
+        $confirmer = new Confirmer();
+        $confirmer->setEmail('confirmer1@invalid.com');
+        $payment_order->setDepartment((new Department())->setConfirmers(new ArrayCollection([$confirmer])));
         self::assertFalse($payment_order->isConfirmed());
 
         $this->service->confirmManually($payment_order, 'Test Reason', $user);
 
-        //Assume that a notification email was sent
-        $this->assertEmailCount(1);
+        //Assume that two notification email was sent (one for the manual confirmation, and the second one for the confirmation with the form)
+        self::assertEmailCount(2);
 
         //Assert that the payment order is now confirmed
         self::assertTrue($payment_order->isConfirmed());
 
         //Assert that the reason is included in comment
-        self::assertStringContainsString('Test Reason', $payment_order->getComment());
+        self::assertStringContainsString('Test Reason', $payment_order->getConfirmation1()->getRemark());
+        self::assertTrue($payment_order->getConfirmation1()->isConfirmationOverriden());
     }
 }
