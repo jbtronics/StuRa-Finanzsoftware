@@ -2,7 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\BankAccount;
 use App\Entity\Department;
+use App\Entity\DepartmentTypes;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -23,13 +25,13 @@ final class DepartmentFixture extends Fixture
     {
         $department = new Department();
         $department->setName('Department 1');
-        $department->setType('fsr');
+        $department->setType(DepartmentTypes::FSR);
         $this->addReference(self::DEPARTMENT1_REFERENCE, $department);
         $manager->persist($department);
 
         $department = new Department();
         $department->setName('Department 2');
-        $department->setType('misc');
+        $department->setType(DepartmentTypes::ADMINISTRATIVE);
         $department->setBlocked(true);
         $department->setSkipBlockedValidationTokens(['token1', 'token2']);
         $department->setContactEmails(['test@invalid.com', 'test@invalid.de']);
@@ -40,8 +42,8 @@ final class DepartmentFixture extends Fixture
 
         $department = new Department();
         $department->setName('Department 3');
-        $department->setType('fsr');
-        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT1_REFERENCE));
+        $department->setType(DepartmentTypes::FSR);
+        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT1_REFERENCE, BankAccount::class));
         $department->setComment('Test');
         $department->setContactEmails(['test@invalid.com', 'test@invalid.de']);
         $department->setEmailHhv(['hhv@invalid.com']);
@@ -51,16 +53,16 @@ final class DepartmentFixture extends Fixture
 
         $department = new Department();
         $department->setName('Department 4');
-        $department->setType('fsr');
-        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT2_REFERENCE));
+        $department->setType(DepartmentTypes::FSR);
+        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT2_REFERENCE, BankAccount::class));
         $department->setContactEmails(['test@invalid.com']);
         $this->addReference(self::DEPARTMENT4_REFERENCE, $department);
         $manager->persist($department);
 
         $department = new Department();
         $department->setName('Department 5');
-        $department->setType('section');
-        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT3_REFERENCE));
+        $department->setType(DepartmentTypes::SECTION);
+        $department->setBankAccount($this->getReference(BankAccountFixture::BANK_ACCOUNT3_REFERENCE, BankAccount::class));
         $department->setEmailHhv(['hhv@invalid.com']);
         $this->addReference(self::DEPARTMENT5_REFERENCE, $department);
         $manager->persist($department);

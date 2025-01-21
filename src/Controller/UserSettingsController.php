@@ -92,7 +92,7 @@ final class UserSettingsController extends AbstractController
         }
 
 
-        $qrCode = QrCode::create($googleAuthenticator->getQRContent($user));
+        $qrCode = new QrCode($googleAuthenticator->getQRContent($user));
 
         return $this->render('admin/user/settings.html.twig', [
             'user' => $user,

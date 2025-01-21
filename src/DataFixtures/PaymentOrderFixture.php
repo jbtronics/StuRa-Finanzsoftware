@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Department;
 use App\Entity\PaymentOrder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +23,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setFundingId('M-123-2020');
         $payment_order->setProjectName('Test');
         $payment_order->setFsrKomResolution(true);
-        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT3_REFERENCE));
+        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT3_REFERENCE, Department::class));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
         $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
@@ -47,7 +48,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test');
         $payment_order->setFsrKomResolution(false);
-        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT2_REFERENCE));
+        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT2_REFERENCE, Department::class));
         $payment_order->setAmount(12340);
         $payment_order->setComment('Test');
         $payment_order->setConfirm1Token(password_hash('token1', PASSWORD_DEFAULT));
@@ -72,7 +73,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');
         $payment_order->setFsrKomResolution(false);
-        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT4_REFERENCE));
+        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT4_REFERENCE, Department::class));
         $payment_order->setAmount(100);
         $payment_order->setComment('Test');
         $payment_order->getBankInfo()
@@ -97,7 +98,7 @@ final class PaymentOrderFixture extends Fixture
         $payment_order->setFundingId('');
         $payment_order->setProjectName('Test23');
         $payment_order->setFsrKomResolution(true);
-        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT5_REFERENCE));
+        $payment_order->setDepartment($this->getReference(DepartmentFixture::DEPARTMENT5_REFERENCE, Department::class));
         $payment_order->setAmount(10000);
         $payment_order->setComment('');
         $payment_order->getBankInfo()
