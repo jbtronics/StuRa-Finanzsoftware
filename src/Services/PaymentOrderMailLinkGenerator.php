@@ -57,7 +57,9 @@ final readonly class PaymentOrderMailLinkGenerator
                     ->setEntityId($paymentOrder->getId())
                     ->setAction('detail')
                     ->removeReferrer()
-                    ->unset('filters');
+                    ->unset('filters')
+                    ->generateUrl()
+            ;
 
             $mailTo->setBody($content);
         }
