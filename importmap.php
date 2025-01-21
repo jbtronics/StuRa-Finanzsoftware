@@ -34,14 +34,14 @@ return [
         'type' => 'css',
     ],
     '@fortawesome/fontawesome-free' => [
-        'version' => '6.7.1',
+        'version' => '6.7.2',
     ],
     '@fortawesome/fontawesome-free/css/fontawesome.min.css' => [
-        'version' => '6.7.1',
+        'version' => '6.7.2',
         'type' => 'css',
     ],
     '@fortawesome/fontawesome-free/css/solid.min.css' => [
-        'version' => '6.7.1',
+        'version' => '6.7.2',
         'type' => 'css',
     ],
     '@hotwired/stimulus' => [
@@ -59,7 +59,7 @@ return [
         'type' => 'css',
     ],
     'es-module-shims' => [
-        'version' => '1.10.1',
+        'version' => '2.0.5',
     ],
     '@orchidjs/sifter' => [
         'version' => '1.1.0',
