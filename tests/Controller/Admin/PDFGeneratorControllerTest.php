@@ -24,20 +24,35 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PDFGeneratorControllerTest extends WebTestCase
 {
-    public function testPdfAdminAccess(): void
+
+    public function urlDataProvider(): array
+    {
+        return [
+            ['/admin/pdf/payment_order/1/structure'],
+            ['/admin/pdf/payment_order/1/stura'],
+        ];
+    }
+
+    /**
+     * @dataProvider urlDataProvider
+     */
+    public function testPdfAdminAccess(string $url): void
     {
         $client = static::createClient();
         LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
-        $client->request('GET', '/admin/pdf/payment_order/1');
+        $client->request('GET', $url);
 
         //Process must be successful
         self::assertStringStartsWith('%PDF', $client->getResponse()->getContent());
         self::assertResponseIsSuccessful();
     }
 
-    public function testPdfNotAuthorized(): void
+    /**
+     * @dataProvider urlDataProvider
+     */
+    public function testPdfNotAuthorized(string $url): void
     {
         $client = static::createClient();
         $client->catchExceptions(false);
@@ -45,6 +60,6 @@ class PDFGeneratorControllerTest extends WebTestCase
         $this->expectException(AccessDeniedException::class);
 
         //This line must fail
-        $client->request('GET', '/admin/pdf/payment_order/1');
+        $client->request('GET', $url);
     }
 }

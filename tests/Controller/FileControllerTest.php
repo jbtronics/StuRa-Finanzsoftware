@@ -22,7 +22,7 @@ use App\Tests\LoginHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class FileContollerTest extends WebTestCase
+class FileControllerTest extends WebTestCase
 {
     public function testPaymentOrderFormAdminAccess(): void
     {
@@ -30,10 +30,10 @@ class FileContollerTest extends WebTestCase
         LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
-        //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
-        ob_start();
         $client->request('GET', '/file/payment_order/1/form');
-        $contents = ob_get_clean();
+
+        //As the response is streamed, we need to use this to get the correct content
+        $contents = $client->getInternalResponse()->getContent();
 
         //Process must be successful
         self::assertStringStartsWith('%PDF', $contents);
@@ -45,10 +45,10 @@ class FileContollerTest extends WebTestCase
         $client = static::createClient();
         $client->catchExceptions(false);
 
-        //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
-        ob_start();
-        $client->request('GET', '/file/payment_order/1/form?confirm=1&token=token1');
-        $contents = ob_get_clean();
+        $client->request('GET', '/file/payment_order/1/form?token=1&secret=token1');
+
+        //As the response is streamed, we need to use this to get the correct content
+        $contents = $client->getInternalResponse()->getContent();
 
         //Process must be successful
         self::assertStringStartsWith('%PDF', $contents);
@@ -76,7 +76,7 @@ class FileContollerTest extends WebTestCase
 
         //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
         //This must fail
-        $client->request('GET', '/file/payment_order/1/form?confirm=1&token=invalid');
+        $client->request('GET', '/file/payment_order/1/form?token=1&secret=token2');
     }
 
     public function testPaymentOrderReferencesAdminAccess(): void
@@ -86,9 +86,10 @@ class FileContollerTest extends WebTestCase
         $client->catchExceptions(false);
 
         //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
-        ob_start();
         $client->request('GET', '/file/payment_order/1/references');
-        $contents = ob_get_clean();
+
+        //As the response is streamed, we need to use this to get the correct content
+        $contents = $client->getInternalResponse()->getContent();
 
         //Process must be successful
         self::assertStringStartsWith('%PDF', $contents);
@@ -124,10 +125,10 @@ class FileContollerTest extends WebTestCase
         $client = static::createClient();
         $client->catchExceptions(false);
 
-        //We must wrap the request into output buffering, as a StreamedResponse is returned which is otherwise outputed to stdout
-        ob_start();
-        $client->request('GET', '/file/payment_order/1/references?confirm=1&token=token1');
-        $contents = ob_get_clean();
+        $client->request('GET', '/file/payment_order/1/references?token=1&secret=token1');
+
+        //As the response is streamed, we need to use this to get the correct content
+        $contents = $client->getInternalResponse()->getContent();
 
         //Process must be successful
         self::assertStringStartsWith('%PDF', $contents);
