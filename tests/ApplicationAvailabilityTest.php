@@ -19,6 +19,7 @@
 namespace App\Tests;
 
 use App\Controller\Admin\BankAccountCrudController;
+use App\Controller\Admin\DashboardController;
 use App\Controller\Admin\DepartmentCrudController;
 use App\Controller\Admin\PaymentOrderCrudController;
 use App\Controller\Admin\UserCrudController;
@@ -86,34 +87,44 @@ class ApplicationAvailabilityTest extends WebTestCase
         self::bootKernel();
         /** @var AdminUrlGenerator $adminURL */
         $adminURL = self::getContainer()->get(AdminUrlGenerator::class);
+        $adminURL->setDashboard(DashboardController::class);
 
         yield ['/admin'];
+
+        yield ['/admin?routeName=user_settings'];
+
         yield ['/admin/audit'];
         yield ['/admin/audit/App-Entity-PaymentOrder'];
         yield ['/admin/audit/App-Entity-PaymentOrder/1'];
 
         //User admin pages
-        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::INDEX)->generateUrl()];
-        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::NEW)->generateUrl()];
-        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
-        yield [$adminURL->setController(UserCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+        yield ['/admin/user'];
+        yield ['/admin/user/new'];
+        yield ['/admin/user/1'];
+        yield ['/admin/user/1/edit'];
 
         //BankAccount admin pages
-        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::INDEX)->generateUrl()];
-        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::NEW)->generateUrl()];
-        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
-        yield [$adminURL->setController(BankAccountCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+        yield ['/admin/bank-account'];
+        yield ['/admin/bank-account/new'];
+        yield ['/admin/bank-account/1'];
+        yield ['/admin/bank-account/1/edit'];
 
         //Department admin pages
-        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::INDEX)->generateUrl()];
-        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::NEW)->generateUrl()];
-        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
-        yield [$adminURL->setController(DepartmentCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+        yield ['/admin/department'];
+        yield ['/admin/department/new'];
+        yield ['/admin/department/1'];
+        yield ['/admin/department/1/edit'];
+
+        //Confirmer admin pages
+        yield ['/admin/confirmer'];
+        yield ['/admin/confirmer/new'];
+        yield ['/admin/confirmer/1'];
+        yield ['/admin/confirmer/1/edit'];
 
         //Payment order admin pages
-        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::INDEX)->generateUrl()];
-        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::EDIT)->setEntityId(1)->generateUrl()];
-        yield [$adminURL->setController(PaymentOrderCrudController::class)->setAction(Action::DETAIL)->setEntityId(1)->generateUrl()];
+        yield ['/admin/payment_order'];
+        yield ['/admin/payment_order/1'];
+        yield ['/admin/payment_order/1/edit'];
 
         //Manually confirm page
         yield [$adminURL->setRoute('payment_order_manual_confirm', [
