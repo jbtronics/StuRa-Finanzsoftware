@@ -39,7 +39,7 @@ class ConfirmationEmailSenderTest extends WebTestCase
     protected ?Confirmer $confirmer2 = null;
     protected ?Department $department = null;
 
-    protected ?PaymentOrder $paymentOrder = null;
+    protected ?PaymentOrder $payment_order = null;
 
     protected ?EntityManagerInterface $em = null;
 
