@@ -26,8 +26,8 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Exception;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserProvider implements UserProviderInterface, EventSubscriber
@@ -39,7 +39,10 @@ class UserProvider implements UserProviderInterface, EventSubscriber
 
     private ?string $identifier = null;
 
-    public function __construct(private readonly Security $security, private readonly Configuration $configuration)
+    public function __construct(
+        private readonly Security $security,
+        private readonly Configuration $configuration //@phpstan-ignore-line
+    )
     {
     }
 

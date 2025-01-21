@@ -40,8 +40,9 @@ class ManualConfirmationHelperTest extends WebTestCase
     public function testConfirmManuallyAlreadyConfirmed(): void
     {
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder();
-        $payment_order->setConfirm1Timestamp(new \DateTime());
-        $payment_order->setConfirm2Timestamp(new \DateTime());
+
+        $payment_order->getConfirmation1()->setTimestamp(new \DateTime());
+        $payment_order->getConfirmation2()->setTimestamp(new \DateTime());
 
         $this->expectException(\RuntimeException::class);
         //This line must fail

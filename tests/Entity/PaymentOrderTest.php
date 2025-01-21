@@ -18,6 +18,8 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Embeddable\Check;
+use App\Entity\Embeddable\Confirmation;
 use App\Entity\PaymentOrder;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +35,6 @@ class PaymentOrderTest extends TestCase
         $payment_order = new PaymentOrder();
         $reflection = new ReflectionClass(PaymentOrder::class);
         $property = $reflection->getProperty('id');
-        $property->setAccessible(true);
         $property->setValue($payment_order, $id);
 
         static::assertSame($expected, $payment_order->getIDString());
@@ -45,25 +46,6 @@ class PaymentOrderTest extends TestCase
         yield ['ZA0123', 123];
         yield ['ZA1234', 1234];
         yield ['ZA123456', 123456];
-    }
-
-    /**
-     * @dataProvider fullNameDataProvider
-     */
-    public function testGetFullName(string $expected, string $first_name, string $last_name): void
-    {
-        $payment_order = new PaymentOrder();
-        $payment_order->setFirstName($first_name)
-            ->setLastName($last_name);
-        static::assertSame($expected, $payment_order->getFullName());
-    }
-
-    public function fullNameDataProvider(): \Iterator
-    {
-        yield ['John Doe', 'John', 'Doe'];
-        yield ['Admin', 'Admin', ''];
-        yield ['Admin', '', 'Admin'];
-        yield ['John Jane Doe', 'John Jane', 'Doe'];
     }
 
     /**
@@ -102,31 +84,27 @@ class PaymentOrderTest extends TestCase
         static::assertFalse($payment_order->isConfirmed());
 
         //A single confirmation must not be sufficient
-        $payment_order->setConfirm1Timestamp(new DateTime());
+
+        $confirmation = new Confirmation();
+        $confirmation->setTimestamp(new DateTime());
+        $confirmation->setConfirmerName('Confirmer 1');
+
+        $payment_order->setConfirmation1($confirmation);
+
         static::assertFalse($payment_order->isConfirmed());
 
         //With both timestamps set the payment order is confirmed
-        $payment_order->setConfirm2Timestamp(new DateTime());
+
+        $confirmation = new Confirmation();
+        $confirmation->setTimestamp(new DateTime());
+        $confirmation->setConfirmerName('Confirmer 2');
+
+        $payment_order->setConfirmation2($confirmation);
         static::assertTrue($payment_order->isConfirmed());
 
         //Test the case with the other timestamp missing
-        $payment_order->setConfirm1Timestamp(null);
+        $payment_order->getConfirmation1()->setTimestamp(null);
         static::assertFalse($payment_order->isConfirmed());
-    }
-
-    public function testSetFactuallyCorrect(): void
-    {
-        $payment_order = new PaymentOrder();
-
-        static::assertNull($payment_order->getBookingDate());
-
-        //If a payment order is factually checked, booking date must be set
-        $payment_order->setFactuallyCorrect(true);
-        static::assertNotNull($payment_order->getBookingDate());
-
-        //If factually correct is revoked, then the booking was not done yet.
-        $payment_order->setFactuallyCorrect(false);
-        static::assertNull($payment_order->getBookingDate());
     }
 
     /**

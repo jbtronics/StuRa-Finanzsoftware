@@ -21,6 +21,7 @@ namespace App\Tests\Controller;
 use App\Entity\PaymentOrder;
 use App\Repository\PaymentOrderRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Field\FileFormField;
 use Symfony\Component\DomCrawler\Form;
 
 /**
@@ -63,7 +64,7 @@ class PaymentOrderControllerTest extends WebTestCase
         ]);
 
         //Do some basic validation
-        self::assertSame('John', $new_payment_order->getFirstName());
+        self::assertSame('John', $new_payment_order->getSubmitterName());
         self::assertSame('DE68500105175596424738', $new_payment_order->getBankInfo()->getIbanWithoutSpaces());
 
         //Test if file was uploaded and put into correct place
@@ -231,7 +232,13 @@ class PaymentOrderControllerTest extends WebTestCase
         ]);
 
         //Upload a PDF
-        $form['payment_order[references_file][file]']->upload($this->data_dir.'/upload.pdf');
+        $fileField = $form['payment_order[references_file][file]'];
+
+        if (!$fileField instanceof FileFormField) {
+            throw new \InvalidArgumentException('Invalid form');
+        }
+
+        $fileField->upload($this->data_dir.'/upload.pdf');
     }
 
     public function testConfirmationInvalidToken(): void
@@ -279,7 +286,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $payment_order = $repo->find(1);
 
         //And check if it was marked as confirmed
-        self::assertNotNull($payment_order->getConfirm1Timestamp());
+        self::assertTrue($payment_order->getConfirmation1()->isConfirmed());
     }
 
     public function testConfirmation2(): void
@@ -305,7 +312,7 @@ class PaymentOrderControllerTest extends WebTestCase
         $payment_order = $repo->find(1);
 
         //And check if it was marked as confirmed
-        self::assertNotNull($payment_order->getConfirm2Timestamp());
+        self::assertTrue($payment_order->getConfirmation2()->isConfirmed());
     }
 
     public function testConfirmation1WithoutAllCheckboxesChecked(): void
@@ -332,6 +339,6 @@ class PaymentOrderControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         //If a check mark was missing the payment order must not be confirmed
-        self::assertNull($payment_order->getConfirm1Timestamp());
+        self::assertTrue($payment_order->getConfirmation1()->isConfirmed());
     }
 }

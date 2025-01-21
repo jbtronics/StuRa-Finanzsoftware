@@ -37,14 +37,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * This service allows to create a SEPA-XML file from a payment order that can be used to import it in an online
  * banking system.
  * @see \App\Tests\Services\PaymentOrdersSEPAExporterTest
+ *
+ * We cant make this class readonly, as this breaks our test
  */
-readonly class PaymentOrdersSEPAExporter
+class PaymentOrdersSEPAExporter
 {
     protected const PARTY_NAME = 'StuRa FSU Jena';
     protected const ID_PREFIX = 'StuRa Export';
     protected const PAYMENT_PREFIX = 'Payment';
 
-    public function __construct(private int $fsr_kom_bank_account_id, private EntityManagerInterface $entityManager)
+    public function __construct(private readonly int $fsr_kom_bank_account_id, private readonly EntityManagerInterface $entityManager)
     {
     }
 

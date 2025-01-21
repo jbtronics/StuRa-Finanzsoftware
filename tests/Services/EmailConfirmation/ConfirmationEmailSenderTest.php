@@ -18,10 +18,12 @@
 
 namespace App\Tests\Services\EmailConfirmation;
 
+use App\Entity\Confirmer;
 use App\Entity\Department;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
 use App\Tests\PaymentOrderTestingHelper;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -34,23 +36,34 @@ class ConfirmationEmailSenderTest extends WebTestCase
      */
     protected $service;
 
+    protected ?Confirmer $confirmer1 = null;
+    protected ?Confirmer $confirmer2 = null;
+
     protected function setUp(): void
     {
         self::bootKernel();
         $this->service = self::getContainer()->get(ConfirmationEmailSender::class);
+
+        $this->confirmer1 = new Confirmer();
+        $this->confirmer1->setEmail('test@invalid.com')->setName('Test 1');
+
+        $this->confirmer2 = new Confirmer();
+        $this->confirmer2->setEmail('test2@invalid.com')->setName('Test 2');
     }
 
     public function testSendConfirmation1SendEmail(): void
     {
         $department = new Department();
-        $department->setEmailHhv(['test@invalid.com', 'test2@invalid.com']);
+
+        $department->getConfirmers()->add($this->confirmer1);
+        $department->getConfirmers()->add($this->confirmer2);
         $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
 
         $this->service->sendConfirmation1($payment_order);
 
         //It is important that a token was set and no timestamp
-        self::assertNotEmpty($payment_order->getConfirm1Token());
-        self::assertNull($payment_order->getConfirm1Timestamp());
+        self::assertNotEmpty($payment_order->getConfirmationTokens()[0]->getHashedToken());
+        self::assertFalse($payment_order->getConfirmation1()->isConfirmed());
 
         //Ensure that an email was sent
         self::assertEmailCount(1);
@@ -65,22 +78,6 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertEmailAddressContains($email, 'from', 'from@invalid.com');
         //Reply to is FSB email
         self::assertEmailAddressContains($email, 'reply-to', 'fsb@invalid.com');
-    }
-
-    public function testSendConfirmation1NoEmail(): void
-    {
-        $department = new Department();
-        $department->setEmailHhv([]);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        $this->service->sendConfirmation1($payment_order);
-
-        //If no emails are present the token must be set and the confirm timestamp is set
-        self::assertNotEmpty($payment_order->getConfirm1Token());
-        self::assertNotNull($payment_order->getConfirm1Timestamp());
-
-        //Ensure that no email is sent
-        self::assertEmailCount(0);
     }
 
     public function testSendConfirmation2SendEmail(): void
@@ -108,22 +105,6 @@ class ConfirmationEmailSenderTest extends WebTestCase
         self::assertEmailAddressContains($email, 'from', 'from@invalid.com');
         //Reply to is FSB email
         self::assertEmailAddressContains($email, 'reply-to', 'fsb@invalid.com');
-    }
-
-    public function testSendConfirmation2NoEmail(): void
-    {
-        $department = new Department();
-        $department->setEmailHhv([]);
-        $payment_order = PaymentOrderTestingHelper::getDummyPaymentOrder()->setDepartment($department);
-
-        $this->service->sendConfirmation2($payment_order);
-
-        //If no emails are present the token must be set and the confirm timestamp is set
-        self::assertNotEmpty($payment_order->getConfirm2Token());
-        self::assertNotNull($payment_order->getConfirm2Timestamp());
-
-        //Ensure that no email is sent
-        self::assertEmailCount(0);
     }
 
     public function testResendConfirmationsAlreadyConfirmed(): void

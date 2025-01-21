@@ -32,7 +32,7 @@ class ExportControllerTest extends WebTestCase
         LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
-        /** @var AdminUrlGenerator $adminURL */
+        /** @var AdminUrlGenerator $adminURLGenerator */
         $adminURLGenerator = self::getContainer()->get(AdminUrlGenerator::class);
         $url = $adminURLGenerator->setRoute('payment_order_export')
             ->set('ids', '1,3')
@@ -65,7 +65,7 @@ class ExportControllerTest extends WebTestCase
         LoginHelper::loginAsAdmin($client);
         $client->catchExceptions(false);
 
-        /** @var AdminUrlGenerator $adminURL */
+        /** @var AdminUrlGenerator $adminURLGenerator */
         $adminURLGenerator = self::getContainer()->get(AdminUrlGenerator::class);
         $url = $adminURLGenerator->setRoute('payment_order_export')
             ->set('ids', '1')

@@ -274,7 +274,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setCssClass('btn btn-secondary');
 
         //Hide action if no contact emails are associated with department
-        $emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
+        //$emailAction->displayIf(fn(PaymentOrder $paymentOrder): bool => null !== $this->mailToGenerator->generateContactMailLink($paymentOrder));
 
         $resend_confirmation_action = Action::new('resendConfirmation', 'payment_order.action.resend_confirmation', 'fas fa-redo')
             ->linkToCrudAction('resendConfirmationEmail')

@@ -19,6 +19,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Department;
+use App\Entity\DepartmentTypes;
 use PHPUnit\Framework\TestCase;
 
 class DepartmentTest extends TestCase
@@ -26,39 +27,33 @@ class DepartmentTest extends TestCase
     public function testIsFSR(): void
     {
         $department = new Department();
-        $department->setType(Department::TYPE_FSR);
+        $department->setType(DepartmentTypes::FSR);
         self::assertTrue($department->isFSR());
-        $department->setType(Department::TYPE_SECTION);
+        $department->setType(DepartmentTypes::SECTION);
         self::assertFalse($department->isFSR());
-        $department->setType(Department::TYPE_ADMINISTRATIVE);
-        self::assertFalse($department->isFSR());
-        $department->setType('invalid');
+        $department->setType(DepartmentTypes::ADMINISTRATIVE);
         self::assertFalse($department->isFSR());
     }
 
     public function testIsAdministrative(): void
     {
         $department = new Department();
-        $department->setType(Department::TYPE_FSR);
+        $department->setType(DepartmentTypes::FSR);
         self::assertFalse($department->isAdministrative());
-        $department->setType(Department::TYPE_SECTION);
+        $department->setType(DepartmentTypes::SECTION);
         self::assertFalse($department->isAdministrative());
-        $department->setType(Department::TYPE_ADMINISTRATIVE);
+        $department->setType(DepartmentTypes::ADMINISTRATIVE);
         self::assertTrue($department->isAdministrative());
-        $department->setType('invalid');
-        self::assertFalse($department->isAdministrative());
     }
 
     public function testIsSection(): void
     {
         $department = new Department();
-        $department->setType(Department::TYPE_FSR);
+        $department->setType(DepartmentTypes::FSR);
         self::assertFalse($department->isSection());
-        $department->setType(Department::TYPE_SECTION);
+        $department->setType(DepartmentTypes::SECTION);
         self::assertTrue($department->isSection());
-        $department->setType(Department::TYPE_ADMINISTRATIVE);
-        self::assertFalse($department->isSection());
-        $department->setType('invalid');
+        $department->setType(DepartmentTypes::ADMINISTRATIVE);
         self::assertFalse($department->isSection());
     }
 

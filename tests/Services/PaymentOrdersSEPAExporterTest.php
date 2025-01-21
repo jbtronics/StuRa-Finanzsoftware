@@ -358,7 +358,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
     {
         //Bank accounts must have an ID or grouping will not work...
         $bank_account1 = new class() extends BankAccount {
-            public function getId(): ?int
+            public function getId(): int
             {
                 return 1;
             }
@@ -369,7 +369,7 @@ class PaymentOrdersSEPAExporterTest extends WebTestCase
             ->setAccountName('Max Mustermann');
 
         $bank_account2 = new class() extends BankAccount {
-            public function getId(): ?int
+            public function getId(): int
             {
                 return 2;
             }

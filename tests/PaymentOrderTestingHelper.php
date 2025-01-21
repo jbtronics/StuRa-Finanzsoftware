@@ -28,8 +28,8 @@ class PaymentOrderTestingHelper
     public static function arrayToPaymentOrder(array $data): PaymentOrder
     {
         $payment_order = static::getDummyPaymentOrder($data['id'] ?? 1);
-        $payment_order->setFirstName($data['first_name'])
-            ->setLastName($data['last_name'])
+        $payment_order
+            ->setSubmitterName($data['submitter_name'] ?? ( $data['first_name'] . ' ' . $data['last_name']))
             ->setSubmitterEmail($data['contact_email'])
             ->setAmount($data['amount'])
             ->setProjectName($data['project_name'])
@@ -54,7 +54,11 @@ class PaymentOrderTestingHelper
      */
     public static function getDummyPaymentOrder(int $id = 1): PaymentOrder
     {
+
         return new class($id) extends PaymentOrder {
+
+            protected ?int $id2;
+
             public function __construct(int $id)
             {
                 $this->id2 = $id;
