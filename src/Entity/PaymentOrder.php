@@ -124,12 +124,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\AtLeastOneOf([
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_DEPARTMENT),
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
-    ], groups: ['frontend'])]
+    ], groups: ['frontend'], message: 'validator.funding_id.invalid', includeInternalMessages: false)]
     #[Assert\AtLeastOneOf([
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_DEPARTMENT),
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
         new Assert\Regex(PaymentOrder::FUNDING_ID_REGEX_LEGACY),
-    ], groups: ['backend'])]
+    ], groups: ['backend'], includeInternalMessages: false)]
     #[Groups('csv_export')]
     #[SerializedName("Mittelfreigabe")]
     private string $funding_id = '';
@@ -137,6 +137,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
     #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old', groups: ['frontend'])]
+    #[Assert\NotNull(groups: ['frontend'])]
     #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
     #[Groups('csv_export')]
     #[SerializedName("Beschlussdatum")]
@@ -156,7 +157,10 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      * This is optional.
      */
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Assert\Regex(PaymentOrder::FUNDING_ID_STURA_FSRKOM)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_DEPARTMENT),
+        new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
+    ], message: 'validator.funding_id.invalid', includeInternalMessages: false)]
     #[Assert\Expression("value === null || this.getSupportingAmount() !== null", message: 'validator.supporting_funding_id.needed_for_supporting_amount')]
     #[Groups('csv_export')]
     #[SerializedName("Unterstützende Mittelfreigabe")]
