@@ -25,11 +25,15 @@ use App\Entity\Embeddable\Confirmation;
 use App\Entity\Embeddable\PayeeInfo;
 use App\EntityListener\PaymentOrderChangedFieldsListener;
 use App\Repository\PaymentOrderRepository;
+use App\Serializer\MoneyNormalizer;
 use App\Validator\FSRNotBlocked;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -72,6 +76,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups('csv_export')]
+    #[SerializedName("ID")]
     private ?int $id = null;
 
     /*******************************************************************************************************************
@@ -83,6 +89,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
+    #[Groups('csv_export')]
+    #[SerializedName("Name Auftraggeber")]
     private string $submitter_name = '';
 
     /**
@@ -90,6 +98,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::STRING, nullable: false)]
     #[Assert\Email]
+    #[Groups('csv_export')]
+    #[SerializedName("E-Mail Auftraggeber")]
     private string $submitter_email = '';
 
     /**
@@ -99,6 +109,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     #[FSRNotBlocked(groups: ['fsr_blocked'])]
+    #[Groups('csv_export')]
+    #[SerializedName("Struktur")]
     private ?Department $department = null;
 
     /*******************************************************************************************************************
@@ -118,12 +130,16 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
         new Assert\Regex(PaymentOrder::FUNDING_ID_REGEX_LEGACY),
     ], groups: ['backend'])]
+    #[Groups('csv_export')]
+    #[SerializedName("Mittelfreigabe")]
     private string $funding_id = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
     #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old', groups: ['frontend'])]
     #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
+    #[Groups('csv_export')]
+    #[SerializedName("Beschlussdatum")]
     private ?\DateTime $resolution_date = null;
 
     /**
@@ -131,6 +147,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\Positive]
+    #[Groups('csv_export')]
+    #[SerializedName("Betrag")]
     private ?int $amount = null;
 
     /**
@@ -140,6 +158,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Assert\Regex(PaymentOrder::FUNDING_ID_STURA_FSRKOM)]
     #[Assert\Expression("value === null || this.getSupportingAmount() !== null", message: 'validator.supporting_funding_id.needed_for_supporting_amount')]
+    #[Groups('csv_export')]
+    #[SerializedName("Unterstützende Mittelfreigabe")]
     private ?string $supporting_funding_id = null;
 
     /**
@@ -149,6 +169,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
     #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old', groups: ['frontend'])]
+    #[Groups('csv_export')]
+    #[SerializedName("Unterstützung Beschlussdatum")]
     private ?\DateTime $supporting_funding_date = null;
 
     /**
@@ -159,6 +181,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\Positive]
     #[Assert\LessThanOrEqual(propertyPath: 'amount')]
     #[Assert\Expression("value === null || this.getSupportingFundingId() !== null", message: 'validator.supporting_amount.needed_for_supporting_funding_id')]
+    #[Groups('csv_export')]
+    #[SerializedName("Unterstützender Betrag")]
     private ?int $supporting_amount = null;
 
     /*******************************************************************************************************************
@@ -170,14 +194,20 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[Assert\NotBlank]
     #[Assert\Length(max: 70, maxMessage: 'validator.project_name.too_long')]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Projektname")]
     private string $project_name = '';
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Assert\Length(max: 23)]
+    #[Groups('csv_export')]
+    #[SerializedName("Rechnungsnummer")]
     private ?string $invoice_number = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Assert\Length(max: 23)]
+    #[Groups('csv_export')]
+    #[SerializedName("Kundennummer")]
     private ?string $customer_number = null;
 
     /*******************************************************************************************************************
@@ -186,15 +216,21 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
 
     #[ORM\Embedded(class: PayeeInfo::class)]
     #[Assert\Valid]
+    #[Groups('csv_export')]
+    #[SerializedName("Zahlungsempfänger")]
     private PayeeInfo $bank_info;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('csv_export')]
+    #[SerializedName("Kommentar")]
     private string $comment = '';
 
     /**
      * @var bool Is FSR-Kom resolution
      */
     #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('csv_export')]
+    #[SerializedName("FSR-Kom Beschluss?")]
     private bool $fsr_kom_resolution = false;
 
     /*******************************************************************************************************************
@@ -232,6 +268,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Embedded(Check::class)]
     #[Assert\Valid]
+    #[Groups('csv_export')]
+    #[SerializedName("Rechnerische Prüfung")]
     private Check $mathematically_correct;
 
     /**
@@ -239,6 +277,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Embedded(Check::class)]
     #[Assert\Valid]
+    #[Groups('csv_export')]
+    #[SerializedName("Sachliche Prüfung")]
     private Check $factually_correct;
 
     #[ORM\Column(type: Types::BOOLEAN)]
@@ -249,6 +289,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Embedded(class: Confirmation::class)]
     #[Assert\Valid]
+    #[Groups('csv_export')]
+    #[SerializedName("Bestätigung 1")]
     private Confirmation $confirmation1;
 
     /**
@@ -257,6 +299,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Embedded(class: Confirmation::class)]
     #[Assert\Valid]
+    #[Groups('csv_export')]
+    #[SerializedName("Bestätigung 2")]
     private Confirmation $confirmation2;
 
     /**
@@ -265,12 +309,18 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
      */
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\Range(min: 1, max: 2)]
+    #[Groups('csv_export')]
+    #[SerializedName("Benötigte Bestätigungen")]
     private int $requiredConfirmations = 2;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups('csv_export')]
+    #[SerializedName("Buchnungsdatum")]
     private ?\DateTime $booking_date = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('csv_export')]
+    #[SerializedName("Belege exportiert?")]
     private bool $references_exported = false;
 
     /******************************************************************************************************************
@@ -824,6 +874,8 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     /**
      * Get the ID as string like ZA0005.
      */
+    #[Groups('csv_export')]
+    #[SerializedName("ID String")]
     public function getIDString(): string
     {
         return sprintf('ZA%04d', $this->getId());

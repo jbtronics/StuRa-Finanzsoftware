@@ -27,6 +27,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,6 +52,8 @@ class Department implements DBElementInterface, NamedElementInterface, Timestamp
 
     
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Name")]
     private string $name = '';
 
     

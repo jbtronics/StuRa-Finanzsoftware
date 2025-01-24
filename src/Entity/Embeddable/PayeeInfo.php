@@ -20,6 +20,8 @@ namespace App\Entity\Embeddable;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,35 +35,51 @@ class PayeeInfo
     
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Name")]
     private string $account_owner = '';
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Straße")]
     private string $street = '';
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("PLZ")]
     private string $zip_code = '';
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Stadt")]
     private string $city = '';
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank()]
     #[Assert\Iban]
+    #[Groups('csv_export')]
+    #[SerializedName("IBAN")]
     private string $iban = '';
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\Bic(ibanPropertyPath: 'iban')]
+    #[Groups('csv_export')]
+    #[SerializedName("BIC")]
     private string $bic = '';
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('csv_export')]
+    #[SerializedName("Bankname")]
     private string $bank_name = '';
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 140)]
+    #[Groups('csv_export')]
+    #[SerializedName("Verwendungszweck")]
     private ?string $reference = '';
 
     public function __construct()

@@ -33,6 +33,7 @@ use App\Entity\User;
 use App\Helpers\ZIPBinaryFileResponseFacade;
 use App\Message\PaymentOrder\PaymentOrderDeletedNotification;
 use App\Services\EmailConfirmation\ConfirmationEmailSender;
+use App\Services\PaymentOrder\CSVExporter;
 use App\Services\PaymentOrderMailLinkGenerator;
 use App\Services\PaymentReferenceGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,6 +66,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -74,11 +77,12 @@ final class PaymentOrderCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly PaymentOrderMailLinkGenerator $mailToGenerator,
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
         private readonly ConfirmationEmailSender $confirmationEmailSender,
         private readonly AdminUrlGenerator $adminURLGenerator,
         private readonly MessageBusInterface $messageBus,
         private readonly PaymentReferenceGenerator $paymentReferenceGenerator,
+        private readonly CSVExporter $CSVExporter,
     )
     {
     }
@@ -86,6 +90,24 @@ final class PaymentOrderCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return PaymentOrder::class;
+    }
+
+    #[AdminAction(routePath: '/action-csv-export', routeName: 'admin_action_payment_order_csv_export', methods: ['POST'])]
+    public function csvExport(BatchActionDto $batchActionDto): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_SHOW_PAYMENT_ORDERS');
+
+        $entities = $this->entityManager->getRepository(PaymentOrder::class)->findBy(['id' => $batchActionDto->getEntityIds()]);
+
+        $csv = $this->CSVExporter->export($entities);
+        $response = new Response($csv);
+        $response->headers->set('Content-type', 'text/csv');
+        $response->headers->set('Content-length', (string) strlen($csv));
+        $response->headers->set('Cache-Control', 'private');
+        $disposition = HeaderUtils::makeDisposition("attachment", "payment_orders.csv", "payment_orders.csv");
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 
     #[AdminAction(routePath: '/action-sepa-xml-export', routeName: 'admin_action_payment_order_sepa_xml_export', methods: ['POST'])]
@@ -165,9 +187,9 @@ final class PaymentOrderCrudController extends AbstractCrudController
         return $crud
 
             //Set validation groups for new and edit forms
-                ->setFormOptions([
-                    'validation_groups' => ['Default', 'backend'],
-                ])
+            ->setFormOptions([
+                'validation_groups' => ['Default', 'backend'],
+            ])
 
             ->setEntityLabelInSingular('payment_order.label')
             ->setEntityLabelInPlural('payment_order.labelp')
@@ -250,16 +272,29 @@ final class PaymentOrderCrudController extends AbstractCrudController
         }
 
         //if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS_REFERENCES')) {
-            $actions->addBatchAction(Action::new('referencesExport', 'payment.order.action.export.export_references')
-                    ->linkToCrudAction('referencesExport')
-                    ->addCssClass('btn btn-primary')
-                    //Together with some backend.js logic, this attribute will prevent the modal from showing
-                    ->setHtmlAttributes([
-                        'data-action-batch-no-confirm' => 'true',
-                    ])
-                    ->setIcon('fas fa-file-invoice')
-            );
+        $actions->addBatchAction(Action::new('referencesExport', 'payment.order.action.export.export_references')
+            ->linkToCrudAction('referencesExport')
+            ->addCssClass('btn btn-primary')
+            //Together with some backend.js logic, this attribute will prevent the modal from showing
+            ->setHtmlAttributes([
+                'data-action-batch-no-confirm' => 'true',
+            ])
+            ->setIcon('fas fa-file-invoice')
+        );
         //}
+
+        if ($this->isGranted('ROLE_EXPORT_PAYMENT_ORDERS')) {
+        $actions->addBatchAction(Action::new('csvExport', 'CSV Export')
+            ->linkToCrudAction('csvExport')
+            ->addCssClass('btn btn-secondary')
+            //Together with some backend.js logic, this attribute will prevent the modal from showing
+            ->setHtmlAttributes([
+                'data-action-batch-no-confirm' => 'true',
+            ])
+            ->setIcon('fas fa-file-csv')
+        );
+        }
+
 
         $actions->setPermissions([
             Action::INDEX => 'ROLE_SHOW_PAYMENT_ORDERS',

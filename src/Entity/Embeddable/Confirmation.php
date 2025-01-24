@@ -7,6 +7,8 @@ namespace App\Entity\Embeddable;
 use App\Entity\ConfirmationToken;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * This embeddable contains all information about a confirmation
@@ -18,6 +20,8 @@ class Confirmation
     /**
      * @var \DateTime|null The timestamp of the confirmation. Null if not confirmed.
      */
+    #[Groups('csv_export')]
+    #[SerializedName("Bestätigungszeitpunkt")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $timestamp = null;
 
@@ -25,6 +29,8 @@ class Confirmation
      * @var string|null The name of the person who confirmed the confirmation. Null if not confirmed
      */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups('csv_export')]
+    #[SerializedName("Bestätiger")]
     private ?string $confirmerName = null;
 
     /**
@@ -34,18 +40,24 @@ class Confirmation
     private ?int $confirmationTokenID = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Groups('csv_export')]
+    #[SerializedName("Bestätiger ID")]
     private ?int $confirmerID = null;
 
     /**
      * @var bool Whether the confirmation was overridden by an StuRa Finance member
      */
     #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('csv_export')]
+    #[SerializedName("Überschrieben?")]
     private bool $confirmationOverriden = false;
 
     /**
      * @var string|null An optional remark about the confirmation
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('csv_export')]
+    #[SerializedName("Anmerkung")]
     private ?string $remark = null;
 
     public function isConfirmed(): bool
