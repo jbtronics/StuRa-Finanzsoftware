@@ -48,5 +48,5 @@ dh_auditor:
                     roles:
                         view:
                             - 'ROLE_SHOW_PAYMENT_ORDERS'
-                        ignored_columns:
-                            - hashedToken
+                    ignored_columns:
+                        - hashedToken
