@@ -421,6 +421,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $fsr_kom = BooleanField::new('fsr_kom_resolution', 'payment_order.fsr_kom.label')
             ->setRequired(false);
         $resolution_date = DateField::new('resolution_date', 'payment_order.resolution_date.label')
+            ->setFormTypeOption('view_timezone', 'UTC') //Set timezone to UTC, as its saved that way in the database, otherwise the date will be marked as changed
+            ->setFormTypeOption('model_timezone', 'UTC') //Set timezone to UTC, as its saved that way in the database
             ->setRequired(false);
 
         //Supporting values
@@ -430,6 +432,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
         $supportingFundingID = TextField::new('supporting_funding_id', 'Unterstützende Mittelfreigabe')
             ->setRequired(false);
         $supportingFundingDate = DateField::new('supporting_funding_date', 'Datum der unterstützenden MF')
+            ->setFormTypeOption('view_timezone', 'UTC') //Set timezone to UTC, as its saved that way in the database, otherwise the date will be marked as changed
+            ->setFormTypeOption('model_timezone', 'UTC') //Set timezone to UTC, as its saved that way in the database
             ->setRequired(false);
 
         $comment = TextEditorField::new('comment', 'payment_order.comment.label')
