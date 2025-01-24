@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\BankAccount;
 use App\Entity\PaymentOrder;
@@ -35,7 +35,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @see \App\Tests\Controller\ExportControllerTest
  */
 #[Route(path: '/admin/payment_order')]
-final class ExportController extends AbstractController
+final class SEPAExportController extends AbstractController
 {
     public function __construct(
         private readonly PaymentOrdersSEPAExporter $sepaExporter,

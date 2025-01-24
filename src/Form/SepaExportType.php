@@ -27,6 +27,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Bic;
 use Symfony\Component\Validator\Constraints\Iban;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\When;
 
 class SepaExportType extends AbstractType
 {
@@ -50,10 +52,8 @@ class SepaExportType extends AbstractType
             'required' => false,
             'class' => BankAccount::class,
             'attr' => [
-                'class' => 'field-association select2',
-                //Define the handler to enable/disable the other fields (this is a bit hacky though)...
-                'onchange' => 'onPresetChange(this);',
-                'data-mode-manual' => true,
+                'class' => 'field-association',
+                'data-ea-widget' => 'ea-autocomplete',
             ],
             'placeholder' => 'sepa_export.bank_account.placeholder',
             'choice_label' => fn(BankAccount $account): string => $account->getExportAccountName().' ['.$account->getIban().']',
@@ -61,26 +61,24 @@ class SepaExportType extends AbstractType
 
         $builder->add('name', TextType::class, [
             'label' => 'sepa_export.name.label',
-            'attr' => [
-                'data-manual-input' => true,
-                'data-mode-manual' => true,
-            ],
+            'required' => false,
+            'constraints' => [new When("this.getParent().getData()['mode'] === 'manual' and this.getParent().getData()['bank_account'] === null", new NotBlank())],
         ]);
         $builder->add('iban', TextType::class, [
             'label' => 'sepa_export.iban.label',
-            'constraints' => [new Iban()],
-            'attr' => [
-                'data-manual-input' => true,
-                'data-mode-manual' => true,
+            'constraints' => [
+                new Iban(),
+                new When("this.getParent().getData()['mode'] === 'manual' and this.getParent().getData()['bank_account'] === null", new NotBlank())
             ],
+            'required' => false,
         ]);
         $builder->add('bic', TextType::class, [
             'label' => 'sepa_export.bic.label',
-            'constraints' => [new Bic()],
-            'attr' => [
-                'data-manual-input' => true,
-                'data-mode-manual' => true,
+            'constraints' => [
+                new Bic(),
+                new When("this.getParent().getData()['mode'] === 'manual' and this.getParent().getData()['bank_account'] === null", new NotBlank())
             ],
+            'required' => false,
         ]);
 
         $builder->add('submit', SubmitType::class, [
