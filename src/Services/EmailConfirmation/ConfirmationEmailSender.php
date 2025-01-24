@@ -162,6 +162,7 @@ final readonly class ConfirmationEmailSender
                 'payment_order.confirmation_email.subject',
                 [
                     '%project%' => $paymentOrder->getProjectName(),
+                    '%id%' => $paymentOrder->getIDString()
                 ]
             ));
 

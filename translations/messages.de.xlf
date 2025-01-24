@@ -1289,7 +1289,7 @@ Ein Serveradministrator kann die Zwei-Faktor-Methoden aber mit <code>php bin/con
     <unit id="1e8YZqC" name="payment_order.notification_user.subject">
       <segment>
         <source>payment_order.notification_user.subject</source>
-        <target>Neuer Zahlungsauftrag eingereicht: %project%</target>
+        <target>Neuer Zahlungsauftrag eingereicht: %project% (%id%)</target>
       </segment>
     </unit>
     <unit id="CgimZ9t" name="payment_order.notification_user.title">
@@ -1724,7 +1724,7 @@ Du kannst dort auch sehen, wie viele verschiedene Personen diesen Zahlungsauftra
     <unit id="MSMBTva" name="payment_order.confirmation_email.subject">
       <segment>
         <source>payment_order.confirmation_email.subject</source>
-        <target>Bestätigung benötigt: %project%</target>
+        <target>Bestätigung benötigt: %project% (%id%)</target>
       </segment>
     </unit>
     <unit id="GhAyeyw" name="department.type.">
@@ -2345,7 +2345,7 @@ Die FSR/Referatsverantwortlichen Personen werden über die Löschung informiert.
     <unit id="IvdwnMj" name="payment_order.deletion_email.subject">
       <segment>
         <source>payment_order.deletion_email.subject</source>
-        <target>Zahlungsauftrag gelöscht: %project%</target>
+        <target>Zahlungsauftrag gelöscht: %project% (%id%)</target>
       </segment>
     </unit>
     <unit id=".y_iSW7" name="payment_order.deletion_email.title">

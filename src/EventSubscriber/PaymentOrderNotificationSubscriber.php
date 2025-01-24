@@ -73,6 +73,7 @@ final class PaymentOrderNotificationSubscriber implements EventSubscriberInterfa
             'payment_order.notification_user.subject',
             [
                 '%project%' => $payment_order->getProjectName(),
+                '%id%' => $payment_order->getIDString()
             ]
         ));
 

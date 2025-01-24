@@ -54,6 +54,7 @@ final readonly class PaymentOrderDeletedNotificationHandler
                 'payment_order.deletion_email.subject',
                 [
                     '%project%' => $paymentOrder->getProjectName(),
+                    '%id%' => $paymentOrder->getIDString()
                 ]
             ));
 
