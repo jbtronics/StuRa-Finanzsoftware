@@ -25,6 +25,7 @@ class PaymentOrderChangedFieldsListener
         'funding_id',
         'resolution_date',
         'amount',
+        'supporting_amount',
         'supporting_funding_id',
         'supporting_funding_date',
         'project_name',
