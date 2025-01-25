@@ -109,6 +109,7 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     #[FSRNotBlocked(groups: ['fsr_blocked'])]
+    #[Assert\Expression('value != null and value.getConfirmers().count() < value.getMinimumRequiredConfirmations()', message: 'validator.department.not_enough_confirmers', groups: ['frontend'], negate: false)]
     #[Groups('csv_export')]
     #[SerializedName("Struktur")]
     private ?Department $department = null;

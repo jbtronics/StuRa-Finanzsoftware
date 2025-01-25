@@ -87,5 +87,11 @@ Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Pers
         <target>Falscher Code</target>
       </segment>
     </unit>
+    <unit id="e.ZoV7c" name="validator.department.not_enough_confirmers">
+      <segment>
+        <source>validator.department.not_enough_confirmers</source>
+        <target>Bei dieser Struktur sind nicht genügend Bestätigungspersonen hinterlegt! Bitte kontaktiere die StuRa-Finanzer.</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
