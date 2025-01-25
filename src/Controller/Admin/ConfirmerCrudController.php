@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
@@ -53,12 +54,13 @@ class ConfirmerCrudController extends AbstractCrudController
             TextField::new('name', new TM('confirmer.name')),
             EmailField::new('email', new TM('confirmer.email')),
             TelephoneField::new('phone', new TM('confirmer.phone'))->setRequired(false),
-            TextEditorField::new('comment', new TM('confirmer.comment'))
+            TextareaField::new('comment', new TM('confirmer.comment'))
                 ->setRequired(false)
                 ->setEmptyData('')
                 ->hideOnIndex(),
             AssociationField::new('departments', new TM('confirmer.departments'))
                 ->setFormTypeOption('by_reference', false)
+                ->setTemplatePath('admin/field/department_collection.html.twig')
                 ->autocomplete()
 
         ];

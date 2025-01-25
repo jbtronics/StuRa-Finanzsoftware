@@ -1,0 +1,10 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% set index_view = ea.crud.currentAction == "index" %}
+
+{% for confirmer in field.value %}
+    <a class="badge badge-secondary" title="{{ confirmer.email }}" href="{{ path("admin_confirmer_detail", {"entityId": confirmer.id}) }}">{{ confirmer.name }}</a>
+    <br>
+{% endfor %}

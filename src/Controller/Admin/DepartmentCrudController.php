@@ -153,10 +153,15 @@ final class DepartmentCrudController extends AbstractCrudController
                 ->setHelp('department.references_export_prefix.help')
                 ->hideOnIndex(),
 
+            IntegerField::new('MinimumRequiredConfirmations', "Anzahl notwendiger Bestätigungen")
+                ->onlyOnDetail(),
+
             //FSR contact info panel
             FormField::addPanel('department.fsr_email_panel.label')
                 ->setHelp('department.fsr_email_panel.help'),
+
             AssociationField::new('confirmers', new TM('department.confirmers'))
+                ->setTemplatePath('admin/field/confirmer_collection.html.twig')
                 ->autocomplete()
             ,
 
