@@ -4,6 +4,8 @@ scheb_two_factor:
     google:
         enabled: true
         template: security/2fa_form.html.twig
+        server_name: zahlung.stura.uni-jena.de
+        issuer: StuRa-Zahlungssystem
 
     backup_codes:
         enabled: true
