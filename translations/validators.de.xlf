@@ -81,5 +81,11 @@ Ein FSR benötigt mindestens 2 Bestätigungspersonen, Referate mindestens 1 Pers
         <target>Es müssen immer unterstützender Betrag und unterstützende Mittelfreigabe zusammen angegeben werden!</target>
       </segment>
     </unit>
+    <unit id="TTwny25" name="validator.google_code.wrong_code">
+      <segment>
+        <source>validator.google_code.wrong_code</source>
+        <target>Falscher Code</target>
+      </segment>
+    </unit>
   </file>
 </xliff>
