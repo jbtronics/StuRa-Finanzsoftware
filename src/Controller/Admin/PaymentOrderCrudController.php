@@ -436,7 +436,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->setFormTypeOption('model_timezone', 'UTC') //Set timezone to UTC, as its saved that way in the database
             ->setRequired(false);
 
-        $comment = TextEditorField::new('comment', 'payment_order.comment.label')
+        $comment = TextareaField::new('comment', 'payment_order.comment.label')
             ->setRequired(false)
             ->setFormTypeOption('empty_data', '');
         $lastModified = DateTimeField::new('last_modified', 'last_modified');
