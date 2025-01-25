@@ -68,7 +68,7 @@ class Confirmer implements DBElementInterface, TimestampedElementInterface, \Str
     /**
      * @var Collection<ConfirmationToken> The confirmation tokens that belong to this confirmer
      */
-    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer')]
+    #[ORM\OneToMany(targetEntity: ConfirmationToken::class, mappedBy: 'confirmer', cascade: ['remove'])]
     private Collection $confirmationTokens;
 
     public function __construct()
