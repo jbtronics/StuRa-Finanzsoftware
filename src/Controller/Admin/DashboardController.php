@@ -26,6 +26,7 @@ use App\Entity\PaymentOrder;
 use App\Entity\User;
 use App\Services\GitVersionInfo;
 use App\Services\Statistics\PaymentOrderStatistics;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -40,6 +41,7 @@ use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[AdminDashboard(routePath: "/admin", routeName: "admin")]
 final class DashboardController extends AbstractDashboardController
 {
     private const FILTER_DATETIME_FORMAT = 'Y-m-d\TH:i:s';
@@ -54,7 +56,6 @@ final class DashboardController extends AbstractDashboardController
             ->setTitle('StuRa Finanzen');
     }
 
-    #[Route(path: '/admin', name: 'admin')]
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig', [
