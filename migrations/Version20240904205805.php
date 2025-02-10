@@ -56,7 +56,7 @@ final class Version20240904205805 extends AbstractMigration
                 email_treasurer,
                 email_treasurer,
                 NULL,
-                'Kassenwart (migriert von alten Format)',
+                'KV (migriert von alten Format)',
                 NOW(),
                 NOW()
             FROM departments

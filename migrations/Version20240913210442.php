@@ -34,7 +34,7 @@ final class Version20240913210442 extends AbstractMigration
                     'Repräsentiert die HHV-Bestätigungen aus dem alten System'
                     ),
             (
-                    'Kassenwart (Altes System)',
+                    'KV (Altes System)',
                     'kv@legacy.invalid',
                     'Repräsentiert die Kassenwart-Bestätigungen aus dem alten System'
             )
