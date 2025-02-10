@@ -13,7 +13,7 @@
         "damienharper/auditor-bundle": "^6.0.0",
         "digitick/sepa-xml": "^2.0.0",
         "doctrine/doctrine-bundle": "^2.4",
-        "doctrine/doctrine-migrations-bundle": "3.3.*",
+        "doctrine/doctrine-migrations-bundle": "^3.4.1",
         "doctrine/orm": "^3.2.2",
         "dompdf/dompdf": "^3.0",
         "easycorp/easyadmin-bundle": "^4.10.3",
