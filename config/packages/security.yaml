@@ -15,6 +15,8 @@ security:
             security: false
         main:
             lazy: true
+            login_throttling:
+                max_attempts: 5 # per minute
             form_login:
                 login_path: app_login
                 check_path: app_login
