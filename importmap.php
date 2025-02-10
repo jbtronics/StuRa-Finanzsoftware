@@ -48,18 +48,18 @@ return [
         'version' => '3.2.2',
     ],
     'tom-select' => [
-        'version' => '2.4.1',
+        'version' => '2.4.2',
     ],
     'tom-select/dist/css/tom-select.default.css' => [
-        'version' => '2.4.1',
+        'version' => '2.4.2',
         'type' => 'css',
     ],
     'tom-select/dist/css/tom-select.bootstrap5.css' => [
-        'version' => '2.4.1',
+        'version' => '2.4.2',
         'type' => 'css',
     ],
     'es-module-shims' => [
-        'version' => '2.0.5',
+        'version' => '2.0.9',
     ],
     '@orchidjs/sifter' => [
         'version' => '1.1.0',
@@ -68,7 +68,7 @@ return [
         'version' => '1.1.2',
     ],
     'tom-select/dist/css/tom-select.default.min.css' => [
-        'version' => '2.4.1',
+        'version' => '2.4.2',
         'type' => 'css',
     ],
 ];
