@@ -19,7 +19,7 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     DH\AuditorBundle\DHAuditorBundle::class => ['all' => true],
     SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle::class => ['all' => true],
-    Jbtronics\TranslationEditorBundle\JbtronicsTranslationEditorBundle::class => ['all' => true],
+    Jbtronics\TranslationEditorBundle\JbtronicsTranslationEditorBundle::class => ['dev' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
     Jbtronics\DompdfFontLoaderBundle\DompdfFontLoaderBundle::class => ['all' => true],
