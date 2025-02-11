@@ -475,7 +475,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
 
         //Payee bank account infos
         $bankInfoPanel = FormField::addFieldset('payment_order.group.bank_info');
-        $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label');
+        $bankInfoIban = TextField::new('bank_info.iban', 'bank_info.iban.label')
+        ->formatValue(fn($value, PaymentOrder $entity) => $entity->getBankInfo()->getIbanFormatted());
         $bankInfoBic = TextField::new('bank_info.bic', 'bank_info.bic.label')
             ->setRequired(false)
             ->setFormTypeOption('empty_data', '');
