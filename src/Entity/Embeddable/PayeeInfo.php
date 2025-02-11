@@ -183,7 +183,8 @@ class PayeeInfo
      */
     public function getIbanFormatted(): string
     {
-        return chunk_split($this->iban ?? '', 4, ' ');
+        //Use IBAN version without spaces to get correct formatting, independent of the input
+        return chunk_split($this->getIbanWithoutSpaces(), 4, ' ');
     }
 
     /**
