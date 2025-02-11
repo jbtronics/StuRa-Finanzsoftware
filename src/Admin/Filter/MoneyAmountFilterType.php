@@ -31,7 +31,7 @@ class MoneyAmountFilterType extends AbstractType
 {
     private readonly string $valueType;
 
-    public function __construct(string $valueType = null, private readonly array $valueTypeOptions = [])
+    public function __construct(?string $valueType = null, private readonly array $valueTypeOptions = [])
     {
         $this->valueType = $valueType ?: NumberType::class;
     }

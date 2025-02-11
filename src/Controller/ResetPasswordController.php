@@ -75,7 +75,7 @@ final class ResetPasswordController extends AbstractController
     #[Route(path: '/reset/{token}', name: 'app_reset_password')]
     public function reset(Request $request, UserPasswordHasherInterface $passwordEncoder,
         EntityManagerInterface $entityManager,
-        string $token = null): Response
+        ?string $token = null): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
