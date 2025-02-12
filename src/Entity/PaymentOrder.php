@@ -131,6 +131,12 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
         new Assert\Regex(pattern: PaymentOrder::FUNDING_ID_STURA_FSRKOM),
         new Assert\Regex(PaymentOrder::FUNDING_ID_REGEX_LEGACY),
     ], groups: ['backend'], includeInternalMessages: false)]
+    //Regex expressions consider empty string as valid, so we need to add a seperate check for frontend
+    #[Assert\AtLeastOneOf([
+        new Assert\NotBlank(),
+        //Allow empty string, for administrative departments
+        new Assert\Expression("value == '' and (this.getDepartment() !== null and this.getDepartment().getType().value === 'misc') ")
+    ], groups: ['frontend'], message: 'FSRe und Referate müssen eine Mittelfreigabenummer angeben!', includeInternalMessages: false)]
     #[Groups('csv_export')]
     #[SerializedName("Mittelfreigabe")]
     private string $funding_id = '';

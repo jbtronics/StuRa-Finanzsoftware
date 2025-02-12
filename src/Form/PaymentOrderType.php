@@ -70,6 +70,7 @@ class PaymentOrderType extends AbstractType
         $builder->add('funding_id', TextType::class, [
             'label' => 'payment_order.funding_id.label',
             'empty_data' => '',
+            'required' => false, //Administrative structures does not require a funding id
             'attr' => [
                 'placeholder' => 'payment_order.funding_id.placeholder',
             ],
