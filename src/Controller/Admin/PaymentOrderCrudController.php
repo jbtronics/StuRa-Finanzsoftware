@@ -344,7 +344,7 @@ final class PaymentOrderCrudController extends AbstractCrudController
                 'id' => $paymentOrder->getId(),
             ])
             ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() || $paymentOrder->isMathematicallyCorrectChecked())
-            ->setCssClass('btn btn-primary');
+            ->setCssClass('btn btn-info');
 
         $regenerate_reference = Action::new('update_reference', 'Verwendungszweck aktualisieren', 'fas fa-arrows-rotate')
             ->linkToCrudAction('updateReference');
