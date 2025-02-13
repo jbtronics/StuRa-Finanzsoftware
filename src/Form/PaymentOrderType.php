@@ -78,7 +78,7 @@ class PaymentOrderType extends AbstractType
 
         $builder->add('resolution_date', DateType::class, [
             'label' => 'payment_order.resolution_date.label',
-            'required' => true,
+            'required' => false, //Administrative structures does not require a resolution date
             'html5' => true,
             'widget' => 'single_text',
         ]);

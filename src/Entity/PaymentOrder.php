@@ -144,8 +144,10 @@ class PaymentOrder implements DBElementInterface, TimestampedElementInterface, \
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual(value: 'today', message: 'validator.resolution_must_not_be_in_future')]
     #[Assert\GreaterThan(value: '-3 years', message: 'validator.resolution_too_old', groups: ['frontend'])]
-    #[Assert\NotNull(groups: ['frontend'])]
-    #[Assert\Expression("value !== null || (this.getDepartment() !== null && this.getDepartment().getType() != 'fsr' && this.isFsrKomResolution() === false)", message: 'validator.resolution_date.needed_for_fsr_fsrkom')]
+    #[Assert\AtLeastOneOf([
+        new Assert\NotNull(),
+        new Assert\Expression("(this.getDepartment() !== null and this.getDepartment().getType().value === 'misc')"),
+    ], groups: ['frontend'], message: 'FSRe und Referate müssen ein Beschlussdatum angeben!', includeInternalMessages: false)]
     #[Groups('csv_export')]
     #[SerializedName("Beschlussdatum")]
     private ?\DateTime $resolution_date = null;
