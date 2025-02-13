@@ -343,8 +343,8 @@ final class PaymentOrderCrudController extends AbstractCrudController
             ->linkToRoute('payment_order_pdf_stura', fn(PaymentOrder $paymentOrder): array => [
                 'id' => $paymentOrder->getId(),
             ])
-            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() && $paymentOrder->isMathematicallyCorrectChecked())
-            ->setCssClass('btn btn-success');
+            ->displayIf(fn(PaymentOrder $paymentOrder): bool => $paymentOrder->isFactuallyCorrectChecked() || $paymentOrder->isMathematicallyCorrectChecked())
+            ->setCssClass('btn btn-primary');
 
         $regenerate_reference = Action::new('update_reference', 'Verwendungszweck aktualisieren', 'fas fa-arrows-rotate')
             ->linkToCrudAction('updateReference');
